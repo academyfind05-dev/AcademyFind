@@ -200,19 +200,19 @@ export default async function AdminDashboardPage() {
                             <div className="text-center text-slate-400 py-8 text-sm">No users found.</div>
                         ) : (
                             recentUsers.map((user: any) => (
-                                <div key={user.id} className="flex justify-between items-center p-4 rounded-2xl border border-slate-100/80 bg-white shadow-sm hover:shadow-md hover:border-stone-200 transition-all duration-300">
-                                    <div className="flex-1 min-w-0 mr-4">
-                                        <p className="font-bold text-slate-800 truncate">{user.name || "Anonymous"}</p>
-                                        <p className="text-sm text-slate-500 mt-1 truncate">
-                                            {user.email}
-                                        </p>
-                                    </div>
-                                    <div className="text-right shrink-0">
-                                        <span className="text-[10px] bg-stone-100/80 text-stone-800 border border-stone-200 px-2 py-1 rounded-md uppercase font-extrabold tracking-wider">
+                                <div key={user.id} className="p-4 rounded-2xl border border-slate-100/80 bg-white shadow-sm hover:shadow-md hover:border-stone-200 transition-all duration-300">
+                                    <div className="flex justify-between items-start gap-2 mb-1">
+                                        <p className="font-bold text-slate-800 truncate flex-1">{user.name || "Anonymous"}</p>
+                                        <span className="text-[10px] bg-stone-100/80 text-stone-800 border border-stone-200 px-2 py-1 rounded-md uppercase font-extrabold tracking-wider shrink-0 max-w-[110px] sm:max-w-none truncate text-center">
                                             {user.role}
                                         </span>
-                                        <p className="text-[10px] text-slate-400 mt-2 flex items-center justify-end gap-1">
-                                            <Clock className="w-3 h-3" /> {formatIST(user.createdAt, "MMM d")}
+                                    </div>
+                                    <div className="flex justify-between items-center gap-2 mt-1">
+                                        <p className="text-sm text-slate-500 truncate flex-1">
+                                            {user.email}
+                                        </p>
+                                        <p className="text-[10px] text-slate-400 flex items-center justify-end gap-1 shrink-0">
+                                            <Clock className="w-3 h-3 shrink-0" /> {formatIST(user.createdAt, "MMM d")}
                                         </p>
                                     </div>
                                 </div>
