@@ -95,6 +95,7 @@ export type BlogEditorInitialData = Pick<
   | "scheduledAt"
   | "rejectionReason"
   | "relatedInstituteId"
+  | "authorProfileId"
 > & {
   tags: { tag: Pick<BlogTag, "id" | "name" | "slug"> }[];
   faqs: Pick<BlogFAQ, "id" | "question" | "answer" | "order">[];
@@ -111,6 +112,7 @@ export type BlogEditorOptions = {
   categories: Pick<BlogCategory, "id" | "name" | "slug" | "icon">[];
   brands: Pick<BlogBrand, "id" | "name" | "slug" | "avatarUrl">[];
   tags: Pick<BlogTag, "id" | "name" | "slug">[];
+  authors?: { id: string; user: { name: string | null; email: string | null } }[];
 };
 
 export type BlogEditorSaveInput = {
@@ -122,6 +124,7 @@ export type BlogEditorSaveInput = {
   coverImage: string;
   categoryId: string;
   brandId: string;
+  authorProfileId?: string;
   tagNames: string[];
   metaTitle: string;
   metaDescription: string;

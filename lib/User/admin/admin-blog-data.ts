@@ -17,7 +17,7 @@ async function requireAdminPage() {
 export async function getAdminBlogEditorOptions(): Promise<BlogEditorOptions> {
   await requireAdminPage();
 
-  const [categories, tags, brands] = await Promise.all([
+  const [categories, tags, brands, authors] = await Promise.all([
     prisma.blogCategory.findMany({
       where: { isActive: true },
       orderBy: { name: "asc" },
@@ -32,9 +32,13 @@ export async function getAdminBlogEditorOptions(): Promise<BlogEditorOptions> {
       orderBy: { name: "asc" },
       select: { id: true, name: true, slug: true, avatarUrl: true },
     }),
+    prisma.blogAuthorProfile.findMany({
+      orderBy: { user: { name: "asc" } },
+      select: { id: true, user: { select: { name: true, email: true } } },
+    }),
   ]);
 
-  return { categories, tags, brands };
+  return { categories, tags, brands, authors };
 }
 
 export async function getAdminBlogPost(
@@ -68,6 +72,7 @@ export async function getAdminBlogPost(
       scheduledAt: true,
       rejectionReason: true,
       relatedInstituteId: true,
+      authorProfileId: true,
       tags: {
         select: {
           tag: {

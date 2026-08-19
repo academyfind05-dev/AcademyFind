@@ -26,6 +26,7 @@ const adminBlogSchema = z.object({
   coverImage: z.union([z.literal(""), z.url()]),
   categoryId: z.string(),
   brandId: z.string().optional().or(z.literal("")),
+  authorProfileId: z.string().optional().or(z.literal("")),
   tagNames: z.array(z.string().trim().min(1).max(50)).max(20),
   metaTitle: z.string().trim().max(70),
   metaDescription: z.string().trim().max(180),
@@ -182,10 +183,10 @@ export async function saveAdminBlogPost(
       ...(requestedStatus === "PUBLISHED"
         ? { publishedById: adminUser.id }
         : {}),
-      ...(requestedStatus === "PUBLISHED" ||
-      requestedStatus === "REJECTED"
+      ...(requestedStatus === "PUBLISHED" || requestedStatus === "REJECTED"
         ? { reviewedById: adminUser.id, reviewedAt: new Date() }
         : {}),
+      ...(value.authorProfileId ? { authorProfileId: value.authorProfileId } : {}),
     } as const;
 
     const post = await prisma.$transaction(async (tx) => {
@@ -224,9 +225,6 @@ export async function saveAdminBlogPost(
       return tx.blogPost.create({
         data: {
           ...sharedData,
-          // Only force authorProfileId to null if there is a brand. If no brand, it's just an admin post without a brand or author.
-          // Wait, if it's a new post by admin and no brand, who is the author? Usually admins post as brands. Let's just leave authorProfileId: null.
-          authorProfileId: null,
           tags: {
             create: tags.map((tag: { id: string }) => ({ tagId: tag.id })),
           },

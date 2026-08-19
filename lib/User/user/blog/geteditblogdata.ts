@@ -44,6 +44,7 @@ export async function getEditBlogData(
       scheduledAt: true,
       rejectionReason: true,
       relatedInstituteId: true,
+      authorProfileId: true,
       tags: {
         select: {
           tag: {

@@ -184,6 +184,7 @@ export default function BlogEditorForm({
     coverImage: initialData?.coverImage ?? "",
     categoryId: initialData?.categoryId ?? "",
     brandId: initialData?.brandId ?? "",
+    authorProfileId: initialData?.authorProfileId ?? "",
     tagNames: initialData?.tags.map(({ tag }) => tag.name) ?? [],
     metaTitle: initialData?.metaTitle ?? "",
     metaDescription: initialData?.metaDescription ?? "",
@@ -832,32 +833,60 @@ export default function BlogEditorForm({
               </div>
 
               {management === "admin" && (
-                <div className="space-y-2">
-                  <Label className="font-semibold text-slate-700">
-                    Publish As (Brand)
-                  </Label>
-                  <Select
-                    value={form.brandId || NONE_VALUE}
-                    onValueChange={(value) =>
-                      updateField("brandId", value === NONE_VALUE ? "" : value)
-                    }
-                  >
-                    <SelectTrigger className="h-10 w-full rounded-2xl border-slate-200">
-                      <SelectValue placeholder="Choose a brand" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-2xl border-slate-100 shadow-lg">
-                      <SelectItem value={NONE_VALUE}>Original Author / No Brand</SelectItem>
-                      {options.brands.map((brand) => (
-                        <SelectItem key={brand.id} value={brand.id}>
-                          {brand.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-[11px] text-slate-400">
-                    Select a brand if you are writing this post, or leave blank to keep original author.
-                  </p>
-                </div>
+                <>
+                  <div className="space-y-2">
+                    <Label className="font-semibold text-slate-700">
+                      Publish As (Brand)
+                    </Label>
+                    <Select
+                      value={form.brandId || NONE_VALUE}
+                      onValueChange={(value) =>
+                        updateField("brandId", value === NONE_VALUE ? "" : value)
+                      }
+                    >
+                      <SelectTrigger className="h-10 w-full rounded-2xl border-slate-200">
+                        <SelectValue placeholder="Choose a brand" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-2xl border-slate-100 shadow-lg">
+                        <SelectItem value={NONE_VALUE}>Original Author / No Brand</SelectItem>
+                        {options.brands.map((brand) => (
+                          <SelectItem key={brand.id} value={brand.id}>
+                            {brand.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-[11px] text-slate-400">
+                      Select a brand if you are writing this post, or leave blank to keep original author.
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="font-semibold text-slate-700">
+                      Publish As (Author)
+                    </Label>
+                    <Select
+                      value={form.authorProfileId || NONE_VALUE}
+                      onValueChange={(value) =>
+                        updateField("authorProfileId", value === NONE_VALUE ? "" : value)
+                      }
+                    >
+                      <SelectTrigger className="h-10 w-full rounded-2xl border-slate-200">
+                        <SelectValue placeholder="Choose an author" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-2xl border-slate-100 shadow-lg">
+                        <SelectItem value={NONE_VALUE}>System Default (Admin)</SelectItem>
+                        {options.authors?.map((author) => (
+                          <SelectItem key={author.id} value={author.id}>
+                            {author.user.name || "Unnamed"} ({author.user.email || "No Email"})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-[11px] text-slate-400">
+                      Select a specific user to publish this post on their behalf.
+                    </p>
+                  </div>
+                </>
               )}
 
               <div className="space-y-2">
