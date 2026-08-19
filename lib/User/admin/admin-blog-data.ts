@@ -32,10 +32,11 @@ export async function getAdminBlogEditorOptions(): Promise<BlogEditorOptions> {
       orderBy: { name: "asc" },
       select: { id: true, name: true, slug: true, avatarUrl: true },
     }),
-    prisma.blogAuthorProfile.findMany({
-      orderBy: { user: { name: "asc" } },
-      select: { id: true, user: { select: { name: true, email: true } } },
-    }),
+    prisma.user.findMany({
+      take: 300,
+      orderBy: { createdAt: "desc" },
+      select: { id: true, name: true, email: true },
+    }).then(users => users.map(u => ({ id: u.id, user: { name: u.name, email: u.email } }))),
   ]);
 
   return { categories, tags, brands, authors };

@@ -11,12 +11,12 @@ export default async function BlogEditor(props: BlogEditorProps) {
     props.management === "admin"
       ? await getAdminBlogEditorOptions()
       : await getWriteBlogData();
-  const { categories, tags, brands } = options;
+  const { categories, tags, brands, authors } = options;
 
   return (
     <BlogEditorForm
       {...props}
-      options={{ categories, tags, brands }}
+      options={{ categories, tags, brands, authors }}
     />
   );
 }

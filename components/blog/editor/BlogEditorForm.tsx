@@ -47,6 +47,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { saveAdminBlogPost, deleteAdminBlogPost } from "@/lib/User/admin/admin-blog";
@@ -217,6 +222,18 @@ export default function BlogEditorForm({
       )
       .slice(0, 5);
   }, [form.tagNames, options.tags, tagInput]);
+
+  const [authorSearch, setAuthorSearch] = useState("");
+  const [authorPopoverOpen, setAuthorPopoverOpen] = useState(false);
+
+  const filteredAuthors = useMemo(() => {
+    if (!options.authors) return [];
+    return options.authors.filter(a => {
+      const q = authorSearch.toLowerCase();
+      return (a.user.name || "").toLowerCase().includes(q) || 
+             (a.user.email || "").toLowerCase().includes(q);
+    });
+  }, [options.authors, authorSearch]);
 
   const markUnsaved = useCallback(() => setSaveState("unsaved"), []);
 
@@ -864,24 +881,65 @@ export default function BlogEditorForm({
                     <Label className="font-semibold text-slate-700">
                       Publish As (Author)
                     </Label>
-                    <Select
-                      value={form.authorProfileId || NONE_VALUE}
-                      onValueChange={(value) =>
-                        updateField("authorProfileId", value === NONE_VALUE ? "" : value)
-                      }
-                    >
-                      <SelectTrigger className="h-10 w-full rounded-2xl border-slate-200">
-                        <SelectValue placeholder="Choose an author" />
-                      </SelectTrigger>
-                      <SelectContent className="rounded-2xl border-slate-100 shadow-lg">
-                        <SelectItem value={NONE_VALUE}>System Default (Admin)</SelectItem>
-                        {options.authors?.map((author) => (
-                          <SelectItem key={author.id} value={author.id}>
-                            {author.user.name || "Unnamed"} ({author.user.email || "No Email"})
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Popover open={authorPopoverOpen} onOpenChange={setAuthorPopoverOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={authorPopoverOpen}
+                          className="w-full justify-between h-10 rounded-2xl border-slate-200 font-normal hover:bg-slate-50 transition-colors"
+                        >
+                          {form.authorProfileId && form.authorProfileId !== NONE_VALUE
+                            ? options.authors?.find((a) => a.id === form.authorProfileId)?.user.name || "Unknown Author"
+                            : "System Default (Admin)"}
+                          <ArrowLeft className="-rotate-90 ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[300px] sm:w-[400px] p-0 rounded-2xl border-slate-100 shadow-xl overflow-hidden" align="start">
+                        <div className="flex items-center border-b border-slate-100 px-3">
+                          <Input
+                            placeholder="Search user by name or email..."
+                            value={authorSearch}
+                            onChange={(e) => setAuthorSearch(e.target.value)}
+                            className="h-10 border-0 focus-visible:ring-0 shadow-none text-sm placeholder:text-slate-400"
+                          />
+                        </div>
+                        <div className="max-h-[300px] overflow-y-auto p-1.5 space-y-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              updateField("authorProfileId", "");
+                              setAuthorPopoverOpen(false);
+                            }}
+                            className={`flex w-full items-center rounded-xl px-3 py-2 text-sm text-left transition-colors hover:bg-slate-50 ${!form.authorProfileId ? 'bg-amber-50 text-amber-900 font-medium' : 'text-slate-700'}`}
+                          >
+                            <span className="flex-1">System Default (Admin)</span>
+                            {!form.authorProfileId && <Check className="h-4 w-4 text-amber-600" />}
+                          </button>
+                          {filteredAuthors.length === 0 ? (
+                            <div className="py-6 text-center text-sm text-slate-500">No users found.</div>
+                          ) : (
+                            filteredAuthors.map((author) => (
+                              <button
+                                key={author.id}
+                                type="button"
+                                onClick={() => {
+                                  updateField("authorProfileId", author.id);
+                                  setAuthorPopoverOpen(false);
+                                }}
+                                className={`flex w-full items-center rounded-xl px-3 py-2 text-sm text-left transition-colors hover:bg-slate-50 ${form.authorProfileId === author.id ? 'bg-amber-50 text-amber-900 font-medium' : 'text-slate-700'}`}
+                              >
+                                <div className="flex-1 overflow-hidden">
+                                  <div className="truncate">{author.user.name || "Unnamed"}</div>
+                                  <div className="text-[11px] text-slate-400 truncate">{author.user.email || "No Email"}</div>
+                                </div>
+                                {form.authorProfileId === author.id && <Check className="h-4 w-4 shrink-0 text-amber-600 ml-2" />}
+                              </button>
+                            ))
+                          )}
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     <p className="text-[11px] text-slate-400">
                       Select a specific user to publish this post on their behalf.
                     </p>

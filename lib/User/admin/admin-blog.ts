@@ -141,14 +141,38 @@ export async function saveAdminBlogPost(
       return { success: false, error: "The post no longer exists." };
     }
 
-    const publishedAt =
-      requestedStatus === "PUBLISHED"
-        ? (existing?.publishedAt ?? new Date())
-        : null;
     const scheduledAt =
       requestedStatus === "SCHEDULED"
         ? new Date(value.admin.scheduledAt)
         : null;
+
+    const publishedAt =
+      requestedStatus === "PUBLISHED"
+        ? (existing?.publishedAt ?? new Date())
+        : null;
+
+    let finalAuthorProfileId: string | undefined = undefined;
+    if (value.authorProfileId) {
+      const userId = value.authorProfileId;
+      let authorProfile = await prisma.blogAuthorProfile.findUnique({
+        where: { userId },
+      });
+      if (!authorProfile) {
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (user) {
+          authorProfile = await prisma.blogAuthorProfile.create({
+            data: {
+              userId: user.id,
+              displayName: user.name || "Anonymous",
+              username: `user_${user.id.slice(-8)}`,
+            },
+          });
+        }
+      }
+      if (authorProfile) {
+        finalAuthorProfileId = authorProfile.id;
+      }
+    }
 
     const sharedData = {
       title: value.title,
@@ -186,7 +210,7 @@ export async function saveAdminBlogPost(
       ...(requestedStatus === "PUBLISHED" || requestedStatus === "REJECTED"
         ? { reviewedById: adminUser.id, reviewedAt: new Date() }
         : {}),
-      ...(value.authorProfileId ? { authorProfileId: value.authorProfileId } : {}),
+      ...(finalAuthorProfileId ? { authorProfileId: finalAuthorProfileId } : {}),
     } as const;
 
     const post = await prisma.$transaction(async (tx) => {
