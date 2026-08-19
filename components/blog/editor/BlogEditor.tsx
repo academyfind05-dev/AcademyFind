@@ -11,7 +11,8 @@ export default async function BlogEditor(props: BlogEditorProps) {
     props.management === "admin"
       ? await getAdminBlogEditorOptions()
       : await getWriteBlogData();
-  const { categories, tags, brands, authors } = options;
+  const { categories, tags, brands } = options;
+  const authors = "authors" in options ? options.authors : undefined;
 
   return (
     <BlogEditorForm
