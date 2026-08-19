@@ -201,9 +201,9 @@ export default async function AdminDashboardPage() {
                         ) : (
                             recentUsers.map((user: any) => (
                                 <div key={user.id} className="flex justify-between items-center p-4 rounded-2xl border border-slate-100/80 bg-white shadow-sm hover:shadow-md hover:border-stone-200 transition-all duration-300">
-                                    <div>
-                                        <p className="font-bold text-slate-800 line-clamp-1">{user.name || "Anonymous"}</p>
-                                        <p className="text-sm text-slate-500 mt-1 flex items-center gap-1">
+                                    <div className="flex-1 min-w-0 mr-4">
+                                        <p className="font-bold text-slate-800 truncate">{user.name || "Anonymous"}</p>
+                                        <p className="text-sm text-slate-500 mt-1 truncate">
                                             {user.email}
                                         </p>
                                     </div>
