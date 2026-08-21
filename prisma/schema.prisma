@@ -1537,6 +1537,8 @@ enum InterestStatus {
 enum LifeCoachRequestStatus {
   PENDING
   CONTACTED
+  MESSAGED
+  CALLED
   RESOLVED
   JUNK
   DNP

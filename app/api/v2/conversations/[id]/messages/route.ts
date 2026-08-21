@@ -81,3 +81,55 @@ export async function GET(req: Request, { params }: Params) {
     nextCursor,
   });
 }
+
+export async function POST(req: Request, { params }: Params) {
+  const session = await auth.api.getSession({ headers: await headers() });
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { id: conversationId } = await params;
+
+  const participant = await prisma.conversationParticipant.findFirst({
+    where: { conversationId, userId: session.user.id, status: "ACTIVE" },
+    select: { id: true },
+  });
+
+  if (!participant) return NextResponse.json({ error: "Not a participant" }, { status: 403 });
+
+  try {
+    const body = await req.json();
+    const { content, type = "TEXT", replyToId } = body;
+
+    if (!content || typeof content !== "string" || content.trim().length === 0) {
+      return NextResponse.json({ error: "Content is required" }, { status: 400 });
+    }
+
+    const message = await prisma.message.create({
+      data: {
+        conversationId,
+        senderId: session.user.id,
+        content: content.trim(),
+        type,
+        replyToId,
+      },
+      select: {
+        id: true,
+        content: true,
+        type: true,
+        createdAt: true,
+        sender: {
+          select: { id: true, name: true, username: true, image: true }
+        }
+      },
+    });
+
+    await prisma.conversation.update({
+      where: { id: conversationId },
+      data: { lastMessageId: message.id, lastMessageAt: new Date(), lastActivityAt: new Date() },
+    });
+
+    return NextResponse.json({ success: true, message });
+  } catch (error) {
+    console.error("Error sending message:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}

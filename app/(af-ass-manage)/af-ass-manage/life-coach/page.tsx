@@ -30,6 +30,8 @@ export default async function AdminLifeCoachLeadsPage({
     { label: "All", value: "ALL" },
     { label: "Pending", value: "PENDING" },
     { label: "Contacted", value: "CONTACTED" },
+    { label: "Messaged", value: "MESSAGED" },
+    { label: "Called", value: "CALLED" },
     { label: "Resolved", value: "RESOLVED" },
     { label: "Junk", value: "JUNK" },
     { label: "DNP", value: "DNP" },
@@ -109,9 +111,11 @@ export default async function AdminLifeCoachLeadsPage({
                     <td className="p-4">
                       <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${req.status === "PENDING" ? "bg-stone-50 text-stone-700 border-stone-200" :
                         req.status === "CONTACTED" ? "bg-blue-50 text-blue-700 border-blue-200" :
-                          req.status === "RESOLVED" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
-                            req.status === "JUNK" ? "bg-red-50 text-red-700 border-red-200" :
-                              "bg-slate-100 text-slate-700 border-slate-300"
+                          req.status === "MESSAGED" ? "bg-teal-50 text-teal-700 border-teal-200" :
+                            req.status === "CALLED" ? "bg-cyan-50 text-cyan-700 border-cyan-200" :
+                              req.status === "RESOLVED" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                                req.status === "JUNK" ? "bg-red-50 text-red-700 border-red-200" :
+                                  "bg-slate-100 text-slate-700 border-slate-300"
                         }`}>
                         {req.status}
                       </span>

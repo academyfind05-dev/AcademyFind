@@ -7,7 +7,7 @@ import { updateLifeCoachStatus } from "@/lib/User/admin/adminLifeCoachStatus";
 
 interface StatusUpdaterProps {
   requestId: string;
-  currentStatus: "PENDING" | "CONTACTED" | "RESOLVED" | "JUNK" | "DNP";
+  currentStatus: "PENDING" | "CONTACTED" | "MESSAGED" | "CALLED" | "RESOLVED" | "JUNK" | "DNP";
   currentNotes?: string | null;
 }
 
@@ -45,6 +45,8 @@ export default function StatusUpdater({ requestId, currentStatus, currentNotes }
             className={`appearance-none pl-4 pr-8 py-2 rounded-xl text-sm font-bold uppercase tracking-wider outline-none cursor-pointer border transition-all ${
               status === "PENDING" ? "bg-amber-50 text-amber-700 border-amber-200" :
               status === "CONTACTED" ? "bg-blue-50 text-blue-700 border-blue-200" :
+              status === "MESSAGED" ? "bg-teal-50 text-teal-700 border-teal-200" :
+              status === "CALLED" ? "bg-cyan-50 text-cyan-700 border-cyan-200" :
               status === "RESOLVED" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
               status === "JUNK" ? "bg-red-50 text-red-700 border-red-200" :
               "bg-slate-100 text-slate-700 border-slate-300" // DNP
@@ -52,6 +54,8 @@ export default function StatusUpdater({ requestId, currentStatus, currentNotes }
           >
             <option value="PENDING">Pending</option>
             <option value="CONTACTED">Contacted</option>
+            <option value="MESSAGED">Messaged</option>
+            <option value="CALLED">Called</option>
             <option value="RESOLVED">Resolved</option>
             <option value="JUNK">Junk</option>
             <option value="DNP">DNP (Did Not Pick)</option>

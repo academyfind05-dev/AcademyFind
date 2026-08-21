@@ -244,6 +244,8 @@ export type InterestStatus = (typeof InterestStatus)[keyof typeof InterestStatus
 export const LifeCoachRequestStatus = {
   PENDING: 'PENDING',
   CONTACTED: 'CONTACTED',
+  MESSAGED: 'MESSAGED',
+  CALLED: 'CALLED',
   RESOLVED: 'RESOLVED',
   JUNK: 'JUNK',
   DNP: 'DNP'

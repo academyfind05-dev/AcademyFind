@@ -2,7 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function updateLifeCoachStatus(id: string, newStatus: "PENDING" | "CONTACTED" | "RESOLVED" | "JUNK" | "DNP", notes?: string) {
+export async function updateLifeCoachStatus(id: string, newStatus: "PENDING" | "CONTACTED" | "MESSAGED" | "CALLED" | "RESOLVED" | "JUNK" | "DNP", notes?: string) {
     try {
         await prisma.lifeCoachRequest.update({
             where: { id },
