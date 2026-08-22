@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, IndianRupee } from "lucide-react";
 import { submitStudentEnquiry } from "@/lib/User/user/user-enquiry";
 import toast from "react-hot-toast";
@@ -13,6 +13,9 @@ type Props = {
   feeInfo?: string | null;
   mapsUrl?: string | null;
   isLoggedIn?: boolean;
+  defaultName?: string | null;
+  defaultPhone?: string | null;
+  defaultEmail?: string | null;
 };
 
 export default function InstituteEnquiryForm({
@@ -21,13 +24,22 @@ export default function InstituteEnquiryForm({
   feeInfo,
   mapsUrl,
   isLoggedIn = false,
+  defaultName = "",
+  defaultPhone = "",
+  defaultEmail = "",
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(defaultName || "");
+  const [mobile, setMobile] = useState(defaultPhone || "");
+  const [email, setEmail] = useState(defaultEmail || "");
   const [msg, setmsg] = useState("");
+
+  useEffect(() => {
+    if (defaultName && !name) setName(defaultName);
+    if (defaultPhone && !mobile) setMobile(defaultPhone);
+    if (defaultEmail && !email) setEmail(defaultEmail);
+  }, [defaultName, defaultPhone, defaultEmail]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

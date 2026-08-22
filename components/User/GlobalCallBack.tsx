@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, HeadphonesIcon, X } from "lucide-react";
 import { requestGlobalCallback } from "@/lib/User/user/global-callback";
+import Link from "next/link";
 
 export interface GlobalCallbackFABProps {
     defaultName?: string | null;
@@ -20,7 +21,14 @@ export default function GlobalCallbackFAB({ defaultName, defaultPhone }: GlobalC
 
     // Capture the URL so admins know where the user was stuck
     useEffect(() => {
-        setCurrentUrl(window.location.href);
+        if (isOpen) {
+            setCurrentUrl(window.location.href);
+        } else {
+            setTimeout(() => {
+                setIsSuccess(false);
+                setError("");
+            }, 300);
+        }
     }, [isOpen]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,11 +42,6 @@ export default function GlobalCallbackFAB({ defaultName, defaultPhone }: GlobalC
         const res = await requestGlobalCallback(formData);
         if (res.success) {
             setIsSuccess(true);
-            // Auto close after 3 seconds
-            setTimeout(() => {
-                setIsOpen(false);
-                setIsSuccess(false); // reset for next time
-            }, 3000);
         } else {
             setError(res.error || "Failed to submit.");
         }
@@ -78,6 +81,12 @@ export default function GlobalCallbackFAB({ defaultName, defaultPhone }: GlobalC
                     collisionPadding={{ left: 16, right: 16, top: 16, bottom: 16 }}
                     className="w-[320px] sm:w-[90vw] sm:max-w-[340px] z-[100] rounded-3xl p-0 overflow-hidden shadow-2xl border border-slate-200 origin-bottom-right animate-in zoom-in-95 duration-200"            >
                     <div className="bg-amber-400 p-5 text-white text-center relative">
+                        <button 
+                            onClick={() => setIsOpen(false)}
+                            className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-amber-500/50 transition-colors"
+                        >
+                            <X className="w-5 h-5 text-white" />
+                        </button>
                         <HeadphonesIcon className="w-8 h-8 mx-auto mb-2 opacity-90" />
                         <h3 className="text-xl font-extrabold tracking-tight">Need Help?</h3>
                         <p className="text-amber-100 mt-1 text-sm leading-snug">
@@ -91,6 +100,15 @@ export default function GlobalCallbackFAB({ defaultName, defaultPhone }: GlobalC
                                 <CheckCircle2 className="w-14 h-14 text-emerald-500 mx-auto mb-3" />
                                 <h4 className="font-bold text-slate-800 text-lg">Request Sent!</h4>
                                 <p className="text-slate-500 text-sm mt-1">We will get back to you within 24 hours.</p>
+
+                                <div className="mt-6 pt-6 border-t border-slate-100">
+                                    <p className="text-sm font-medium text-slate-600 mb-3">Want to explore on your own?</p>
+                                    <Link href="/login" onClick={() => setIsOpen(false)}>
+                                        <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl">
+                                            Login / Sign Up
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-4">

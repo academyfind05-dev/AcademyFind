@@ -129,6 +129,14 @@ export default async function InstitutePage({ params }: PageProps) {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id ?? null;
 
+  let userDetails = null;
+  if (userId) {
+    userDetails = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { name: true, phone: true, email: true },
+    });
+  }
+
   // Current user's memberships at this institute
   const [
     userMemberships,
@@ -643,7 +651,16 @@ export default async function InstitutePage({ params }: PageProps) {
 
             {/* Sticky CTA */}
             <div>
-              <InstituteEnquiryForm instituteId={institute.id} feeInfo={institute.feeInfo} mapsUrl={safeMapsUrl} isLoggedIn={!!userId} instituteName={institute.name} />
+              <InstituteEnquiryForm 
+                instituteId={institute.id} 
+                feeInfo={institute.feeInfo} 
+                mapsUrl={safeMapsUrl} 
+                isLoggedIn={!!userId} 
+                instituteName={institute.name} 
+                defaultName={userDetails?.name}
+                defaultPhone={userDetails?.phone}
+                defaultEmail={userDetails?.email}
+              />
             </div>
           </div>
         </div>
