@@ -15,36 +15,62 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use Better Auth's internal API for social sign-in
-    const response = await auth.api.signInSocial({
-      body: { idToken, provider },
-      headers: await nextHeaders(),
-    });
-
-    if ("user" in response && response.user?.id) {
-      // Better auth hashes the token in DB, so we must manually create a session to get the raw token
-      const rawToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
-      const encoder = new TextEncoder();
-      const data = encoder.encode(rawToken);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashedToken = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-
-      await prisma.session.create({
+    // Verify the Google token directly
+    const googleRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
+    const googleUser = await googleRes.json();
+    
+    if (!googleRes.ok || !googleUser.email) {
+      return NextResponse.json({ error: "Invalid Google token" }, { status: 401 });
+    }
+    
+    const email = googleUser.email;
+    const name = googleUser.name || email.split('@')[0];
+    const image = googleUser.picture || null;
+    
+    // Find or create user
+    let user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      const username = `${email.split('@')[0].replace(/[^a-zA-Z0-9]/g, "")}${randomSuffix}`;
+      user = await prisma.user.create({
         data: {
-          id: crypto.randomUUID(),
-          token: hashedToken,
-          userId: response.user.id,
-          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-          ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
-          userAgent: request.headers.get("user-agent") || "Mobile App"
+          email,
+          name,
+          image,
+          username,
+          emailVerified: googleUser.email_verified === "true" || googleUser.email_verified === true,
         }
       });
-
-      return NextResponse.json({ ...response, token: rawToken });
+      // Optionally create an Account linking
+      await prisma.account.create({
+        data: {
+          userId: user.id,
+          providerId: "google",
+          accountId: googleUser.sub,
+        }
+      });
     }
 
-    return NextResponse.json(response);
+    // Better auth hashes the token in DB, so we must manually create a session to get the raw token
+    const rawToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
+    const encoder = new TextEncoder();
+    const data = encoder.encode(rawToken);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashedToken = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
+    await prisma.session.create({
+      data: {
+        id: crypto.randomUUID(),
+        token: hashedToken,
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+        ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
+        userAgent: request.headers.get("user-agent") || "Mobile App"
+      }
+    });
+
+    return NextResponse.json({ user, session: { token: rawToken }, token: rawToken });
   } catch (error: any) {
     console.error("Mobile social login error:", error);
     return NextResponse.json(
