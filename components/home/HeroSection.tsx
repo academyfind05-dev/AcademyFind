@@ -66,7 +66,7 @@ export function HeroSection() {
     <section ref={container} className="relative border-b bg-linear-to-b from-amber-50 via-background to-background perspective-[1000px]">
       {/* Social Sidebar localized to Hero Section */}
       <SocialSidebar />
-      {false && <AdvertiseButton />}
+      <AdvertiseButton />
       
       {/* Background Glow */}
       <div
