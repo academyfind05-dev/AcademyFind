@@ -91,10 +91,10 @@ export function PricingModal({ children }: { children: React.ReactNode }) {
                 {/* Header & Toggle */}
                 <div className="flex flex-col items-center mt-2 mb-10">
                     <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Choose Your Plan</h2>
-                    
+
                     {/* 🚀 PROMO BANNER */}
                     <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-800 px-6 py-2.5 rounded-full text-sm font-bold shadow-sm inline-block text-center max-w-full">
-                        🎉 <span className="text-amber-900">Early Bird Offer:</span> Special pricing valid only till <span className="bg-amber-200/50 px-2 py-0.5 rounded-md whitespace-nowrap mx-1">31st July</span>!
+                        🎉 <span className="text-amber-900">Early Bird Offer:</span> Special pricing valid only till <span className="bg-amber-200/50 px-2 py-0.5 rounded-md whitespace-nowrap mx-1">30th September</span>!
                     </div>
 
                     {/* Amber Toggle */}
