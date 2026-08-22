@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getMyPosts } from "@/lib/User/user/blog/getmyposts";
-import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
+import { getSession } from "@/lib/auth/getSession";
 import { BlogStatus } from "@/app/generated/prisma/enums";
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers()
-    });
+    const session = await getSession();
     if (!session?.user?.id) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }

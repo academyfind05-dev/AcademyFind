@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveBlogPost } from "@/lib/User/user/blog/saveblogpost";
-import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
+import { getSession } from "@/lib/auth/getSession";
 import { v2 as cloudinary } from "cloudinary";
 import type { BlogEditorSaveInput } from "@/components/blog/editor/types";
 import { prisma } from "@/lib/prisma";
@@ -27,9 +26,7 @@ async function uploadImageToCloudinary(file: File, folderName: string, idPrefix:
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth.api.getSession({
-      headers: await headers()
-    });
+    const session = await getSession();
     if (!session?.user?.id) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
@@ -90,9 +87,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
     try {
-      const session = await auth.api.getSession({
-        headers: await headers()
-      });
+      const session = await getSession();
       if (!session?.user?.id) {
         return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
       }
@@ -156,9 +151,7 @@ import { deleteBlogPost } from "@/lib/User/user/blog/deleteblogpost";
 
 export async function DELETE(request: NextRequest) {
     try {
-      const session = await auth.api.getSession({
-        headers: await headers()
-      });
+      const session = await getSession();
       if (!session?.user?.id) {
         return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
       }
@@ -185,9 +178,7 @@ import { getEditBlogData } from "@/lib/User/user/blog/geteditblogdata";
 
 export async function GET(request: NextRequest) {
     try {
-      const session = await auth.api.getSession({
-        headers: await headers()
-      });
+      const session = await getSession();
       if (!session?.user?.id) {
         return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
       }
