@@ -89,8 +89,8 @@ export function PricingModal({ children }: { children: React.ReactNode }) {
                 </DialogHeader>
 
                 {/* Header & Toggle */}
-                <div className="flex flex-col items-center mt-2 mb-10">
-                    <h2 className="text-3xl font-extrabold text-slate-900 mb-2">Choose Your Plan</h2>
+                <div className="flex flex-col items-center mt-6 mb-10">
+                    <h2 className="text-3xl font-extrabold text-slate-900 mb-2 py-1 leading-normal">Choose Your Plan</h2>
 
                     {/* 🚀 PROMO BANNER */}
                     <div className="mb-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-800 px-6 py-2.5 rounded-full text-sm font-bold shadow-sm inline-block text-center max-w-full">
