@@ -17,6 +17,13 @@ export const auth = betterAuth({
         provider: "postgresql",
     }),
 
+    trustedOrigins: [
+        "https://academyfind.com",
+        "http://localhost:3000",
+        "exp://",           // Expo development
+        "academyfind://",   // Production deep link
+    ],
+
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID!,
