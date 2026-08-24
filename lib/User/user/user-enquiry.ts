@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { triggerCRMWebhooks } from "@/lib/crm/webhooks";
 import { sendEmail } from "@/lib/notifications/email";
-import { sendWhatsAppTemplateMessage } from "@/lib/notifications/whatsapp";
+// import { sendWhatsAppTemplateMessage } from "@/lib/notifications/whatsapp";
 
 export async function submitStudentEnquiry(formData: FormData) {
   try {
@@ -51,7 +51,7 @@ export async function submitStudentEnquiry(formData: FormData) {
 
     const instituteName = institute?.name || "the institute";
     const instituteSlug = institute?.slug || "";
-    const institutePageLink = `https://academyfind.com/institute/${instituteSlug}`;
+    const institutePageLink = `https://academyfind.com/institute/${instituteId}-${instituteSlug}`;
 
     // Async Notifications (don't await to avoid blocking user response)
     (async () => {
@@ -70,12 +70,12 @@ export async function submitStudentEnquiry(formData: FormData) {
             <p>Team AcademyFind<br/>🌐 www.academyfind.com<br/>📞 9045699938</p>`
           );
         }
-        if (phone) {
-          await sendWhatsAppTemplateMessage(phone, "student_enquiry_confirmation", [
-            { type: "text", text: name },
-            { type: "text", text: instituteName }
-          ]);
-        }
+        // if (phone) {
+        //   await sendWhatsAppTemplateMessage(phone, "student_enquiry_confirmation", [
+        //     { type: "text", text: name },
+        //     { type: "text", text: instituteName }
+        //   ]);
+        // }
 
         // --- 2. Notify the Institute ---
         const instEmail = institute?.email;
@@ -97,14 +97,14 @@ export async function submitStudentEnquiry(formData: FormData) {
             <p>Team AcademyFind<br/>🌐 www.academyfind.com | 📞 9045699938</p>`
           );
         }
-        if (instPhone) {
-          await sendWhatsAppTemplateMessage(instPhone, "institute_new_lead", [
-            { type: "text", text: instituteName },
-            { type: "text", text: name },
-            { type: "text", text: message || "No message provided" },
-            { type: "text", text: institutePageLink }
-          ]);
-        }
+        // if (instPhone) {
+        //   await sendWhatsAppTemplateMessage(instPhone, "institute_new_lead", [
+        //     { type: "text", text: instituteName },
+        //     { type: "text", text: name },
+        //     { type: "text", text: message || "No message provided" },
+        //     { type: "text", text: institutePageLink }
+        //   ]);
+        // }
       } catch (notifErr) {
         console.error("Failed to send async notifications:", notifErr);
       }
