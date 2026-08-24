@@ -542,6 +542,7 @@ export const InstituteEnquiryScalarFieldEnum = {
   email: 'email',
   message: 'message',
   status: 'status',
+  userContactStatus: 'userContactStatus',
   isForwarded: 'isForwarded',
   adminNote: 'adminNote',
   parentId: 'parentId',

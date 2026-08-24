@@ -4,6 +4,8 @@ import { Building2, Edit, MapPin, Plus, Eye } from "lucide-react"
 import ToggleStatusButton from "@/components/admin/AdminToggleButton"
 import InstituteFilters from "@/components/admin/AdminInstituteFilters"
 import InstitutePagination from "@/components/admin/AdminInstitutePagination"
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton"
+import { deleteInstituteAction } from "./actions"
 
 export default async function AdminInstitutesPage({
     searchParams
@@ -164,13 +166,16 @@ export default async function AdminInstitutesPage({
                                             </div>
                                         </td>
                                         <td className="p-4 text-right">
-                                            <Link
-                                                href={`/af-ass-manage/institutes/${institute.id}`}
-                                                prefetch={false}
-                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 hover:text-stone-900 rounded-lg text-xs font-bold transition-all border border-stone-200 shadow-sm"
-                                            >
-                                                <Edit className="w-3.5 h-3.5" /> Master Edit
-                                            </Link>
+                                            <div className="flex items-center justify-end gap-2">
+                                                <Link
+                                                    href={`/af-ass-manage/institutes/${institute.id}`}
+                                                    prefetch={false}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 hover:text-stone-900 rounded-lg text-xs font-bold transition-all border border-stone-200 shadow-sm"
+                                                >
+                                                    <Edit className="w-3.5 h-3.5" /> Master Edit
+                                                </Link>
+                                                <AdminDeleteButton id={institute.id} onDelete={deleteInstituteAction} title="Delete Academy?" />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))

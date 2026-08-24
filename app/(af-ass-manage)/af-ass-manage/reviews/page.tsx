@@ -4,6 +4,8 @@ import { approveReview, rejectReview, approveReply, rejectReply } from "@/lib/Us
 import { CheckCircle, XCircle, Star, MessageSquare, Filter } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
+import { deleteReviewAction, deleteReplyAction } from "./actions";
 
 // Server Component: Database se reviews fetch karega
 export default async function AdminReviewsPage({
@@ -151,41 +153,44 @@ export default async function AdminReviewsPage({
 
                     {/* Actions */}
                     <td className="p-4 text-right align-top">
-                      {review.status === "PENDING" ? (
-                        <div className="flex items-center justify-end gap-2">
-                          {/* Approve Button */}
-                          <form action={async () => {
-                            "use server";
-                            await approveReview(review.id, review.institute.id);
-                          }}>
-                            <button 
-                              type="submit"
-                              title="Approve"
-                              className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold"
-                            >
-                              <CheckCircle className="h-4 w-4" /> Approve
-                            </button>
-                          </form>
+                      <div className="flex items-center justify-end gap-2">
+                        {review.status === "PENDING" ? (
+                          <>
+                            {/* Approve Button */}
+                            <form action={async () => {
+                              "use server";
+                              await approveReview(review.id, review.institute.id);
+                            }}>
+                              <button 
+                                type="submit"
+                                title="Approve"
+                                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold"
+                              >
+                                <CheckCircle className="h-4 w-4" /> Approve
+                              </button>
+                            </form>
 
-                          {/* Reject Button */}
-                          <form action={async () => {
-                            "use server";
-                            await rejectReview(review.id);
-                          }}>
-                            <button 
-                              type="submit"
-                              title="Reject"
-                              className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white transition-all text-xs font-bold"
-                            >
-                              <XCircle className="h-4 w-4" /> Reject
-                            </button>
-                          </form>
-                        </div>
-                      ) : (
-                        <span className="text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-                          Processed
-                        </span>
-                      )}
+                            {/* Reject Button */}
+                            <form action={async () => {
+                              "use server";
+                              await rejectReview(review.id);
+                            }}>
+                              <button 
+                                type="submit"
+                                title="Reject"
+                                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white transition-all text-xs font-bold"
+                              >
+                                <XCircle className="h-4 w-4" /> Reject
+                              </button>
+                            </form>
+                          </>
+                        ) : (
+                          <span className="text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                            Processed
+                          </span>
+                        )}
+                        <AdminDeleteButton id={review.id} onDelete={deleteReviewAction} title="Delete Review?" />
+                      </div>
                     </td>
 
                   </tr>
@@ -216,30 +221,33 @@ export default async function AdminReviewsPage({
                         </span>
                       </td>
                       <td className="p-4 text-right">
-                        {reply.status === "PENDING" ? (
-                          <div className="flex items-center justify-end gap-2">
-                            <form action={async () => {
-                              "use server";
-                              await approveReply(reply.id);
-                            }}>
-                              <button type="submit" title="Approve Reply" className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold">
-                                <CheckCircle className="h-4 w-4" /> Approve
-                              </button>
-                            </form>
-                            <form action={async () => {
-                              "use server";
-                              await rejectReply(reply.id);
-                            }}>
-                              <button type="submit" title="Reject Reply" className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
-                                <XCircle className="h-4 w-4" /> Reject
-                              </button>
-                            </form>
-                          </div>
-                        ) : (
-                          <span className="text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-                            Processed
-                          </span>
-                        )}
+                        <div className="flex items-center justify-end gap-2">
+                          {reply.status === "PENDING" ? (
+                            <>
+                              <form action={async () => {
+                                "use server";
+                                await approveReply(reply.id);
+                              }}>
+                                <button type="submit" title="Approve Reply" className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-600 hover:text-white transition-all text-xs font-bold">
+                                  <CheckCircle className="h-4 w-4" /> Approve
+                                </button>
+                              </form>
+                              <form action={async () => {
+                                "use server";
+                                await rejectReply(reply.id);
+                              }}>
+                                <button type="submit" title="Reject Reply" className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white transition-all text-xs font-bold">
+                                  <XCircle className="h-4 w-4" /> Reject
+                                </button>
+                              </form>
+                            </>
+                          ) : (
+                            <span className="text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                              Processed
+                            </span>
+                          )}
+                          <AdminDeleteButton id={reply.id} onDelete={deleteReplyAction} title="Delete Reply?" />
+                        </div>
                       </td>
                     </tr>
                   ))}

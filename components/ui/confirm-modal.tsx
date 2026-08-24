@@ -51,21 +51,21 @@ export function ConfirmModal({
           >
             {cancelText}
           </AlertDialogCancel>
-          <AlertDialogAction
+          <button
             onClick={(e) => {
               e.preventDefault();
               onConfirm();
             }}
             disabled={loading}
-            className={`${
+            className={`inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-bold h-9 px-4 py-2 transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 ${
               destructive 
                 ? "bg-rose-600 hover:bg-rose-700 text-white" 
-                : "bg-stone-900 hover:bg-stone-800 text-white"
-            } font-bold`}
+                : "bg-amber-500 hover:bg-amber-600 text-white"
+            }`}
           >
             {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
             {confirmText}
-          </AlertDialogAction>
+          </button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

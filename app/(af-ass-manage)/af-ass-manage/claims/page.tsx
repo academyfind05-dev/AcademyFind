@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
 import { updateClaimStatus } from "@/lib/User/admin/adminClaim";
 import { ShieldAlert, Building2, User, Phone, Mail, FileText, CheckCircle, XCircle, Filter } from "lucide-react";
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
+import { deleteClaimAction } from "./actions";
 
 export default async function AdminClaimPage({
   searchParams
@@ -111,12 +113,16 @@ export default async function AdminClaimPage({
                     <td className="p-4">
                       <div className="font-bold text-slate-800 flex items-center gap-1.5">
                         <Building2 className="w-4 h-4 text-slate-400" />
-                        <Link prefetch={false} href={`/af-ass-manage/institutes/${claim.instituteId}`} className="hover:text-blue-600 transition">
-                          {claim.institute.name}
-                        </Link>
+                        {claim.institute ? (
+                          <Link prefetch={false} href={`/af-ass-manage/institutes/${claim.instituteId}`} className="hover:text-blue-600 transition">
+                            {claim.institute.name}
+                          </Link>
+                        ) : (
+                          <span className="text-red-500 italic">Institute Deleted</span>
+                        )}
                       </div>
                       <div className="text-xs text-slate-500 mt-1 line-clamp-1">
-                        {claim.institute.address}
+                        {claim.institute?.address}
                       </div>
                     </td>
 
@@ -153,35 +159,36 @@ export default async function AdminClaimPage({
 
                     {/* Actions Buttons */}
                     <td className="p-4 text-right">
-                      {claim.status === "PENDING" ? (
-                        <div className="flex justify-end gap-2">
+                      <div className="flex items-center justify-end gap-2">
+                        {claim.status === "PENDING" ? (
+                          <>
+                            {/* Reject Button Form */}
+                            <form action={async () => {
+                              "use server"
+                              await updateClaimStatus(claim.id, "REJECTED")
+                            }}>
+                              <button className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition shadow-sm cursor-pointer">
+                                <XCircle className="w-3.5 h-3.5" /> Reject
+                              </button>
+                            </form>
 
-                          {/* Reject Button Form */}
-                          <form action={async () => {
-                            "use server"
-                            await updateClaimStatus(claim.id, "REJECTED")
-                          }}>
-                            <button className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition shadow-sm cursor-pointer">
-                              <XCircle className="w-3.5 h-3.5" /> Reject
-                            </button>
-                          </form>
-
-                          {/* Approve Button Form */}
-                          <form action={async () => {
-                            "use server"
-                            await updateClaimStatus(claim.id, "APPROVED")
-                          }}>
-                            <button className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 border border-emerald-700 rounded-lg hover:bg-emerald-700 transition shadow-sm cursor-pointer">
-                              <CheckCircle className="w-3.5 h-3.5" /> Approve
-                            </button>
-                          </form>
-
-                        </div>
-                      ) : (
-                        <span className="text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-                          Processed
-                        </span>
-                      )}
+                            {/* Approve Button Form */}
+                            <form action={async () => {
+                              "use server"
+                              await updateClaimStatus(claim.id, "APPROVED")
+                            }}>
+                              <button className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-emerald-600 border border-emerald-700 rounded-lg hover:bg-emerald-700 transition shadow-sm cursor-pointer">
+                                <CheckCircle className="w-3.5 h-3.5" /> Approve
+                              </button>
+                            </form>
+                          </>
+                        ) : (
+                          <span className="text-xs font-medium text-slate-400 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                            Processed
+                          </span>
+                        )}
+                        <AdminDeleteButton id={claim.id} onDelete={deleteClaimAction} title="Delete Claim?" />
+                      </div>
                     </td>
                   </tr>
                 ))

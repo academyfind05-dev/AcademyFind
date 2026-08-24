@@ -4,6 +4,8 @@ import { Check, X, ShieldAlert, MapPin, BadgeIndianRupee, UserCheck, Filter } fr
 import Image from "next/image";
 import Link from "next/link";
 import ApprovalButtons from "@/components/admin/AdminApprovalButtons";
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
+import { deleteInstituteRequestAction } from "./actions";
 
 export default async function AdminApprovalsPage({
     searchParams
@@ -89,13 +91,13 @@ export default async function AdminApprovalsPage({
             ) : (
                 <div className="space-y-6">
                     {requests.map((req: any) => {
-                        const claim = req.institute.claims[0]; // Get the attached claim
+                        const claim = req.institute?.claims?.[0]; // Get the attached claim
 
                         return (
                             <div key={req.id} className="bg-white border rounded-3xl shadow-xs overflow-hidden border-slate-200">
 
                                 <div className="p-4 bg-slate-50 border-b flex flex-wrap justify-between items-center gap-2 text-xs text-slate-500">
-                                    <div>Submitted by: <span className="font-bold text-slate-800">{req.user.name}</span> ({req.user.email})</div>
+                                    <div>Submitted by: <span className="font-bold text-slate-800">{req.user?.name}</span> ({req.user?.email})</div>
                                     <div className="flex items-center gap-3">
                                         <div className="font-mono">{formatIST(req.createdAt)}</div>
                                         {/* 🚀 Status Badge */}
@@ -111,7 +113,7 @@ export default async function AdminApprovalsPage({
                                 <div className="p-6 grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6">
                                     {/* Banner Preview */}
                                     <div className="w-full h-32 md:h-full rounded-2xl bg-slate-100 relative overflow-hidden border">
-                                        {req.institute.imageUrl ? (
+                                        {req.institute?.imageUrl ? (
                                             <Image src={req.institute.imageUrl} alt="preview" fill className="object-cover" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-xs font-bold text-slate-400">No Cover</div>
@@ -120,28 +122,36 @@ export default async function AdminApprovalsPage({
 
                                     <div className="space-y-4">
                                         <div>
-                                            <Link prefetch={false} href={`/af-ass-manage/institutes/${req.institute.id}`} className="hover:text-purple-600 transition-colors">
-                                                <h2 className="text-xl font-bold text-slate-900">{req.institute.name}</h2>
-                                            </Link>
-                                            <div className="flex items-center gap-3 mt-1">
-                                                <p className="text-xs text-slate-400 font-mono">slug: {req.institute.slug}</p>
-                                                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${req.institute.providerType === 'INDIVIDUAL' ? 'bg-stone-50 text-stone-700 border border-stone-200/50 shadow-sm' : 'bg-indigo-100 text-indigo-700'}`}>
-                                                    {req.institute.providerType || 'INSTITUTE'}
-                                                </span>
-                                            </div>
+                                            {req.institute ? (
+                                                <>
+                                                    <Link prefetch={false} href={`/af-ass-manage/institutes/${req.institute.id}`} className="hover:text-purple-600 transition-colors">
+                                                        <h2 className="text-xl font-bold text-slate-900">{req.institute.name}</h2>
+                                                    </Link>
+                                                    <div className="flex items-center gap-3 mt-1">
+                                                        <p className="text-xs text-slate-400 font-mono">slug: {req.institute.slug}</p>
+                                                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${req.institute.providerType === 'INDIVIDUAL' ? 'bg-stone-50 text-stone-700 border border-stone-200/50 shadow-sm' : 'bg-indigo-100 text-indigo-700'}`}>
+                                                            {req.institute.providerType || 'INSTITUTE'}
+                                                        </span>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <h2 className="text-xl font-bold text-red-500 italic">Institute Deleted</h2>
+                                            )}
                                         </div>
 
                                         {/* Categories */}
-                                        <div className="flex flex-wrap gap-1.5">
-                                            {req.institute.categories.map((c: any) => (
-                                                <span key={c.category.id} className="text-[10px] uppercase tracking-wide bg-purple-50 text-purple-700 font-bold px-2.5 py-1 rounded-md border border-purple-100">
-                                                    {c.category.name}
-                                                </span>
-                                            ))}
-                                        </div>
+                                        {req.institute?.categories && (
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {req.institute.categories.map((c: any) => (
+                                                    <span key={c.category.id} className="text-[10px] uppercase tracking-wide bg-purple-50 text-purple-700 font-bold px-2.5 py-1 rounded-md border border-purple-100">
+                                                        {c.category.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
 
                                         <p className="text-sm text-slate-600 bg-slate-50/80 p-3 rounded-xl border leading-relaxed line-clamp-2">
-                                            {req.institute.description || "No description provided."}
+                                            {req.institute?.description || "No description provided."}
                                         </p>
 
                                         {/* 🚀 SMART UI: Show Claim Info if it exists */}
@@ -173,17 +183,21 @@ export default async function AdminApprovalsPage({
                                             </div>
                                         )}
 
-                                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-700">
-                                            <div className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-emerald-500" /> {req.institute.city.name}</div>
-                                            <div className="flex items-center gap-1.5"><BadgeIndianRupee className="w-4 h-4 text-stone-500" /> Fees: {req.institute.feeInfo || "N/A"}</div>
-                                        </div>
-
-                                        {/* Only show approval buttons if the request is still PENDING */}
-                                        {req.status === "PENDING" && (
-                                            <div className="pt-2 flex justify-end">
-                                                <ApprovalButtons requestId={req.id} />
+                                        {req.institute && (
+                                            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-700">
+                                                <div className="flex items-center gap-1.5"><MapPin className="w-4 h-4 text-emerald-500" /> {req.institute.city?.name}</div>
+                                                <div className="flex items-center gap-1.5"><BadgeIndianRupee className="w-4 h-4 text-stone-500" /> Fees: {req.institute.feeInfo || "N/A"}</div>
                                             </div>
                                         )}
+
+                                        <div className="pt-2 flex justify-end items-center gap-2">
+                                            {/* Only show approval buttons if the request is still PENDING */}
+                                            {req.status === "PENDING" && req.institute && (
+                                                <ApprovalButtons requestId={req.id} />
+                                            )}
+                                            
+                                            <AdminDeleteButton id={req.id} onDelete={deleteInstituteRequestAction} title="Delete Request?" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -8,6 +8,8 @@ import UserPagination from "@/components/admin/AdminUserPagination"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton"
+import { deleteUserAction } from "./actions"
 
 export default async function AdminUsersPage({
     searchParams
@@ -126,7 +128,7 @@ export default async function AdminUsersPage({
 
                                         <td className="p-4 text-right">
                                             {/* 🚀 Actions block me 'View' button aur Status toggle dono ek sath safe hain */}
-                                            <div className="flex items-center justify-end gap-3">
+                                            <div className="flex items-center justify-end gap-2">
                                                 {user.role !== "ADMIN" ? (
                                                     <UserStatusToggle userId={user.id} isActive={user.isActive} />
                                                 ) : (
@@ -139,6 +141,11 @@ export default async function AdminUsersPage({
                                                         View <ArrowRight className="w-3 h-3 ml-1" />
                                                     </Link>
                                                 </Button>
+
+                                                {/* Superusers shouldn't be easily deletable but for now we provide the option, maybe we could disable if user.role is ADMIN */}
+                                                {user.role !== "ADMIN" && (
+                                                    <AdminDeleteButton id={user.id} onDelete={deleteUserAction} title="Delete User?" />
+                                                )}
                                             </div>
                                         </td>
                                         

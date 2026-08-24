@@ -71,8 +71,18 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
           </div>
 
           {/* Controls Component */}
-          <div className="shrink-0">
-            <CallbackControls id={callback.id} currentStatus={callback.status} />
+          <div className="shrink-0 flex flex-col gap-2">
+            <CallbackControls 
+              id={callback.id} 
+              currentStatus={callback.status} 
+              currentUserContactStatus={callback.userContactStatus}
+              studentName={callback.name}
+              studentPhone={callback.phone}
+              instituteName={callback.institute?.name}
+              institutePhone={callback.institute?.phone || ""}
+              instituteSlug={callback.institute ? `${callback.institute.id}-${callback.institute.slug}` : undefined}
+              studentMessage={callback.message || ""}
+            />
           </div>
         </CardHeader>
 

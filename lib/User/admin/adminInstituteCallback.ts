@@ -22,6 +22,24 @@ export async function updateCallbackStatus(id: string, status: string) {
   }
 }
 
+// User contact status update karna
+export async function updateUserContactStatus(id: string, userContactStatus: string) {
+  try {
+    await prisma.instituteEnquiry.update({
+      where: { id },
+      data: { userContactStatus }
+    });
+    
+    revalidatePath("/af-ass-manage/instituteCallbacks");
+    revalidatePath(`/af-ass-manage/instituteCallbacks/${id}`);
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating user contact status:", error);
+    return { success: false, error: "Failed to update user contact status." };
+  }
+}
+
 // Callback delete karna
 export async function deleteCallback(id: string) {
   try {

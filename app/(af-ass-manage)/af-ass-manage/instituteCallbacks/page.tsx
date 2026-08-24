@@ -147,16 +147,34 @@ export default async function AdminCallbacksPage({
                       )}
                     </td>
                     <td className="p-5">
-                      <span className={`px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider
-                        ${callback.status === 'NEW' ? 'bg-stone-50 text-stone-700 border border-stone-200/50 shadow-sm' : ''}
-                        ${callback.status === 'MESSAGED' ? 'bg-purple-100 text-purple-700' : ''}
-                        ${callback.status === 'CALLED' ? 'bg-emerald-100 text-emerald-700' : ''}
-                        ${callback.status === 'DNP' ? 'bg-orange-100 text-orange-700' : ''}
-                        ${callback.status === 'JUNK' ? 'bg-red-100 text-red-700' : ''}
-                        ${!['NEW', 'MESSAGED', 'CALLED', 'DNP', 'JUNK'].includes(callback.status) ? 'bg-slate-100 text-slate-700' : ''}
-                      `}>
-                        {callback.status || "NEW"}
-                      </span>
+                      <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold text-stone-400 uppercase w-16">Institute:</span>
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider
+                            ${callback.status === 'NEW' ? 'bg-stone-50 text-stone-700 border border-stone-200/50 shadow-sm' : ''}
+                            ${callback.status === 'MESSAGED' ? 'bg-purple-100 text-purple-700' : ''}
+                            ${callback.status === 'CALLED' ? 'bg-emerald-100 text-emerald-700' : ''}
+                            ${callback.status === 'DNP' ? 'bg-orange-100 text-orange-700' : ''}
+                            ${callback.status === 'JUNK' ? 'bg-red-100 text-red-700' : ''}
+                            ${!['NEW', 'MESSAGED', 'CALLED', 'DNP', 'JUNK'].includes(callback.status) ? 'bg-slate-100 text-slate-700' : ''}
+                          `}>
+                            {callback.status || "NEW"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold text-stone-400 uppercase w-16">Student:</span>
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider
+                            ${callback.userContactStatus === 'NEW' ? 'bg-stone-50 text-stone-700 border border-stone-200/50 shadow-sm' : ''}
+                            ${callback.userContactStatus === 'MESSAGED' ? 'bg-purple-100 text-purple-700' : ''}
+                            ${callback.userContactStatus === 'CALLED' ? 'bg-emerald-100 text-emerald-700' : ''}
+                            ${callback.userContactStatus === 'DNP' ? 'bg-orange-100 text-orange-700' : ''}
+                            ${callback.userContactStatus === 'JUNK' ? 'bg-red-100 text-red-700' : ''}
+                            ${!['NEW', 'MESSAGED', 'CALLED', 'DNP', 'JUNK'].includes(callback.userContactStatus) ? 'bg-slate-100 text-slate-700' : ''}
+                          `}>
+                            {callback.userContactStatus || "NEW"}
+                          </span>
+                        </div>
+                      </div>
                     </td>
                     <td className="p-5 text-right">
                       <div className="flex items-center justify-end gap-2">

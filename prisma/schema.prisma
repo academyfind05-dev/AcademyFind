@@ -144,6 +144,7 @@ enum WalletTransactionSource {
   SEE_STUDENT_PROFILE_BASIC
   SEE_TEACHER_PROFILE_BASIC
   VERIFY_MOBILE
+  SEE_COMMUNITY_BASIC_INSTITUTE
 }
 
 model WalletTransaction {
@@ -604,6 +605,7 @@ model InstituteEnquiry {
   email            String?
   message          String?
   status           String                @default("NEW")
+  userContactStatus String               @default("NEW")
   isForwarded      Boolean               @default(false)
   adminNote        String?               @db.Text
   parentId         String?

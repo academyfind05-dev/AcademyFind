@@ -46,10 +46,10 @@ export default async function AdvertisePage() {
                                 Amplify Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">Institute's</span> Reach.
                             </h1>
                             <p className="mt-6 text-lg text-slate-600 leading-relaxed">
-                                Get featured on AcademyFind's homepage for just <span className="text-amber-500 font-extrabold whitespace-nowrap px-2 py-0.5 rounded-lg bg-amber-50 relative inline-block"><span className="relative z-10">₹{settings.rate}</span><div className="absolute inset-0 bg-amber-200/50 blur-sm rounded-lg -z-10"></div></span>. 
+                                Get featured on AcademyFind's homepage.
                                 Reach thousands of students actively looking for the best institutes in your city.
                             </p>
-                            
+
                             <ul className="mt-8 space-y-4 text-slate-600 font-medium">
                                 <li className="flex items-center gap-3">
                                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600 shrink-0">
@@ -71,7 +71,7 @@ export default async function AdvertisePage() {
                                 </div>
                             </div>
 
-                            <div className="flex items-start gap-4">
+                            {/* <div className="flex items-start gap-4">
                                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm border border-slate-100 text-amber-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
                                 </div>
@@ -79,7 +79,7 @@ export default async function AdvertisePage() {
                                     <h3 className="font-bold text-slate-900">Unbeatable Value</h3>
                                     <p className="mt-1 text-sm text-slate-400">Just ₹199 for 30 days of exclusive homepage placement. No hidden fees.</p>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="flex items-start gap-4">
                                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm border border-slate-100 text-amber-400">
@@ -102,8 +102,8 @@ export default async function AdvertisePage() {
 
                             <div className="relative z-10">
                                 {session?.user && dbUser ? (
-                                    <AdvertisementForm 
-                                        user={dbUser} 
+                                    <AdvertisementForm
+                                        user={dbUser}
                                         settings={settings}
                                         bankDetails={{
                                             upiId: process.env.PAYMENT_UPI_ID || "9045639340@mbk",
@@ -111,7 +111,7 @@ export default async function AdvertisePage() {
                                             accountName: process.env.PAYMENT_ACCOUNT_NAME || "JNGEE International Private Limited",
                                             accountNumber: process.env.PAYMENT_ACCOUNT_NUMBER || "4876002100004743",
                                             ifscCode: process.env.PAYMENT_IFSC_CODE || "PUNB0487600"
-                                        }} 
+                                        }}
                                     />
                                 ) : (
                                     <div className="flex flex-col items-center justify-center py-12 text-center">

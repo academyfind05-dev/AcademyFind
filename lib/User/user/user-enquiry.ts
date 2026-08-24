@@ -88,12 +88,14 @@ export async function submitStudentEnquiry(formData: FormData) {
             `<p>Hello <strong>${instituteName}</strong> 👋</p>
             <p>We received a student enquiry for your classes on AcademyFind from <strong>${name}</strong>. 🎓</p>
             <p>Student would like to know: <br/><em>${message || "No message provided"}</em></p>
-            <p>If ${name} hasn't contacted you directly, <strong>reply to this email and we'll help facilitate the connection</strong>.</p>
-            <p>🚀 <strong>Want more enquiries like this?</strong><br/>
-            Claim your AcademyFind profile to receive student leads directly and build your institute's presence on India's education discovery platform.</p>
+            <p>If ${name} hasn't contacted you directly, reply to this message and we'll help facilitate the connection.</p>
+            <br/>
+            <p>🚀 Want more enquiries like this?</p>
+            <p>Claim your AcademyFind profile to receive student leads directly and build your institute's presence on India's education discovery platform.</p>
             <p>🔗 <a href="${institutePageLink}">${institutePageLink}</a></p>
             <p>Your AcademyFind profile can also serve as your online institute page.</p>
             <p>Discover. Compare. Connect. Decide better.</p>
+            <br/>
             <p>Team AcademyFind<br/>🌐 www.academyfind.com | 📞 9045699938</p>`
           );
         }

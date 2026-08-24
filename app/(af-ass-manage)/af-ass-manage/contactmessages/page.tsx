@@ -3,6 +3,8 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
 import { Mail, MessageSquare, CheckCircle2, Circle, ArrowRight } from "lucide-react";
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
+import { deleteContactMessageAction } from "./actions";
 
 export default async function ContactMessagesPage() {
     // Fetch latest 100 messages (Aap chaho toh pagination add kar sakte ho)
@@ -84,13 +86,16 @@ export default async function ContactMessagesPage() {
                                         </td>
 
                                         <td className="p-4 text-right">
-                                            <Link
-                                                prefetch={false}
-                                                href={`/af-ass-manage/contactmessages/${msg.id}`}
-                                                className="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all"
-                                            >
-                                                Read <ArrowRight className="w-3 h-3 ml-1" />
-                                            </Link>
+                                            <div className="flex items-center justify-end">
+                                                <Link
+                                                    prefetch={false}
+                                                    href={`/af-ass-manage/contactmessages/${msg.id}`}
+                                                    className="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 transition-all"
+                                                >
+                                                    Read <ArrowRight className="w-3 h-3 ml-1" />
+                                                </Link>
+                                                <AdminDeleteButton id={msg.id} onDelete={deleteContactMessageAction} title="Delete Message?" />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))

@@ -7,6 +7,8 @@ import { updateAdvertisementStatus } from "@/lib/advertisement/admin-actions";
 import { getAdSettings } from "@/lib/advertisement/admin-settings-actions";
 import AdminAdSettingsWrapper from "@/components/advertisement/AdminAdSettingsWrapper";
 import { Advertisement } from "@/app/generated/prisma/client";
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
+import { deleteAdvertisementAction } from "./actions";
 
 export const metadata = {
     title: "Manage Advertisements | Admin",
@@ -154,7 +156,7 @@ export default async function AdminAdvertisementsPage({
                                         </div>
 
                                         {/* Action Buttons */}
-                                        <div className="flex gap-2">
+                                        <div className="flex gap-2 items-center">
                                             <Link href={`/af-ass-manage/advertisements/${ad.id}`} className="flex items-center gap-1 rounded-lg bg-blue-500 px-3 py-1.5 text-xs font-bold text-white hover:bg-blue-600">
                                                 View Details
                                             </Link>
@@ -186,11 +188,7 @@ export default async function AdminAdvertisementsPage({
                                                 </form>
                                             )}
 
-                                            <form action={async () => { "use server"; await updateAdvertisementStatus(ad.id, "DELETED"); }}>
-                                                <button className="flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100">
-                                                    <Trash2 className="h-4 w-4" /> Delete
-                                                </button>
-                                            </form>
+                                            <AdminDeleteButton id={ad.id} onDelete={deleteAdvertisementAction} title="Delete Ad?" />
                                         </div>
                                     </div>
                                 </div>
@@ -198,16 +196,6 @@ export default async function AdminAdvertisementsPage({
                         </div>
                     </div>
                 ))}
-
-                {advertisements.length === 0 && (
-                    <div className="flex min-h-[40vh] flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-slate-500">
-                        <div className="mb-4 rounded-full bg-slate-200 p-4">
-                            <Megaphone className="h-8 w-8 text-slate-400" />
-                        </div>
-                        <h3 className="text-lg font-bold text-slate-700">No Advertisements Found</h3>
-                        <p className="mt-1 text-sm">Advertisements submitted by users will appear here.</p>
-                    </div>
-                )}
             </div>
         </div>
     );

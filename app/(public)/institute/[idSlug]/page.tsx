@@ -8,7 +8,7 @@ import {
   Star, Phone, MapPin, Mail, Globe, CheckCircle, Users, Trophy,
   PlayCircle, User, Presentation, BookOpen, IndianRupee, Clock,
   Home, Award, Calendar, Building, ThumbsUp, ThumbsDown, HelpCircle, Check,
-  BadgeCheck, MessageCircle, ArrowRight, Settings, Lock
+  BadgeCheck, MessageCircle, ArrowRight, Settings, Lock, Unlock
 } from "lucide-react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTelegram, FaTwitter, FaWhatsapp, FaYoutube } from "react-icons/fa";
 
@@ -35,6 +35,7 @@ import { OpenBatchChatButton } from "@/components/manager/OpenBatchChatButton";
 import { InteractiveGallery } from "@/components/ui/interactive-gallery";
 import { ReviewItem } from "@/components/reviews/ReviewItem";
 import { UnlockContactButton } from "@/components/institutes/UnlockContactButton";
+import { UnlockBasicFeaturesOverlay } from "@/components/institutes/UnlockBasicFeaturesOverlay";
 
 export const revalidate = 0;
 
@@ -283,8 +284,35 @@ export default async function InstitutePage({ params }: PageProps) {
   const teacherMembership = userMemberships.find((m: any) => m.role === "TEACHER") ?? null;
   const isOwner = instituteManagers.some((m: any) => m.user.id === userId);
 
-  // Lock contact details for claimed institutes without a premium plan
-  const isContactLocked = institute.subscriptionPlan === "BASIC" && instituteManagers.length > 0;
+  // Check if current user has already unlocked this institute's contacts with AFC coins
+  let hasUnlockedBasicFeatures = false;
+  let hasUnlockedCommunity = false;
+
+  if (userId) {
+    const contactUnlockTx = await prisma.walletTransaction.findFirst({
+      where: {
+        wallet: { userId },
+        source: "SEE_CONTACT_BASIC_INSTITUTE",
+        referenceId: id,
+        type: "DEBIT"
+      }
+    });
+    if (contactUnlockTx) hasUnlockedBasicFeatures = true;
+
+    const communityUnlockTx = await prisma.walletTransaction.findFirst({
+      where: {
+        wallet: { userId },
+        source: "SEE_COMMUNITY_BASIC_INSTITUTE",
+        referenceId: id,
+        type: "DEBIT"
+      }
+    });
+    if (communityUnlockTx) hasUnlockedCommunity = true;
+  }
+
+  // Lock contact details for basic plan institutes (unless already unlocked by user)
+  const isContactLocked = institute.subscriptionPlan === "BASIC" && !hasUnlockedBasicFeatures;
+  const isCommunityLocked = institute.subscriptionPlan === "BASIC" && !hasUnlockedCommunity;
 
   const isManager = instituteManagers.some((m: any) => m.user.id === userId);
   const isMember = userMemberships.some((m: any) => m.status === "ACTIVE") || isManager || session?.user?.role === "ADMIN";
@@ -505,14 +533,14 @@ export default async function InstitutePage({ params }: PageProps) {
                     <div className="shrink-0 relative z-20 flex items-center gap-2">
                       {isMember && (
                         (institute.subscriptionPlan === "BASIC" || institute.subscriptionPlan === "VERIFIED") ? (
-                          <div className="inline-flex h-10 items-center justify-center rounded-lg bg-amber-50 px-4 text-sm font-semibold text-amber-700 border border-amber-200 gap-2 cursor-not-allowed" title="Chat locked (Available on Premium/Ultra)">
+                          <div className="inline-flex h-10 items-center justify-center rounded-lg bg-amber-50 px-4 text-sm font-semibold text-amber-700 border border-amber-200 gap-2 cursor-not-allowed" title="Forum locked (Available on Premium/Ultra)">
                             <Lock className="h-4 w-4" />
-                            <span className="hidden sm:inline">Chat Locked</span>
+                            <span className="hidden sm:inline">Forum Locked</span>
                           </div>
                         ) : (
                           <Link href={`/chat?instituteId=${institute.id}`} className="inline-flex h-10 items-center justify-center rounded-lg bg-blue-50 px-4 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-100 border border-blue-200 gap-2">
                             <MessageCircle className="h-4 w-4" />
-                            <span className="hidden sm:inline">Institute Chat</span>
+                            <span className="hidden sm:inline">Institute Forum</span>
                           </Link>
                         )
                       )}
@@ -565,6 +593,13 @@ export default async function InstitutePage({ params }: PageProps) {
                     ) : (
                       <>
                         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 pt-2 border-t border-slate-200/60 mt-1">
+                          {hasUnlockedBasicFeatures && institute.subscriptionPlan === "BASIC" && (
+                            <div className="w-full flex items-center mb-1">
+                              <span className="bg-emerald-100 text-emerald-700 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm border border-emerald-200">
+                                <Unlock className="w-3 h-3" /> Unlocked (1 AFC)
+                              </span>
+                            </div>
+                          )}
                           {institute.phone && <a href={`tel:${institute.phone}`} className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-amber-600"><Phone className="h-4 w-4 text-amber-500" /> {institute.phone}</a>}
                           {institute.email && <a href={`mailto:${institute.email}`} className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-amber-600"><Mail className="h-4 w-4 text-amber-500" /> {institute.email}</a>}
                           {institute.website && <a href={institute.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-amber-600"><Globe className="h-4 w-4 text-amber-500" /> Visit Website</a>}
@@ -640,12 +675,12 @@ export default async function InstitutePage({ params }: PageProps) {
 
             {/* Sticky CTA */}
             <div>
-              <InstituteEnquiryForm 
-                instituteId={institute.id} 
-                feeInfo={institute.feeInfo} 
-                mapsUrl={safeMapsUrl} 
-                isLoggedIn={!!userId} 
-                instituteName={institute.name} 
+              <InstituteEnquiryForm
+                instituteId={institute.id}
+                feeInfo={institute.feeInfo}
+                mapsUrl={safeMapsUrl}
+                isLoggedIn={!!userId}
+                instituteName={institute.name}
                 defaultName={userDetails?.name}
                 defaultPhone={userDetails?.phone}
                 defaultEmail={userDetails?.email}
@@ -853,19 +888,75 @@ export default async function InstitutePage({ params }: PageProps) {
           <div className="flex items-center gap-3 mb-6">
             <div className="p-3 bg-emerald-100 text-emerald-600 rounded-xl"><Users className="w-6 h-6" /></div>
             <div>
-              <h2 id="community" className="scroll-mt-32 text-3xl font-bold text-slate-900">Community</h2>
+              <div className="flex items-center gap-2">
+                <h2 id="community" className="scroll-mt-32 text-3xl font-bold text-slate-900">Community</h2>
+                {hasUnlockedCommunity && institute.subscriptionPlan === "BASIC" && (
+                  <span className="bg-emerald-100 text-emerald-700 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm border border-emerald-200">
+                    <Unlock className="w-3 h-3" /> Unlocked (1 AFC)
+                  </span>
+                )}
+              </div>
               <p className="text-slate-500 text-sm mt-1">Connect with students and faculty.</p>
             </div>
           </div>
 
-          {!hasUltraAccess ? (
-            userId ? (
-              <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center flex flex-col items-center justify-center space-y-3">
-                <div className="p-4 bg-slate-100 rounded-full"><Users className="w-8 h-8 text-slate-400" /></div>
-                <h3 className="text-lg font-bold text-slate-900">🔒 Student Community</h3>
-                <p className="text-slate-500 max-w-md">This institute hasn't unlocked the community feature. Students and teachers appear here for Premium members.</p>
+          {isCommunityLocked ? (
+            <div className="relative rounded-3xl overflow-hidden min-h-[400px] flex flex-col">
+              <UnlockBasicFeaturesOverlay title="Community" instituteId={institute.id} isLoggedIn={!!userId} />
+
+              <div className="pointer-events-none select-none mt-6">
+                <div className="space-y-10">
+                  {presentStudents.length > 0 && (
+                    <div>
+                      <div className="flex justify-between items-end mb-4">
+                        <h3 className="text-xl font-bold text-slate-800">Students</h3>
+                        <span className="text-sm font-semibold text-slate-500">{totalStudents} Profiles</span>
+                      </div>
+                      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {presentStudents.slice(0, 3).map((student: any) => {
+                          const u = student.studentProfile.user;
+                          return (
+                            <div key={student.id} className="rounded-2xl border border-slate-200 bg-white p-4 flex gap-4 items-center">
+                              <div className="w-12 h-12 rounded-full border border-slate-200 bg-slate-50 overflow-hidden shrink-0">
+                                {u.image ? <Image src={u.image} alt={u.name} width={48} height={48} className="w-full h-full object-cover" /> : <User className="w-full h-full p-2.5 text-slate-400" />}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-bold text-slate-900 text-sm truncate">{u.name}</h4>
+                                <p className="text-xs text-slate-500 truncate">{student.courseName}</p>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {featuredFaculty.length > 0 && (
+                    <div>
+                      <div className="flex justify-between items-end mb-4">
+                        <h3 className="text-xl font-bold text-slate-800">Faculty</h3>
+                        <span className="text-sm font-semibold text-slate-500">{totalTeachers} Profiles</span>
+                      </div>
+                      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        {featuredFaculty.slice(0, 3).map((teacher: any) => {
+                          const u = teacher.teacherProfile.user;
+                          return (
+                            <div key={teacher.id} className="rounded-2xl border border-slate-200 bg-white p-4 flex gap-4 items-center">
+                              <div className="w-12 h-12 rounded-full border border-slate-200 bg-slate-50 overflow-hidden shrink-0">
+                                {u.image ? <Image src={u.image} alt={u.name} width={48} height={48} className="w-full h-full object-cover" /> : <User className="w-full h-full p-2.5 text-slate-400" />}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-bold text-slate-900 text-sm truncate">{u.name}</h4>
+                                <p className="text-xs text-slate-500 truncate">{teacher.designation}</p>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-            ) : null
+            </div>
           ) : (
             <div className="space-y-10">
               {/* STUDENTS */}
@@ -1182,138 +1273,6 @@ export default async function InstitutePage({ params }: PageProps) {
           </section>
         )}
 
-        {/* ── PRESENT STUDENTS ── */}
-        {presentStudents.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-3xl font-bold text-slate-900">Present Students</h2>
-                <p className="mt-1 text-slate-500">Verified students currently at this institute</p>
-              </div>
-              <Link
-                href={`/institute/${institute.id}-${institute.slug}/members`}
-                className="text-sm font-bold text-amber-600 hover:text-amber-700"
-              >
-                View All →
-              </Link>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {presentStudents.map((record: any) => {
-                const user = record.studentProfile?.user;
-                if (!user) return null;
-                return (
-                  <div key={record.id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-slate-100">
-                        {user.image ? (
-                          <Image src={user.image} alt="" fill className="object-cover" />
-                        ) : (
-                          <span className="flex h-full items-center justify-center font-bold text-slate-400">
-                            {(user.name ?? "U").charAt(0).toUpperCase()}
-                          </span>
-                        )}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <Link href={`/u/${user.username}`} className="truncate font-semibold text-slate-900 hover:text-amber-700 block">
-                          {user.name ?? user.username}
-                        </Link>
-                        <p className="text-xs text-slate-500">
-                          {[record.courseName, record.batchYear ? `${record.batchYear} Batch` : null].filter(Boolean).join(" · ")}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-3 flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                        <BadgeCheck className="size-3" /> Verified
-                      </span>
-                    </div>
-                    {record.bio && <p className="mt-2 text-xs text-slate-500 line-clamp-1">{record.bio}</p>}
-                    <div className="mt-3 flex gap-2">
-                      {user.allowDms && (
-                        <Link href={`/chat?userId=${user.id}`} className="inline-flex items-center gap-1 rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 hover:bg-amber-100">
-                          <MessageCircle className="size-3.5" /> Message
-                        </Link>
-                      )}
-                      <Link href={`/u/${user.username}`} className="text-xs text-slate-400 hover:text-slate-700">
-                        View profile →
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
-        {/* ── FACULTY ── */}
-        {featuredFaculty.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-3xl font-bold text-slate-900">Our Faculty</h2>
-                <p className="mt-1 text-slate-500">Verified teachers at this institute</p>
-              </div>
-              <Link
-                href={`/institute/${institute.id}-${institute.slug}/members`}
-                className="text-sm font-bold text-amber-600 hover:text-amber-700"
-              >
-                View All →
-              </Link>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredFaculty.map((record: any) => {
-                const user = record.teacherProfile?.user;
-                if (!user) return null;
-                return (
-                  <div key={record.id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-slate-100">
-                        {user.image ? (
-                          <Image src={user.image} alt="" fill className="object-cover" />
-                        ) : (
-                          <span className="flex h-full items-center justify-center font-bold text-slate-400">
-                            {(user.name ?? "U").charAt(0).toUpperCase()}
-                          </span>
-                        )}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <Link href={`/u/${user.username}`} className="truncate font-semibold text-slate-900 hover:text-amber-700 block">
-                          {user.name ?? user.username}
-                        </Link>
-                        <p className="text-xs text-slate-500">{record.designation ?? "Faculty"}</p>
-                      </div>
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      <span className="inline-flex items-center gap-1 rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                        <BadgeCheck className="size-3" /> Verified
-                      </span>
-                      {record.isFeatured && (
-                        <span className="rounded-lg border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-700">⭐ Featured</span>
-                      )}
-                    </div>
-                    {record.teachingSubjects.length > 0 && (
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {record.teachingSubjects.slice(0, 3).map((s: string) => (
-                          <span key={s} className="rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-600">{s}</span>
-                        ))}
-                      </div>
-                    )}
-                    <div className="mt-3 flex gap-2">
-                      {user.allowDms && (
-                        <Link href={`/chat?userId=${user.id}`} className="inline-flex items-center gap-1 rounded-xl border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700 hover:bg-amber-100">
-                          <MessageCircle className="size-3.5" /> Message
-                        </Link>
-                      )}
-                      <Link href={`/u/${user.username}`} className="text-xs text-slate-400 hover:text-slate-700">
-                        View profile →
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
 
         {/* ── UPDATES & BLOGS ── */}
         {formattedBlogs.length > 0 && (
