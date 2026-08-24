@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Eye, Phone, Mail, Clock, ShieldAlert, Filter } from "lucide-react";
 import { LifeCoachRequestStatus } from "@/app/generated/prisma/enums";
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
+import { deleteLifeCoachRequestAction } from "./actions";
 import { formatIST } from "@/lib/utils";
 
 export default async function AdminLifeCoachLeadsPage({
@@ -121,11 +123,14 @@ export default async function AdminLifeCoachLeadsPage({
                       </span>
                     </td>
                     <td className="p-4 text-right">
-                      <Link prefetch={false} href={`/af-ass-manage/life-coach/${req.id}`}>
-                        <button className="inline-flex items-center justify-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-purple-100 hover:text-purple-700 transition-colors cursor-pointer">
-                          <Eye className="w-4 h-4" />
-                        </button>
-                      </Link>
+                      <div className="flex items-center justify-end gap-2">
+                        <Link prefetch={false} href={`/af-ass-manage/life-coach/${req.id}`}>
+                          <button className="inline-flex items-center justify-center p-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-purple-100 hover:text-purple-700 transition-colors cursor-pointer">
+                            <Eye className="w-4 h-4" />
+                          </button>
+                        </Link>
+                        <AdminDeleteButton id={req.id} onDelete={deleteLifeCoachRequestAction} title="Delete Request?" />
+                      </div>
                     </td>
                   </tr>
                 ))

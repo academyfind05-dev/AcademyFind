@@ -3,6 +3,8 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
 import { MessageSquare, Building2, Eye, Calendar, User, Phone, Filter } from "lucide-react";
+import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
+import { deleteCallbackAction } from "./actions";
 
 export default async function AdminCallbacksPage({
   searchParams
@@ -157,11 +159,14 @@ export default async function AdminCallbacksPage({
                       </span>
                     </td>
                     <td className="p-5 text-right">
-                      <Link prefetch={false} href={`/af-ass-manage/instituteCallbacks/${callback.id}`}>
-                        <button className="p-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:text-stone-600 hover:border-stone-200 hover:bg-stone-50 transition-all shadow-xs cursor-pointer">
-                          <Eye className="w-4 h-4" />
-                        </button>
-                      </Link>
+                      <div className="flex items-center justify-end gap-2">
+                        <Link prefetch={false} href={`/af-ass-manage/instituteCallbacks/${callback.id}`}>
+                          <button className="p-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:text-stone-600 hover:border-stone-200 hover:bg-stone-50 transition-all shadow-xs cursor-pointer">
+                            <Eye className="w-4 h-4" />
+                          </button>
+                        </Link>
+                        <AdminDeleteButton id={callback.id} onDelete={deleteCallbackAction} title="Delete Callback?" />
+                      </div>
                     </td>
                   </tr>
                 ))
