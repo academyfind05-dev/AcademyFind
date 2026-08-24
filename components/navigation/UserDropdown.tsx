@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, LogOut, LayoutDashboard, ChevronDown, PlusCircle, Building2, Briefcase, FileText, Bookmark, Wallet, MessageCircle, Settings, Megaphone } from "lucide-react";
+import { User, LogOut, LayoutDashboard, ChevronDown, PlusCircle, Building2, Briefcase, FileText, Bookmark, Wallet, MessageCircle, Settings, Megaphone, Coins } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth/auth-client";
 import Image from "next/image";
@@ -91,7 +91,7 @@ export default function UserDropdown({ user }: { user: any }) {
             <p className="text-xs text-slate-500 mt-1 truncate">{user?.username ? `@${user.username}` : user?.email}</p>
             {liveUserData.walletBalance > 0 && (
               <p className="text-xs text-slate-400 mt-1 flex items-center gap-1 font-medium">
-                🪙 {liveUserData.walletBalance.toLocaleString("en-IN")} coins
+                <Coins className="w-3.5 h-3.5 text-amber-500" /> {liveUserData.walletBalance.toLocaleString("en-IN")} coins
               </p>
             )}
           </div>

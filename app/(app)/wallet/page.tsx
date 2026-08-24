@@ -5,14 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { WalletTransactionType, WalletTransactionSource } from "@/app/generated/prisma/client";
-import { Coins, CheckCircle, TrendingUp, Download, ArrowRight, UserPlus, FileText, Calendar, PenTool } from "lucide-react";
+import { Coins, CheckCircle, TrendingUp, Download, ArrowRight, UserPlus, FileText, Calendar, PenTool, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { BuyCoins } from "@/components/wallet/BuyCoins";
+import { getLevelInfo, UserLevel } from "@/lib/wallet/levels";
 
-function getLevelInfo(balance: number) {
-  if (balance >= 5000) return { name: "Platinum Member", icon: "💎", next: null, currentProgress: 100 };
-  if (balance >= 2000) return { name: "Gold Member", icon: "🥇", next: 5000, currentProgress: (balance / 5000) * 100 };
-  if (balance >= 500) return { name: "Silver Member", icon: "🥈", next: 2000, currentProgress: (balance / 2000) * 100 };
-  return { name: "Bronze Member", icon: "🥉", next: 500, currentProgress: (balance / 500) * 100 };
+function getLevelIcon(level: UserLevel) {
+  switch (level) {
+    case "Explorer": return "🧭";
+    case "Learner": return "📖";
+    case "Scholar": return "🎓";
+    case "Mentor": return "👥";
+    case "Champion": return "🏆";
+  }
 }
 
 function getSourceIcon(source: WalletTransactionSource) {
@@ -23,7 +28,7 @@ function getSourceIcon(source: WalletTransactionSource) {
     case "BONUS": return "🎁";
     case "REFERRAL": return "👥";
     case "PURCHASE": return "🛒";
-    default: return "🪙";
+    default: return <Coins className="w-4 h-4 text-amber-500 inline" />;
   }
 }
 
@@ -53,20 +58,29 @@ export default async function WalletPage() {
     </div>
   );
 
-  const levelInfo = getLevelInfo(wallet.balance);
+  const levelInfo = getLevelInfo(wallet.lifetimeEarned);
+  const currentProgress = levelInfo.max ? (wallet.lifetimeEarned / levelInfo.max) * 100 : 100;
+  
   const thisMonthEarned = wallet.transactions
     .filter((tx: any) => tx.type === "CREDIT" && tx.createdAt.getMonth() === new Date().getMonth())
     .reduce((sum: number, tx: any) => sum + tx.amount, 0);
 
   return (
     <div className="container max-w-5xl mx-auto py-10 px-4 space-y-8">
+      <div className="mb-6">
+        <Link href="/profile" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors">
+          <ArrowLeft className="w-4 h-4 mr-1" />
+          Back to Profile
+        </Link>
+      </div>
+
       {/* Hero Card */}
       <div className="bg-amber-50 rounded-3xl p-8 border border-amber-100">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="space-y-4">
             <div>
               <div className="text-5xl font-black text-amber-600 flex items-center gap-3">
-                🪙 {wallet.balance.toLocaleString()}
+                <Coins className="w-10 h-10 text-amber-500" /> {wallet.balance.toLocaleString()}
               </div>
               <p className="text-amber-800 font-medium mt-1">AcademyFind Coins</p>
             </div>
@@ -87,22 +101,23 @@ export default async function WalletPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-5 shadow-sm border border-amber-100 min-w-[300px]">
-            <p className="font-semibold text-slate-800 flex items-center gap-2 mb-3">
-              Level: {levelInfo.icon} {levelInfo.name}
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-amber-100 min-w-[300px] max-w-[350px]">
+            <p className="font-semibold text-slate-800 flex items-center gap-2 mb-1">
+              Level: {getLevelIcon(levelInfo.name)} {levelInfo.name}
             </p>
-            <Progress value={levelInfo.currentProgress} className="h-3 mb-2 bg-slate-100" />
+            <p className="text-xs text-slate-500 mb-3">{levelInfo.description}</p>
+            <Progress value={currentProgress} className="h-3 mb-2 bg-slate-100" />
             <div className="flex justify-between text-xs font-medium text-slate-500 mb-4">
-              <span>{wallet.balance.toLocaleString()} 🪙</span>
-              {levelInfo.next && <span>{levelInfo.next.toLocaleString()} 🪙</span>}
+              <span className="flex items-center gap-1">{wallet.lifetimeEarned.toLocaleString()} <Coins className="w-3 h-3 text-amber-500" /></span>
+              {levelInfo.max && <span className="flex items-center gap-1">{levelInfo.max.toLocaleString()} <Coins className="w-3 h-3 text-amber-500" /></span>}
             </div>
-            {levelInfo.next && (
+            {levelInfo.max && (
               <p className="text-xs text-amber-700 font-medium bg-amber-50 p-2 rounded-lg inline-block">
-                {levelInfo.next - wallet.balance} coins to {getLevelInfo(levelInfo.next).name}
+                {levelInfo.max - wallet.lifetimeEarned + 1} coins to next level
               </p>
             )}
             <p className="text-[10px] text-slate-400 mt-4 text-center">
-              Tiers: Bronze(0) Silver(500) Gold(2000) Platinum(5000)
+              Tiers: Explorer(0) Learner(21) Scholar(51) Mentor(101) Champion(501)
             </p>
           </div>
         </div>
@@ -146,7 +161,7 @@ export default async function WalletPage() {
           {/* Earn Card */}
           <Card className="rounded-2xl shadow-sm">
             <CardHeader className="bg-slate-50 border-b rounded-t-2xl pb-4">
-              <CardTitle className="text-lg">Ways to Earn 🪙</CardTitle>
+              <CardTitle className="text-lg flex items-center gap-2">Ways to Earn <Coins className="w-5 h-5 text-amber-500" /></CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <div className="divide-y">
@@ -219,6 +234,10 @@ export default async function WalletPage() {
           </Card>
         </div>
       </div>
+      
+      {/* 🚀 BUY COINS UI */}
+      <BuyCoins />
+
     </div>
   );
 }

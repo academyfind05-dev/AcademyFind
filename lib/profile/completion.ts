@@ -99,13 +99,14 @@ export function computeProfileCompletion(
 
 import { prisma } from "@/lib/prisma";
 import { creditWallet } from "@/lib/wallet/credit";
+import { AF_COINS_EARN } from "@/lib/wallet/af-coins";
 
 export async function checkAndAwardProfileCompletion(userId: string) {
   // Check if already awarded
   const existingTx = await prisma.walletTransaction.findFirst({
     where: {
       wallet: { userId },
-      source: "PROFILE_COMPLETION",
+      source: "COMPLETE_PROFILE",
     }
   });
 
@@ -126,6 +127,6 @@ export async function checkAndAwardProfileCompletion(userId: string) {
   const { isComplete } = computeProfileCompletion(user as any, studentProfile, teacherProfile);
 
   if (isComplete) {
-    await creditWallet(userId, 2, "PROFILE_COMPLETION", "Profile completed");
+    await creditWallet(userId, AF_COINS_EARN.COMPLETE_PROFILE, "COMPLETE_PROFILE", "Profile completed");
   }
 }

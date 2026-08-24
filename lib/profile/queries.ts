@@ -79,6 +79,7 @@ export const getProfileMemberships = cache(async (userId: string) =>
       role: true,
       status: true,
       joinedAt: true,
+      joinedViaAcademyFind: true,
       institute: {
         select: {
           id: true,

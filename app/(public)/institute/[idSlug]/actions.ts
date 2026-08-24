@@ -15,6 +15,7 @@ const studentJoinSchema = z.object({
   bio: z.string().trim().max(500).optional(),
   isVisible: z.boolean().default(true),
   allowMessaging: z.boolean().default(true),
+  joinedViaAcademyFind: z.boolean().default(false),
 });
 
 const teacherJoinSchema = z.object({
@@ -52,6 +53,7 @@ export async function requestStudentJoin(
     bio: formData.get("bio") || undefined,
     isVisible: formData.get("isVisible") !== "false",
     allowMessaging: formData.get("allowMessaging") !== "false",
+    joinedViaAcademyFind: formData.get("joinedViaAcademyFind") === "true",
   });
 
   if (!parsed.success)
@@ -89,6 +91,7 @@ export async function requestStudentJoin(
         instituteId,
         role: "STUDENT",
         status: "PENDING",
+        joinedViaAcademyFind: parsed.data.joinedViaAcademyFind,
       },
     });
 

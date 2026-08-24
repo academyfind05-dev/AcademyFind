@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/prisma";
+import { creditWallet } from "@/lib/wallet/credit";
+import { AF_COINS_EARN } from "@/lib/wallet/af-coins";
 
 export async function POST(request: Request) {
   try {
@@ -26,6 +28,13 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check if it's a new review to award coins
+    const existingReview = await prisma.review.findUnique({
+      where: {
+        userId_instituteId: { userId: session.user.id, instituteId }
+      }
+    });
+
     // 2. Upsert the Review (Create or Edit)
     await prisma.review.upsert({
       where: {
@@ -47,6 +56,10 @@ export async function POST(request: Request) {
         status: "PENDING", // 🚀 Default pending
       },
     });
+
+    if (!existingReview) {
+      await creditWallet(session.user.id, AF_COINS_EARN.WRITE_REVIEW, "WRITE_REVIEW", "Earned coins for writing a review");
+    }
 
     return NextResponse.json({
       success: true,

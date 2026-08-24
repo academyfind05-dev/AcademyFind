@@ -9,6 +9,8 @@ import { getCachedSession } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
 import { syncBlogPostToMeili } from "./meilisync";
 import { calculateReadingTime } from "@/lib/utils";
+import { creditWallet } from "@/lib/wallet/credit";
+import { AF_COINS_EARN } from "@/lib/wallet/af-coins";
 
 const blogEditorSchema = z.object({
   id: z.string().min(1).optional(),
@@ -234,10 +236,20 @@ async function persistBlogPost(
           actionUrl: `/af-ass-manage/blog/edit/${savedPost.id}`,
         }
       });
+      // Award coins for writing a blog
+      if (!value.id) {
+         // Create a background or separate await if needed, but doing it inside transaction is also fine if creditWallet supports it
+         // Note: creditWallet uses its own transaction internally, so calling it inside tx might cause nested transaction issues if not careful.
+         // Let's do it outside the transaction.
+      }
     }
 
     return savedPost;
   });
+
+  if (value.intent === "publish" && !value.id) {
+    await creditWallet(session.user.id, AF_COINS_EARN.WRITE_BLOG, "BLOG_POST", "Earned coins for writing a new blog post");
+  }
 
   // Sync to Meilisearch search index
   await syncBlogPostToMeili(post.id);

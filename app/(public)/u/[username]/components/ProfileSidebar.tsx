@@ -18,10 +18,11 @@ import { computeProfileCompletion } from "@/lib/profile/completion";
 import type { CompletePublicProfile } from "@/lib/profile/queries";
 
 const REPUTATION_LEVELS = [
-  { label: "Bronze", min: 0, max: 500, color: "text-amber-700" },
-  { label: "Silver", min: 501, max: 2000, color: "text-slate-500" },
-  { label: "Gold", min: 2001, max: 5000, color: "text-amber-500" },
-  { label: "Platinum", min: 5001, max: Infinity, color: "text-violet-600" },
+  { label: "Explorer", min: 0, max: 20, color: "text-emerald-700" },
+  { label: "Learner", min: 21, max: 50, color: "text-blue-600" },
+  { label: "Scholar", min: 51, max: 100, color: "text-amber-500" },
+  { label: "Mentor", min: 101, max: 500, color: "text-purple-600" },
+  { label: "Champion", min: 501, max: Infinity, color: "text-red-600" },
 ];
 
 function getLevel(score: number) {

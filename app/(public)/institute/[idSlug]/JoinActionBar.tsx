@@ -133,6 +133,18 @@ export function JoinActionBar({
               placeholder="Tell future students about your experience..."
             />
             <div className="flex flex-col gap-2 border-t border-slate-100 pt-4">
+              <label className="mb-1 block text-sm font-semibold text-slate-700">
+                Did you find or join this institute through AcademyFind?
+              </label>
+              <div className="flex items-center gap-6 mb-4">
+                <label className="flex items-center gap-2 text-sm font-medium text-slate-700 cursor-pointer">
+                  <input type="radio" name="joinedViaAcademyFind" value="true" className="size-4 accent-amber-500" /> Yes
+                </label>
+                <label className="flex items-center gap-2 text-sm font-medium text-slate-700 cursor-pointer">
+                  <input type="radio" name="joinedViaAcademyFind" value="false" className="size-4 accent-amber-500" defaultChecked /> No
+                </label>
+              </div>
+
               <Toggle
                 name="isVisible"
                 label="Show my profile in the student directory"

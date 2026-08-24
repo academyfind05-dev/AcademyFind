@@ -7775,6 +7775,7 @@ export const InstituteMembershipScalarFieldEnum = {
   joinedAt: 'joinedAt',
   leftAt: 'leftAt',
   isActive: 'isActive',
+  joinedViaAcademyFind: 'joinedViaAcademyFind',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

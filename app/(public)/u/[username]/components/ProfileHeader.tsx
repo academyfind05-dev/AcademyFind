@@ -36,6 +36,9 @@ export function ProfileHeader({
       m.teacherRecord?.isVerified ||
       m.role === "MANAGER",
   );
+  const joinedViaAcademyFind = profile.memberships.some(
+    (m: any) => m.joinedViaAcademyFind,
+  );
 
   const memberCount = profile._count?.memberships ?? profile.memberships.length;
   const reviewCount = profile._count?.reviews ?? 0;
@@ -163,6 +166,11 @@ export function ProfileHeader({
               ) : null}
               {roles.has("MANAGER") ? (
                 <RoleBadge icon={Building2} label="Manager" color="violet" />
+              ) : null}
+              {joinedViaAcademyFind ? (
+                <span className="inline-flex items-center gap-1.5 rounded-lg border border-amber-400 bg-amber-500 text-white px-2.5 py-1 text-xs font-bold shadow-sm">
+                  Joined via AcademyFind
+                </span>
               ) : null}
             </div>
 

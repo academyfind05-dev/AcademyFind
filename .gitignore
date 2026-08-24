@@ -51,3 +51,4 @@ next-env.d.ts
 /area.txt
 /routes.txt
 /scripts/seed_draft_blogs.ts
+/whatsapp-service

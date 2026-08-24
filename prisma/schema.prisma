@@ -114,8 +114,12 @@ enum WalletTransactionType {
 enum WalletTransactionSource {
   DAILY_LOGIN
   PROFILE_COMPLETION
+  COMPLETE_PROFILE
   REVIEW
+  WRITE_REVIEW
   REVIEW_LIKE
+  DO_LIKE_REPLY_REVIEW
+  REVIEW_LIKE_REPLY
   REFERRAL
   PURCHASE
   AI_CHAT
@@ -130,6 +134,16 @@ enum WalletTransactionSource {
   COMMUNITY_ANSWER
   INSTITUTE_MEMBERSHIP
   CONTENT_REPORT
+  SEE_CONTACT_BASIC_INSTITUTE
+  MESSAGE_OTHER_USER
+  RESUME_REVIEW
+  INTERVIEW_GUIDANCE
+  COLLEGE_COUNSELLING
+  CARRIER_COUNSELLING
+  UPSC_STRATEGY_SESSION
+  SEE_STUDENT_PROFILE_BASIC
+  SEE_TEACHER_PROFILE_BASIC
+  VERIFY_MOBILE
 }
 
 model WalletTransaction {
@@ -646,6 +660,7 @@ model InstituteMembership {
   joinedAt      DateTime?
   leftAt        DateTime?
   isActive      Boolean                 @default(true)
+  joinedViaAcademyFind Boolean          @default(false)
   createdAt     DateTime                @default(now())
   updatedAt     DateTime                @updatedAt
   user          User                    @relation(fields: [userId], references: [id], onDelete: Cascade)

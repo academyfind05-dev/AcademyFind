@@ -34,6 +34,7 @@ import { BlogCardPost } from "@/types/BlogCard";
 import { OpenBatchChatButton } from "@/components/manager/OpenBatchChatButton";
 import { InteractiveGallery } from "@/components/ui/interactive-gallery";
 import { ReviewItem } from "@/components/reviews/ReviewItem";
+import { UnlockContactButton } from "@/components/institutes/UnlockContactButton";
 
 export const revalidate = 0;
 
@@ -538,25 +539,13 @@ export default async function InstitutePage({ params }: PageProps) {
                       <div className="flex flex-col gap-3 pt-3 border-t border-slate-200/60 mt-1">
                         <div className="flex flex-col sm:flex-row gap-4">
                           {institute.phone && (
-                            <div className="flex items-center gap-2 text-sm font-medium text-slate-400 select-none" title="Hidden for Free Plan">
-                              <Phone className="h-4 w-4 text-slate-300" />
-                              <span className="blur-[3px] bg-slate-200/50 rounded px-1">+91 98XXX XX123</span>
-                              <Lock className="h-3 w-3 text-slate-400" />
-                            </div>
+                            <UnlockContactButton type="phone" hiddenValue="+91 98XXX XX123" realValue={institute.phone} isLoggedIn={!!userId} instituteId={institute.id} />
                           )}
                           {institute.email && (
-                            <div className="flex items-center gap-2 text-sm font-medium text-slate-400 select-none" title="Hidden for Free Plan">
-                              <Mail className="h-4 w-4 text-slate-300" />
-                              <span className="blur-[3px] bg-slate-200/50 rounded px-1">contact@hidden.com</span>
-                              <Lock className="h-3 w-3 text-slate-400" />
-                            </div>
+                            <UnlockContactButton type="email" hiddenValue="contact@hidden.com" realValue={institute.email} isLoggedIn={!!userId} instituteId={institute.id} />
                           )}
                           {institute.website && (
-                            <div className="flex items-center gap-2 text-sm font-medium text-slate-400 select-none" title="Hidden for Free Plan">
-                              <Globe className="h-4 w-4 text-slate-300" />
-                              <span className="blur-[3px] bg-slate-200/50 rounded px-1">Visit Website</span>
-                              <Lock className="h-3 w-3 text-slate-400" />
-                            </div>
+                            <UnlockContactButton type="website" hiddenValue="Visit Website" realValue={institute.website} isLoggedIn={!!userId} instituteId={institute.id} />
                           )}
                         </div>
                         {(institute.facebookUrl || institute.instagramUrl || institute.twitterUrl || institute.youtubeUrl || institute.telegramUrl || institute.whatsappUrl) && (

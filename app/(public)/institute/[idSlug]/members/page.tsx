@@ -63,6 +63,9 @@ export default async function MembersDirectoryPage({ params }: Props) {
             },
           },
         },
+        membership: {
+          select: { joinedViaAcademyFind: true }
+        }
       },
     }),
     prisma.teacherInstituteRecord.findMany({
@@ -158,6 +161,7 @@ export default async function MembersDirectoryPage({ params }: Props) {
                       .join(" · ")}
                     bio={record.bio}
                     isVerified={record.isVerified}
+                    isAcademyFindJoin={record.membership?.joinedViaAcademyFind}
                   />
                 );
               })}
@@ -219,6 +223,7 @@ function MemberCard({
   bio,
   isVerified,
   isFeatured,
+  isAcademyFindJoin,
 }: {
   user: {
     id: string;
@@ -231,6 +236,7 @@ function MemberCard({
   bio?: string | null;
   isVerified?: boolean;
   isFeatured?: boolean;
+  isAcademyFindJoin?: boolean;
 }) {
   return (
     <article className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
@@ -242,6 +248,11 @@ function MemberCard({
             <span className="flex h-full items-center justify-center text-lg font-bold text-slate-400">
               {(user.name ?? "U").charAt(0).toUpperCase()}
             </span>
+          )}
+          {isAcademyFindJoin && (
+            <div className="absolute top-0 right-0 bg-amber-500 rounded-bl-xl p-0.5 shadow-sm border border-amber-600 z-10 flex items-center justify-center" title="Joined via AcademyFind">
+              <span className="text-[8px] font-black text-white leading-none px-0.5">AF</span>
+            </div>
           )}
         </div>
         <div className="min-w-0 flex-1">

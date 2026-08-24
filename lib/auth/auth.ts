@@ -85,7 +85,8 @@ export const auth = betterAuth({
                 },
                 after: async (user) => {
                     const { creditWallet } = await import("@/lib/wallet/credit");
-                    await creditWallet(user.id, 5, "SIGN_UP", "Welcome Bonus for registering!");
+                    const { AF_COINS_EARN } = await import("@/lib/wallet/af-coins");
+                    await creditWallet(user.id, AF_COINS_EARN.SIGN_UP, "SIGN_UP", "Welcome Bonus for registering!");
                 }
             }
         }

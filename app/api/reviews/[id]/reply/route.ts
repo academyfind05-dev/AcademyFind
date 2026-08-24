@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth/auth";
+import { creditWallet } from "@/lib/wallet/credit";
+import { AF_COINS_EARN } from "@/lib/wallet/af-coins";
 
 export async function POST(
   req: NextRequest,
@@ -42,6 +44,15 @@ export async function POST(
         status: "PENDING",
       },
     });
+
+    // Credit coins
+    // 1. To the replier
+    await creditWallet(session.user.id, AF_COINS_EARN.DO_LIKE_REPLY_REVIEW, "DO_LIKE_REPLY_REVIEW", "Earned coins for replying to a review");
+    
+    // 2. To the review author (if they are a different user)
+    if (review.userId !== session.user.id) {
+      await creditWallet(review.userId, AF_COINS_EARN.REVIEW_LIKE_REPLY, "REVIEW_LIKE_REPLY", "Someone replied to your review");
+    }
 
     return NextResponse.json({ 
         success: true, 
