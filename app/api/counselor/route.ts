@@ -1,15 +1,19 @@
 import { meili } from '@/lib/meilisearch';
-import { streamText, generateText, convertToModelMessages } from 'ai';
+import { streamText, generateText } from 'ai';
 import { createGroq } from '@ai-sdk/groq';
-
-const groq = createGroq({
-  apiKey: process.env.GROQ_API_KEY,
-});
 
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      console.error("GROQ_API_KEY is missing in process.env!");
+      return new Response(JSON.stringify({ error: "GROQ_API_KEY environment variable is not configured on server." }), { status: 500 });
+    }
+
+    const groq = createGroq({ apiKey });
+
     const payload = await req.json();
     console.log("Chat API Payload:", payload);
     const rawMessages = payload.messages || [];
@@ -91,41 +95,46 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
 
     // 3. BUILD DYNAMIC SYSTEM PROMPT BASED ON INTENT
     if (extractedData.intent === "COACHING") {
-      const index = meili.index('global_search');
-      let sortOptions: string[] = [];
+      let cleanHitsForAI: any[] = [];
+      try {
+        const index = meili.index('global_search');
+        let sortOptions: string[] = [];
 
-      // Geo-sorting if location was extracted
-      if (extractedData.lat !== null && extractedData.lng !== null) {
-        sortOptions = [`_geoPoint(${extractedData.lat}, ${extractedData.lng}):asc`];
+        // Geo-sorting if location was extracted
+        if (extractedData.lat !== null && extractedData.lng !== null) {
+          sortOptions = [`_geoPoint(${extractedData.lat}, ${extractedData.lng}):asc`];
+        }
+
+        // 🚀 Include location in the query string so MeiliSearch's text ranking factors it in!
+        let finalSearchQuery = extractedData.query || latestMessageText;
+        if (extractedData.query && extractedData.locationString) {
+            finalSearchQuery = `${extractedData.query} ${extractedData.locationString}`;
+        }
+
+        // Search the actual AcademyFind Database
+        const searchResults = await index.search(finalSearchQuery, {
+          limit: 5,
+          filter: "type IN ['institute', 'school', 'tutor', 'job']",
+          attributesToRetrieve: ['type', 'name', 'city', 'citySlug', 'description', 'address', 'categoryNames', 'categorySlugs', 'averageRating', 'googleRating', 'url', '_geo'],
+          sort: sortOptions.length > 0 ? sortOptions : undefined,
+          hybrid: { semanticRatio: 0.6, embedder: 'default' }
+        });
+
+        const hits = searchResults.hits as any[];
+        cleanHitsForAI = hits
+          .filter(h => ['institute', 'school', 'tutor', 'job'].includes(h.type))
+          .map(h => ({
+            name: h.name,
+            address: h.address,
+            city: h.city,
+            rating: h.googleRating || h.averageRating || 'N/A',
+            categories: h.categoryNames,
+            url: h.url,
+            exploreLink: `/${h.citySlug}/${h.categorySlugs?.[0] || 'all-categories'}`
+          }));
+      } catch (meiliErr) {
+        console.warn("Meilisearch lookup skipped (unreachable in current environment):", (meiliErr as Error).message);
       }
-
-      // 🚀 Include location in the query string so MeiliSearch's text ranking factors it in!
-      let finalSearchQuery = extractedData.query || latestMessageText;
-      if (extractedData.query && extractedData.locationString) {
-          finalSearchQuery = `${extractedData.query} ${extractedData.locationString}`;
-      }
-
-      // Search the actual AcademyFind Database
-      const searchResults = await index.search(finalSearchQuery, {
-        limit: 5,
-        filter: "type IN ['institute', 'school', 'tutor', 'job']",
-        attributesToRetrieve: ['type', 'name', 'city', 'citySlug', 'description', 'address', 'categoryNames', 'categorySlugs', 'averageRating', 'googleRating', 'url', '_geo'],
-        sort: sortOptions.length > 0 ? sortOptions : undefined,
-        hybrid: { semanticRatio: 0.6, embedder: 'default' }
-      });
-
-      const hits = searchResults.hits as any[];
-      const cleanHitsForAI = hits
-        .filter(h => ['institute', 'school', 'tutor', 'job'].includes(h.type))
-        .map(h => ({
-          name: h.name,
-          address: h.address,
-          city: h.city,
-          rating: h.googleRating || h.averageRating || 'N/A',
-          categories: h.categoryNames,
-          url: h.url,
-          exploreLink: `/${h.citySlug}/${h.categorySlugs?.[0] || 'all-categories'}`
-        }));
 
       const searchContext = JSON.stringify(cleanHitsForAI);
 
@@ -194,7 +203,14 @@ For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly a
       maxTokens: 4096,
     } as any);
 
-    return result.toUIMessageStreamResponse();
+    const res = result as any;
+    if (typeof res.toDataStreamResponse === 'function') {
+      return res.toDataStreamResponse();
+    }
+    if (typeof res.toUIMessageStreamResponse === 'function') {
+      return res.toUIMessageStreamResponse();
+    }
+    return res.toTextStreamResponse();
 
   } catch (error: any) {
     console.error('AI Chat Error:', error);
