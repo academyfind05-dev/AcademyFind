@@ -1,8 +1,12 @@
 "use client";
 import Link from "next/link";
 import { FaWhatsapp, FaTelegramPlane, FaInstagram, FaFacebook, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { useState } from "react";
+import { Share2, X } from "lucide-react";
 
 export function SocialSidebar() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const socials = [
     {
       name: "WhatsApp",
@@ -43,19 +47,55 @@ export function SocialSidebar() {
   ];
 
   return (
-    <div className="absolute left-0 top-1/2 z-[50] hidden -translate-y-1/2 flex-col gap-2 rounded-r-xl bg-white/90 p-2 shadow-lg backdrop-blur-md border border-l-0 border-slate-200 transition-all hover:pr-4 md:flex">
-      {socials.map((social) => (
-        <Link
-          key={social.name}
-          href={social.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={social.name}
-          className={`flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-all duration-300 ${social.color}`}
+    <>
+      {/* Desktop Version - Always open */}
+      <div className="fixed left-0 top-[35%] z-[60] hidden -translate-y-1/2 flex-col gap-2 rounded-r-xl bg-white/90 p-2 shadow-lg backdrop-blur-md border border-l-0 border-slate-200 transition-all hover:pr-4 md:flex">
+        {socials.map((social) => (
+          <Link
+            key={social.name}
+            href={social.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={social.name}
+            className={`flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-all duration-300 ${social.color}`}
+          >
+            {social.icon}
+          </Link>
+        ))}
+      </div>
+
+      {/* Mobile Version - Collapsible */}
+      <div className="fixed left-0 top-[35%] z-[60] flex flex-col items-start gap-2 -translate-y-1/2 md:hidden">
+        {/* Toggle Button */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)} 
+          className="flex h-10 w-10 items-center justify-center rounded-r-xl bg-white/90 backdrop-blur-md shadow-lg border border-l-0 border-slate-200 text-slate-600 transition-colors hover:bg-slate-50"
+          aria-label="Toggle social links"
         >
-          {social.icon}
-        </Link>
-      ))}
-    </div>
+          {isOpen ? <X className="h-5 w-5 text-slate-600" /> : <Share2 className="h-5 w-5 text-slate-600" />}
+        </button>
+        
+        {/* Expanded Links */}
+        <div 
+          className={`absolute left-12 top-0 w-max grid grid-cols-3 gap-2 rounded-xl bg-white/90 p-2 shadow-lg backdrop-blur-md border border-slate-200 transition-all duration-300 origin-left ${
+            isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none"
+          }`}
+        >
+          {socials.map((social) => (
+            <Link
+              key={social.name}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={social.name}
+              className={`flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-all duration-300 ${social.color}`}
+              onClick={() => setIsOpen(false)}
+            >
+              {social.icon}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
