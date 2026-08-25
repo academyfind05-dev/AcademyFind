@@ -7,16 +7,21 @@ export async function requestGlobalCallback(formData: FormData) {
         const name = formData.get("name") as string;
         const phone = formData.get("phone") as string;
         const sourceUrl = formData.get("sourceUrl") as string; 
+        const userMessage = formData.get("message") as string;
 
         if (!name || !phone) {
             return { success: false, error: "Name and Phone are required." };
         }
 
+        const messageParts = [];
+        if (userMessage?.trim()) messageParts.push(userMessage.trim());
+        messageParts.push(`Callback requested from page: ${sourceUrl}`);
+
         await prisma.lifeCoachRequest.create({
             data: {
                 fullName: name,
                 phone: phone,
-                message: `Callback requested from page: ${sourceUrl}`,
+                message: messageParts.join(" | "),
                 status: "PENDING"
             }
         });
