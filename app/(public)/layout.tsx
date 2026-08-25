@@ -7,6 +7,7 @@ import AiChatBot from "@/components/User/AiChatBot";
 import { AuthPromptModal } from "@/components/layout/auth-prompt-model";
 
 import { redirect } from "next/navigation";
+import GlobalCallbackFAB from "@/components/User/GlobalCallBack";
 
 export default async function PublicLayout({
   children,
@@ -33,15 +34,15 @@ export default async function PublicLayout({
 
       <Footer />
 
-      {/* <GlobalCallbackFAB
-        defaultName={session?.user?.name || ""}
-        defaultPhone={session?.user?.phone || ""}
-      /> */}
-      <AiChatBot
-        isAuthenticated={Boolean(session?.user)}
+      <GlobalCallbackFAB
         defaultName={session?.user?.name || ""}
         defaultPhone={session?.user?.phone || ""}
       />
+      {/* <AiChatBot
+        isAuthenticated={Boolean(session?.user)}
+        defaultName={session?.user?.name || ""}
+        defaultPhone={session?.user?.phone || ""}
+      /> */}
     </>
   );
 }
