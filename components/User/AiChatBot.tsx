@@ -14,14 +14,7 @@ import { requestGlobalCallback } from "@/lib/User/user/global-callback";
 function cleanAssistantText(rawText: string): string {
     if (!rawText) return "";
     let text = rawText;
-    if (text.startsWith("<think>")) {
-        const endIdx = text.indexOf("</think>");
-        if (endIdx !== -1) {
-            text = text.substring(endIdx + 8);
-        } else {
-            return "";
-        }
-    }
+    text = text.replace(/<think>[\s\S]*?(?:<\/think>|$)/gi, '');
     return text.trim();
 }
 
@@ -437,7 +430,10 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
                             <div className="flex-1 p-4 bg-amber-50/30 overflow-y-auto flex flex-col gap-4">
 
                                 {deferredMessages.map((m) => {
-                                    const rawText = m.parts?.map((p: any) => p.text).join('') || '';
+                                    const rawText = (typeof m.content === 'string' && m.content)
+                                        ? m.content
+                                        : (m.parts?.map((p: any) => p.text || '').join('') || '');
+                                    
                                     const cleanText = m.role === 'assistant' 
                                         ? cleanAssistantText(rawText)
                                         : rawText.trim();
@@ -450,40 +446,37 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
                                                     ? 'bg-gradient-to-br from-amber-400 to-amber-500 text-white rounded-br-none whitespace-pre-wrap'
                                                     : 'bg-white border border-amber-100 text-slate-800 rounded-bl-none shadow-sm'
                                                 }`}>
-                                                {m.parts?.map((part: any, index: number) => {
-                                                    if (part.type !== 'text') return null;
-                                                    return m.role === 'user' ? (
-                                                        <span key={index} className="whitespace-pre-wrap">{part.text}</span>
-                                                    ) : (
-                                                        <div key={index} className="prose prose-sm max-w-none prose-p:leading-relaxed prose-pre:p-0">
-                                                            <ReactMarkdown
-                                                                remarkPlugins={[remarkGfm]}
-                                                                components={{
-                                                                    a: ({ href, children }) => (
-                                                                        <Link href={href || "#"} className="font-semibold text-amber-600 hover:text-amber-800 underline decoration-amber-300 underline-offset-2 break-all">
-                                                                            {children}
-                                                                        </Link>
-                                                                    ),
-                                                                    p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                                                    ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
-                                                                    li: ({ children }) => <li>{children}</li>,
-                                                                    strong: ({ children }) => <strong className="font-semibold text-slate-900">{children}</strong>,
-                                                                    table: ({ children }) => (
-                                                                        <div className="overflow-x-auto my-3 rounded-xl border border-amber-200 shadow-xs bg-white">
-                                                                            <table className="w-full text-xs text-left border-collapse">{children}</table>
-                                                                        </div>
-                                                                    ),
-                                                                    thead: ({ children }) => <thead className="bg-amber-100/80 text-amber-900 font-bold">{children}</thead>,
-                                                                    th: ({ children }) => <th className="px-3 py-2 border-b border-r border-amber-200 last:border-r-0 font-bold">{children}</th>,
-                                                                    td: ({ children }) => <td className="px-3 py-2 border-b border-r border-amber-100 last:border-r-0 text-slate-700">{children}</td>,
-                                                                    tr: ({ children }) => <tr className="even:bg-amber-50/40 hover:bg-amber-50/80 transition-colors">{children}</tr>
-                                                                }}
-                                                            >
-                                                                {cleanAssistantText(part.text)}
-                                                            </ReactMarkdown>
-                                                        </div>
-                                                    );
-                                                })}
+                                                {m.role === 'user' ? (
+                                                    <span className="whitespace-pre-wrap">{cleanText}</span>
+                                                ) : (
+                                                    <div className="prose prose-sm max-w-none prose-p:leading-relaxed prose-pre:p-0">
+                                                        <ReactMarkdown
+                                                            remarkPlugins={[remarkGfm]}
+                                                            components={{
+                                                                a: ({ href, children }) => (
+                                                                    <Link href={href || "#"} className="font-semibold text-amber-600 hover:text-amber-800 underline decoration-amber-300 underline-offset-2 break-all">
+                                                                        {children}
+                                                                    </Link>
+                                                                ),
+                                                                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                                                                ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+                                                                li: ({ children }) => <li>{children}</li>,
+                                                                strong: ({ children }) => <strong className="font-semibold text-slate-900">{children}</strong>,
+                                                                table: ({ children }) => (
+                                                                    <div className="overflow-x-auto my-3 rounded-xl border border-amber-200 shadow-xs bg-white">
+                                                                        <table className="w-full text-xs text-left border-collapse">{children}</table>
+                                                                    </div>
+                                                                ),
+                                                                thead: ({ children }) => <thead className="bg-amber-100/80 text-amber-900 font-bold">{children}</thead>,
+                                                                th: ({ children }) => <th className="px-3 py-2 border-b border-r border-amber-200 last:border-r-0 font-bold">{children}</th>,
+                                                                td: ({ children }) => <td className="px-3 py-2 border-b border-r border-amber-100 last:border-r-0 text-slate-700">{children}</td>,
+                                                                tr: ({ children }) => <tr className="even:bg-amber-50/40 hover:bg-amber-50/80 transition-colors">{children}</tr>
+                                                            }}
+                                                        >
+                                                            {cleanText}
+                                                        </ReactMarkdown>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     );
