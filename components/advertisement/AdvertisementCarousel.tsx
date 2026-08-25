@@ -58,13 +58,13 @@ export function AdvertisementCarousel({ ads }: { ads: any[] }) {
     };
 
     return (
-        <div ref={carouselRef} className="w-full relative aspect-[16/9] md:aspect-[21/9] lg:aspect-[24/9] rounded-2xl overflow-hidden shadow-lg group">
-            <div className="absolute inset-0 bg-slate-100 flex items-center justify-center">
+        <div ref={carouselRef} className="w-full relative aspect-square sm:aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9] bg-white rounded-2xl overflow-hidden shadow-lg group border border-stone-100">
+            <div className="absolute inset-0 bg-stone-50/50 flex items-center justify-center">
                 {currentSlide.imageUrl ? (
                     <img 
                         src={currentSlide.imageUrl} 
                         alt={currentAd.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                        className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 p-2 md:p-4" 
                     />
                 ) : (
                     <div className="text-slate-400">Advertisement</div>
