@@ -7,7 +7,7 @@ import {
     ArrowLeft, ExternalLink, Edit, CheckCircle2, MapPin,
     Activity, Building2, Star, Users, Briefcase, Info,
     Send, PhoneCall, Check, X, Link as LinkIcon,
-    ArrowRight,
+    ArrowRight, MessageSquare,
     GraduationCap
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -61,6 +61,9 @@ export function AdminInstituteDashboardClient({ institute, analyticsData }: { in
                 </div>
 
                 <div className="flex gap-2 flex-wrap">
+                    <Link href={`/af-ass-manage/instituteCallbacks?instituteId=${institute.id}`} className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold shadow-sm transition flex items-center gap-2 border border-indigo-700">
+                        <MessageSquare className="w-4 h-4" /> Manage Enquiries
+                    </Link>
                     <Link href={`/institute/${institute.id}-${institute.slug}`} target="_blank" className="bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 px-4 py-2.5 rounded-xl text-sm font-bold shadow-sm transition flex items-center gap-2">
                         <ExternalLink className="w-4 h-4" /> Public View
                     </Link>
@@ -84,6 +87,11 @@ export function AdminInstituteDashboardClient({ institute, analyticsData }: { in
                 {institute.isFeatured && (
                     <Badge className="px-3 py-1 text-xs uppercase tracking-wider font-bold bg-purple-100 text-purple-800 border border-purple-200">
                         Featured
+                    </Badge>
+                )}
+                {institute.enquiries && institute.enquiries.length > 0 && (
+                    <Badge className="px-3 py-1 text-xs tracking-wider font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 flex items-center gap-1">
+                        Last Enquiry — Admin: {institute.enquiries[0].status || 'NEW'} | Student: {institute.enquiries[0].userContactStatus || 'NEW'}
                     </Badge>
                 )}
             </div>

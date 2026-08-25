@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
-import { MessageSquare, Building2, Eye, Calendar, User, Phone, Filter } from "lucide-react";
+import { MessageSquare, Building2, Eye, Calendar, User, Phone, Filter, ArrowLeft } from "lucide-react";
 import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
 import { deleteCallbackAction } from "./actions";
 
@@ -13,6 +13,7 @@ export default async function AdminCallbacksPage({
 }) {
   const params = await searchParams;
   const currentFilter = params.status || 'ALL';
+  const instituteIdFilter = params.instituteId;
 
   // 🚀 Sirf Original Leads dikhani hain Admin ko, copies nahi!
   const whereCondition: any = {
@@ -25,6 +26,10 @@ export default async function AdminCallbacksPage({
     } else {
       whereCondition.status = currentFilter;
     }
+  }
+  
+  if (instituteIdFilter) {
+    whereCondition.instituteId = instituteIdFilter;
   }
 
   // Fetch callbacks based on filter
@@ -67,6 +72,11 @@ export default async function AdminCallbacksPage({
     <div className="w-full space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
+          {instituteIdFilter && (
+            <Link href={`/af-ass-manage/institutes/${instituteIdFilter}`} className="inline-flex items-center text-sm font-semibold text-stone-500 hover:text-stone-800 transition-colors mb-2">
+              <ArrowLeft className="w-4 h-4 mr-1.5" /> Back to Institute Settings
+            </Link>
+          )}
           <h1 className="text-3xl font-extrabold text-slate-900 flex items-center gap-3">
             <MessageSquare className="w-8 h-8 text-stone-500" /> Original Callbacks
           </h1>
@@ -86,7 +96,7 @@ export default async function AdminCallbacksPage({
           <Link
             key={opt.value}
             prefetch={false}
-            href={`/af-ass-manage/instituteCallbacks?status=${opt.value}`}
+            href={`/af-ass-manage/instituteCallbacks?status=${opt.value}${instituteIdFilter ? `&instituteId=${instituteIdFilter}` : ''}`}
             className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap ${currentFilter === opt.value
               ? "bg-stone-900 text-white shadow-md shadow-stone-900/20 scale-105"
               : "bg-white border border-stone-100 text-slate-500 hover:bg-stone-50 hover:text-stone-700 hover:border-stone-200"
