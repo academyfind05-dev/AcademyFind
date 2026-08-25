@@ -24,7 +24,7 @@ function MarkdownLink({ href, children }: { href?: string; children?: React.Reac
     return (
       <Link
         href={href}
-        className="text-amber-600 font-medium underline decoration-amber-300 underline-offset-2 hover:text-amber-700 hover:decoration-amber-500 transition-colors"
+        className="text-amber-600 font-medium underline decoration-amber-300 underline-offset-2 hover:text-amber-700 hover:decoration-amber-500 transition-colors break-all"
       >
         {children}
       </Link>
@@ -35,7 +35,7 @@ function MarkdownLink({ href, children }: { href?: string; children?: React.Reac
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-amber-600 font-medium underline decoration-amber-300 underline-offset-2 hover:text-amber-700 hover:decoration-amber-500 transition-colors"
+      className="text-amber-600 font-medium underline decoration-amber-300 underline-offset-2 hover:text-amber-700 hover:decoration-amber-500 transition-colors break-all"
     >
       {children}
     </a>
@@ -68,11 +68,32 @@ export default function AISearchPage() {
   const { messages, status, sendMessage, error, setMessages } = useChat();
   const [input, setInput] = useState('');
   const [hydrated, setHydrated] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const isNearBottomRef = useRef(true);
 
-  const isLoading = status === 'submitted' || status === 'streaming';
+  // Set initial messages manually to fix TS errors with AI SDK v4
+  useEffect(() => {
+    if (messages.length === 0 && !hydrated) {
+      setMessages([
+        {
+          id: 'welcome-msg',
+          role: 'assistant',
+          parts: [{ type: 'text', text: "Hi! I'm **AcademyFind AI**. I'm here to help you find the best coaching institutes, sports academies, tutors, or jobs. What are you looking for today?" }]
+        } as any
+      ]);
+    }
+  }, [messages.length, hydrated, setMessages]);
+
+  const isLoading = status === 'submitted' || status === 'streaming' || isSending;
+
+  // Clear isSending once status updates
+  useEffect(() => {
+    if (status === 'submitted' || status === 'streaming') {
+      setIsSending(false);
+    }
+  }, [status]);
 
   // 1️⃣ Hydrate chat history from localStorage on mount
   useEffect(() => {
@@ -121,6 +142,7 @@ export default function AISearchPage() {
   const submitText = (text: string) => {
     if (!text.trim() || isLoading) return;
     isNearBottomRef.current = true; // force scroll when user sends a new message
+    setIsSending(true);
     sendMessage({ text });
     setInput('');
   };
@@ -240,7 +262,7 @@ export default function AISearchPage() {
                     return m.role === 'user' ? (
                       <span key={index} className="whitespace-pre-wrap">{part.text}</span>
                     ) : (
-                      <MessageMarkdown key={index} text={part.text} />
+                      <MessageMarkdown key={index} text={part.text?.replace(/<think>[\s\S]*?(?:<\/think>|$)/gi, '').trim()} />
                     );
                   })}
                 </div>

@@ -27,6 +27,9 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
       distributionLogs: {
         include: { admin: { select: { id: true, name: true, email: true } } },
         orderBy: { createdAt: 'desc' }
+      },
+      statusHistory: {
+        orderBy: { createdAt: 'desc' }
       }
     }
   });
@@ -82,6 +85,7 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
               institutePhone={callback.institute?.phone || ""}
               instituteSlug={callback.institute ? `${callback.institute.id}-${callback.institute.slug}` : undefined}
               studentMessage={callback.message || ""}
+              adminNote={callback.adminNote}
             />
           </div>
         </CardHeader>
@@ -140,6 +144,38 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
               )}
             </div>
           </div>
+
+          {/* 🚀 Status History */}
+          {callback.statusHistory && callback.statusHistory.length > 0 && (
+            <div className="pt-4 border-t border-stone-100">
+              <h3 className="text-sm font-bold text-stone-900 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <History className="w-4 h-4 text-stone-500" /> Status Timeline
+              </h3>
+              <div className="space-y-3">
+                {callback.statusHistory.map((history: any) => (
+                  <div key={history.id} className="bg-stone-50 border border-stone-100 rounded-xl p-3 flex items-center justify-between flex-wrap gap-2 text-sm text-stone-700">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-stone-900">{history.statusType === 'INSTITUTE' ? 'Institute' : 'Student'} Status</span>
+                      <span className="text-stone-400">changed from</span>
+                      <Badge variant="outline" className="bg-stone-100 text-stone-600 border-stone-200 uppercase text-[10px] shadow-none">{history.oldStatus || "NEW"}</Badge>
+                      <ArrowLeft className="w-3 h-3 text-stone-400 rotate-180" />
+                      <Badge variant="outline" className={`uppercase text-[10px] shadow-none
+                        ${history.newStatus === 'MESSAGED' ? 'bg-purple-100 text-purple-700 border-purple-200' : ''}
+                        ${history.newStatus === 'CALLED' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : ''}
+                        ${history.newStatus === 'DNP' ? 'bg-orange-100 text-orange-700 border-orange-200' : ''}
+                        ${history.newStatus === 'JUNK' ? 'bg-red-100 text-red-700 border-red-200' : ''}
+                        ${!['MESSAGED', 'CALLED', 'DNP', 'JUNK'].includes(history.newStatus) ? 'bg-blue-50 text-blue-700 border-blue-200' : ''}
+                      `}>{history.newStatus}</Badge>
+                    </div>
+                    <div className="text-xs text-stone-400 flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {formatIST(history.createdAt)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* 🚀 Distribution History */}
           {callback.distributionLogs && callback.distributionLogs.length > 0 && (

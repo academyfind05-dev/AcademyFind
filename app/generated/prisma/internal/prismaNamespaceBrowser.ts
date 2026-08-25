@@ -142,7 +142,8 @@ export const ModelName = {
   VisitorEvent: 'VisitorEvent',
   Advertisement: 'Advertisement',
   AdvertisementAnalytic: 'AdvertisementAnalytic',
-  SystemSetting: 'SystemSetting'
+  SystemSetting: 'SystemSetting',
+  EnquiryStatusHistory: 'EnquiryStatusHistory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1641,6 +1642,18 @@ export const SystemSettingScalarFieldEnum = {
 } as const
 
 export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
+
+
+export const EnquiryStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  enquiryId: 'enquiryId',
+  oldStatus: 'oldStatus',
+  newStatus: 'newStatus',
+  statusType: 'statusType',
+  createdAt: 'createdAt'
+} as const
+
+export type EnquiryStatusHistoryScalarFieldEnum = (typeof EnquiryStatusHistoryScalarFieldEnum)[keyof typeof EnquiryStatusHistoryScalarFieldEnum]
 
 
 export const SortOrder = {

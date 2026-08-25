@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.50",
+    "@ai-sdk/groq": "^4.0.31",
     "@ai-sdk/openai": "^3.0.73",
     "@ai-sdk/react": "^4.0.80",
     "@better-auth/cli": "^1.4.21",

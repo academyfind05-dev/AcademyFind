@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2, MessageCircle } from "lucide-react";
 import toast from "react-hot-toast";
-import { deleteCallback, updateCallbackStatus, updateUserContactStatus } from "@/lib/User/admin/adminInstituteCallback";
+import { deleteCallback, updateCallbackStatus, updateUserContactStatus, updateCallbackAdminNote } from "@/lib/User/admin/adminInstituteCallback";
 import { ConfirmModal } from "@/components/ui/confirm-modal";
 
 interface CallbackControlsProps {
@@ -17,6 +17,7 @@ interface CallbackControlsProps {
   institutePhone?: string;
   instituteSlug?: string;
   studentMessage?: string;
+  adminNote?: string | null;
 }
 
 export default function CallbackControls({
@@ -28,11 +29,14 @@ export default function CallbackControls({
   instituteName,
   institutePhone,
   instituteSlug,
-  studentMessage
+  studentMessage,
+  adminNote
 }: CallbackControlsProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [noteContent, setNoteContent] = useState(adminNote || "");
+  const [savingNote, setSavingNote] = useState(false);
 
   const statuses = ["NEW", "MESSAGED", "CALLED", "DNP", "JUNK"];
 
@@ -74,6 +78,17 @@ export default function CallbackControls({
       toast.error(res.error || "Failed");
       setLoading(false);
     }
+  };
+
+  const handleSaveNote = async () => {
+    setSavingNote(true);
+    const res = await updateCallbackAdminNote(id, noteContent);
+    if (res.success) {
+      toast.success("Admin note saved!");
+    } else {
+      toast.error(res.error || "Failed to save note");
+    }
+    setSavingNote(false);
   };
 
   const handleWhatsAppInstitute = () => {
@@ -215,6 +230,26 @@ Team AcademyFind
           <Trash2 className="w-4 h-4" />
         </button>
 
+      </div>
+
+      {/* Admin Notes Section */}
+      <div className="flex flex-col gap-2 p-4 bg-amber-50/50 rounded-xl border border-amber-100 mt-2">
+        <label className="text-xs font-bold text-amber-700 uppercase flex items-center gap-1.5">
+          Admin Notes (Internal)
+        </label>
+        <textarea
+          value={noteContent}
+          onChange={(e) => setNoteContent(e.target.value)}
+          placeholder="Add any internal notes about this enquiry here..."
+          className="w-full bg-white border border-amber-200 rounded-xl p-3 text-sm text-stone-700 min-h-[80px] outline-none focus:ring-2 focus:ring-amber-500/50 resize-y"
+        />
+        <button
+          onClick={handleSaveNote}
+          disabled={savingNote || noteContent === (adminNote || "")}
+          className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition disabled:opacity-50 disabled:cursor-not-allowed w-fit self-end shadow-sm"
+        >
+          {savingNote ? "Saving..." : "Save Note"}
+        </button>
       </div>
 
       <ConfirmModal

@@ -475,7 +475,8 @@ export const ModelName = {
   VisitorEvent: 'VisitorEvent',
   Advertisement: 'Advertisement',
   AdvertisementAnalytic: 'AdvertisementAnalytic',
-  SystemSetting: 'SystemSetting'
+  SystemSetting: 'SystemSetting',
+  EnquiryStatusHistory: 'EnquiryStatusHistory'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -491,7 +492,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting"
+    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting" | "enquiryStatusHistory"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -7303,6 +7304,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    EnquiryStatusHistory: {
+      payload: Prisma.$EnquiryStatusHistoryPayload<ExtArgs>
+      fields: Prisma.EnquiryStatusHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EnquiryStatusHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EnquiryStatusHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.EnquiryStatusHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EnquiryStatusHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.EnquiryStatusHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.EnquiryStatusHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.EnquiryStatusHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EnquiryStatusHistoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>[]
+        }
+        delete: {
+          args: Prisma.EnquiryStatusHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>
+        }
+        update: {
+          args: Prisma.EnquiryStatusHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.EnquiryStatusHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EnquiryStatusHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EnquiryStatusHistoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.EnquiryStatusHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryStatusHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.EnquiryStatusHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEnquiryStatusHistory>
+        }
+        groupBy: {
+          args: Prisma.EnquiryStatusHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnquiryStatusHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EnquiryStatusHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnquiryStatusHistoryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -8824,6 +8899,18 @@ export const SystemSettingScalarFieldEnum = {
 export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
 
 
+export const EnquiryStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  enquiryId: 'enquiryId',
+  oldStatus: 'oldStatus',
+  newStatus: 'newStatus',
+  statusType: 'statusType',
+  createdAt: 'createdAt'
+} as const
+
+export type EnquiryStatusHistoryScalarFieldEnum = (typeof EnquiryStatusHistoryScalarFieldEnum)[keyof typeof EnquiryStatusHistoryScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -9639,6 +9726,7 @@ export type GlobalOmitConfig = {
   advertisement?: Prisma.AdvertisementOmit
   advertisementAnalytic?: Prisma.AdvertisementAnalyticOmit
   systemSetting?: Prisma.SystemSettingOmit
+  enquiryStatusHistory?: Prisma.EnquiryStatusHistoryOmit
 }
 
 /* Types for Logging */

@@ -477,3 +477,8 @@ export type AdvertisementAnalytic = Prisma.AdvertisementAnalyticModel
  * 
  */
 export type SystemSetting = Prisma.SystemSettingModel
+/**
+ * Model EnquiryStatusHistory
+ * 
+ */
+export type EnquiryStatusHistory = Prisma.EnquiryStatusHistoryModel
