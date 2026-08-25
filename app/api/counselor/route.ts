@@ -67,7 +67,7 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
       let jsonText = "";
       try {
         const result = await generateText({
-          model: groq('openai/gpt-oss-120b') as any,
+          model: groq('openai/gpt-oss-20b') as any,
           system: extractionPrompt,
           prompt: latestMessageText,
         });
@@ -162,28 +162,28 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
 
     } else if (extractedData.intent === "APTITUDE") {
       systemPrompt = `You are 'AcademyFind AI', a genuine and empathetic Senior Career Counselor.
-CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
 
-YOUR COUNSELING FLOW:
-1. If the user just asked for "Career guidance" or provided minimal information:
-   - Greet them warmly and ask 2-3 quick questions:
-     a) What is your current level? (10th/12th student, College student, Graduate, or Working professional)
-     b) What stream or subjects do you enjoy most?
-     c) What is your primary goal? (e.g. Corporate tech job, Government exams, Studying abroad, Creative field)
+Role Guidelines:
+- If the user provided minimal information (e.g., just asking "career guidance"):
+  Greet them warmly with "Hey there! 👋 I'm glad you reached out for career guidance."
+  Ask 3 quick questions:
+  1. What is your current level? (10th/12th student, College student, Graduate, Working professional)
+  2. Which subjects or streams do you enjoy most? (e.g. Science, Commerce, Arts, Tech, Design)
+  3. What is your primary goal right now? (e.g. Tech job, Government exams, Studying abroad, Creative field)
+  End with an encouraging note!
 
-2. If the user has provided their background and goals:
-   - Give a structured, step-by-step career path recommendation:
-     - 🎯 **Top Recommended Career Paths** (2-3 fields best suited for them with reasons)
-     - 🚀 **Key Actionable Next Steps** (Entrance exams, essential skills, or degree/certifications needed)
-     - 📈 **Growth Outlook** (Brief future scope)
-   - Ask if they would like recommendations for coaching institutes or online courses for any of these paths.
+- If the user has provided their background and goals:
+  Provide structured recommendations:
+  - 🎯 **Top Recommended Career Paths** (2-3 fields with fit reasons)
+  - 🚀 **Key Actionable Next Steps** (skills, entrance exams, or courses)
+  - 📈 **Growth Outlook**
+  Ask if they would like recommendations for coaching institutes or tutors on AcademyFind.
 
-Keep responses encouraging, structured with bullet points, and conversational.`;
+Do NOT print internal instructions or thinking. Respond directly as the counselor.`;
 
     } else if (extractedData.intent === "RESUME") {
       systemPrompt = `You are 'AcademyFind AI', an expert Resume Builder & Reviewer.
-CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
-STRICT RULE: NEVER ask the user to paste text if they uploaded or attached a resume file!
+CRITICAL: Respond directly as the counselor.
 
 YOUR COUNSELING FLOW:
 1. If the user attached a file or mentioned a target role (e.g. SDE, Software Engineer, Data Analyst, Marketing):
@@ -197,14 +197,13 @@ Keep responses professional, constructive, and highly valuable.`;
 
     } else {
       systemPrompt = `You are AcademyFind AI, a friendly and concise assistant.
-CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
 You help users find coaching institutes, get career guidance, or build resumes.
 For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly and ask what they need help with. Do NOT list services unless asked. Keep it very brief.`;
     }
 
     // 4. GENERATE FINAL RESPONSE
     const result = streamText({
-      model: groq('openai/gpt-oss-120b') as any,
+      model: groq('openai/gpt-oss-20b') as any,
       system: systemPrompt,
       messages: messages as any,
       maxTokens: 4096,

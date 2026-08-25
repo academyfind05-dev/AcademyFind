@@ -195,7 +195,9 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
         if (messages.length > 0) {
             const lastMsg = messages[messages.length - 1];
             if (lastMsg.role === 'assistant' && lastMsg.id !== 'initial') {
-                const rawText = lastMsg.parts?.map((p: any) => p.text).join('') || '';
+                const rawText = (typeof lastMsg.content === 'string' && lastMsg.content) 
+                    ? lastMsg.content 
+                    : (lastMsg.parts?.map((p: any) => p.text || '').join('') || '');
                 const cleanText = cleanAssistantText(rawText);
                 if (cleanText.length > 0) {
                     setShowLoader(false);
@@ -212,8 +214,7 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
         } else if (wasLoadingRef.current && showLoader) {
             // isLoading just went from true → false
             wasLoadingRef.current = false;
-            const timeout = setTimeout(() => setShowLoader(false), 500);
-            return () => clearTimeout(timeout);
+            setShowLoader(false);
         }
     }, [isLoading, showLoader]);
 
