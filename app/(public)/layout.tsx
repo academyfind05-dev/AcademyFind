@@ -38,6 +38,7 @@ export default async function PublicLayout({
         defaultPhone={session?.user?.phone || ""}
       /> */}
       <AiChatBot
+        isAuthenticated={Boolean(session?.user)}
         defaultName={session?.user?.name || ""}
         defaultPhone={session?.user?.phone || ""}
       />

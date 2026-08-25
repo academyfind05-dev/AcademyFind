@@ -4,7 +4,7 @@
 import { useState, useRef, useEffect, useCallback, useDeferredValue } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { X, MessageCircle, Send, Sparkles, Plus, Phone, Loader2, CheckCircle2, Paperclip, FileText } from "lucide-react";
+import { X, MessageCircle, Send, Sparkles, Plus, Phone, Loader2, CheckCircle2, Paperclip, FileText, Lock, LogIn } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -42,11 +42,12 @@ const INITIAL_MESSAGE = {
 };
 
 interface AiChatBotProps {
+    isAuthenticated?: boolean;
     defaultName?: string | null;
     defaultPhone?: string | null;
 }
 
-export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps) {
+export default function AiChatBot({ isAuthenticated = false, defaultName, defaultPhone }: AiChatBotProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<'chat' | 'callback'>('chat');
     const [input, setInput] = useState("");
@@ -291,10 +292,10 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
             <Popover open={isOpen} onOpenChange={setIsOpen}>
                 <PopoverTrigger asChild>
                     <button
-                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white rounded-full p-4 md:px-5 md:py-3 shadow-2xl shadow-amber-200/50 hover:scale-105 transition-all duration-300 group"
+                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white rounded-full px-4 py-3 md:px-5 md:py-3 shadow-2xl shadow-amber-200/50 hover:scale-105 transition-all duration-300 group"
                     >
                         <div className="relative">
-                            {isOpen ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}
+                            {isOpen ? <X className="w-5 h-5" /> : <Sparkles className="w-5 h-5 animate-pulse" />}
                             {!isOpen && (
                                 <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-300 opacity-75"></span>
@@ -302,8 +303,8 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
                                 </span>
                             )}
                         </div>
-                        <span className="hidden md:inline text-sm font-bold">
-                            {isOpen ? "Close" : "Talk to Expert"}
+                        <span className="text-xs md:text-sm font-extrabold tracking-wide">
+                            {isOpen ? "Close" : "AI Counselor"}
                         </span>
                     </button>
                 </PopoverTrigger>
@@ -312,8 +313,8 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
                     side="top"
                     align="end"
                     sideOffset={12}
-                    collisionPadding={{ left: 16, right: 16, top: 16, bottom: 16 }}
-                    className="w-[320px] sm:w-[90vw] sm:max-w-[360px] z-[100] rounded-3xl p-0 overflow-hidden shadow-2xl shadow-amber-100/50 border border-amber-200 origin-bottom-right animate-in zoom-in-95 duration-200 flex flex-col h-[520px] max-h-[80vh]"
+                    collisionPadding={{ left: 12, right: 12, top: 12, bottom: 12 }}
+                    className="w-[calc(100vw-24px)] sm:w-[360px] z-[100] rounded-3xl p-0 overflow-hidden shadow-2xl shadow-amber-100/50 border border-amber-200 origin-bottom-right animate-in zoom-in-95 duration-200 flex flex-col h-[520px] max-h-[80vh]"
                 >
                     {/* Header */}
                     <div className="bg-gradient-to-r from-amber-400 to-amber-500 p-4 text-white relative shrink-0">
@@ -351,35 +352,88 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
                     </div>
 
                     {/* Tab Bar */}
-                    <div className="flex bg-white border-b border-amber-100 shrink-0 px-3 pt-2 pb-0 gap-1">
-                        <button
-                            onClick={() => setActiveTab('chat')}
-                            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold rounded-t-xl transition-all duration-200 ${
-                                activeTab === 'chat'
-                                    ? 'bg-amber-50 text-amber-600 border border-amber-200 border-b-transparent -mb-px z-10'
-                                    : 'text-slate-400 hover:text-slate-600'
-                            }`}
-                        >
-                            <MessageCircle className="w-3.5 h-3.5" />
-                            Chat
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('callback')}
-                            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold rounded-t-xl transition-all duration-200 ${
-                                activeTab === 'callback'
-                                    ? 'bg-amber-50 text-amber-600 border border-amber-200 border-b-transparent -mb-px z-10'
-                                    : 'text-slate-400 hover:text-slate-600'
-                            }`}
-                        >
-                            <Phone className="w-3.5 h-3.5" />
-                            Talk to Expert
-                        </button>
+                    <div className="bg-amber-50/80 px-3 py-2 border-b border-amber-100 shrink-0">
+                        <div className="flex bg-amber-100/60 p-1 rounded-2xl gap-1">
+                            <button
+                                onClick={() => setActiveTab('chat')}
+                                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
+                                    activeTab === 'chat'
+                                        ? 'bg-white text-amber-600 shadow-sm font-extrabold'
+                                        : 'text-slate-500 hover:text-slate-800'
+                                }`}
+                            >
+                                <MessageCircle className="w-3.5 h-3.5" />
+                                Chat
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('callback')}
+                                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
+                                    activeTab === 'callback'
+                                        ? 'bg-white text-amber-600 shadow-sm font-extrabold'
+                                        : 'text-slate-500 hover:text-slate-800'
+                                }`}
+                            >
+                                <Phone className="w-3.5 h-3.5" />
+                                Talk to Expert
+                            </button>
+                        </div>
                     </div>
 
                     {/* ===== CHAT TAB ===== */}
                     {activeTab === 'chat' && (
-                        <>
-                            {/* Chat Messages */}
+                        !isAuthenticated ? (
+                            <div className="flex-1 px-5 py-6 bg-gradient-to-b from-amber-50/80 via-white to-amber-50/40 flex flex-col items-center justify-start overflow-y-auto">
+                                {/* Glowing Icon Badge */}
+                                <div className="relative mt-2 mb-4 shrink-0">
+                                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 via-amber-500 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-300/50">
+                                        <Sparkles className="w-8 h-8 animate-pulse" />
+                                    </div>
+                                    <div className="absolute -bottom-1 -right-1 bg-slate-900 text-white p-1 rounded-full shadow-md border border-white">
+                                        <Lock className="w-3 h-3" />
+                                    </div>
+                                </div>
+
+                                {/* Headline */}
+                                <h3 className="text-lg font-extrabold text-slate-900 mb-1.5 tracking-tight">
+                                    Unlock Your AI Counselor
+                                </h3>
+                                
+                                <p className="text-xs text-slate-600 mb-5 leading-relaxed max-w-[250px]">
+                                    Sign in to chat with your AI Counselor, get ATS resume reviews, and personalized career roadmaps!
+                                </p>
+
+                                {/* Feature Pills */}
+                                <div className="w-full space-y-2 mb-5 text-left">
+                                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white border border-amber-100/80 shadow-xs text-xs font-medium text-slate-700">
+                                        <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                                        <span>🎯 Personal Career Counseling</span>
+                                    </div>
+                                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white border border-amber-100/80 shadow-xs text-xs font-medium text-slate-700">
+                                        <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                                        <span>📄 ATS Resume Review & Building</span>
+                                    </div>
+                                    <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white border border-amber-100/80 shadow-xs text-xs font-medium text-slate-700">
+                                        <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                                        <span>🏫 Coaching Institute Finder</span>
+                                    </div>
+                                </div>
+
+                                {/* Login CTA Button */}
+                                <Link
+                                    href="/login"
+                                    className="w-full py-3 px-5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-700 text-white font-bold text-sm shadow-md shadow-amber-300/40 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                                >
+                                    <LogIn className="w-4 h-4" />
+                                    Sign In to Start Chatting
+                                </Link>
+
+                                <p className="mt-3 text-[11px] text-slate-400">
+                                    New to AcademyFind? <Link href="/login" className="text-amber-600 font-semibold hover:underline">Create an account</Link>
+                                </p>
+                            </div>
+                        ) : (
+                            <>
+                                {/* Chat Messages */}
                             <div className="flex-1 p-4 bg-amber-50/30 overflow-y-auto flex flex-col gap-4">
 
                                 {deferredMessages.map((m) => {
@@ -506,7 +560,7 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
                                     </div>
                                 )}
 
-                                <form onSubmit={handleSubmit} className="flex gap-2 items-center">
+                                <form onSubmit={handleSubmit} className="flex gap-1.5 sm:gap-2 items-center w-full min-w-0">
                                     <input
                                         type="file"
                                         ref={fileInputRef}
@@ -519,7 +573,7 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
                                         type="button"
                                         onClick={() => fileInputRef.current?.click()}
                                         title="Upload Resume (.pdf, .doc, .txt)"
-                                        className="p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200/60 transition-colors shrink-0 flex items-center justify-center"
+                                        className="p-2 sm:p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200/60 transition-colors shrink-0 flex items-center justify-center"
                                     >
                                         <Paperclip className="w-4 h-4" />
                                     </button>
@@ -527,8 +581,8 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
                                     <input
                                         value={input || ""}
                                         onChange={handleInputChange}
-                                        placeholder={attachedFile ? "Add a message or press send..." : "Type your message or upload resume..."}
-                                        className="flex-1 bg-amber-50 rounded-full px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-400/30 focus:bg-white border border-transparent focus:border-amber-400/40 transition-all"
+                                        placeholder={attachedFile ? "Add a message..." : "Type message or upload..."}
+                                        className="flex-1 min-w-0 bg-amber-50 rounded-full px-3.5 py-2 text-xs sm:text-sm outline-none focus:ring-2 focus:ring-amber-400/30 focus:bg-white border border-transparent focus:border-amber-400/40 transition-all"
                                     />
                                     <Button
                                         type="submit"
@@ -541,7 +595,7 @@ export default function AiChatBot({ defaultName, defaultPhone }: AiChatBotProps)
                                 </form>
                             </div>
                         </>
-                    )}
+                    ))}
 
                     {/* ===== CALLBACK TAB ===== */}
                     {activeTab === 'callback' && (
