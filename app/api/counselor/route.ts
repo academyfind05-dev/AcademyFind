@@ -192,7 +192,7 @@ For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly a
       system: systemPrompt,
       messages: messages as any,
       maxTokens: 4096,
-    });
+    } as any);
 
     return result.toUIMessageStreamResponse();
 
