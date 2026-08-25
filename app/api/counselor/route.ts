@@ -16,13 +16,20 @@ export async function POST(req: Request) {
 
     const payload = await req.json();
     console.log("Chat API Payload:", payload);
-    const rawMessages = payload.messages || [];
+    
+    let rawMessages = payload.messages || [];
+    if (!Array.isArray(rawMessages) || rawMessages.length === 0) {
+      const singleText = payload.prompt || payload.message || payload.text || (typeof payload === 'string' ? payload : '');
+      if (singleText) {
+        rawMessages = [{ role: 'user', content: singleText }];
+      }
+    }
 
     // Normalize messages safely for older clients vs newer AI SDK
     const messages = rawMessages.map((m: any) => ({
       role: m.role === 'assistant' ? 'assistant' : 'user',
       content: m.content || m.text || (m.parts?.map((p: any) => p.text).join('')) || ''
-    }));
+    })).filter((m: any) => m.content.trim().length > 0);
 
     const lastMessage = messages[messages.length - 1];
     const latestMessageText = lastMessage?.content || '';
