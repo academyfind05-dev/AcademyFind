@@ -6,16 +6,18 @@ export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
+    console.log("🚀 [AI Counselor Route] POST request received");
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
-      console.error("GROQ_API_KEY is missing in process.env!");
+      console.error("❌ [AI Counselor Route] GROQ_API_KEY is missing in process.env!");
       return new Response(JSON.stringify({ error: "GROQ_API_KEY environment variable is not configured on server." }), { status: 500 });
     }
+    console.log("✅ [AI Counselor Route] GROQ_API_KEY detected (Length:", apiKey.length, ")");
 
     const groq = createGroq({ apiKey });
 
     const payload = await req.json();
-    console.log("Chat API Payload:", payload);
+    console.log("📥 [AI Counselor Route] Chat API Payload received:", JSON.stringify(payload));
     
     let rawMessages = payload.messages || [];
     if (!Array.isArray(rawMessages) || rawMessages.length === 0) {
@@ -33,6 +35,8 @@ export async function POST(req: Request) {
 
     const lastMessage = messages[messages.length - 1];
     const latestMessageText = lastMessage?.content || '';
+
+    console.log("💬 [AI Counselor Route] Messages count:", messages.length, "| Latest message:", latestMessageText);
 
     const lowerLatest = latestMessageText.toLowerCase().trim();
 
@@ -69,6 +73,7 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
 
       let jsonText = "";
       try {
+        console.log("🤖 [AI Counselor Route] Calling generateText for intent extraction...");
         const result = await generateText({
           model: groq('openai/gpt-oss-20b') as any,
           system: extractionPrompt,
@@ -84,7 +89,7 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
           .trim();
         extractedData = JSON.parse(cleanJson);
       } catch (e) {
-        console.log("Failed to parse intent JSON, falling back to GENERAL.", (e as Error).message);
+        console.warn("⚠️ [AI Counselor Route] Failed to parse intent JSON, falling back to GENERAL:", (e as Error).message);
         console.log("Raw AI Output was:", jsonText);
       }
     }
@@ -99,7 +104,7 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
       }
     }
 
-    console.log("Counselor AI Extracted Intent:", extractedData);
+    console.log("🎯 [AI Counselor Route] Extracted Intent:", extractedData);
 
     let systemPrompt = "";
 
@@ -110,18 +115,15 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
         const index = meili.index('global_search');
         let sortOptions: string[] = [];
 
-        // Geo-sorting if location was extracted
         if (extractedData.lat !== null && extractedData.lng !== null) {
           sortOptions = [`_geoPoint(${extractedData.lat}, ${extractedData.lng}):asc`];
         }
 
-        // 🚀 Include location in the query string so MeiliSearch's text ranking factors it in!
         let finalSearchQuery = extractedData.query || latestMessageText;
         if (extractedData.query && extractedData.locationString) {
             finalSearchQuery = `${extractedData.query} ${extractedData.locationString}`;
         }
 
-        // Search the actual AcademyFind Database
         const searchResults = await index.search(finalSearchQuery, {
           limit: 5,
           filter: "type IN ['institute', 'school', 'tutor', 'job']",
@@ -143,7 +145,7 @@ CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
             exploreLink: `/${h.citySlug}/${h.categorySlugs?.[0] || 'all-categories'}`
           }));
       } catch (meiliErr) {
-        console.warn("Meilisearch lookup skipped (unreachable in current environment):", (meiliErr as Error).message);
+        console.warn("⚠️ [AI Counselor Route] Meilisearch lookup skipped:", (meiliErr as Error).message);
       }
 
       const searchContext = JSON.stringify(cleanHitsForAI);
@@ -204,6 +206,8 @@ You help users find coaching institutes, get career guidance, or build resumes.
 For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly and ask what they need help with. Do NOT list services unless asked. Keep it very brief.`;
     }
 
+    console.log("🌊 [AI Counselor Route] Calling streamText with model openai/gpt-oss-20b...");
+
     // 4. GENERATE FINAL RESPONSE
     const result = streamText({
       model: groq('openai/gpt-oss-20b') as any,
@@ -211,6 +215,8 @@ For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly a
       messages: messages as any,
       maxTokens: 4096,
     } as any);
+
+    console.log("✅ [AI Counselor Route] streamText initiated successfully, returning response stream");
 
     const res = result as any;
     if (typeof res.toDataStreamResponse === 'function') {
@@ -228,7 +234,7 @@ For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly a
     return res.toTextStreamResponse();
 
   } catch (error: any) {
-    console.error('AI Chat Error:', error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    console.error('❌ [AI Counselor Route FATAL ERROR]:', error.stack || error.message || error);
+    return new Response(JSON.stringify({ error: error.message || "Internal AI Server Error" }), { status: 500 });
   }
 }
