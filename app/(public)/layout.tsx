@@ -34,10 +34,10 @@ export default async function PublicLayout({
 
       <Footer />
 
-      {/* <GlobalCallbackFAB
+      <GlobalCallbackFAB
         defaultName={session?.user?.name || ""}
         defaultPhone={session?.user?.phone || ""}
-      /> */}
+      />
       {/* {session?.user?.role === "ADMIN" ? <AiChatBot
         isAuthenticated={Boolean(session?.user)}
         defaultName={session?.user?.name || ""}
@@ -46,11 +46,11 @@ export default async function PublicLayout({
         defaultName={session?.user?.name || ""}
         defaultPhone={session?.user?.phone || ""}
       />} */}
-      <AiChatBot
+      {/* <AiChatBot
         isAuthenticated={Boolean(session?.user)}
         defaultName={session?.user?.name || ""}
         defaultPhone={session?.user?.phone || ""}
-      />
+      /> */}
     </>
   );
 }
