@@ -34,15 +34,15 @@ export default async function PublicLayout({
 
       <Footer />
 
-      <GlobalCallbackFAB
-        defaultName={session?.user?.name || ""}
-        defaultPhone={session?.user?.phone || ""}
-      />
-      {/* <AiChatBot
-        isAuthenticated={Boolean(session?.user)}
+      {/* <GlobalCallbackFAB
         defaultName={session?.user?.name || ""}
         defaultPhone={session?.user?.phone || ""}
       /> */}
+      <AiChatBot
+        isAuthenticated={Boolean(session?.user)}
+        defaultName={session?.user?.name || ""}
+        defaultPhone={session?.user?.phone || ""}
+      />
     </>
   );
 }

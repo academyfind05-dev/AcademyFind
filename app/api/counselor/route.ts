@@ -41,8 +41,11 @@ export async function POST(req: Request) {
 
     if (lowerLatest.includes("resume") || lowerLatest.includes("cv")) {
       extractedData.intent = "RESUME";
-    } else if (lowerLatest.includes("career guidance") || lowerLatest.includes("aptitude") || lowerLatest.includes("career option") || lowerLatest.includes("career path")) {
+    } else if (lowerLatest.includes("career guidance") || lowerLatest.includes("aptitude") || lowerLatest.includes("career option") || lowerLatest.includes("career path") || lowerLatest.includes("10th") || lowerLatest.includes("12th") || lowerLatest.includes("college") || lowerLatest.includes("graduate") || lowerLatest.includes("professional")) {
       extractedData.intent = "APTITUDE";
+    } else if (lowerLatest.includes("hi") || lowerLatest.includes("hello") || lowerLatest.includes("hey") || lowerLatest.includes("coaching") || lowerLatest.includes("institute") || lowerLatest.includes("school") || lowerLatest.includes("tutor")) {
+      extractedData.intent = (lowerLatest.includes("coaching") || lowerLatest.includes("institute") || lowerLatest.includes("school") || lowerLatest.includes("tutor")) ? "COACHING" : "GENERAL";
+      extractedData.query = latestMessageText;
     } else {
       const extractionPrompt = `You are an intent router for AcademyFind.
 CRITICAL: Do NOT output <think> tags or any reasoning. Respond directly.
@@ -211,7 +214,13 @@ For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly a
 
     const res = result as any;
     if (typeof res.toDataStreamResponse === 'function') {
-      return res.toDataStreamResponse();
+      return res.toDataStreamResponse({
+        headers: {
+          'Cache-Control': 'no-cache, no-transform',
+          'Connection': 'keep-alive',
+          'X-Vercel-AI-Data-Stream': 'v1'
+        }
+      });
     }
     if (typeof res.toUIMessageStreamResponse === 'function') {
       return res.toUIMessageStreamResponse();
