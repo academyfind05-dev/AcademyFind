@@ -165,6 +165,8 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
             }
         }
 
+        console.log("DEBUG: append is", typeof append, append);
+        console.log("DEBUG: sendMessage is", typeof sendMessage, sendMessage);
         try {
             if (typeof append === 'function') {
                 console.log("📡 [Client AiChatBot] Calling append to /api/v2/counselor...");
