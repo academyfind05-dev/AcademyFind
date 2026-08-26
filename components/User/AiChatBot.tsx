@@ -58,7 +58,7 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
     const [formError, setFormError] = useState("");
     const [currentUrl, setCurrentUrl] = useState("");
 
-    const { messages, sendMessage, isLoading, error, setMessages } = useChat({
+    const { messages, sendMessage, append, isLoading, error, setMessages } = useChat({
         api: '/api/counselor',
         id: `counselor-${chatKey}`,
         initialMessages: [INITIAL_MESSAGE],
@@ -164,7 +164,11 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
             }
         }
 
-        sendMessage({ text: finalMessage });
+        if (typeof append === 'function') {
+            append({ role: 'user', content: finalMessage });
+        } else if (typeof sendMessage === 'function') {
+            sendMessage({ text: finalMessage });
+        }
         setInput("");
         removeAttachedFile();
     };
