@@ -59,7 +59,7 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
     const [currentUrl, setCurrentUrl] = useState("");
 
     const { messages, sendMessage, append, isLoading, error, setMessages } = useChat({
-        api: '/api/counselor',
+        api: '/api/v2/counselor',
         id: `counselor-${chatKey}`,
         initialMessages: [INITIAL_MESSAGE],
     });
@@ -167,10 +167,10 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
 
         try {
             if (typeof append === 'function') {
-                console.log("📡 [Client AiChatBot] Calling append to /api/counselor...");
+                console.log("📡 [Client AiChatBot] Calling append to /api/v2/counselor...");
                 append({ role: 'user', content: finalMessage });
             } else if (typeof sendMessage === 'function') {
-                console.log("📡 [Client AiChatBot] Calling sendMessage to /api/counselor...");
+                console.log("📡 [Client AiChatBot] Calling sendMessage to /api/v2/counselor...");
                 sendMessage({ text: finalMessage });
             }
         } catch (err) {
