@@ -17,6 +17,7 @@
 
 import { getInstitutesByCategoryAndCity } from "@/lib/institutes/institutes_cat_city";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import formatSlug from "@/lib/formatSlug";
 import Script from "next/script";
 
@@ -70,6 +71,9 @@ function estimateCount(count: number): string {
 // ─── 1. METADATA ─────────────────────────────────────────────
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const { category, city } = await params;
+  if (category === 'api' || category.startsWith('api')) {
+    notFound();
+  }
   const { page } = await searchParams;  // ← was missing entirely
 
   const categoryName = formatSlug(category);
@@ -380,6 +384,9 @@ function JsonLdSchemas({
 // ─── 3. PAGE COMPONENT ───────────────────────────────────────
 export default async function CategoryCityPage({ params, searchParams }: PageProps) {
   const { category, city } = await params;
+  if (category === 'api' || category.startsWith('api')) {
+    notFound();
+  }
   const { sort = "reviews", page, q, lat, lng, address, radius, rating, userLat, userLng, closestUser, mode, providerType } =
     await searchParams;
 
