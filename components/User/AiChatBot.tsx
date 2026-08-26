@@ -78,7 +78,7 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
                         const script = document.createElement("script");
                         script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
                         script.onload = () => {
-                            (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc = 
+                            (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc =
                                 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
                             resolve();
                         };
@@ -119,8 +119,8 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
         const file = e.target.files?.[0];
         if (!file) return;
 
-        const sizeFormatted = file.size > 1024 * 1024 
-            ? `${(file.size / (1024 * 1024)).toFixed(1)} MB` 
+        const sizeFormatted = file.size > 1024 * 1024
+            ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
             : `${Math.round(file.size / 1024)} KB`;
 
         const reader = new FileReader();
@@ -195,8 +195,8 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
         if (messages.length > 0) {
             const lastMsg = messages[messages.length - 1];
             if (lastMsg.role === 'assistant' && lastMsg.id !== 'initial') {
-                const rawText = (typeof lastMsg.content === 'string' && lastMsg.content) 
-                    ? lastMsg.content 
+                const rawText = (typeof lastMsg.content === 'string' && lastMsg.content)
+                    ? lastMsg.content
                     : (lastMsg.parts?.map((p: any) => p.text || '').join('') || '');
                 const cleanText = cleanAssistantText(rawText);
                 if (cleanText.length > 0) {
@@ -350,22 +350,20 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
                         <div className="flex bg-amber-100/60 p-1 rounded-2xl gap-1">
                             <button
                                 onClick={() => setActiveTab('chat')}
-                                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
-                                    activeTab === 'chat'
+                                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${activeTab === 'chat'
                                         ? 'bg-white text-amber-600 shadow-sm font-extrabold'
                                         : 'text-slate-500 hover:text-slate-800'
-                                }`}
+                                    }`}
                             >
                                 <MessageCircle className="w-3.5 h-3.5" />
                                 Chat
                             </button>
                             <button
                                 onClick={() => setActiveTab('callback')}
-                                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${
-                                    activeTab === 'callback'
+                                className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl transition-all duration-200 ${activeTab === 'callback'
                                         ? 'bg-white text-amber-600 shadow-sm font-extrabold'
                                         : 'text-slate-500 hover:text-slate-800'
-                                }`}
+                                    }`}
                             >
                                 <Phone className="w-3.5 h-3.5" />
                                 Talk to Expert
@@ -391,7 +389,7 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
                                 <h3 className="text-lg font-extrabold text-slate-900 mb-1.5 tracking-tight">
                                     Unlock Your AI Counselor
                                 </h3>
-                                
+
                                 <p className="text-xs text-slate-600 mb-5 leading-relaxed max-w-[250px]">
                                     Sign in to chat with your AI Counselor, get ATS resume reviews, and personalized career roadmaps!
                                 </p>
@@ -428,102 +426,102 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
                         ) : (
                             <>
                                 {/* Chat Messages */}
-                            <div className="flex-1 p-4 bg-amber-50/30 overflow-y-auto flex flex-col gap-4">
+                                <div className="flex-1 p-4 bg-amber-50/30 overflow-y-auto flex flex-col gap-4">
 
-                                {deferredMessages.map((m) => {
-                                    const rawText = (typeof m.content === 'string' && m.content)
-                                        ? m.content
-                                        : (m.parts?.map((p: any) => p.text || '').join('') || '');
-                                    
-                                    const cleanText = m.role === 'assistant' 
-                                        ? cleanAssistantText(rawText)
-                                        : rawText.trim();
-                                    
-                                    if (m.role === 'assistant' && cleanText.length === 0) return null;
+                                    {deferredMessages.map((m) => {
+                                        const rawText = (typeof m.content === 'string' && m.content)
+                                            ? m.content
+                                            : (m.parts?.map((p: any) => p.text || '').join('') || '');
 
-                                    return (
-                                        <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                            <div className={`max-w-[90%] rounded-2xl px-4 py-3 text-sm break-words overflow-hidden ${m.role === 'user'
+                                        const cleanText = m.role === 'assistant'
+                                            ? cleanAssistantText(rawText)
+                                            : rawText.trim();
+
+                                        if (m.role === 'assistant' && cleanText.length === 0) return null;
+
+                                        return (
+                                            <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                                <div className={`max-w-[90%] rounded-2xl px-4 py-3 text-sm break-words overflow-hidden ${m.role === 'user'
                                                     ? 'bg-gradient-to-br from-amber-400 to-amber-500 text-white rounded-br-none whitespace-pre-wrap'
                                                     : 'bg-white border border-amber-100 text-slate-800 rounded-bl-none shadow-sm'
-                                                }`}>
-                                                {m.role === 'user' ? (
-                                                    <span className="whitespace-pre-wrap">{cleanText}</span>
-                                                ) : (
-                                                    <div className="prose prose-sm max-w-none prose-p:leading-relaxed prose-pre:p-0">
-                                                        <ReactMarkdown
-                                                            remarkPlugins={[remarkGfm]}
-                                                            components={{
-                                                                a: ({ href, children }) => (
-                                                                    <Link href={href || "#"} className="font-semibold text-amber-600 hover:text-amber-800 underline decoration-amber-300 underline-offset-2 break-all">
-                                                                        {children}
-                                                                    </Link>
-                                                                ),
-                                                                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                                                ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
-                                                                li: ({ children }) => <li>{children}</li>,
-                                                                strong: ({ children }) => <strong className="font-semibold text-slate-900">{children}</strong>,
-                                                                table: ({ children }) => (
-                                                                    <div className="overflow-x-auto my-3 rounded-xl border border-amber-200 shadow-xs bg-white">
-                                                                        <table className="w-full text-xs text-left border-collapse">{children}</table>
-                                                                    </div>
-                                                                ),
-                                                                thead: ({ children }) => <thead className="bg-amber-100/80 text-amber-900 font-bold">{children}</thead>,
-                                                                th: ({ children }) => <th className="px-3 py-2 border-b border-r border-amber-200 last:border-r-0 font-bold">{children}</th>,
-                                                                td: ({ children }) => <td className="px-3 py-2 border-b border-r border-amber-100 last:border-r-0 text-slate-700">{children}</td>,
-                                                                tr: ({ children }) => <tr className="even:bg-amber-50/40 hover:bg-amber-50/80 transition-colors">{children}</tr>
-                                                            }}
-                                                        >
-                                                            {cleanText}
-                                                        </ReactMarkdown>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-
-                                {/* Error state */}
-                                {error && !showLoader && (
-                                    <div className="flex justify-start">
-                                        <div className="bg-red-50 border border-red-200 text-red-600 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm text-sm max-w-[90%]">
-                                            ⚠️ Something went wrong. Please try again.
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Loading Animation */}
-                                {showLoader && (
-                                    <div className="flex justify-start">
-                                        <div className="bg-white border border-amber-100 text-slate-700 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm max-w-[90%]">
-                                            <div className="flex items-center gap-3">
-                                                <div className="relative">
-                                                    <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
+                                                    }`}>
+                                                    {m.role === 'user' ? (
+                                                        <span className="whitespace-pre-wrap">{cleanText}</span>
+                                                    ) : (
+                                                        <div className="prose prose-sm max-w-none prose-p:leading-relaxed prose-pre:p-0">
+                                                            <ReactMarkdown
+                                                                remarkPlugins={[remarkGfm]}
+                                                                components={{
+                                                                    a: ({ href, children }) => (
+                                                                        <Link href={href || "#"} className="font-semibold text-amber-600 hover:text-amber-800 underline decoration-amber-300 underline-offset-2 break-all">
+                                                                            {children}
+                                                                        </Link>
+                                                                    ),
+                                                                    p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                                                                    ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+                                                                    li: ({ children }) => <li>{children}</li>,
+                                                                    strong: ({ children }) => <strong className="font-semibold text-slate-900">{children}</strong>,
+                                                                    table: ({ children }) => (
+                                                                        <div className="overflow-x-auto my-3 rounded-xl border border-amber-200 shadow-xs bg-white">
+                                                                            <table className="w-full text-xs text-left border-collapse">{children}</table>
+                                                                        </div>
+                                                                    ),
+                                                                    thead: ({ children }) => <thead className="bg-amber-100/80 text-amber-900 font-bold">{children}</thead>,
+                                                                    th: ({ children }) => <th className="px-3 py-2 border-b border-r border-amber-200 last:border-r-0 font-bold">{children}</th>,
+                                                                    td: ({ children }) => <td className="px-3 py-2 border-b border-r border-amber-100 last:border-r-0 text-slate-700">{children}</td>,
+                                                                    tr: ({ children }) => <tr className="even:bg-amber-50/40 hover:bg-amber-50/80 transition-colors">{children}</tr>
+                                                                }}
+                                                            >
+                                                                {cleanText}
+                                                            </ReactMarkdown>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                                <span 
-                                                    key={loadingText} 
-                                                    className="text-xs font-medium tracking-wide text-slate-600"
-                                                    style={{
-                                                        animation: 'fadeSlide 0.4s ease-out'
-                                                    }}
-                                                >
-                                                    {loadingText}
-                                                </span>
                                             </div>
-                                            <div className="flex gap-1 mt-2">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" style={{ animation: 'dotBounce 1.2s infinite ease-in-out' }} />
-                                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" style={{ animation: 'dotBounce 1.2s infinite ease-in-out 0.15s' }} />
-                                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" style={{ animation: 'dotBounce 1.2s infinite ease-in-out 0.3s' }} />
+                                        );
+                                    })}
+
+                                    {/* Error state */}
+                                    {error && !showLoader && (
+                                        <div className="flex justify-start">
+                                            <div className="bg-red-50 border border-red-200 text-red-600 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm text-sm max-w-[90%]">
+                                                ⚠️ Something went wrong. Please try again.
                                             </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )}
 
-                                <div ref={messagesEndRef} />
-                            </div>
+                                    {/* Loading Animation */}
+                                    {showLoader && (
+                                        <div className="flex justify-start">
+                                            <div className="bg-white border border-amber-100 text-slate-700 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm max-w-[90%]">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="relative">
+                                                        <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
+                                                    </div>
+                                                    <span
+                                                        key={loadingText}
+                                                        className="text-xs font-medium tracking-wide text-slate-600"
+                                                        style={{
+                                                            animation: 'fadeSlide 0.4s ease-out'
+                                                        }}
+                                                    >
+                                                        {loadingText}
+                                                    </span>
+                                                </div>
+                                                <div className="flex gap-1 mt-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" style={{ animation: 'dotBounce 1.2s infinite ease-in-out' }} />
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" style={{ animation: 'dotBounce 1.2s infinite ease-in-out 0.15s' }} />
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" style={{ animation: 'dotBounce 1.2s infinite ease-in-out 0.3s' }} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
 
-                            {/* Inline keyframes */}
-                            <style jsx global>{`
+                                    <div ref={messagesEndRef} />
+                                </div>
+
+                                {/* Inline keyframes */}
+                                <style jsx global>{`
                                 @keyframes fadeSlide {
                                     from { opacity: 0; transform: translateY(4px); }
                                     to { opacity: 1; transform: translateY(0); }
@@ -534,62 +532,62 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
                                 }
                             `}</style>
 
-                            {/* Input Area */}
-                            <div className="p-3 bg-white border-t border-amber-100 shrink-0">
-                                {/* Attached file preview badge */}
-                                {attachedFile && (
-                                    <div className="mb-2 flex items-center justify-between gap-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl text-xs text-amber-800 animate-in fade-in slide-in-from-bottom-1">
-                                        <div className="flex items-center gap-1.5 truncate">
-                                            <FileText className="w-4 h-4 text-amber-600 shrink-0" />
-                                            <span className="font-semibold truncate">{attachedFile.name}</span>
-                                            <span className="text-[10px] text-amber-600/70">({attachedFile.size})</span>
+                                {/* Input Area */}
+                                <div className="p-3 bg-white border-t border-amber-100 shrink-0">
+                                    {/* Attached file preview badge */}
+                                    {attachedFile && (
+                                        <div className="mb-2 flex items-center justify-between gap-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl text-xs text-amber-800 animate-in fade-in slide-in-from-bottom-1">
+                                            <div className="flex items-center gap-1.5 truncate">
+                                                <FileText className="w-4 h-4 text-amber-600 shrink-0" />
+                                                <span className="font-semibold truncate">{attachedFile.name}</span>
+                                                <span className="text-[10px] text-amber-600/70">({attachedFile.size})</span>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={removeAttachedFile}
+                                                className="p-1 hover:bg-amber-200/50 rounded-full text-amber-700 transition-colors"
+                                            >
+                                                <X className="w-3.5 h-3.5" />
+                                            </button>
                                         </div>
+                                    )}
+
+                                    <form onSubmit={handleSubmit} className="flex gap-1.5 sm:gap-2 items-center w-full min-w-0">
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            onChange={handleFileChange}
+                                            accept=".pdf,.doc,.docx,.txt,.md"
+                                            className="hidden"
+                                        />
+
                                         <button
                                             type="button"
-                                            onClick={removeAttachedFile}
-                                            className="p-1 hover:bg-amber-200/50 rounded-full text-amber-700 transition-colors"
+                                            onClick={() => fileInputRef.current?.click()}
+                                            title="Upload Resume (.pdf, .doc, .txt)"
+                                            className="p-2 sm:p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200/60 transition-colors shrink-0 flex items-center justify-center"
                                         >
-                                            <X className="w-3.5 h-3.5" />
+                                            <Paperclip className="w-4 h-4" />
                                         </button>
-                                    </div>
-                                )}
 
-                                <form onSubmit={handleSubmit} className="flex gap-1.5 sm:gap-2 items-center w-full min-w-0">
-                                    <input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        onChange={handleFileChange}
-                                        accept=".pdf,.doc,.docx,.txt,.md"
-                                        className="hidden"
-                                    />
-                                    
-                                    <button
-                                        type="button"
-                                        onClick={() => fileInputRef.current?.click()}
-                                        title="Upload Resume (.pdf, .doc, .txt)"
-                                        className="p-2 sm:p-2.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200/60 transition-colors shrink-0 flex items-center justify-center"
-                                    >
-                                        <Paperclip className="w-4 h-4" />
-                                    </button>
-
-                                    <input
-                                        value={input || ""}
-                                        onChange={handleInputChange}
-                                        placeholder={attachedFile ? "Add a message..." : "Type message or upload..."}
-                                        className="flex-1 min-w-0 bg-amber-50 rounded-full px-3.5 py-2 text-xs sm:text-sm outline-none focus:ring-2 focus:ring-amber-400/30 focus:bg-white border border-transparent focus:border-amber-400/40 transition-all"
-                                    />
-                                    <Button
-                                        type="submit"
-                                        disabled={showLoader || isLoading || (!input.trim() && !attachedFile)}
-                                        size="icon"
-                                        className="rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white shrink-0 shadow-sm"
-                                    >
-                                        <Send className="w-4 h-4" />
-                                    </Button>
-                                </form>
-                            </div>
-                        </>
-                    ))}
+                                        <input
+                                            value={input || ""}
+                                            onChange={handleInputChange}
+                                            placeholder={attachedFile ? "Add a message..." : "Type message or upload..."}
+                                            className="flex-1 min-w-0 bg-amber-50 rounded-full px-3.5 py-2 text-xs sm:text-sm outline-none focus:ring-2 focus:ring-amber-400/30 focus:bg-white border border-transparent focus:border-amber-400/40 transition-all"
+                                        />
+                                        <Button
+                                            type="submit"
+                                            disabled={showLoader || isLoading || (!input.trim() && !attachedFile)}
+                                            size="icon"
+                                            className="rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-white shrink-0 shadow-sm"
+                                        >
+                                            <Send className="w-4 h-4" />
+                                        </Button>
+                                    </form>
+                                </div>
+                            </>
+                        ))}
 
                     {/* ===== CALLBACK TAB ===== */}
                     {activeTab === 'callback' && (
