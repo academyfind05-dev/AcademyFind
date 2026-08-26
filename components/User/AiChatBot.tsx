@@ -151,8 +151,9 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const textContent = input.trim();
-        if ((!textContent && !attachedFile) || isLoading || showLoader) return;
+        if ((!textContent && !attachedFile) || isLoading) return;
 
+        console.log("🚀 [Client AiChatBot] Submitting message:", textContent);
         setShowLoader(true);
 
         let finalMessage = textContent;
@@ -164,11 +165,19 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
             }
         }
 
-        if (typeof append === 'function') {
-            append({ role: 'user', content: finalMessage });
-        } else if (typeof sendMessage === 'function') {
-            sendMessage({ text: finalMessage });
+        try {
+            if (typeof append === 'function') {
+                console.log("📡 [Client AiChatBot] Calling append to /api/counselor...");
+                append({ role: 'user', content: finalMessage });
+            } else if (typeof sendMessage === 'function') {
+                console.log("📡 [Client AiChatBot] Calling sendMessage to /api/counselor...");
+                sendMessage({ text: finalMessage });
+            }
+        } catch (err) {
+            console.error("❌ [Client AiChatBot Error]:", err);
+            setShowLoader(false);
         }
+
         setInput("");
         removeAttachedFile();
     };
