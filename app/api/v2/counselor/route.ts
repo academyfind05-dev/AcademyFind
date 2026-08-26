@@ -221,13 +221,7 @@ For greetings like "hi/hello", reply in 1-2 short sentences: greet back warmly a
 
     const res = result as any;
     if (typeof res.toDataStreamResponse === 'function') {
-      return res.toDataStreamResponse({
-        headers: {
-          'Cache-Control': 'no-cache, no-transform',
-          'Connection': 'keep-alive',
-          'X-Vercel-AI-Data-Stream': 'v1'
-        }
-      });
+      return res.toDataStreamResponse();
     }
     if (typeof res.toUIMessageStreamResponse === 'function') {
       return res.toUIMessageStreamResponse();

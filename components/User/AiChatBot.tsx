@@ -62,6 +62,12 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
         api: '/api/v2/counselor',
         id: `counselor-${chatKey}`,
         initialMessages: [INITIAL_MESSAGE],
+        onResponse: (response) => {
+            console.log("🔥 [useChat onResponse] Status:", response.status, response.statusText);
+        },
+        onError: (err) => {
+            console.error("🔥 [useChat onError]:", err);
+        }
     });
 
     const deferredMessages = useDeferredValue(messages);
@@ -165,8 +171,6 @@ export default function AiChatBot({ isAuthenticated = false, defaultName, defaul
             }
         }
 
-        console.log("DEBUG: append is", typeof append, append);
-        console.log("DEBUG: sendMessage is", typeof sendMessage, sendMessage);
         try {
             if (typeof append === 'function') {
                 console.log("📡 [Client AiChatBot] Calling append to /api/v2/counselor...");
