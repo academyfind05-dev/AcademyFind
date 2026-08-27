@@ -17,18 +17,29 @@ export async function GET() {
       take: 5
     });
 
-    // Fetch Featured Institutes (For this demo, just grabbing top 5 by rating/views)
+    // Fetch Real Featured & Top Rated Institutes
     const featuredInstitutes = await prisma.institute.findMany({
       where: {
-        isVerified: true
+        isActive: true,
+        isPublished: true,
+        OR: [
+          { isFeatured: true },
+          { subscriptionPlan: { in: ['ULTRA', 'PREMIUM', 'VERIFIED'] } },
+          { googleRating: { gte: 4.0 } }
+        ]
       },
       select: {
         id: true,
         name: true,
         slug: true,
         logo: true,
+        coverImage: true,
         averageRating: true,
+        googleRating: true,
         reviewCount: true,
+        googleReviewCount: true,
+        subscriptionPlan: true,
+        isVerified: true,
         city: { select: { name: true } },
         categories: {
           select: {
@@ -44,11 +55,13 @@ export async function GET() {
         }
       },
       orderBy: [
+        { isFeatured: 'desc' },
         { planWeight: 'desc' },
+        { googleRating: 'desc' },
         { googleReviewCount: 'desc' },
         { reviewCount: 'desc' }
       ],
-      take: 5
+      take: 6
     });
 
     // Fetch Popular Comparisons
