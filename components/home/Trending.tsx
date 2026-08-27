@@ -61,10 +61,10 @@ const categories = [
     title: "AWS Training",
     href: "/aws-training",
   },
-  {
-    title: "Graphic Designing",
-    href: "/graphic-designing",
-  },
+  // {
+  //   title: "Graphic Designing",
+  //   href: "/graphic-designing",
+  // },
   {
     title: "Karate",
     href: "/karate",
@@ -132,7 +132,7 @@ export function TrendingDestinations() {
         <div className="grid gap-6 lg:grid-cols-12">
           {/* Left */}
           <div className="lg:col-span-8 min-w-0">
-            <div 
+            <div
               ref={scrollRef}
               className="space-y-3 max-h-[450px] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-4"
               onMouseEnter={() => setIsHovered(true)}
@@ -177,7 +177,7 @@ export function TrendingDestinations() {
                         text-amber-500
                       "
                     >
-                      #{ (index % destinations.length) + 1 }
+                      #{(index % destinations.length) + 1}
                     </div>
 
                     <div className="min-w-0">

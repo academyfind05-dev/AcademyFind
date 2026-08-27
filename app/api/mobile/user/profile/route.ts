@@ -15,10 +15,54 @@ export async function GET() {
         id: true, name: true, email: true, image: true, role: true,
         phone: true, username: true,
         createdAt: true, updatedAt: true,
+        studentProfile: true,
+        teacherProfile: true,
+        educations: { orderBy: { createdAt: 'desc' } },
+        experiences: { orderBy: { createdAt: 'desc' } },
+        skills: true,
+        achievements: true,
+        _count: {
+          select: {
+            reviews: true,
+            shortlisted: true,
+            blogBookmarks: true,
+            memberships: true,
+          }
+        }
       },
     });
 
-    return NextResponse.json({ success: true, data: user });
+    if (!user) {
+      return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 });
+    }
+
+    // Fetch Wallet balance & Enquiries count safely using exact Prisma models
+    let enquiriesCount = 0;
+    if (user.phone || user.email) {
+      const filters: any[] = [];
+      if (user.phone) filters.push({ phone: user.phone });
+      if (user.email) filters.push({ email: user.email });
+
+      enquiriesCount = await prisma.instituteEnquiry.count({
+        where: {
+          OR: filters,
+        },
+      });
+    }
+
+    const wallet = await prisma.userWallet.findUnique({
+      where: { userId: session.user.id },
+      select: { balance: true },
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...user,
+        enquiriesCount,
+        afcBalance: wallet?.balance || 0,
+      },
+    });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
