@@ -79,10 +79,15 @@ export async function GET(request: NextRequest) {
       }
 
       if (category && category !== "ALL") {
+        const cleanCat = category.toLowerCase().replace(/\s+/g, '-');
         dbWhere.categories = {
           some: {
             category: {
-              slug: { contains: category, mode: 'insensitive' }
+              OR: [
+                { slug: { contains: cleanCat, mode: 'insensitive' } },
+                { slug: { contains: category, mode: 'insensitive' } },
+                { name: { contains: category, mode: 'insensitive' } }
+              ]
             }
           }
         };

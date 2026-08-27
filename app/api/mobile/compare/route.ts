@@ -4,50 +4,106 @@ import { prisma } from '@/lib/prisma';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const slug = searchParams.get('slug') || '';
+    const slugsParam = searchParams.get('slugs');
 
-    if (!slug) {
-      return NextResponse.json({ success: false, error: 'Comparison slug required' }, { status: 400 });
+    if (!slugsParam) {
+      return NextResponse.json({ success: false, error: 'slugs parameter is required' }, { status: 400 });
     }
 
-    const comparison = await prisma.instituteComparisonCache.findUnique({
-      where: { slug },
-      include: {
-        institute1: {
-          select: {
-            id: true, name: true, slug: true, imageUrl: true, gallery: true, logo: true,
-            averageRating: true, reviewCount: true, description: true, phone: true,
-            city: { select: { name: true } },
-            categories: { select: { category: { select: { name: true } } }, take: 3 },
-            facilities: { take: 10 },
-            highlightStats: { take: 5 },
-          },
-        },
-        institute2: {
-          select: {
-            id: true, name: true, slug: true, imageUrl: true, gallery: true, logo: true,
-            averageRating: true, reviewCount: true, description: true, phone: true,
-            city: { select: { name: true } },
-            categories: { select: { category: { select: { name: true } } }, take: 3 },
-            facilities: { take: 10 },
-            highlightStats: { take: 5 },
-          },
-        },
+    const identifiers = slugsParam.split(',').map(s => s.trim()).filter(Boolean);
+
+    if (identifiers.length < 2) {
+      return NextResponse.json({ success: false, error: 'At least 2 institutes are required to compare' }, { status: 400 });
+    }
+
+    // Find institutes matching either slug or id
+    const institutes = await prisma.institute.findMany({
+      where: {
+        OR: [
+          { slug: { in: identifiers } },
+          { id: { in: identifiers } }
+        ],
+        isActive: true,
       },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        logo: true,
+        imageUrl: true,
+        coverImage: true,
+        address: true,
+        averageRating: true,
+        googleRating: true,
+        reviewCount: true,
+        googleReviewCount: true,
+        isVerified: true,
+        providerType: true,
+        mode: true,
+        city: { select: { name: true, slug: true } },
+        categories: { select: { category: { select: { name: true, slug: true } } } },
+        _count: { select: { memberships: true, reviews: true } }
+      }
     });
 
-    if (!comparison) {
-      return NextResponse.json({ success: false, error: 'Comparison not found' }, { status: 404 });
+    // Map results in order of requested identifiers
+    const result = identifiers.map(idOrSlug => {
+      const match = institutes.find(i => i.slug === idOrSlug || i.id === idOrSlug);
+      if (!match) return null;
+
+      return {
+        ...match,
+        averageRating: match.googleRating || match.averageRating || 4.5,
+        reviewCount: match.googleReviewCount || match.reviewCount || 0,
+      };
+    }).filter(Boolean);
+
+    if (result.length < 2) {
+      // Fallback: If exact slug match failed for one, try insensitive search
+      const fallbackInstitutes = await prisma.institute.findMany({
+        where: {
+          OR: identifiers.map(idOrSlug => ({
+            name: { contains: idOrSlug, mode: 'insensitive' }
+          })),
+          isActive: true,
+        },
+        take: 2,
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          logo: true,
+          imageUrl: true,
+          coverImage: true,
+          address: true,
+          averageRating: true,
+          googleRating: true,
+          reviewCount: true,
+          googleReviewCount: true,
+          isVerified: true,
+          providerType: true,
+          mode: true,
+          city: { select: { name: true, slug: true } },
+          categories: { select: { category: { select: { name: true, slug: true } } } },
+          _count: { select: { memberships: true, reviews: true } }
+        }
+      });
+
+      if (fallbackInstitutes.length >= 2) {
+        const formattedFallback = fallbackInstitutes.map(match => ({
+          ...match,
+          averageRating: match.googleRating || match.averageRating || 4.5,
+          reviewCount: match.googleReviewCount || match.reviewCount || 0,
+        }));
+        return NextResponse.json({ success: true, data: formattedFallback });
+      }
+
+      return NextResponse.json({ success: false, error: 'One or both institutes could not be found for comparison' }, { status: 404 });
     }
 
-    // Increment view count
-    await prisma.instituteComparisonCache.update({
-      where: { id: comparison.id },
-      data: { viewCount: { increment: 1 } },
-    });
-
-    return NextResponse.json({ success: true, data: comparison });
+    return NextResponse.json({ success: true, data: result });
   } catch (error: any) {
+    console.error('Mobile Compare API Error:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }
