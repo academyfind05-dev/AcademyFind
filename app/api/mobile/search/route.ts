@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const q = searchParams.get('q') || '';
     const category = searchParams.get('category') || '';
     const city = searchParams.get('city') || '';
-    const sort = searchParams.get('sort') || 'rating';
+    const sort = searchParams.get('sort') || 'reviews';
     const ratingStr = searchParams.get('rating');
     const modeStr = searchParams.get('mode');
     
@@ -46,16 +46,19 @@ export async function GET(request: NextRequest) {
       searchFilters.push(`_geoRadius(${lat}, ${lng}, ${radiusInMeters})`);
     }
 
-    // Sorting
-    let sortOptions: string[] = ["planWeight:desc", "googleRating:desc"];
+    // Sorting: Always prioritize Tier (planWeight: Ultra -> Premium -> Verified -> Basic)
+    // By default within tier, sort by Number of Reviews (googleReviewCount)
+    let sortOptions: string[] = ["planWeight:desc", "googleReviewCount:desc"];
     if (sort === "rating") {
       sortOptions = ["planWeight:desc", "googleRating:desc"];
     } else if (sort === "reviews") {
       sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
-    } else if (lat && lng && sort === "nearest_location") {
-      sortOptions = ["planWeight:desc", `_geoPoint(${lat}, ${lng}):asc`, "googleRating:desc"];
+    } else if (sort === "newest") {
+      sortOptions = ["planWeight:desc", "createdAt:desc"];
+    } else if (lat && lng && (sort === "nearest_location" || sort === "nearest_me")) {
+      sortOptions = ["planWeight:desc", `_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc"];
     } else {
-      sortOptions = ["planWeight:desc", "createdAt:desc"]; // fallback
+      sortOptions = ["planWeight:desc", "googleReviewCount:desc"]; // default fallback: Plan Tier -> Review Count
     }
 
     let searchRes = await meili.index("global_search").search(q, {
@@ -105,7 +108,11 @@ export async function GET(request: NextRequest) {
         where: dbWhere,
         take: limit,
         skip: offset,
-        orderBy: sort === 'rating' ? { googleRating: 'desc' } : { createdAt: 'desc' },
+        orderBy: sort === 'rating'
+          ? [{ planWeight: 'desc' }, { googleRating: 'desc' }]
+          : sort === 'newest'
+          ? [{ planWeight: 'desc' }, { createdAt: 'desc' }]
+          : [{ planWeight: 'desc' }, { googleReviewCount: 'desc' }, { reviewCount: 'desc' }],
         include: {
           city: { select: { name: true } },
           categories: { select: { category: { select: { name: true } } }, take: 3 }

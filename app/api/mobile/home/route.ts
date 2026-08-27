@@ -43,9 +43,11 @@ export async function GET() {
           take: 2
         }
       },
-      orderBy: {
-        averageRating: 'desc'
-      },
+      orderBy: [
+        { planWeight: 'desc' },
+        { googleReviewCount: 'desc' },
+        { reviewCount: 'desc' }
+      ],
       take: 5
     });
 

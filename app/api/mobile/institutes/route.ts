@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const city = searchParams.get('city') || '';
     const category = searchParams.get('category') || '';
     const rating = searchParams.get('rating') || '';
-    const sort = searchParams.get('sort') || 'rating';
+    const sort = searchParams.get('sort') || 'reviews';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');
 
@@ -37,10 +37,10 @@ export async function GET(request: NextRequest) {
     }
 
     const orderBy: any = sort === 'rating' 
-      ? { averageRating: 'desc' } 
-      : sort === 'reviews' 
-      ? { reviewCount: 'desc' } 
-      : { createdAt: 'desc' };
+      ? [{ planWeight: 'desc' }, { googleRating: 'desc' }, { averageRating: 'desc' }]
+      : sort === 'newest' 
+      ? [{ planWeight: 'desc' }, { createdAt: 'desc' }]
+      : [{ planWeight: 'desc' }, { googleReviewCount: 'desc' }, { reviewCount: 'desc' }];
 
     const [institutes, total] = await Promise.all([
       prisma.institute.findMany({
