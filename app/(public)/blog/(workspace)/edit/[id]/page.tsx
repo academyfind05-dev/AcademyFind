@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import BlogEditor from "@/components/blog/editor/BlogEditor";
 import { getEditBlogData } from "@/lib/User/user/blog/geteditblogdata";
@@ -21,6 +22,10 @@ type EditBlogPageProps = {
 export default async function EditBlogPage({ params }: EditBlogPageProps) {
   const { id } = await params;
   const initialData = await getEditBlogData(id);
+
+  if (!initialData) {
+    redirect("/login");
+  }
 
   return <BlogEditor mode="edit" initialData={initialData} />;
 }

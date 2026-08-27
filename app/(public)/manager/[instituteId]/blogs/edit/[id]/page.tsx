@@ -26,7 +26,7 @@ export default async function ManagerEditBlogPage(props: {
 
   const initialData = await getEditBlogData(id);
 
-  if (initialData.relatedInstituteId !== instituteId) {
+  if (!initialData || initialData.relatedInstituteId !== instituteId) {
     notFound();
   }
 
