@@ -96,11 +96,31 @@ export async function GET(request: NextRequest) {
         };
       }
 
-      if (q.trim()) {
+      if (ratingStr && ratingStr !== "all") {
         dbWhere.OR = [
-          { name: { contains: q, mode: 'insensitive' } },
-          { address: { contains: q, mode: 'insensitive' } },
-          { feeInfo: { contains: q, mode: 'insensitive' } }
+          { googleRating: { gte: parseFloat(ratingStr) } },
+          { averageRating: { gte: parseFloat(ratingStr) } }
+        ];
+      }
+
+      if (providerType && providerType !== "ALL") {
+        dbWhere.providerType = providerType;
+      }
+
+      if (modeStr) {
+        const modes = modeStr.split(',').map((m: string) => m.trim().toUpperCase());
+        dbWhere.mode = { in: modes };
+      }
+
+      if (q.trim()) {
+        dbWhere.AND = [
+          {
+            OR: [
+              { name: { contains: q, mode: 'insensitive' } },
+              { address: { contains: q, mode: 'insensitive' } },
+              { feeInfo: { contains: q, mode: 'insensitive' } }
+            ]
+          }
         ];
       }
 
