@@ -1,7 +1,7 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 
-if (!getApps().length) {
+if (!getApps().length && process.env.FIREBASE_PROJECT_ID) {
   try {
     initializeApp({
       credential: cert({
@@ -16,4 +16,4 @@ if (!getApps().length) {
   }
 }
 
-export const firebaseAuth = getAuth();
+export const firebaseAuth = getApps().length ? getAuth() : (null as any);
