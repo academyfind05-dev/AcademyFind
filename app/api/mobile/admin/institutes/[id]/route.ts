@@ -27,6 +27,15 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     if (body.isActive !== undefined) updateData.isActive = body.isActive;
     if (body.isVerified !== undefined) updateData.isVerified = body.isVerified;
     if (body.isPublished !== undefined) updateData.isPublished = body.isPublished;
+    if (body.isFeatured !== undefined) updateData.isFeatured = body.isFeatured;
+    if (body.name) updateData.name = body.name;
+    if (body.description !== undefined) updateData.description = body.description;
+    if (body.phone !== undefined) updateData.phone = body.phone;
+    if (body.email !== undefined) updateData.email = body.email;
+    if (body.website !== undefined) updateData.website = body.website;
+    if (body.address !== undefined) updateData.address = body.address;
+    if (body.brochureUrl !== undefined) updateData.brochureUrl = body.brochureUrl;
+
     if (body.subscriptionPlan) {
       updateData.subscriptionPlan = body.subscriptionPlan;
       updateData.planWeight = planWeights[body.subscriptionPlan] || 1;
