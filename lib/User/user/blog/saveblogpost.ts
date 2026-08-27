@@ -48,9 +48,10 @@ export type SaveBlogPostResult =
 
 export async function saveBlogPost(
   input: BlogEditorSaveInput,
+  targetUserId?: string,
 ): Promise<SaveBlogPostResult> {
   try {
-    return await persistBlogPost(input);
+    return await persistBlogPost(input, targetUserId);
   } catch (error) {
     console.error("Unable to save blog post:", error);
     return {
@@ -62,6 +63,7 @@ export async function saveBlogPost(
 
 async function persistBlogPost(
   input: BlogEditorSaveInput,
+  targetUserId?: string,
 ): Promise<SaveBlogPostResult> {
   const parsed = blogEditorSchema.safeParse(input);
 
@@ -72,20 +74,24 @@ async function persistBlogPost(
     };
   }
 
-  const session = await getCachedSession();
-  if (!session?.user?.id) {
-    return { success: false, error: "Please sign in to save this post." };
+  let userId = targetUserId;
+  if (!userId) {
+    const session = await getCachedSession();
+    if (!session?.user?.id) {
+      return { success: false, error: "Please sign in to save this post." };
+    }
+    userId = session.user.id;
   }
 
   let author = await prisma.blogAuthorProfile.findUnique({
-    where: { userId: session.user.id },
+    where: { userId },
     select: { id: true, displayName: true },
   });
 
   // Auto-onboard the author if profile doesn't exist
   if (!author) {
     const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { id: userId },
     });
     if (user) {
       const emailPrefix = user.email ? user.email.split("@")[0] : "author";
@@ -248,7 +254,7 @@ async function persistBlogPost(
   });
 
   if (value.intent === "publish" && !value.id) {
-    await creditWallet(session.user.id, AF_COINS_EARN.WRITE_BLOG, "BLOG_POST", "Earned coins for writing a new blog post");
+    await creditWallet(userId, AF_COINS_EARN.WRITE_BLOG, "BLOG_POST", "Earned coins for writing a new blog post");
   }
 
   // Sync to Meilisearch search index

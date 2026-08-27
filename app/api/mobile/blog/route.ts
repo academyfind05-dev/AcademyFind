@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
       where.tags = { some: { tag: { slug: tagSlug } } };
     }
 
-    const [blogs, total] = await Promise.all([
+    const [blogs, total, categories] = await Promise.all([
       prisma.blogPost.findMany({
         where,
         select: {
@@ -49,11 +49,20 @@ export async function GET(request: NextRequest) {
         take: limit,
       }),
       prisma.blogPost.count({ where }),
+      prisma.blogCategory.findMany({
+        where: { isActive: true },
+        select: { id: true, name: true, slug: true },
+        orderBy: { order: 'asc' },
+      }),
     ]);
 
     return NextResponse.json({
       success: true,
-      data: { blogs, pagination: { page, limit, total, totalPages: Math.ceil(total / limit) } },
+      data: {
+        blogs,
+        categories,
+        pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
+      },
     });
   } catch (error: any) {
     console.error('Mobile Blog API Error:', error);

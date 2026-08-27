@@ -44,7 +44,58 @@ export async function GET(
       return NextResponse.json({ success: false, error: 'Institute not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, data: institute });
+    // Check Authorization header for mobile token session
+    let hasUnlockedBasicFeatures = false;
+    let hasUnlockedCommunity = false;
+
+    const authHeader = request.headers.get('authorization');
+    let userId: string | null = null;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      const sessionObj = await prisma.session.findFirst({
+        where: { token, expiresAt: { gt: new Date() } },
+      });
+      if (sessionObj) userId = sessionObj.userId;
+    }
+
+    if (userId) {
+      const contactUnlockTx = await prisma.walletTransaction.findFirst({
+        where: {
+          wallet: { userId },
+          source: 'SEE_CONTACT_BASIC_INSTITUTE',
+          referenceId: institute.id,
+          type: 'DEBIT',
+        },
+      });
+      if (contactUnlockTx) hasUnlockedBasicFeatures = true;
+
+      const communityUnlockTx = await prisma.walletTransaction.findFirst({
+        where: {
+          wallet: { userId },
+          source: 'SEE_COMMUNITY_BASIC_INSTITUTE',
+          referenceId: institute.id,
+          type: 'DEBIT',
+        },
+      });
+      if (communityUnlockTx) hasUnlockedCommunity = true;
+    }
+
+    const plan = institute.subscriptionPlan || 'BASIC';
+    const isBasicPlan = plan === 'BASIC';
+    const isContactLocked = isBasicPlan && !hasUnlockedBasicFeatures;
+    const isCommunityLocked = isBasicPlan && !hasUnlockedCommunity;
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        ...institute,
+        subscriptionPlan: plan,
+        isContactLocked,
+        isCommunityLocked,
+        hasUnlockedBasicFeatures,
+        hasUnlockedCommunity,
+      },
+    });
   } catch (error: any) {
     console.error('Mobile Institute Detail API Error:', error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });

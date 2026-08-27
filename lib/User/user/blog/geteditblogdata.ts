@@ -6,18 +6,22 @@ import { prisma } from "@/lib/prisma";
 
 export async function getEditBlogData(
   postId: string,
-): Promise<BlogEditorInitialData> {
-  const session = await getCachedSession();
-
-  if (!session?.user?.id) {
-    redirect("/login");
+  targetUserId?: string,
+): Promise<BlogEditorInitialData | null> {
+  let userId = targetUserId;
+  if (!userId) {
+    const session = await getCachedSession();
+    if (!session?.user?.id) {
+      return null;
+    }
+    userId = session.user.id;
   }
 
   const post = await prisma.blogPost.findFirst({
     where: {
       id: postId,
       authorProfile: {
-        userId: session.user.id,
+        userId,
       },
     },
     select: {

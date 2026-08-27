@@ -7,59 +7,125 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await getSession();
-    if (!session?.user) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    const { id } = await params;
+    const authHeader = request.headers.get('authorization');
+    let userId: string | null = null;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      const sessionObj = await prisma.session.findFirst({
+        where: { token, expiresAt: { gt: new Date() } },
+      });
+      if (sessionObj) userId = sessionObj.userId;
     }
 
-    const { id } = await params;
-    
+    if (!userId) {
+      const session = await getSession();
+      userId = session?.user?.id || null;
+    }
+
+    if (!userId) {
+      return NextResponse.json({ success: false, error: 'Unauthorized: Please login first' }, { status: 401 });
+    }
+
+    const body = await request.json().catch(() => ({}));
+    const role = (body.role || 'STUDENT').toUpperCase() as 'STUDENT' | 'TEACHER';
+
+    // Check for existing membership request for this role
     const existing = await prisma.instituteMembership.findFirst({
-      where: { userId: session.user.id, instituteId: id, role: "STUDENT" },
+      where: { userId, instituteId: id, role },
     });
 
     if (existing) {
-      return NextResponse.json({ success: false, error: 'You have already requested to join this institute.' }, { status: 400 });
+      return NextResponse.json({
+        success: false,
+        error: `You have already requested to join this institute as a ${role.toLowerCase()}.`,
+      }, { status: 400 });
     }
 
     const institute = await prisma.institute.findUnique({
       where: { id },
-      select: { name: true },
+      select: { name: true, managers: { select: { userId: true } } },
     });
 
-    if (!institute) return NextResponse.json({ success: false, error: 'Institute not found.' }, { status: 404 });
+    if (!institute) {
+      return NextResponse.json({ success: false, error: 'Institute not found.' }, { status: 404 });
+    }
 
-    await prisma.$transaction(async (tx) => {
-      // Upsert global student profile
-      const studentProfile = await tx.studentProfile.upsert({
-        where: { userId: session.user.id },
-        create: { userId: session.user.id },
-        update: {},
-      });
+    if (role === 'TEACHER') {
+      const { designation, department, teachingSubjects, bio } = body;
 
-      // Create membership
-      const membership = await tx.instituteMembership.create({
-        data: {
-          userId: session.user.id,
-          instituteId: id,
-          role: "STUDENT",
-          status: "PENDING",
-        },
-      });
+      await prisma.$transaction(async (tx) => {
+        const teacherProfile = await tx.teacherProfile.upsert({
+          where: { userId },
+          create: { userId },
+          update: {},
+        });
 
-      // Create student institute record
-      await tx.studentInstituteRecord.create({
-        data: {
-          membershipId: membership.id,
-          studentProfileId: studentProfile.id,
-          instituteId: id,
-        },
+        const membership = await tx.instituteMembership.create({
+          data: {
+            userId,
+            instituteId: id,
+            role: 'TEACHER',
+            status: 'PENDING',
+          },
+        });
+
+        const subjectsArray = typeof teachingSubjects === 'string'
+          ? teachingSubjects.split(',').map((s: string) => s.trim()).filter(Boolean)
+          : (Array.isArray(teachingSubjects) ? teachingSubjects : []);
+
+        await tx.teacherInstituteRecord.create({
+          data: {
+            membershipId: membership.id,
+            teacherProfileId: teacherProfile.id,
+            instituteId: id,
+            designation: designation || null,
+            department: department || null,
+            teachingSubjects: subjectsArray,
+            bio: bio || null,
+          },
+        });
       });
+    } else {
+      const { courseName, batchYear, passoutYear, bio } = body;
+
+      await prisma.$transaction(async (tx) => {
+        const studentProfile = await tx.studentProfile.upsert({
+          where: { userId },
+          create: { userId },
+          update: {},
+        });
+
+        const membership = await tx.instituteMembership.create({
+          data: {
+            userId,
+            instituteId: id,
+            role: 'STUDENT',
+            status: 'PENDING',
+          },
+        });
+
+        await tx.studentInstituteRecord.create({
+          data: {
+            membershipId: membership.id,
+            studentProfileId: studentProfile.id,
+            instituteId: id,
+            courseName: courseName || null,
+            batchYear: batchYear ? Number(batchYear) : null,
+            passoutYear: passoutYear ? Number(passoutYear) : null,
+            bio: bio || null,
+          },
+        });
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Your request to join as a ${role.toLowerCase()} has been sent successfully.`,
     });
-
-    return NextResponse.json({ success: true, message: 'Request sent successfully' });
   } catch (error: any) {
-    console.error("Mobile Join Error:", error);
-    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+    console.error('Mobile Join Error:', error);
+    return NextResponse.json({ success: false, error: error.message || 'Internal Server Error' }, { status: 500 });
   }
 }

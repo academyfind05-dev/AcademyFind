@@ -62,6 +62,10 @@ export const auth = betterAuth({
     experimental: {
         joins: true, 
     },
+    rateLimit: {
+        window: 60, // 60 seconds
+        max: 1000, // Increase max requests to avoid 429 errors from mobile app
+    },
     emailAndPassword: {  
         enabled: true,
         requireEmailVerification: true,
