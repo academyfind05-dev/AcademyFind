@@ -1,5 +1,6 @@
 import type { NotificationType } from "@/app/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { notifyAdminsPush } from "@/lib/pushNotifications";
 
 export async function notifyUser(
   userId: string,
@@ -33,7 +34,7 @@ export async function notifyAdmins(
 
     if (admins.length === 0) return { count: 0 };
 
-    return await prisma.adminNotification.createMany({
+    const result = await prisma.adminNotification.createMany({
       data: admins.map(({ id }) => ({
         type,
         title,
@@ -43,6 +44,15 @@ export async function notifyAdmins(
         userId: id,
       })),
     });
+
+    // 🔔 Live Push Notification to all Admin devices
+    notifyAdminsPush({
+      title: title || '⚡ Admin Alert',
+      body: message,
+      data: { actionUrl }
+    }).catch(err => console.error("Admin Push Notification error:", err));
+
+    return result;
   } catch (error) {
     console.error("Unable to notify admins", error);
     return null;

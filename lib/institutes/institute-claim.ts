@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma"; // Apne prisma client ka path check kar lena
 import { revalidatePath } from "next/cache";
+import { notifyAdminsPush } from "@/lib/pushNotifications";
 import {
   CLAIM_PENDING_STATUS,
 } from "@/lib/institutes/institute-workflow";
@@ -80,6 +81,12 @@ export async function submitClaimRequest(formData: FormData) {
         title: "New Institute Claim Request",
         message: `${fullName} (${phone}) requested to claim ownership of institute: ${institute.name}`,
       },
+    });
+
+    notifyAdminsPush({
+      title: "🏫 New Institute Claim Request!",
+      body: `${fullName} requested to claim ${institute.name}`,
+      data: { screen: '(admin)/claims' }
     });
 
     // Institute page aur admin queue ko revalidate karna taaki cache clear ho jaye

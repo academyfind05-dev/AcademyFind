@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { triggerCRMWebhooks } from "@/lib/crm/webhooks";
 import { sendEmail } from "@/lib/notifications/email";
+import { notifyAdminsPush } from "@/lib/pushNotifications";
 // import { sendWhatsAppTemplateMessage } from "@/lib/notifications/whatsapp";
 
 export async function submitStudentEnquiry(formData: FormData) {
@@ -37,6 +38,12 @@ export async function submitStudentEnquiry(formData: FormData) {
         title: "New Institute Enquiry",
         message: `${name} (${phone}) sent an enquiry for institute ID: ${instituteId}. and name ${institute?.name}`,
       },
+    });
+
+    notifyAdminsPush({
+      title: "📞 New Website Enquiry!",
+      body: `${name} (${phone}) requested callback for ${institute?.name || 'Academy'}`,
+      data: { screen: '(admin)/callbacks' }
     });
 
     // Fire CRM Webhooks

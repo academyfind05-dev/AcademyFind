@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { notifyAdminsPush } from "@/lib/pushNotifications";
 
 export async function requestGlobalCallback(formData: FormData) {
     try {
@@ -33,6 +34,12 @@ export async function requestGlobalCallback(formData: FormData) {
                 message: `${name} (${phone}) requested a general callback.`,
                 actionUrl: "/af-ass-manage/requests"
             }
+        });
+
+        notifyAdminsPush({
+            title: "📞 New Callback Request!",
+            body: `${name} (${phone}) requested a callback.`,
+            data: { screen: '(admin)/requests' }
         });
 
         return { success: true };
