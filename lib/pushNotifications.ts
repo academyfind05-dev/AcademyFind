@@ -1,3 +1,5 @@
+import { prisma } from '@/lib/prisma';
+
 // Expo Push Notification Helper
 export async function sendExpoPushNotification({
   pushToken,
@@ -40,5 +42,38 @@ export async function sendExpoPushNotification({
   } catch (error) {
     console.error('❌ Push Notification Error:', error);
     return false;
+  }
+}
+
+/**
+ * Send live push notification directly to all Admin users on their mobile app
+ */
+export async function notifyAdminsPush({
+  title,
+  body,
+  data = {},
+}: {
+  title: string;
+  body: string;
+  data?: Record<string, any>;
+}) {
+  try {
+    const adminUsers = await prisma.user.findMany({
+      where: { role: 'ADMIN', pushToken: { not: null } },
+      select: { pushToken: true }
+    });
+
+    for (const admin of adminUsers) {
+      if (admin.pushToken) {
+        sendExpoPushNotification({
+          pushToken: admin.pushToken,
+          title,
+          body,
+          data
+        }).catch(err => console.error("Admin Push send error:", err));
+      }
+    }
+  } catch (error) {
+    console.error("notifyAdminsPush error:", error);
   }
 }

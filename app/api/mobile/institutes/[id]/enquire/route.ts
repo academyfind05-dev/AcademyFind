@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { triggerCRMWebhooks } from '@/lib/crm/webhooks';
 import { sendEmail } from '@/lib/notifications/email';
+import { notifyAdminsPush } from '@/lib/pushNotifications';
 // import { sendWhatsAppTemplateMessage } from '@/lib/notifications/whatsapp';
 
 export async function POST(
@@ -39,6 +40,13 @@ export async function POST(
         title: "New Mobile App Enquiry",
         message: `${name} (${phone}) sent an enquiry via Mobile App for institute ID: ${id} and name ${institute?.name}`,
       },
+    });
+
+    // Notify Admin's Phone via Mobile Push Notification
+    notifyAdminsPush({
+      title: "📞 New Student Enquiry!",
+      body: `${name} (${phone}) requested callback for ${institute?.name || 'Academy'}`,
+      data: { screen: '(admin)/callbacks' }
     });
 
     // Fire CRM Webhooks
