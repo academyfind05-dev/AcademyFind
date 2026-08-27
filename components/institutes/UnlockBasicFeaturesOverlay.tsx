@@ -10,9 +10,10 @@ interface UnlockBasicFeaturesOverlayProps {
   instituteId: string;
   isLoggedIn: boolean;
   title?: string;
+  description?: string;
 }
 
-export function UnlockBasicFeaturesOverlay({ instituteId, isLoggedIn, title = "Features" }: UnlockBasicFeaturesOverlayProps) {
+export function UnlockBasicFeaturesOverlay({ instituteId, isLoggedIn, title = "Features", description }: UnlockBasicFeaturesOverlayProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -81,7 +82,7 @@ export function UnlockBasicFeaturesOverlay({ instituteId, isLoggedIn, title = "F
         </div>
         <h4 className="text-xl font-bold text-slate-800">{title} Locked</h4>
         <p className="text-sm text-slate-700 mt-2 max-w-sm font-medium">
-          Use 1 AFC Coin to unlock the full community profiles, contact details, and other hidden features of this institute.
+          {description || "Use 1 AFC Coin to unlock the full community profiles, contact details, and other hidden features of this institute."}
         </p>
         <button
           onClick={handleUnlockClick}

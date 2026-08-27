@@ -8,7 +8,8 @@ import {
   Star, Phone, MapPin, Mail, Globe, CheckCircle, Users, Trophy,
   PlayCircle, User, Presentation, BookOpen, IndianRupee, Clock,
   Home, Award, Calendar, Building, ThumbsUp, ThumbsDown, HelpCircle, Check,
-  BadgeCheck, MessageCircle, ArrowRight, Settings, Lock, Unlock
+  BadgeCheck, MessageCircle, ArrowRight, Settings, Lock, Unlock,
+  GraduationCap, UserCheck
 } from "lucide-react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTelegram, FaTwitter, FaWhatsapp, FaYoutube } from "react-icons/fa";
 
@@ -883,35 +884,69 @@ export default async function InstitutePage({ params }: PageProps) {
           </section>
         )}
 
-        {/* 🚀 STUDENTS & TEACHERS (PREMIUM ONLY) */}
+        {/* 🚀 STUDENTS & TEACHERS (COMMUNITY) */}
         <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-emerald-100 text-emerald-600 rounded-xl"><Users className="w-6 h-6" /></div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 id="community" className="scroll-mt-32 text-3xl font-bold text-slate-900">Community</h2>
-                {hasUnlockedCommunity && institute.subscriptionPlan === "BASIC" && (
-                  <span className="bg-emerald-100 text-emerald-700 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm border border-emerald-200">
-                    <Unlock className="w-3 h-3" /> Unlocked (1 AFC)
-                  </span>
-                )}
+          {/* Header & Stats Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-emerald-100 text-emerald-600 rounded-xl"><Users className="w-6 h-6" /></div>
+              <div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h2 id="community" className="scroll-mt-32 text-3xl font-bold text-slate-900">Community</h2>
+                  {hasUnlockedCommunity && institute.subscriptionPlan === "BASIC" && (
+                    <span className="bg-emerald-100 text-emerald-700 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm border border-emerald-200">
+                      <Unlock className="w-3 h-3" /> Unlocked (1 AFC)
+                    </span>
+                  )}
+                </div>
+                <p className="text-slate-500 text-sm mt-1">Connect with verified students and faculty of this institute.</p>
               </div>
-              <p className="text-slate-500 text-sm mt-1">Connect with students and faculty.</p>
+            </div>
+
+            {/* 📊 Member Stats Pills */}
+            <div className="flex flex-wrap items-center gap-2 bg-slate-50 p-2 rounded-2xl border border-slate-200 text-xs shrink-0 self-start sm:self-center">
+              <div className="flex items-center gap-1.5 font-bold text-slate-800 px-2.5 py-1 bg-white rounded-xl shadow-2xs border border-slate-200">
+                <Users className="w-4 h-4 text-emerald-600" />
+                <span>Total Members:</span>
+                <span className="bg-emerald-600 text-white px-2 py-0.5 rounded-full text-xs font-extrabold">
+                  {totalStudents + totalTeachers}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 text-slate-600 font-semibold">
+                <GraduationCap className="w-3.5 h-3.5 text-blue-500" />
+                <span>{totalStudents} Students</span>
+              </div>
+              <span className="text-slate-300">•</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 text-slate-600 font-semibold">
+                <UserCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>{totalTeachers} Faculty</span>
+              </div>
             </div>
           </div>
 
           {isCommunityLocked ? (
-            <div className="relative rounded-3xl overflow-hidden min-h-[400px] flex flex-col">
-              <UnlockBasicFeaturesOverlay title="Community" instituteId={institute.id} isLoggedIn={!!userId} />
+            <div className="relative rounded-3xl overflow-hidden p-6 bg-slate-50/50 border border-slate-200/80 min-h-[360px] flex flex-col justify-center">
+              <UnlockBasicFeaturesOverlay 
+                title="Community" 
+                instituteId={institute.id} 
+                isLoggedIn={!!userId}
+                description={`Unlock with 1 AFC Coin to access full student & faculty profiles, contact details, and direct messaging (${totalStudents + totalTeachers} Members).`} 
+              />
 
-              <div className="pointer-events-none select-none mt-6">
-                <div className="space-y-10">
-                  {presentStudents.length > 0 && (
-                    <div>
-                      <div className="flex justify-between items-end mb-4">
-                        <h3 className="text-xl font-bold text-slate-800">Students</h3>
-                        <span className="text-sm font-semibold text-slate-500">{totalStudents} Profiles</span>
+              <div className="pointer-events-none select-none blur-[1px] opacity-75">
+                <div className="space-y-8">
+                  {/* STUDENTS PREVIEW */}
+                  <div>
+                    <div className="flex justify-between items-center mb-3">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-blue-100 text-blue-600 rounded-lg"><GraduationCap className="w-4 h-4" /></div>
+                        <h3 className="text-lg font-bold text-slate-800">Students</h3>
+                        <span className="bg-blue-50 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-100">
+                          {totalStudents} Profiles
+                        </span>
                       </div>
+                    </div>
+                    {presentStudents.length > 0 ? (
                       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {presentStudents.slice(0, 3).map((student: any) => {
                           const u = student.studentProfile.user;
@@ -928,14 +963,31 @@ export default async function InstitutePage({ params }: PageProps) {
                           )
                         })}
                       </div>
-                    </div>
-                  )}
-                  {featuredFaculty.length > 0 && (
-                    <div>
-                      <div className="flex justify-between items-end mb-4">
-                        <h3 className="text-xl font-bold text-slate-800">Faculty</h3>
-                        <span className="text-sm font-semibold text-slate-500">{totalTeachers} Profiles</span>
+                    ) : (
+                      <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0 border border-blue-100">
+                          <GraduationCap className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-slate-800 text-xs sm:text-sm">Students Directory (0 Enrolled)</h4>
+                          <p className="text-[11px] sm:text-xs text-slate-500">Verified students who join this institute community will appear here.</p>
+                        </div>
                       </div>
+                    )}
+                  </div>
+
+                  {/* FACULTY PREVIEW */}
+                  <div>
+                    <div className="flex justify-between items-center mb-3">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg"><UserCheck className="w-4 h-4" /></div>
+                        <h3 className="text-lg font-bold text-slate-800">Faculty & Teachers</h3>
+                        <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full border border-emerald-100">
+                          {totalTeachers} Profiles
+                        </span>
+                      </div>
+                    </div>
+                    {featuredFaculty.length > 0 ? (
                       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {featuredFaculty.slice(0, 3).map((teacher: any) => {
                           const u = teacher.teacherProfile.user;
@@ -952,22 +1004,39 @@ export default async function InstitutePage({ params }: PageProps) {
                           )
                         })}
                       </div>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0 border border-emerald-100">
+                          <UserCheck className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-slate-800 text-xs sm:text-sm">Faculty Directory (0 Listed)</h4>
+                          <p className="text-[11px] sm:text-xs text-slate-500">Teachers and subject faculty of this institute will be featured here.</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           ) : (
             <div className="space-y-10">
               {/* STUDENTS */}
-              {presentStudents.length > 0 && (
-                <div>
-                  <div className="flex justify-between items-end mb-4">
+              <div>
+                <div className="flex justify-between items-center mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 bg-blue-100 text-blue-600 rounded-lg"><GraduationCap className="w-4 h-4" /></div>
                     <h3 className="text-xl font-bold text-slate-800">Students</h3>
-                    {totalStudents > 3 && (
-                      <MemberDrawer title="Students" total={totalStudents} type="STUDENT" instituteId={institute.id} />
-                    )}
+                    <span className="bg-blue-50 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full border border-blue-100">
+                      {totalStudents} {totalStudents === 1 ? "Student" : "Students"}
+                    </span>
                   </div>
+                  {totalStudents > 3 && (
+                    <MemberDrawer title="Students" total={totalStudents} type="STUDENT" instituteId={institute.id} />
+                  )}
+                </div>
+
+                {presentStudents.length > 0 ? (
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {presentStudents.slice(0, 3).map((student: any) => {
                       const u = student.studentProfile.user;
@@ -994,44 +1063,73 @@ export default async function InstitutePage({ params }: PageProps) {
                       )
                     })}
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0 border border-blue-100">
+                      <GraduationCap className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-800 text-xs sm:text-sm">Students Directory (0 Enrolled)</h4>
+                      <p className="text-[11px] sm:text-xs text-slate-500">Verified students who join this institute community will appear here.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
 
-              {/* TEACHERS */}
-              {institute.providerType !== 'INDIVIDUAL' && featuredFaculty.length > 0 && (
+              {/* TEACHERS / FACULTY */}
+              {institute.providerType !== 'INDIVIDUAL' && (
                 <div>
-                  <div className="flex justify-between items-end mb-4">
-                    <h3 className="text-xl font-bold text-slate-800">Faculty</h3>
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg"><UserCheck className="w-4 h-4" /></div>
+                      <h3 className="text-xl font-bold text-slate-800">Faculty & Teachers</h3>
+                      <span className="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-0.5 rounded-full border border-emerald-100">
+                        {totalTeachers} {totalTeachers === 1 ? "Teacher" : "Teachers"}
+                      </span>
+                    </div>
                     {totalTeachers > 3 && (
                       <MemberDrawer title="Faculty" total={totalTeachers} type="TEACHER" instituteId={institute.id} />
                     )}
                   </div>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {featuredFaculty.slice(0, 3).map((teacher: any) => {
-                      const u = teacher.teacherProfile.user;
-                      const canMessage = userId && userId !== u.id && u.allowDms && u.chatSettings?.allowDirectMessages;
-                      return (
-                        <div key={teacher.id} className="rounded-2xl border border-slate-200 bg-white p-4 flex gap-4 items-center">
-                          <div className="w-12 h-12 rounded-full border border-slate-200 bg-slate-50 overflow-hidden shrink-0">
-                            {u.image ? <Image src={u.image} alt={u.name} width={48} height={48} className="w-full h-full object-cover" /> : <User className="w-full h-full p-2.5 text-slate-400" />}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-bold text-slate-900 text-sm truncate">{u.name}</h4>
-                            <p className="text-xs text-slate-500 truncate">{teacher.designation}</p>
-                            <div className="flex gap-2 mt-1">
-                              <span className="text-[10px] font-bold text-blue-600 flex items-center gap-0.5"><CheckCircle className="w-3 h-3" /> Verified</span>
-                              {teacher.isFeatured && <span className="text-[10px] font-bold text-amber-600 flex items-center gap-0.5"><Star className="w-3 h-3 fill-amber-500" /> Featured</span>}
+
+                  {featuredFaculty.length > 0 ? (
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {featuredFaculty.slice(0, 3).map((teacher: any) => {
+                        const u = teacher.teacherProfile.user;
+                        const canMessage = userId && userId !== u.id && u.allowDms && u.chatSettings?.allowDirectMessages;
+                        return (
+                          <div key={teacher.id} className="rounded-2xl border border-slate-200 bg-white p-4 flex gap-4 items-center">
+                            <div className="w-12 h-12 rounded-full border border-slate-200 bg-slate-50 overflow-hidden shrink-0">
+                              {u.image ? <Image src={u.image} alt={u.name} width={48} height={48} className="w-full h-full object-cover" /> : <User className="w-full h-full p-2.5 text-slate-400" />}
                             </div>
-                            {teacher.teachingSubjects && <p className="text-[10px] font-semibold text-emerald-600 mt-2 truncate">Subjects: {teacher.teachingSubjects}</p>}
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-bold text-slate-900 text-sm truncate">{u.name}</h4>
+                              <p className="text-xs text-slate-500 truncate">{teacher.designation}</p>
+                              <div className="flex gap-2 mt-1">
+                                <span className="text-[10px] font-bold text-blue-600 flex items-center gap-0.5"><CheckCircle className="w-3 h-3" /> Verified</span>
+                                {teacher.isFeatured && <span className="text-[10px] font-bold text-amber-600 flex items-center gap-0.5"><Star className="w-3 h-3 fill-amber-500" /> Featured</span>}
+                              </div>
+                              {teacher.teachingSubjects && <p className="text-[10px] font-semibold text-emerald-600 mt-2 truncate">Subjects: {teacher.teachingSubjects}</p>}
+                            </div>
+                            <div className="flex flex-col gap-2 shrink-0">
+                              <Link href={`/u/${u.username}`} className="text-xs text-blue-600 hover:underline">Profile</Link>
+                              {canMessage && <Button asChild size="sm" variant="ghost" className="h-7 px-2 text-[10px] bg-amber-50 text-amber-700 hover:bg-amber-100"><Link href={`/chat?userId=${u.id}`}>Message →</Link></Button>}
+                            </div>
                           </div>
-                          <div className="flex flex-col gap-2 shrink-0">
-                            <Link href={`/u/${u.username}`} className="text-xs text-blue-600 hover:underline">Profile</Link>
-                            {canMessage && <Button asChild size="sm" variant="ghost" className="h-7 px-2 text-[10px] bg-amber-50 text-amber-700 hover:bg-amber-100"><Link href={`/chat?userId=${u.id}`}>Message →</Link></Button>}
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-4 flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0 border border-emerald-100">
+                        <UserCheck className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-slate-800 text-xs sm:text-sm">Faculty Directory (0 Listed)</h4>
+                        <p className="text-[11px] sm:text-xs text-slate-500">Teachers and subject faculty of this institute will be featured here.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
