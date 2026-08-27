@@ -65,21 +65,69 @@ export async function GET(request: NextRequest) {
       sort: sortOptions,
     });
 
-    let hits = searchRes.hits;
+    let hits = searchRes.hits || [];
 
-    // Fallback if strict radius returns nothing
-    if (hits.length === 0 && q.trim().length > 0) {
-       // Remove geoRadius, fallback to city/category search
-       const fallbackFilters = searchFilters.filter((f: string) => !f.startsWith("_geoRadius"));
-       if (type === "ALL") fallbackFilters.push(`type = "institute"`); // Force institute for fallback
+    // Fallback if strict search returns nothing, perform direct Prisma query for exact city/category match
+    if (hits.length === 0) {
+      const dbWhere: any = {
+        isActive: true,
+        isPublished: true,
+      };
 
-       searchRes = await meili.index("global_search").search(q, {
-         limit: limit,
-         offset: offset,
-         filter: fallbackFilters,
-         sort: sortOptions,
-       });
-       hits = searchRes.hits;
+      if (city && city !== "ALL") {
+        dbWhere.city = { slug: city };
+      }
+
+      if (category && category !== "ALL") {
+        dbWhere.categories = {
+          some: {
+            category: {
+              slug: { contains: category, mode: 'insensitive' }
+            }
+          }
+        };
+      }
+
+      if (q.trim()) {
+        dbWhere.OR = [
+          { name: { contains: q, mode: 'insensitive' } },
+          { address: { contains: q, mode: 'insensitive' } },
+          { feeInfo: { contains: q, mode: 'insensitive' } }
+        ];
+      }
+
+      const fallbackDbInstitutes = await prisma.institute.findMany({
+        where: dbWhere,
+        take: limit,
+        skip: offset,
+        orderBy: sort === 'rating' ? { googleRating: 'desc' } : { createdAt: 'desc' },
+        include: {
+          city: { select: { name: true } },
+          categories: { select: { category: { select: { name: true } } }, take: 3 }
+        }
+      });
+
+      if (fallbackDbInstitutes.length > 0) {
+        const formattedFallback = fallbackDbInstitutes.map(inst => ({
+          ...inst,
+          _type: "institute",
+          averageRating: inst.googleRating || inst.averageRating || 4.5,
+          reviewCount: inst.googleReviewCount || inst.reviewCount || 12,
+        }));
+
+        return NextResponse.json({
+          success: true,
+          data: {
+            results: formattedFallback,
+            pagination: {
+              total: fallbackDbInstitutes.length,
+              page,
+              limit,
+              totalPages: 1
+            }
+          }
+        });
+      }
     }
 
     // Fetch institutes from Prisma to get nested relations

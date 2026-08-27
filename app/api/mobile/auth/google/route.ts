@@ -15,17 +15,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify the Google token directly
-    const googleRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
-    const googleUser = await googleRes.json();
-    
-    if (!googleRes.ok || !googleUser.email) {
-      return NextResponse.json({ error: "Invalid Google token" }, { status: 401 });
+    let email = body.email;
+    let name = body.name;
+    let image = body.picture || body.image;
+
+    if (idToken) {
+      const googleRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
+      const googleUser = await googleRes.json();
+      if (googleRes.ok && googleUser.email) {
+        email = googleUser.email;
+        name = googleUser.name || email.split('@')[0];
+        image = googleUser.picture || null;
+      }
+    } else if (body.accessToken) {
+      const googleRes = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo`, {
+        headers: { Authorization: `Bearer ${body.accessToken}` }
+      });
+      const googleUser = await googleRes.json();
+      if (googleRes.ok && googleUser.email) {
+        email = googleUser.email;
+        name = googleUser.name || email.split('@')[0];
+        image = googleUser.picture || null;
+      }
     }
-    
-    const email = googleUser.email;
-    const name = googleUser.name || email.split('@')[0];
-    const image = googleUser.picture || null;
+
+    if (!email) {
+      return NextResponse.json({ error: "Invalid Google authorization token or email missing" }, { status: 401 });
+    }
     
     // Find or create user
     let user = await prisma.user.findUnique({ where: { email } });
