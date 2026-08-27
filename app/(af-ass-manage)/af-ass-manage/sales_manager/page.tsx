@@ -22,6 +22,12 @@ export default async function AdminSalesManagerPage({
     const search = typeof sp.search === "string" ? sp.search : "";
     const sort = typeof sp.sort === "string" ? sp.sort : "";
 
+    // Mark sales assignment update notifications as read when admin visits this page
+    await prisma.adminNotification.updateMany({
+        where: { type: "SALES_ASSIGNMENT_UPDATE", isRead: false },
+        data: { isRead: true }
+    }).catch(e => console.error("Error marking sales assignment notifications as read:", e));
+
     // Get all sales managers
     const whereCondition: any = {
         role: "SALES_MANAGER" as any,

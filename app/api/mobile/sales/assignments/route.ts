@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth/getSession';
+import { notifyAdmins } from '@/lib/notifications/notify';
 
 export async function GET(request: NextRequest) {
   try {
@@ -74,7 +75,22 @@ export async function PUT(request: NextRequest) {
     const updated = await prisma.salesAssignment.update({
       where: { id: assignmentId },
       data: updateData,
+      include: {
+        institute: { select: { name: true } },
+        salesManager: { select: { id: true, name: true } }
+      }
     });
+
+    // 🔔 Notify Admins about the status update
+    const managerName = updated.salesManager?.name || session.user.name || "Sales Manager";
+    const instName = updated.institute?.name || "Institute";
+    notifyAdmins(
+      "SALES_ASSIGNMENT_UPDATE",
+      `Sales Assignment Updated: ${instName}`,
+      `${managerName} updated status to "${contactStatus}" for ${instName}.`,
+      `/af-ass-manage/sales_manager/${updated.salesManagerId}`,
+      updated.id
+    ).catch(e => console.error("Admin notification error:", e));
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {

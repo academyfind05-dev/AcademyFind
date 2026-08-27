@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/prisma";
+import { notifyAdmins } from "@/lib/notifications/notify";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -66,7 +67,24 @@ export async function POST(req: NextRequest) {
         const updated = await prisma.salesAssignment.update({
             where: { id: assignmentId },
             data: updateData,
+            include: {
+                institute: { select: { name: true } },
+                salesManager: { select: { id: true, name: true, email: true } },
+            }
         });
+
+        // 🔔 Notify Admins about the assignment status update
+        const managerName = updated.salesManager?.name || session.user.name || "Sales Manager";
+        const instName = updated.institute?.name || "Institute";
+        const statusDisplay = contactStatus === "ONBOARDED" ? `ONBOARDED (${onboardedPlan || 'PREMIUM'})` : contactStatus;
+
+        notifyAdmins(
+            "SALES_ASSIGNMENT_UPDATE",
+            `Sales Assignment Updated: ${instName}`,
+            `${managerName} updated status to "${statusDisplay}" for ${instName}.${remark ? ` Remark: "${remark}"` : ""}`,
+            `/af-ass-manage/sales_manager/${updated.salesManagerId}`,
+            updated.id
+        ).catch(e => console.error("Admin notification error:", e));
 
         return NextResponse.json({ success: true, assignment: updated });
 

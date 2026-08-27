@@ -532,18 +532,30 @@ export default async function InstitutePage({ params }: PageProps) {
                       </div>
                     </div>
                     <div className="shrink-0 relative z-20 flex items-center gap-2">
-                      {isMember && (
-                        (institute.subscriptionPlan === "BASIC" || institute.subscriptionPlan === "VERIFIED") ? (
-                          <div className="inline-flex h-10 items-center justify-center rounded-lg bg-amber-50 px-4 text-sm font-semibold text-amber-700 border border-amber-200 gap-2 cursor-not-allowed" title="Forum locked (Available on Premium/Ultra)">
-                            <Lock className="h-4 w-4" />
-                            <span className="hidden sm:inline">Forum Locked</span>
-                          </div>
-                        ) : (
-                          <Link href={`/chat?instituteId=${institute.id}`} className="inline-flex h-10 items-center justify-center rounded-lg bg-blue-50 px-4 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-100 border border-blue-200 gap-2">
-                            <MessageCircle className="h-4 w-4" />
-                            <span className="hidden sm:inline">Institute Forum</span>
-                          </Link>
-                        )
+                      {(institute.subscriptionPlan === "BASIC" || institute.subscriptionPlan === "VERIFIED") ? (
+                        <div 
+                          className="inline-flex h-9 sm:h-10 items-center justify-center rounded-xl bg-amber-50 px-2.5 sm:px-4 text-xs sm:text-sm font-bold text-amber-700 border border-amber-200 gap-1.5 cursor-not-allowed shadow-2xs" 
+                          title="Forum locked (Available on Premium/Ultra)"
+                        >
+                          <Lock className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-600 shrink-0" />
+                          <span>Forum Locked</span>
+                        </div>
+                      ) : isMember ? (
+                        <Link 
+                          href={`/chat?instituteId=${institute.id}`} 
+                          className="inline-flex h-9 sm:h-10 items-center justify-center rounded-xl bg-blue-50 px-2.5 sm:px-4 text-xs sm:text-sm font-bold text-blue-600 transition-colors hover:bg-blue-100 border border-blue-200 gap-1.5 shadow-2xs"
+                        >
+                          <MessageCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                          <span>Institute Forum</span>
+                        </Link>
+                      ) : (
+                        <div 
+                          className="inline-flex h-9 sm:h-10 items-center justify-center rounded-xl bg-blue-50/70 px-2.5 sm:px-4 text-xs sm:text-sm font-bold text-blue-600 border border-blue-200/60 gap-1.5 cursor-pointer" 
+                          title="Join institute as student or teacher to access forum"
+                        >
+                          <MessageCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                          <span>Forum</span>
+                        </div>
                       )}
                       {isManager && (
                         <Link href={`/manager/${institute.id}`} className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-colors hover:bg-slate-200 border border-slate-200">
