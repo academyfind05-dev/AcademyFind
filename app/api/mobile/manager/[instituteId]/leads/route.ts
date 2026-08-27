@@ -38,7 +38,10 @@ export async function GET(
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ instituteId: string }> }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ instituteId: string }> }
+) {
   try {
     const session = await getSession();
     if (!session?.user) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
@@ -53,6 +56,43 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json({ success: true, data: lead });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message || 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ instituteId: string }> }
+) {
+  try {
+    const session = await getSession();
+    if (!session?.user) return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+
+    const { instituteId } = await params;
+    const body = await request.json();
+    const { name, phone, email, course, message } = body;
+
+    if (!name || !phone) {
+      return NextResponse.json({ success: false, error: 'Name and Phone are required' }, { status: 400 });
+    }
+
+    const fullMessage = course
+      ? `Course: ${course}${message ? `. ${message}` : ''}`
+      : (message || null);
+
+    const lead = await prisma.instituteEnquiry.create({
+      data: {
+        instituteId,
+        name,
+        phone,
+        email: email || null,
+        message: fullMessage,
+        status: 'NEW',
+      },
+    });
+
+    return NextResponse.json({ success: true, message: 'Lead created successfully', data: lead });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message || 'Failed to create lead' }, { status: 500 });
   }
 }

@@ -45,22 +45,37 @@ export async function PUT(
     const { instituteId } = await params;
     const body = await request.json();
 
-    const { name, description, phone, email, website, address } = body;
+    const {
+      name, description, phone, email, website, address, feeInfo,
+      gallery, imageUrl, coverImage, logo, youtubeVideos,
+      facebookUrl, instagramUrl, telegramUrl, youtubeUrl, linkedinUrl
+    } = body;
 
     const institute = await prisma.institute.update({
       where: { id: instituteId },
       data: {
         ...(name && { name }),
-        ...(description && { description }),
-        ...(phone && { phone }),
-        ...(email && { email }),
-        ...(website && { website }),
-        ...(address && { address }),
+        ...(description !== undefined && { description }),
+        ...(phone !== undefined && { phone }),
+        ...(email !== undefined && { email }),
+        ...(website !== undefined && { website }),
+        ...(address !== undefined && { address }),
+        ...(feeInfo !== undefined && { feeInfo }),
+        ...(gallery !== undefined && { gallery }),
+        ...(imageUrl !== undefined && { imageUrl }),
+        ...(coverImage !== undefined && { coverImage }),
+        ...(logo !== undefined && { logo }),
+        ...(youtubeVideos !== undefined && { youtubeVideos }),
+        ...(facebookUrl !== undefined && { facebookUrl }),
+        ...(instagramUrl !== undefined && { instagramUrl }),
+        ...(telegramUrl !== undefined && { telegramUrl }),
+        ...(youtubeUrl !== undefined && { youtubeUrl }),
+        ...(linkedinUrl !== undefined && { linkedinUrl }),
       },
     });
 
     return NextResponse.json({ success: true, data: institute });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message || 'Internal Server Error' }, { status: 500 });
   }
 }
