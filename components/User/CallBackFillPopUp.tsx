@@ -28,7 +28,7 @@ export default function CallBackSuccessPopUp({
 }: CallBackSuccessPopUpProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-sm rounded-3xl border-0 p-0 overflow-hidden shadow-2xl">
+            <DialogContent className="max-w-sm rounded-3xl border-0 p-0 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto">
                 {/* Accessibility: sr-only title/description */}
                 <DialogHeader className="sr-only">
                     <DialogTitle>Enquiry Submitted Successfully</DialogTitle>
@@ -95,30 +95,45 @@ export default function CallBackSuccessPopUp({
                             ))}
                         </div>
 
-                        <Button
-                            onClick={onClose}
-                            className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl py-3"
-                        >
-                            Got it, Thanks! 🙌
-                        </Button>
-
                         {/* Sign up / Login for Guest Users */}
-                        {!isLoggedIn && (
-                            <div className="mt-5 pt-5 border-t border-slate-100">
-                                <p className="text-center text-sm font-medium text-slate-600 mb-3">Want to explore on your own?</p>
-                                <div className="flex gap-2">
-                                    <Link href="/login" onClick={onClose} className="flex-1">
-                                        <Button variant="outline" className="w-full rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold">
-                                            Login
-                                        </Button>
-                                    </Link>
-                                    <Link href="/register" onClick={onClose} className="flex-1">
-                                        <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold">
-                                            Sign Up
-                                        </Button>
-                                    </Link>
+                        {!isLoggedIn ? (
+                            <div className="space-y-3 pt-2">
+                                <div className="p-4 rounded-2xl bg-slate-900 text-white text-center space-y-2.5 shadow-md">
+                                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/30">
+                                        <Sparkles className="w-3.5 h-3.5" /> Track Enquiry &amp; Chat
+                                    </div>
+                                    <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                                        Create an account or login to track your enquiry, chat with counselors &amp; earn free AFC coins!
+                                    </p>
+                                    <div className="flex gap-2 pt-1">
+                                        <Link href="/login" onClick={onClose} className="flex-1">
+                                            <Button variant="outline" className="w-full rounded-xl border-slate-700 bg-slate-800 text-white hover:bg-slate-700 font-bold text-xs h-9">
+                                                Log In
+                                            </Button>
+                                        </Link>
+                                        <Link href="/register" onClick={onClose} className="flex-1">
+                                            <Button className="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold text-xs h-9 shadow-xs">
+                                                Sign Up
+                                            </Button>
+                                        </Link>
+                                    </div>
                                 </div>
+
+                                <Button
+                                    onClick={onClose}
+                                    variant="ghost"
+                                    className="w-full text-slate-500 hover:text-slate-800 font-semibold rounded-xl text-xs py-2"
+                                >
+                                    Got it, Thanks! 🙌
+                                </Button>
                             </div>
+                        ) : (
+                            <Button
+                                onClick={onClose}
+                                className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl py-3 shadow-md"
+                            >
+                                Got it, Thanks! 🙌
+                            </Button>
                         )}
                     </div>
                 </div>
