@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || "AIzaSyCIUcTKaK5iGLCXxNNTz74SMhPaKtE33-o";
+const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY;
 
 // Store phone OTP sessions: phone => { otp, sessionInfo, expiresAt }
 export const phoneOtpStore = new Map<string, { otp: string; sessionInfo?: string; expiresAt: number }>();
