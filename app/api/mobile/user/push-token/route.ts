@@ -42,10 +42,8 @@ export async function POST(request: NextRequest) {
     await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        // Store push token and platform info in existing fields or metadata
-        // Using a custom approach: store in a field we can query later
         pushToken: pushToken,
-      } as any,
+      },
     });
 
     console.log(`🔔 Push token registered for user ${session.user.email}: ${pushToken.substring(0, 20)}...`);

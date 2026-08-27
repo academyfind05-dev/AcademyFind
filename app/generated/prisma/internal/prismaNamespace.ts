@@ -7431,6 +7431,7 @@ export const UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   onboardingCompleted: 'onboardingCompleted',
   lastLoginAt: 'lastLoginAt',
+  pushToken: 'pushToken',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   canAddInstitute: 'canAddInstitute',

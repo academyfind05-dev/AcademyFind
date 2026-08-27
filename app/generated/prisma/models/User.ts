@@ -38,6 +38,7 @@ export type UserMinAggregateOutputType = {
   emailVerified: boolean | null
   onboardingCompleted: boolean | null
   lastLoginAt: Date | null
+  pushToken: string | null
   createdAt: Date | null
   updatedAt: Date | null
   canAddInstitute: boolean | null
@@ -67,6 +68,7 @@ export type UserMaxAggregateOutputType = {
   emailVerified: boolean | null
   onboardingCompleted: boolean | null
   lastLoginAt: Date | null
+  pushToken: string | null
   createdAt: Date | null
   updatedAt: Date | null
   canAddInstitute: boolean | null
@@ -96,6 +98,7 @@ export type UserCountAggregateOutputType = {
   emailVerified: number
   onboardingCompleted: number
   lastLoginAt: number
+  pushToken: number
   createdAt: number
   updatedAt: number
   canAddInstitute: number
@@ -127,6 +130,7 @@ export type UserMinAggregateInputType = {
   emailVerified?: true
   onboardingCompleted?: true
   lastLoginAt?: true
+  pushToken?: true
   createdAt?: true
   updatedAt?: true
   canAddInstitute?: true
@@ -156,6 +160,7 @@ export type UserMaxAggregateInputType = {
   emailVerified?: true
   onboardingCompleted?: true
   lastLoginAt?: true
+  pushToken?: true
   createdAt?: true
   updatedAt?: true
   canAddInstitute?: true
@@ -185,6 +190,7 @@ export type UserCountAggregateInputType = {
   emailVerified?: true
   onboardingCompleted?: true
   lastLoginAt?: true
+  pushToken?: true
   createdAt?: true
   updatedAt?: true
   canAddInstitute?: true
@@ -287,6 +293,7 @@ export type UserGroupByOutputType = {
   emailVerified: boolean
   onboardingCompleted: boolean
   lastLoginAt: Date | null
+  pushToken: string | null
   createdAt: Date
   updatedAt: Date
   canAddInstitute: boolean
@@ -337,6 +344,7 @@ export type UserWhereInput = {
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  pushToken?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   canAddInstitute?: Prisma.BoolFilter<"User"> | boolean
@@ -420,6 +428,7 @@ export type UserOrderByWithRelationInput = {
   emailVerified?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   canAddInstitute?: Prisma.SortOrder
@@ -506,6 +515,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   emailVerified?: Prisma.BoolFilter<"User"> | boolean
   onboardingCompleted?: Prisma.BoolFilter<"User"> | boolean
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  pushToken?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   canAddInstitute?: Prisma.BoolFilter<"User"> | boolean
@@ -589,6 +599,7 @@ export type UserOrderByWithAggregationInput = {
   emailVerified?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  pushToken?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   canAddInstitute?: Prisma.SortOrder
@@ -624,6 +635,7 @@ export type UserScalarWhereWithAggregatesInput = {
   emailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   onboardingCompleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  pushToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   canAddInstitute?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
@@ -653,6 +665,7 @@ export type UserCreateInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -736,6 +749,7 @@ export type UserUncheckedCreateInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -819,6 +833,7 @@ export type UserUpdateInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -902,6 +917,7 @@ export type UserUncheckedUpdateInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -985,6 +1001,7 @@ export type UserCreateManyInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -1014,6 +1031,7 @@ export type UserUpdateManyMutationInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1043,6 +1061,7 @@ export type UserUncheckedUpdateManyInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1072,6 +1091,7 @@ export type UserCountOrderByAggregateInput = {
   emailVerified?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  pushToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   canAddInstitute?: Prisma.SortOrder
@@ -1101,6 +1121,7 @@ export type UserMaxOrderByAggregateInput = {
   emailVerified?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  pushToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   canAddInstitute?: Prisma.SortOrder
@@ -1130,6 +1151,7 @@ export type UserMinOrderByAggregateInput = {
   emailVerified?: Prisma.SortOrder
   onboardingCompleted?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  pushToken?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   canAddInstitute?: Prisma.SortOrder
@@ -1977,6 +1999,7 @@ export type UserCreateWithoutWalletInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -2059,6 +2082,7 @@ export type UserUncheckedCreateWithoutWalletInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -2157,6 +2181,7 @@ export type UserUpdateWithoutWalletInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2239,6 +2264,7 @@ export type UserUncheckedUpdateWithoutWalletInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2321,6 +2347,7 @@ export type UserCreateWithoutReputationInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -2403,6 +2430,7 @@ export type UserUncheckedCreateWithoutReputationInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -2501,6 +2529,7 @@ export type UserUpdateWithoutReputationInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2583,6 +2612,7 @@ export type UserUncheckedUpdateWithoutReputationInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2665,6 +2695,7 @@ export type UserCreateWithoutPreferencesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -2747,6 +2778,7 @@ export type UserUncheckedCreateWithoutPreferencesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -2845,6 +2877,7 @@ export type UserUpdateWithoutPreferencesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2927,6 +2960,7 @@ export type UserUncheckedUpdateWithoutPreferencesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3009,6 +3043,7 @@ export type UserCreateWithoutSessionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -3091,6 +3126,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -3189,6 +3225,7 @@ export type UserUpdateWithoutSessionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3271,6 +3308,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3353,6 +3391,7 @@ export type UserCreateWithoutAccountsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -3435,6 +3474,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -3533,6 +3573,7 @@ export type UserUpdateWithoutAccountsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3615,6 +3656,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3697,6 +3739,7 @@ export type UserCreateWithoutManagedInstitutesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -3779,6 +3822,7 @@ export type UserUncheckedCreateWithoutManagedInstitutesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -3877,6 +3921,7 @@ export type UserUpdateWithoutManagedInstitutesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3959,6 +4004,7 @@ export type UserUncheckedUpdateWithoutManagedInstitutesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4041,6 +4087,7 @@ export type UserCreateWithoutReviewsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -4123,6 +4170,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -4221,6 +4269,7 @@ export type UserUpdateWithoutReviewsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4303,6 +4352,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4385,6 +4435,7 @@ export type UserCreateWithoutReviewRepliesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -4467,6 +4518,7 @@ export type UserUncheckedCreateWithoutReviewRepliesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -4565,6 +4617,7 @@ export type UserUpdateWithoutReviewRepliesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4647,6 +4700,7 @@ export type UserUncheckedUpdateWithoutReviewRepliesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4729,6 +4783,7 @@ export type UserCreateWithoutClaimsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -4811,6 +4866,7 @@ export type UserUncheckedCreateWithoutClaimsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -4909,6 +4965,7 @@ export type UserUpdateWithoutClaimsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4991,6 +5048,7 @@ export type UserUncheckedUpdateWithoutClaimsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -5073,6 +5131,7 @@ export type UserCreateWithoutShortlistedInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -5155,6 +5214,7 @@ export type UserUncheckedCreateWithoutShortlistedInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -5253,6 +5313,7 @@ export type UserUpdateWithoutShortlistedInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -5335,6 +5396,7 @@ export type UserUncheckedUpdateWithoutShortlistedInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -5417,6 +5479,7 @@ export type UserCreateWithoutViewHistoryInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -5499,6 +5562,7 @@ export type UserUncheckedCreateWithoutViewHistoryInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -5597,6 +5661,7 @@ export type UserUpdateWithoutViewHistoryInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -5679,6 +5744,7 @@ export type UserUncheckedUpdateWithoutViewHistoryInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -5761,6 +5827,7 @@ export type UserCreateWithoutTeacherProfileInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -5843,6 +5910,7 @@ export type UserUncheckedCreateWithoutTeacherProfileInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -5941,6 +6009,7 @@ export type UserUpdateWithoutTeacherProfileInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -6023,6 +6092,7 @@ export type UserUncheckedUpdateWithoutTeacherProfileInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -6105,6 +6175,7 @@ export type UserCreateWithoutStudentProfileInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -6187,6 +6258,7 @@ export type UserUncheckedCreateWithoutStudentProfileInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -6285,6 +6357,7 @@ export type UserUpdateWithoutStudentProfileInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -6367,6 +6440,7 @@ export type UserUncheckedUpdateWithoutStudentProfileInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -6449,6 +6523,7 @@ export type UserCreateWithoutMembershipsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -6531,6 +6606,7 @@ export type UserUncheckedCreateWithoutMembershipsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -6629,6 +6705,7 @@ export type UserUpdateWithoutMembershipsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -6711,6 +6788,7 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -6793,6 +6871,7 @@ export type UserCreateWithoutCreatedConversationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -6875,6 +6954,7 @@ export type UserUncheckedCreateWithoutCreatedConversationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -6973,6 +7053,7 @@ export type UserUpdateWithoutCreatedConversationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -7055,6 +7136,7 @@ export type UserUncheckedUpdateWithoutCreatedConversationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -7137,6 +7219,7 @@ export type UserCreateWithoutConversationParticipantsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -7219,6 +7302,7 @@ export type UserUncheckedCreateWithoutConversationParticipantsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -7317,6 +7401,7 @@ export type UserUpdateWithoutConversationParticipantsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -7399,6 +7484,7 @@ export type UserUncheckedUpdateWithoutConversationParticipantsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -7481,6 +7567,7 @@ export type UserCreateWithoutMessagesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -7563,6 +7650,7 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -7661,6 +7749,7 @@ export type UserUpdateWithoutMessagesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -7743,6 +7832,7 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -7825,6 +7915,7 @@ export type UserCreateWithoutMessageReactionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -7907,6 +7998,7 @@ export type UserUncheckedCreateWithoutMessageReactionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -8005,6 +8097,7 @@ export type UserUpdateWithoutMessageReactionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -8087,6 +8180,7 @@ export type UserUncheckedUpdateWithoutMessageReactionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -8169,6 +8263,7 @@ export type UserCreateWithoutMessageReadsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -8251,6 +8346,7 @@ export type UserUncheckedCreateWithoutMessageReadsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -8349,6 +8445,7 @@ export type UserUpdateWithoutMessageReadsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -8431,6 +8528,7 @@ export type UserUncheckedUpdateWithoutMessageReadsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -8513,6 +8611,7 @@ export type UserCreateWithoutMessageReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -8595,6 +8694,7 @@ export type UserUncheckedCreateWithoutMessageReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -8682,6 +8782,7 @@ export type UserCreateWithoutResolvedMessageReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -8764,6 +8865,7 @@ export type UserUncheckedCreateWithoutResolvedMessageReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -8862,6 +8964,7 @@ export type UserUpdateWithoutMessageReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -8944,6 +9047,7 @@ export type UserUncheckedUpdateWithoutMessageReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -9037,6 +9141,7 @@ export type UserUpdateWithoutResolvedMessageReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -9119,6 +9224,7 @@ export type UserUncheckedUpdateWithoutResolvedMessageReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -9201,6 +9307,7 @@ export type UserCreateWithoutChatSettingsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -9283,6 +9390,7 @@ export type UserUncheckedCreateWithoutChatSettingsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -9381,6 +9489,7 @@ export type UserUpdateWithoutChatSettingsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -9463,6 +9572,7 @@ export type UserUncheckedUpdateWithoutChatSettingsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -9545,6 +9655,7 @@ export type UserCreateWithoutNotificationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -9627,6 +9738,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -9725,6 +9837,7 @@ export type UserUpdateWithoutNotificationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -9807,6 +9920,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -9889,6 +10003,7 @@ export type UserCreateWithoutBlockedUsersInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -9971,6 +10086,7 @@ export type UserUncheckedCreateWithoutBlockedUsersInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -10058,6 +10174,7 @@ export type UserCreateWithoutBlockedByUsersInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -10140,6 +10257,7 @@ export type UserUncheckedCreateWithoutBlockedByUsersInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -10238,6 +10356,7 @@ export type UserUpdateWithoutBlockedUsersInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -10320,6 +10439,7 @@ export type UserUncheckedUpdateWithoutBlockedUsersInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -10413,6 +10533,7 @@ export type UserUpdateWithoutBlockedByUsersInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -10495,6 +10616,7 @@ export type UserUncheckedUpdateWithoutBlockedByUsersInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -10577,6 +10699,7 @@ export type UserCreateWithoutContactMessagesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -10659,6 +10782,7 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -10757,6 +10881,7 @@ export type UserUpdateWithoutContactMessagesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -10839,6 +10964,7 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -10921,6 +11047,7 @@ export type UserCreateWithoutInstituteRequestsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -11003,6 +11130,7 @@ export type UserUncheckedCreateWithoutInstituteRequestsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -11101,6 +11229,7 @@ export type UserUpdateWithoutInstituteRequestsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -11183,6 +11312,7 @@ export type UserUncheckedUpdateWithoutInstituteRequestsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -11265,6 +11395,7 @@ export type UserCreateWithoutPaymentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -11347,6 +11478,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -11445,6 +11577,7 @@ export type UserUpdateWithoutPaymentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -11527,6 +11660,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -11609,6 +11743,7 @@ export type UserCreateWithoutSalesAssignmentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -11691,6 +11826,7 @@ export type UserUncheckedCreateWithoutSalesAssignmentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -11789,6 +11925,7 @@ export type UserUpdateWithoutSalesAssignmentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -11871,6 +12008,7 @@ export type UserUncheckedUpdateWithoutSalesAssignmentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -11953,6 +12091,7 @@ export type UserCreateWithoutSalesCategoryAssignmentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -12035,6 +12174,7 @@ export type UserUncheckedCreateWithoutSalesCategoryAssignmentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -12133,6 +12273,7 @@ export type UserUpdateWithoutSalesCategoryAssignmentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -12215,6 +12356,7 @@ export type UserUncheckedUpdateWithoutSalesCategoryAssignmentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -12297,6 +12439,7 @@ export type UserCreateWithoutAdminNotificationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -12379,6 +12522,7 @@ export type UserUncheckedCreateWithoutAdminNotificationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -12477,6 +12621,7 @@ export type UserUpdateWithoutAdminNotificationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -12559,6 +12704,7 @@ export type UserUncheckedUpdateWithoutAdminNotificationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -12641,6 +12787,7 @@ export type UserCreateWithoutInstituteVisitsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -12723,6 +12870,7 @@ export type UserUncheckedCreateWithoutInstituteVisitsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -12821,6 +12969,7 @@ export type UserUpdateWithoutInstituteVisitsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -12903,6 +13052,7 @@ export type UserUncheckedUpdateWithoutInstituteVisitsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -12985,6 +13135,7 @@ export type UserCreateWithoutCompareListsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -13067,6 +13218,7 @@ export type UserUncheckedCreateWithoutCompareListsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -13165,6 +13317,7 @@ export type UserUpdateWithoutCompareListsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -13247,6 +13400,7 @@ export type UserUncheckedUpdateWithoutCompareListsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -13329,6 +13483,7 @@ export type UserCreateWithoutCommunityQuestionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -13411,6 +13566,7 @@ export type UserUncheckedCreateWithoutCommunityQuestionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -13509,6 +13665,7 @@ export type UserUpdateWithoutCommunityQuestionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -13591,6 +13748,7 @@ export type UserUncheckedUpdateWithoutCommunityQuestionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -13673,6 +13831,7 @@ export type UserCreateWithoutCommunityAnswersInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -13755,6 +13914,7 @@ export type UserUncheckedCreateWithoutCommunityAnswersInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -13853,6 +14013,7 @@ export type UserUpdateWithoutCommunityAnswersInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -13935,6 +14096,7 @@ export type UserUncheckedUpdateWithoutCommunityAnswersInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -14017,6 +14179,7 @@ export type UserCreateWithoutDistributionLogsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -14099,6 +14262,7 @@ export type UserUncheckedCreateWithoutDistributionLogsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -14197,6 +14361,7 @@ export type UserUpdateWithoutDistributionLogsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -14279,6 +14444,7 @@ export type UserUncheckedUpdateWithoutDistributionLogsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -14361,6 +14527,7 @@ export type UserCreateWithoutBlogAuthorProfileInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -14443,6 +14610,7 @@ export type UserUncheckedCreateWithoutBlogAuthorProfileInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -14541,6 +14709,7 @@ export type UserUpdateWithoutBlogAuthorProfileInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -14623,6 +14792,7 @@ export type UserUncheckedUpdateWithoutBlogAuthorProfileInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -14705,6 +14875,7 @@ export type UserCreateWithoutReviewedPostsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -14787,6 +14958,7 @@ export type UserUncheckedCreateWithoutReviewedPostsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -14874,6 +15046,7 @@ export type UserCreateWithoutPublishedPostsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -14956,6 +15129,7 @@ export type UserUncheckedCreateWithoutPublishedPostsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -15043,6 +15217,7 @@ export type UserCreateWithoutEditedPostsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -15125,6 +15300,7 @@ export type UserUncheckedCreateWithoutEditedPostsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -15223,6 +15399,7 @@ export type UserUpdateWithoutReviewedPostsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -15305,6 +15482,7 @@ export type UserUncheckedUpdateWithoutReviewedPostsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -15398,6 +15576,7 @@ export type UserUpdateWithoutPublishedPostsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -15480,6 +15659,7 @@ export type UserUncheckedUpdateWithoutPublishedPostsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -15573,6 +15753,7 @@ export type UserUpdateWithoutEditedPostsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -15655,6 +15836,7 @@ export type UserUncheckedUpdateWithoutEditedPostsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -15737,6 +15919,7 @@ export type UserCreateWithoutBlogRevisionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -15819,6 +16002,7 @@ export type UserUncheckedCreateWithoutBlogRevisionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -15917,6 +16101,7 @@ export type UserUpdateWithoutBlogRevisionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -15999,6 +16184,7 @@ export type UserUncheckedUpdateWithoutBlogRevisionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -16081,6 +16267,7 @@ export type UserCreateWithoutBlogViewsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -16163,6 +16350,7 @@ export type UserUncheckedCreateWithoutBlogViewsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -16261,6 +16449,7 @@ export type UserUpdateWithoutBlogViewsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -16343,6 +16532,7 @@ export type UserUncheckedUpdateWithoutBlogViewsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -16425,6 +16615,7 @@ export type UserCreateWithoutBlogBookmarksInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -16507,6 +16698,7 @@ export type UserUncheckedCreateWithoutBlogBookmarksInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -16605,6 +16797,7 @@ export type UserUpdateWithoutBlogBookmarksInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -16687,6 +16880,7 @@ export type UserUncheckedUpdateWithoutBlogBookmarksInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -16769,6 +16963,7 @@ export type UserCreateWithoutFollowedAuthorsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -16851,6 +17046,7 @@ export type UserUncheckedCreateWithoutFollowedAuthorsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -16949,6 +17145,7 @@ export type UserUpdateWithoutFollowedAuthorsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -17031,6 +17228,7 @@ export type UserUncheckedUpdateWithoutFollowedAuthorsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -17113,6 +17311,7 @@ export type UserCreateWithoutResolvedBlogReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -17195,6 +17394,7 @@ export type UserUncheckedCreateWithoutResolvedBlogReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -17282,6 +17482,7 @@ export type UserCreateWithoutBlogReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -17364,6 +17565,7 @@ export type UserUncheckedCreateWithoutBlogReportsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -17462,6 +17664,7 @@ export type UserUpdateWithoutResolvedBlogReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -17544,6 +17747,7 @@ export type UserUncheckedUpdateWithoutResolvedBlogReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -17637,6 +17841,7 @@ export type UserUpdateWithoutBlogReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -17719,6 +17924,7 @@ export type UserUncheckedUpdateWithoutBlogReportsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -17801,6 +18007,7 @@ export type UserCreateWithoutBlogCommentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -17883,6 +18090,7 @@ export type UserUncheckedCreateWithoutBlogCommentsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -17981,6 +18189,7 @@ export type UserUpdateWithoutBlogCommentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -18063,6 +18272,7 @@ export type UserUncheckedUpdateWithoutBlogCommentsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -18145,6 +18355,7 @@ export type UserCreateWithoutBlogReactionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -18227,6 +18438,7 @@ export type UserUncheckedCreateWithoutBlogReactionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -18325,6 +18537,7 @@ export type UserUpdateWithoutBlogReactionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -18407,6 +18620,7 @@ export type UserUncheckedUpdateWithoutBlogReactionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -18489,6 +18703,7 @@ export type UserCreateWithoutEducationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -18571,6 +18786,7 @@ export type UserUncheckedCreateWithoutEducationsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -18669,6 +18885,7 @@ export type UserUpdateWithoutEducationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -18751,6 +18968,7 @@ export type UserUncheckedUpdateWithoutEducationsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -18833,6 +19051,7 @@ export type UserCreateWithoutExperiencesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -18915,6 +19134,7 @@ export type UserUncheckedCreateWithoutExperiencesInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -19013,6 +19233,7 @@ export type UserUpdateWithoutExperiencesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -19095,6 +19316,7 @@ export type UserUncheckedUpdateWithoutExperiencesInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -19177,6 +19399,7 @@ export type UserCreateWithoutAchievementsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -19259,6 +19482,7 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -19357,6 +19581,7 @@ export type UserUpdateWithoutAchievementsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -19439,6 +19664,7 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -19521,6 +19747,7 @@ export type UserCreateWithoutSkillsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -19603,6 +19830,7 @@ export type UserUncheckedCreateWithoutSkillsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -19701,6 +19929,7 @@ export type UserUpdateWithoutSkillsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -19783,6 +20012,7 @@ export type UserUncheckedUpdateWithoutSkillsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -19865,6 +20095,7 @@ export type UserCreateWithoutVisitorSessionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -19947,6 +20178,7 @@ export type UserUncheckedCreateWithoutVisitorSessionsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -20045,6 +20277,7 @@ export type UserUpdateWithoutVisitorSessionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -20127,6 +20360,7 @@ export type UserUncheckedUpdateWithoutVisitorSessionsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -20209,6 +20443,7 @@ export type UserCreateWithoutAdvertisementsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -20291,6 +20526,7 @@ export type UserUncheckedCreateWithoutAdvertisementsInput = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: Date | string | null
+  pushToken?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   canAddInstitute?: boolean
@@ -20389,6 +20625,7 @@ export type UserUpdateWithoutAdvertisementsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -20471,6 +20708,7 @@ export type UserUncheckedUpdateWithoutAdvertisementsInput = {
   emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -20998,6 +21236,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: boolean
+  pushToken?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   canAddInstitute?: boolean
@@ -21082,6 +21321,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: boolean
+  pushToken?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   canAddInstitute?: boolean
@@ -21111,6 +21351,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: boolean
+  pushToken?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   canAddInstitute?: boolean
@@ -21140,6 +21381,7 @@ export type UserSelectScalar = {
   emailVerified?: boolean
   onboardingCompleted?: boolean
   lastLoginAt?: boolean
+  pushToken?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   canAddInstitute?: boolean
@@ -21155,7 +21397,7 @@ export type UserSelectScalar = {
   isVisible?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "phone" | "passwordHash" | "image" | "coverImage" | "role" | "isActive" | "emailVerified" | "onboardingCompleted" | "lastLoginAt" | "createdAt" | "updatedAt" | "canAddInstitute" | "canWriteBlogs" | "facebookUrl" | "instagramUrl" | "telegramUrl" | "twitterUrl" | "youtubeUrl" | "linkedinUrl" | "whatsappUrl" | "allowDms" | "isVisible", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "phone" | "passwordHash" | "image" | "coverImage" | "role" | "isActive" | "emailVerified" | "onboardingCompleted" | "lastLoginAt" | "pushToken" | "createdAt" | "updatedAt" | "canAddInstitute" | "canWriteBlogs" | "facebookUrl" | "instagramUrl" | "telegramUrl" | "twitterUrl" | "youtubeUrl" | "linkedinUrl" | "whatsappUrl" | "allowDms" | "isVisible", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   managedInstitutes?: boolean | Prisma.User$managedInstitutesArgs<ExtArgs>
   reviews?: boolean | Prisma.User$reviewsArgs<ExtArgs>
@@ -21288,6 +21530,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     emailVerified: boolean
     onboardingCompleted: boolean
     lastLoginAt: Date | null
+    pushToken: string | null
     createdAt: Date
     updatedAt: Date
     canAddInstitute: boolean
@@ -21791,6 +22034,7 @@ export interface UserFieldRefs {
   readonly emailVerified: Prisma.FieldRef<"User", 'Boolean'>
   readonly onboardingCompleted: Prisma.FieldRef<"User", 'Boolean'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly pushToken: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly canAddInstitute: Prisma.FieldRef<"User", 'Boolean'>

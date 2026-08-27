@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth/getSession';
+import { sendExpoPushNotification } from '@/lib/pushNotifications';
 
 async function checkAdmin() {
   const session = await getSession();
@@ -69,7 +70,24 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ success: true, data: notification });
+    // Send Expo push notifications to all users with active pushToken
+    const usersWithTokens = await prisma.user.findMany({
+      where: { pushToken: { not: null } },
+      select: { pushToken: true }
+    });
+
+    for (const u of usersWithTokens) {
+      if (u.pushToken) {
+        sendExpoPushNotification({
+          pushToken: u.pushToken,
+          title,
+          body: message,
+          data: { actionUrl }
+        }).catch(err => console.error("Push send error:", err));
+      }
+    }
+
+    return NextResponse.json({ success: true, data: notification, pushSentCount: usersWithTokens.length });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message || 'Failed to create notification' }, { status: 500 });
   }
