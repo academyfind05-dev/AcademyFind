@@ -18,10 +18,11 @@ export async function POST(request: NextRequest) {
     let email = body.email;
     let name = body.name;
     let image = body.picture || body.image;
+    let googleUser: any = {};
 
     if (idToken) {
       const googleRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
-      const googleUser = await googleRes.json();
+      googleUser = await googleRes.json();
       if (googleRes.ok && googleUser.email) {
         email = googleUser.email;
         name = googleUser.name || email.split('@')[0];
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
       const googleRes = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo`, {
         headers: { Authorization: `Bearer ${body.accessToken}` }
       });
-      const googleUser = await googleRes.json();
+      googleUser = await googleRes.json();
       if (googleRes.ok && googleUser.email) {
         email = googleUser.email;
         name = googleUser.name || email.split('@')[0];
@@ -58,13 +59,15 @@ export async function POST(request: NextRequest) {
         }
       });
       // Optionally create an Account linking
-      await prisma.account.create({
-        data: {
-          userId: user.id,
-          providerId: "google",
-          accountId: googleUser.sub,
-        }
-      });
+      if (googleUser.sub) {
+        await prisma.account.create({
+          data: {
+            userId: user.id,
+            providerId: "google",
+            accountId: googleUser.sub,
+          }
+        });
+      }
     }
 
     // Better auth hashes the token in DB, so we must manually create a session to get the raw token
