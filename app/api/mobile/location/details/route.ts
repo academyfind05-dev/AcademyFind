@@ -9,6 +9,21 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'place_id is required' }, { status: 400 });
   }
 
+  // 0. Handle OSM place_id if passed
+  if (placeId.startsWith('osm_')) {
+    return NextResponse.json({
+      result: {
+        formatted_address: searchParams.get('address') || 'Selected Location',
+        geometry: {
+          location: {
+            lat: parseFloat(searchParams.get('lat') || '28.6139'),
+            lng: parseFloat(searchParams.get('lng') || '77.2090')
+          }
+        }
+      }
+    });
+  }
+
   // 1. Handle DB City place_id
   if (placeId.startsWith('city_')) {
     const cityId = placeId.replace('city_', '');

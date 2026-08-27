@@ -113,12 +113,32 @@ export async function GET(request: NextRequest) {
       });
 
       if (fallbackDbInstitutes.length > 0) {
-        const formattedFallback = fallbackDbInstitutes.map(inst => ({
-          ...inst,
-          _type: "institute",
-          averageRating: inst.googleRating || inst.averageRating || 4.5,
-          reviewCount: inst.googleReviewCount || inst.reviewCount || 12,
-        }));
+        const userLatNum = lat ? parseFloat(lat) : null;
+        const userLngNum = lng ? parseFloat(lng) : null;
+
+        const formattedFallback = fallbackDbInstitutes.map(inst => {
+          let distance: string | null = null;
+          if (userLatNum && userLngNum && inst.latitude && inst.longitude) {
+            const radlat1 = (Math.PI * userLatNum) / 180;
+            const radlat2 = (Math.PI * inst.latitude) / 180;
+            const theta = userLngNum - inst.longitude;
+            const radtheta = (Math.PI * theta) / 180;
+            let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            if (dist > 1) dist = 1;
+            dist = Math.acos(dist);
+            dist = (dist * 180) / Math.PI;
+            dist = dist * 60 * 1.1515 * 1.609344; // Convert to KM
+            distance = dist.toFixed(1);
+          }
+
+          return {
+            ...inst,
+            _type: "institute",
+            distance,
+            averageRating: inst.googleRating || inst.averageRating || 4.5,
+            reviewCount: inst.googleReviewCount || inst.reviewCount || 12,
+          };
+        });
 
         return NextResponse.json({
           success: true,
