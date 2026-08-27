@@ -26,7 +26,7 @@ export default async function AdminSalesManagerPage({
     await prisma.adminNotification.updateMany({
         where: { type: "SALES_ASSIGNMENT_UPDATE", isRead: false },
         data: { isRead: true }
-    }).catch(e => console.error("Error marking sales assignment notifications as read:", e));
+    }).catch((e: any) => console.error("Error marking sales assignment notifications as read:", e));
 
     // Get all sales managers
     const whereCondition: any = {
@@ -119,25 +119,25 @@ export default async function AdminSalesManagerPage({
     const sortedManagers = [...managersWithStats];
     switch (sort) {
         case "name_asc":
-            sortedManagers.sort((a: any,b: any) => (a.name || "").localeCompare(b.name || ""));
+            sortedManagers.sort((a: any, b: any) => (a.name || "").localeCompare(b.name || ""));
             break;
         case "name_desc":
-            sortedManagers.sort((a: any,b: any) => (b.name || "").localeCompare(a.name || ""));
+            sortedManagers.sort((a: any, b: any) => (b.name || "").localeCompare(a.name || ""));
             break;
         case "work_desc":
-            sortedManagers.sort((a: any,b: any) => b.total - a.total);
+            sortedManagers.sort((a: any, b: any) => b.total - a.total);
             break;
         case "work_asc":
-            sortedManagers.sort((a: any,b: any) => a.total - b.total);
+            sortedManagers.sort((a: any, b: any) => a.total - b.total);
             break;
         case "completion_desc":
-            sortedManagers.sort((a: any,b: any) => b.completionRate - a.completionRate);
+            sortedManagers.sort((a: any, b: any) => b.completionRate - a.completionRate);
             break;
         case "completion_asc":
-            sortedManagers.sort((a: any,b: any) => a.completionRate - b.completionRate);
+            sortedManagers.sort((a: any, b: any) => a.completionRate - b.completionRate);
             break;
         case "overdue_desc":
-            sortedManagers.sort((a: any,b: any) => b.overdue - a.overdue);
+            sortedManagers.sort((a: any, b: any) => b.overdue - a.overdue);
             break;
     }
 
