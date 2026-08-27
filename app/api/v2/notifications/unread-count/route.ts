@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
+import { getSession } from "@/lib/auth/getSession";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return NextResponse.json({ count: 0 });
+  const session = await getSession();
+  if (!session?.user) return NextResponse.json({ count: 0 });
 
   const isAdmin = session.user.role === "ADMIN";
 

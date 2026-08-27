@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
+import { getSession } from "@/lib/auth/getSession";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return NextResponse.json({ notifications: [] });
+  const session = await getSession();
+  if (!session?.user) return NextResponse.json({ notifications: [] });
 
   const isAdmin = session.user.role === "ADMIN";
 
@@ -49,8 +48,8 @@ export async function GET() {
 }
 
 export async function PATCH(req: Request) {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getSession();
+  if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
   const { id, all } = body as { id?: string; all?: boolean };
