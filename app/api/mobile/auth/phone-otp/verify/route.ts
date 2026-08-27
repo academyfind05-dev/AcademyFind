@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { phoneOtpStore } from "../send/route";
 
+const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || "AIzaSyCIUcTKaK5iGLCXxNNTz74SMhPaKtE33-o";
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -17,8 +19,45 @@ export async function POST(request: NextRequest) {
     const cleanPhone = phone.replace(/[^0-9]/g, "").slice(-10);
     const storedRecord = phoneOtpStore.get(cleanPhone);
 
-    // Bypass check for demo OTP 123456 or match stored OTP
-    const isValidOtp = otp === "123456" || (storedRecord && storedRecord.otp === otp && Date.now() < storedRecord.expiresAt);
+    let isValidOtp = false;
+
+    // 1. Dev Bypass for rapid testing
+    if (otp === "123456") {
+      isValidOtp = true;
+    }
+
+    // 2. Check Firebase verification if sessionInfo exists
+    if (!isValidOtp && storedRecord?.sessionInfo) {
+      try {
+        const fbRes = await fetch(
+          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPhoneNumber?key=${FIREBASE_API_KEY}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionInfo: storedRecord.sessionInfo,
+              code: otp,
+            }),
+          }
+        );
+        const fbData = await fbRes.json();
+        if (fbData.idToken || fbData.phoneNumber) {
+          isValidOtp = true;
+          console.log(`🔥 [FIREBASE OTP VERIFIED] ${cleanPhone}`);
+        } else {
+          console.warn("Firebase OTP verify failed:", fbData);
+        }
+      } catch (fbErr) {
+        console.error("Firebase OTP verify error:", fbErr);
+      }
+    }
+
+    // 3. Check local OTP store if not yet verified
+    if (!isValidOtp && storedRecord) {
+      if (storedRecord.otp === otp && Date.now() < storedRecord.expiresAt) {
+        isValidOtp = true;
+      }
+    }
 
     if (!isValidOtp) {
       return NextResponse.json(

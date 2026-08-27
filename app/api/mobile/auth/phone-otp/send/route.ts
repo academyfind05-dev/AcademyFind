@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 
-// Simple in-memory OTP store for rapid verification
-export const phoneOtpStore = new Map<string, { otp: string; expiresAt: number }>();
+const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || "AIzaSyCIUcTKaK5iGLCXxNNTz74SMhPaKtE33-o";
+
+// Store phone OTP sessions: phone => { otp, sessionInfo, expiresAt }
+export const phoneOtpStore = new Map<string, { otp: string; sessionInfo?: string; expiresAt: number }>();
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,12 +23,35 @@ export async function POST(request: NextRequest) {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = Date.now() + 10 * 60 * 1000; // 10 mins
 
-    phoneOtpStore.set(cleanPhone, { otp, expiresAt });
+    let firebaseSessionInfo: string | undefined;
 
-    console.log(`📱 [PHONE OTP GENERATED] Phone: ${fullPhone} | OTP: ${otp}`);
+    // 1. Try Firebase Identity Toolkit API (10,000 FREE SMS / month)
+    try {
+      const fbRes = await fetch(
+        `https://identitytoolkit.googleapis.com/v1/accounts:sendVerificationCode?key=${FIREBASE_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phoneNumber: fullPhone,
+          }),
+        }
+      );
 
+      const fbData = await fbRes.json();
+      if (fbData.sessionInfo) {
+        firebaseSessionInfo = fbData.sessionInfo;
+        console.log(`🔥 [FIREBASE SMS SENT] Sent to ${fullPhone} | SessionInfo: ${firebaseSessionInfo?.substring(0, 15)}...`);
+      } else {
+        console.warn("⚠️ Firebase sendVerificationCode response:", fbData);
+      }
+    } catch (fbErr) {
+      console.error("Firebase SMS send error:", fbErr);
+    }
+
+    // 2. Try Fast2SMS if configured
     const fast2smsKey = process.env.FAST2SMS_API_KEY;
-    if (fast2smsKey) {
+    if (fast2smsKey && !firebaseSessionInfo) {
       try {
         await fetch("https://www.fast2sms.com/dev/bulkV2", {
           method: "POST",
@@ -47,10 +71,14 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    phoneOtpStore.set(cleanPhone, { otp, sessionInfo: firebaseSessionInfo, expiresAt });
+    console.log(`📱 [PHONE OTP STORED] Phone: ${fullPhone} | Local OTP: ${otp}`);
+
     return NextResponse.json({
       success: true,
       message: `OTP sent successfully to ${fullPhone}`,
-      ...(process.env.NODE_ENV !== "production" && !fast2smsKey ? { devOtp: otp } : {})
+      firebaseSent: !!firebaseSessionInfo,
+      ...(process.env.NODE_ENV !== "production" && !firebaseSessionInfo && !fast2smsKey ? { devOtp: otp } : {})
     });
 
   } catch (error: any) {
