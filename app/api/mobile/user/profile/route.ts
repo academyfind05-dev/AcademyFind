@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth/getSession';
+import { autoGrantDailyLoginBonus } from '@/lib/wallet/auto-daily-login';
 
 export async function GET() {
   try {
@@ -8,6 +9,9 @@ export async function GET() {
     if (!session?.user) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Auto-credit daily login bonus on app launch
+    await autoGrantDailyLoginBonus(session.user.id);
 
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },

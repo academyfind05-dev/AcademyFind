@@ -1,54 +1,31 @@
-export type UserLevel = "Explorer" | "Learner" | "Scholar" | "Mentor" | "Champion";
+export type UserLevel = 'Explorer' | 'Learner' | 'Scholar' | 'Mentor' | 'Champion';
 
 export interface LevelInfo {
   name: UserLevel;
+  badge: string;
+  description: string;
   min: number;
   max: number | null;
-  description: string;
 }
 
-export const AFC_LEVELS: Record<UserLevel, LevelInfo> = {
-  Explorer: {
-    name: "Explorer",
-    min: 0,
-    max: 20,
-    description: "You're just getting started. Explore, engage and earn your first rewards!",
-  },
-  Learner: {
-    name: "Learner",
-    min: 21,
-    max: 50,
-    description: "Keep learning and engaging. You're building great momentum!",
-  },
-  Scholar: {
-    name: "Scholar",
-    min: 51,
-    max: 100,
-    description: "Great going! You're becoming a trusted and active member.",
-  },
-  Mentor: {
-    name: "Mentor",
-    min: 101,
-    max: 500,
-    description: "You're an inspiration to others. Share, guide and make an impact!",
-  },
-  Champion: {
-    name: "Champion",
-    min: 501,
-    max: null, // Infinity
-    description: "You're at the top! A true champion who leads and drives the AcademyFind community.",
+export function getLevelInfo(afcBalance: number): LevelInfo {
+  const points = Math.max(0, afcBalance || 0);
+
+  if (points <= 20) {
+    return { name: 'Explorer', badge: '🧭', description: 'Starting your learning journey (0 - 20 AFC)', min: 0, max: 20 };
   }
-};
-
-export function getUserAFCLevel(lifetimeEarned: number): UserLevel {
-  if (lifetimeEarned <= 20) return "Explorer";
-  if (lifetimeEarned <= 50) return "Learner";
-  if (lifetimeEarned <= 100) return "Scholar";
-  if (lifetimeEarned <= 500) return "Mentor";
-  return "Champion";
+  if (points <= 50) {
+    return { name: 'Learner', badge: '📚', description: 'Actively discovering academies & guides (21 - 50 AFC)', min: 21, max: 50 };
+  }
+  if (points <= 100) {
+    return { name: 'Scholar', badge: '🎓', description: 'Experienced platform reviewer & contributor (51 - 100 AFC)', min: 51, max: 100 };
+  }
+  if (points <= 500) {
+    return { name: 'Mentor', badge: '👨‍🏫', description: 'Trusted community guide & advisor (101 - 500 AFC)', min: 101, max: 500 };
+  }
+  return { name: 'Champion', badge: '🏆', description: 'Top Tier AcademyFind Champion (501+ AFC)', min: 501, max: null };
 }
 
-export function getLevelInfo(lifetimeEarned: number): LevelInfo {
-  const levelName = getUserAFCLevel(lifetimeEarned);
-  return AFC_LEVELS[levelName];
+export function getUserLevel(afcBalance: number) {
+  return getLevelInfo(afcBalance);
 }
