@@ -25,6 +25,24 @@ export async function GET() {
         experiences: { orderBy: { createdAt: 'desc' } },
         skills: true,
         achievements: true,
+        memberships: {
+          select: {
+            id: true,
+            role: true,
+            status: true,
+            createdAt: true,
+            institute: {
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+                logo: true,
+                address: true,
+                city: { select: { name: true } },
+              }
+            }
+          }
+        },
         _count: {
           select: {
             reviews: true,
