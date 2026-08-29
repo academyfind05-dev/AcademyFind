@@ -22,6 +22,19 @@ export async function POST(request: NextRequest) {
     });
 
     if ("user" in response && response.user?.id) {
+      // Explicitly trigger the OTP email for verification
+      try {
+        await auth.api.sendVerificationOTP({
+          body: {
+            email: email,
+            type: "email-verification"
+          },
+          headers: await nextHeaders(),
+        });
+      } catch (e) {
+        console.error("Failed to send verification OTP:", e);
+      }
+
       // Return success but NO token yet, forcing the app to verify email
       return NextResponse.json({ success: true, user: response.user });
     }
