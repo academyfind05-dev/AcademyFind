@@ -22,26 +22,8 @@ export async function POST(request: NextRequest) {
     });
 
     if ("user" in response && response.user?.id) {
-      // Better auth hashes the token in DB, so we must manually create a session to get the raw token
-      const rawToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
-      const encoder = new TextEncoder();
-      const data = encoder.encode(rawToken);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashedToken = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-
-      await prisma.session.create({
-        data: {
-          id: crypto.randomUUID(),
-          token: hashedToken,
-          userId: response.user.id,
-          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-          ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
-          userAgent: request.headers.get("user-agent") || "Mobile App"
-        }
-      });
-
-      return NextResponse.json({ ...response, token: rawToken });
+      // Return success but NO token yet, forcing the app to verify email
+      return NextResponse.json({ success: true, user: response.user });
     }
 
     return NextResponse.json(response);
