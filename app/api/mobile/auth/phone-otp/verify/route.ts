@@ -1,9 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getAuth } from 'firebase-admin/auth';
-import { getApps } from 'firebase-admin/app';
-// Initialize Firebase Admin if not already initialized
-import '@/lib/firebase-admin';
+
+// Lazy Firebase Admin init to prevent module-level crashes on Vercel
+async function getFirebaseAdminAuth() {
+  try {
+    const { getApps, initializeApp, cert } = await import('firebase-admin/app');
+    const { getAuth } = await import('firebase-admin/auth');
+
+    if (!getApps().length) {
+      const projectId = process.env.FIREBASE_PROJECT_ID;
+      const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+      const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
+      if (!projectId || !clientEmail || !privateKey) {
+        throw new Error(`Firebase env vars missing: project=${!!projectId}, email=${!!clientEmail}, key=${!!privateKey}`);
+      }
+
+      initializeApp({
+        credential: cert({ projectId, clientEmail, privateKey }),
+      });
+      console.log("✅ Firebase Admin initialized inside route");
+    }
+
+    return getAuth();
+  } catch (err: any) {
+    console.error("🔴 Firebase Admin init failed:", err.message);
+    throw new Error("Firebase Admin initialization failed: " + err.message);
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,45 +41,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Safety check - ensure Firebase Admin is initialized
-    const apps = getApps();
-    if (!apps.length) {
-      console.error("Firebase Admin NOT initialized. Env vars:", {
-        project: process.env.FIREBASE_PROJECT_ID ? "SET" : "MISSING",
-        email: process.env.FIREBASE_CLIENT_EMAIL ? "SET" : "MISSING",
-        key: process.env.FIREBASE_PRIVATE_KEY ? "SET" : "MISSING",
-      });
-      return NextResponse.json(
-        { success: false, error: "Server configuration error: Firebase Admin not initialized" },
-        { status: 500 }
-      );
-    }
+    // Lazy-init Firebase Admin
+    const adminAuth = await getFirebaseAdminAuth();
 
     let decodedToken;
     let cleanPhone = "";
 
     try {
-      // 1. Verify the ID Token using Firebase Admin SDK
-      decodedToken = await getAuth().verifyIdToken(idToken);
+      decodedToken = await adminAuth.verifyIdToken(idToken);
 
       if (!decodedToken.phone_number) {
         throw new Error("Phone number is missing in the verified token.");
       }
 
-      // 2. Extract and clean the phone number
       cleanPhone = decodedToken.phone_number.replace(/[^0-9]/g, "").slice(-10);
       console.log(`✅ [FIREBASE ADMIN VERIFIED] User: ${cleanPhone}`);
 
     } catch (firebaseError: any) {
-      console.error("Firebase Admin verifyIdToken error:", firebaseError.message);
+      console.error("Firebase verifyIdToken error:", firebaseError.message);
       return NextResponse.json(
-        { success: false, error: "Invalid or expired Firebase session" },
+        { success: false, error: "Invalid or expired Firebase session: " + firebaseError.message },
         { status: 401 }
       );
     }
 
     const fallbackEmail = `user_${cleanPhone}@phone.academyfind.com`;
-    const finalEmail = (userProvidedEmail && userProvidedEmail.includes("@")) ? userProvidedEmail.trim().toLowerCase() : fallbackEmail;
+    const finalEmail = (userProvidedEmail && userProvidedEmail.includes("@"))
+      ? userProvidedEmail.trim().toLowerCase()
+      : fallbackEmail;
 
     let user = await prisma.user.findFirst({
       where: {
@@ -85,15 +98,13 @@ export async function POST(request: NextRequest) {
         }
       });
     } else {
-      // Update name or real email if missing/default
       const updateData: any = {};
       if (name && (!user.name || user.name.startsWith("User "))) updateData.name = name.trim();
-      if (userProvidedEmail && userProvidedEmail.includes("@") && user.email.includes("@phone.academyfind.com")) updateData.email = userProvidedEmail.trim().toLowerCase();
+      if (userProvidedEmail && userProvidedEmail.includes("@") && user.email.includes("@phone.academyfind.com")) {
+        updateData.email = userProvidedEmail.trim().toLowerCase();
+      }
       if (Object.keys(updateData).length > 0) {
-        user = await prisma.user.update({
-          where: { id: user.id },
-          data: updateData,
-        });
+        user = await prisma.user.update({ where: { id: user.id }, data: updateData });
       }
     }
 
@@ -110,7 +121,7 @@ export async function POST(request: NextRequest) {
         id: crypto.randomUUID(),
         token: hashedToken,
         userId: user.id,
-        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+        expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
         userAgent: request.headers.get("user-agent") || "Mobile App"
       }
