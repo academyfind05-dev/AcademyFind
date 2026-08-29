@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Call Better Auth's internal API to verify the email OTP
-    const response = await auth.api.verifyEmail({
+    const response = await auth.api.verifyEmailOTP({
       body: { email, otp },
       headers: await nextHeaders(),
     });
