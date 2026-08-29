@@ -32,7 +32,7 @@ export async function GET(_req: Request, { params }: Params) {
       },
       instituteId: true,
       batchId: true,
-      institute: { select: { id: true, name: true, logo: true, slug: true } },
+      institute: { select: { id: true, name: true, logo: true, slug: true, phone: true } },
       participants: {
         where: { status: "ACTIVE" },
         take: 50,
@@ -43,6 +43,7 @@ export async function GET(_req: Request, { params }: Params) {
               name: true,
               username: true,
               image: true,
+              phone: true,
             },
           },
         },
