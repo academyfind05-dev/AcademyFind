@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { phoneOtpStore } from "../send/route";
 
-const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || "AIzaSyCIUcTKaK5iGLCXxNNTz74SMhPaKtE33-o";
+const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API_KEY || "AIzaSyCJVo2m1ic_xT4BLDELw6h63mOjO9PqquE";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { phone, otp, name } = body;
+    const { phone, otp, name, email: userProvidedEmail } = body;
 
     if (!phone || !otp) {
       return NextResponse.json(
@@ -69,31 +69,46 @@ export async function POST(request: NextRequest) {
     // Clear OTP after successful match
     phoneOtpStore.delete(cleanPhone);
 
-    const email = `user_${cleanPhone}@phone.academyfind.com`;
+    const fallbackEmail = `user_${cleanPhone}@phone.academyfind.com`;
+    const finalEmail = (userProvidedEmail && userProvidedEmail.includes("@")) ? userProvidedEmail.trim().toLowerCase() : fallbackEmail;
+
     let user = await prisma.user.findFirst({
       where: {
         OR: [
           { phone: cleanPhone },
           { phone: `+91${cleanPhone}` },
-          { email }
+          { email: finalEmail },
+          { email: fallbackEmail }
         ]
       }
     });
 
     if (!user) {
+      const emailPrefix = finalEmail.split("@")[0].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
       const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-      const userName = name || `User ${cleanPhone.slice(-4)}`;
-      const username = `user_${cleanPhone}_${randomSuffix}`;
+      const userName = name ? name.trim() : `User ${cleanPhone.slice(-4)}`;
+      const username = `${emailPrefix}_${randomSuffix}`;
 
       user = await prisma.user.create({
         data: {
           name: userName,
-          email,
+          email: finalEmail,
           phone: cleanPhone,
           username,
           emailVerified: true
         }
       });
+    } else {
+      // Update name or real email if missing/default
+      const updateData: any = {};
+      if (name && (!user.name || user.name.startsWith("User "))) updateData.name = name.trim();
+      if (userProvidedEmail && userProvidedEmail.includes("@") && user.email.includes("@phone.academyfind.com")) updateData.email = userProvidedEmail.trim().toLowerCase();
+      if (Object.keys(updateData).length > 0) {
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: updateData,
+        });
+      }
     }
 
     // Generate Mobile Bearer Token
