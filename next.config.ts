@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Prevent Next.js from bundling these — they must use native Node.js require/ESM
+  serverExternalPackages: ["firebase-admin", "firebase-admin/app", "firebase-admin/auth"],
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",
