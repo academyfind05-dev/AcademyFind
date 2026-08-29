@@ -54,11 +54,11 @@ export async function GET(
       }),
     ]);
 
-    const enrolledStudentIds = new Set(batch.studentMembers.map((s) => s.studentRecordId));
-    const enrolledTeacherIds = new Set(batch.teacherMembers.map((t) => t.teacherRecordId));
+    const enrolledStudentIds = new Set(batch.studentMembers.map((s: any) => s.studentRecordId));
+    const enrolledTeacherIds = new Set(batch.teacherMembers.map((t: any) => t.teacherRecordId));
 
-    const availableStudents = activeStudents.filter((s) => !enrolledStudentIds.has(s.id));
-    const availableTeachers = activeTeachers.filter((t) => !enrolledTeacherIds.has(t.id));
+    const availableStudents = activeStudents.filter((s: any) => !enrolledStudentIds.has(s.id));
+    const availableTeachers = activeTeachers.filter((t: any) => !enrolledTeacherIds.has(t.id));
 
     return NextResponse.json({
       success: true,
