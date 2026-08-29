@@ -16,7 +16,7 @@ export async function GET(
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    const [dailyViews, totalViews, enquiryStats, reviewStats] = await Promise.all([
+    const [dailyViews, totalViews, enquiryStats, reviewStats, shortlistedBy, viewHistory] = await Promise.all([
       prisma.instituteDailyView.findMany({
         where: { instituteId, date: { gte: thirtyDaysAgo } },
         orderBy: { date: 'asc' },
@@ -32,6 +32,18 @@ export async function GET(
         _avg: { rating: true },
         _count: { rating: true },
       }),
+      prisma.userShortlist.findMany({
+        where: { instituteId },
+        include: { user: { select: { name: true, email: true, image: true, username: true } } },
+        orderBy: { createdAt: 'desc' },
+        take: 20,
+      }),
+      prisma.userHistory.findMany({
+        where: { instituteId },
+        include: { user: { select: { name: true, email: true, image: true, username: true } } },
+        orderBy: { viewedAt: 'desc' },
+        take: 20,
+      }),
     ]);
 
     return NextResponse.json({
@@ -44,9 +56,12 @@ export async function GET(
           averageRating: reviewStats._avg.rating || 0,
           totalReviews: reviewStats._count.rating,
         },
+        shortlistedBy,
+        viewHistory,
       },
     });
   } catch (error: any) {
+    console.error("Manager Analytics API Error:", error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }
