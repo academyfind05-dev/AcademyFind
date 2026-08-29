@@ -43,13 +43,35 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, status } = body;
 
-    const payment = await prisma.subscriptionPayment.update({
+    const payment = await prisma.subscriptionPayment.findUnique({
       where: { id },
-      data: { status },
+      include: { institute: true }
     });
 
-    return NextResponse.json({ success: true, data: payment });
+    if (!payment) {
+      return NextResponse.json({ success: false, error: 'Payment record not found' }, { status: 404 });
+    }
+
+    const updatedPayment = await prisma.subscriptionPayment.update({
+      where: { id },
+      data: { status },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        institute: { select: { id: true, name: true } },
+      }
+    });
+
+    // If approved, upgrade the institute subscription plan
+    if (status === 'APPROVED' && payment.instituteId && payment.planRequested) {
+      await prisma.institute.update({
+        where: { id: payment.instituteId },
+        data: { subscriptionPlan: payment.planRequested as any },
+      }).catch(e => console.error("Failed to upgrade institute subscription plan:", e));
+    }
+
+    return NextResponse.json({ success: true, data: updatedPayment });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
+    console.error("Mobile admin payments PUT error:", error);
+    return NextResponse.json({ success: false, error: error.message || 'Internal Server Error' }, { status: 500 });
   }
 }
