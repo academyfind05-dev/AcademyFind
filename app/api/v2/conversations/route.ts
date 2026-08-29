@@ -84,6 +84,7 @@ export async function GET() {
         ? (dmUser?.image ?? null)
         : (conv.institute?.logo ?? conv.imageUrl ?? null),
       dmUserId: isDirect ? (dmUser?.id ?? null) : null,
+      dmUsername: isDirect ? (dmUser?.username ?? null) : null,
       lastMessage: conv.lastMessage,
     };
   });
