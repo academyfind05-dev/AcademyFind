@@ -29,6 +29,7 @@ export async function GET(
         select: {
           id: true, name: true, slug: true, logo: true, gallery: true,
           averageRating: true, reviewCount: true, isVerified: true, isActive: true,
+          subscriptionPlan: true, planExpiresAt: true, planWeight: true,
           city: { select: { name: true } },
         },
       }),
