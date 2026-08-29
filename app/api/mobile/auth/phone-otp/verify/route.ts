@@ -1,32 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// Lazy Firebase Admin init to prevent module-level crashes on Vercel
-async function getFirebaseAdminAuth() {
-  try {
-    const { getApps, initializeApp, cert } = await import('firebase-admin/app');
-    const { getAuth } = await import('firebase-admin/auth');
+// Verify Firebase ID Token using REST API (no firebase-admin needed!)
+async function verifyFirebaseIdToken(idToken: string) {
+  const apiKey = process.env.FIREBASE_WEB_API_KEY;
+  if (!apiKey) throw new Error("FIREBASE_WEB_API_KEY env var is missing");
 
-    if (!getApps().length) {
-      const projectId = process.env.FIREBASE_PROJECT_ID;
-      const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-      const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-
-      if (!projectId || !clientEmail || !privateKey) {
-        throw new Error(`Firebase env vars missing: project=${!!projectId}, email=${!!clientEmail}, key=${!!privateKey}`);
-      }
-
-      initializeApp({
-        credential: cert({ projectId, clientEmail, privateKey }),
-      });
-      console.log("✅ Firebase Admin initialized inside route");
+  const res = await fetch(
+    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken }),
     }
+  );
 
-    return getAuth();
-  } catch (err: any) {
-    console.error("🔴 Firebase Admin init failed:", err.message);
-    throw new Error("Firebase Admin initialization failed: " + err.message);
+  const json = await res.json();
+
+  if (!res.ok || !json.users || json.users.length === 0) {
+    console.error("Firebase token lookup failed:", json);
+    throw new Error(json.error?.message || "Invalid or expired Firebase token");
   }
+
+  return json.users[0]; // { localId, phoneNumber, email, emailVerified, ... }
 }
 
 export async function POST(request: NextRequest) {
@@ -41,30 +37,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Lazy-init Firebase Admin
-    const adminAuth = await getFirebaseAdminAuth();
-
-    let decodedToken;
-    let cleanPhone = "";
-
+    // 1. Verify Firebase token via REST API
+    let firebaseUser: any;
     try {
-      decodedToken = await adminAuth.verifyIdToken(idToken);
-
-      if (!decodedToken.phone_number) {
-        throw new Error("Phone number is missing in the verified token.");
-      }
-
-      cleanPhone = decodedToken.phone_number.replace(/[^0-9]/g, "").slice(-10);
-      console.log(`✅ [FIREBASE ADMIN VERIFIED] User: ${cleanPhone}`);
-
-    } catch (firebaseError: any) {
-      console.error("Firebase verifyIdToken error:", firebaseError.message);
+      firebaseUser = await verifyFirebaseIdToken(idToken);
+    } catch (err: any) {
+      console.error("Firebase token verification error:", err.message);
       return NextResponse.json(
-        { success: false, error: "Invalid or expired Firebase session: " + firebaseError.message },
+        { success: false, error: "Invalid or expired Firebase session: " + err.message },
         { status: 401 }
       );
     }
 
+    const rawPhone: string = firebaseUser.phoneNumber || "";
+    if (!rawPhone) {
+      return NextResponse.json(
+        { success: false, error: "Phone number not found in Firebase token" },
+        { status: 400 }
+      );
+    }
+
+    const cleanPhone = rawPhone.replace(/[^0-9]/g, "").slice(-10);
+    console.log(`✅ [FIREBASE VERIFIED] Phone: ${cleanPhone}`);
+
+    // 2. Find or create user in DB
     const fallbackEmail = `user_${cleanPhone}@phone.academyfind.com`;
     const finalEmail = (userProvidedEmail && userProvidedEmail.includes("@"))
       ? userProvidedEmail.trim().toLowerCase()
@@ -108,7 +104,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Generate Mobile Bearer Token
+    // 3. Generate Mobile Bearer Token (session)
     const rawToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
     const encoder = new TextEncoder();
     const tokenData = encoder.encode(rawToken);
@@ -131,12 +127,10 @@ export async function POST(request: NextRequest) {
       success: true,
       user,
       token: rawToken,
-      session: { token: rawToken }
     });
 
   } catch (error: any) {
     console.error("🔴 Verify Phone OTP Error:", error.message);
-    console.error("🔴 Stack:", error.stack);
     return NextResponse.json(
       { success: false, error: error.message || "OTP verification failed" },
       { status: 500 }
