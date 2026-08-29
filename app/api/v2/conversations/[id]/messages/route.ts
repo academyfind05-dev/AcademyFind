@@ -4,18 +4,54 @@ import { prisma } from "@/lib/prisma";
 
 type Params = { params: Promise<{ id: string }> };
 
+async function ensureAccess(conversationId: string, userId: string, userRole?: string | null) {
+  const participant = await prisma.conversationParticipant.findFirst({
+    where: { conversationId, userId, status: "ACTIVE" },
+  });
+
+  if (participant) return true;
+
+  const conversation = await prisma.conversation.findUnique({
+    where: { id: conversationId },
+    select: { id: true, instituteId: true, type: true },
+  });
+
+  if (!conversation) return false;
+
+  const isAdmin = userRole === "ADMIN";
+  let isManager = false;
+
+  if (conversation.instituteId) {
+    const manager = await prisma.instituteManager.findFirst({
+      where: { instituteId: conversation.instituteId, userId },
+    });
+    if (manager) isManager = true;
+  }
+
+  if (isAdmin || isManager || conversation.type === "INSTITUTE" || conversation.type === "BATCH") {
+    try {
+      await prisma.conversationParticipant.upsert({
+        where: { conversationId_userId: { conversationId, userId } },
+        create: { conversationId, userId, role: isManager || isAdmin ? "ADMIN" : "MEMBER", status: "ACTIVE" },
+        update: { status: "ACTIVE", leftAt: null, isHidden: false },
+      });
+      return true;
+    } catch (e) {
+      console.error("Auto participant add in messages error:", e);
+    }
+  }
+
+  return false;
+}
+
 export async function GET(req: Request, { params }: Params) {
   const session = await getSession();
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id: conversationId } = await params;
 
-  // Verify participant
-  const participant = await prisma.conversationParticipant.findFirst({
-    where: { conversationId, userId: session.user.id, status: "ACTIVE" },
-    select: { id: true },
-  });
-  if (!participant) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const hasAccess = await ensureAccess(conversationId, session.user.id, session.user.role);
+  if (!hasAccess) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   // Cursor-based pagination
   const url = new URL(req.url);
@@ -60,23 +96,18 @@ export async function GET(req: Request, { params }: Params) {
           id: true,
           emoji: true,
           userId: true,
-          user: { select: { name: true } },
         },
       },
     },
   });
 
-  const nextCursor =
-    messages.length === take ? messages[messages.length - 1].id : null;
-
-  // Mark conversation as read (update lastReadAt)
-  await prisma.conversationParticipant.update({
-    where: { id: participant.id },
-    data: { lastReadAt: new Date() },
-  });
+  let nextCursor: string | undefined = undefined;
+  if (messages.length === take) {
+    nextCursor = messages[messages.length - 1].id;
+  }
 
   return NextResponse.json({
-    messages: messages.reverse(), // chronological
+    messages,
     nextCursor,
   });
 }
@@ -87,12 +118,8 @@ export async function POST(req: Request, { params }: Params) {
 
   const { id: conversationId } = await params;
 
-  const participant = await prisma.conversationParticipant.findFirst({
-    where: { conversationId, userId: session.user.id, status: "ACTIVE" },
-    select: { id: true },
-  });
-
-  if (!participant) return NextResponse.json({ error: "Not a participant" }, { status: 403 });
+  const hasAccess = await ensureAccess(conversationId, session.user.id, session.user.role);
+  if (!hasAccess) return NextResponse.json({ error: "Not a participant" }, { status: 403 });
 
   try {
     const body = await req.json();
@@ -116,19 +143,19 @@ export async function POST(req: Request, { params }: Params) {
         type: true,
         createdAt: true,
         sender: {
-          select: { id: true, name: true, username: true, image: true }
-        }
+          select: { id: true, name: true, username: true, image: true },
+        },
       },
     });
 
     await prisma.conversation.update({
       where: { id: conversationId },
-      data: { lastMessageId: message.id, lastMessageAt: new Date(), lastActivityAt: new Date() },
+      data: { lastMessageAt: new Date() },
     });
 
-    return NextResponse.json({ success: true, message });
-  } catch (error) {
-    console.error("Error sending message:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message }, { status: 201 });
+  } catch (err: any) {
+    console.error("POST message error:", err);
+    return NextResponse.json({ error: "Failed to send message" }, { status: 500 });
   }
 }
