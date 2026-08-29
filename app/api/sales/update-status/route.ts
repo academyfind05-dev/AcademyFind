@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/prisma";
 import { notifyAdmins } from "@/lib/notifications/notify";
+import { notifyAdminsPush } from "@/lib/pushNotifications";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -85,6 +86,12 @@ export async function POST(req: NextRequest) {
             `/af-ass-manage/sales_manager/${updated.salesManagerId}`,
             updated.id
         ).catch(e => console.error("Admin notification error:", e));
+
+        notifyAdminsPush({
+            title: `Sales Update: ${instName}`,
+            body: `${managerName} updated status to "${statusDisplay}"${remark ? ` - ${remark}` : ""}`,
+            data: { screen: '(admin)/sales' }
+        });
 
         return NextResponse.json({ success: true, assignment: updated });
 

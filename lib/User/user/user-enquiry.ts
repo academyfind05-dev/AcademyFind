@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { triggerCRMWebhooks } from "@/lib/crm/webhooks";
 import { sendEmail } from "@/lib/notifications/email";
-import { notifyAdminsPush } from "@/lib/pushNotifications";
+import { notifyAdminsPush, sendExpoPushNotification } from "@/lib/pushNotifications";
 // import { sendWhatsAppTemplateMessage } from "@/lib/notifications/whatsapp";
 
 export async function submitStudentEnquiry(formData: FormData) {
@@ -114,6 +114,24 @@ export async function submitStudentEnquiry(formData: FormData) {
         //     { type: "text", text: institutePageLink }
         //   ]);
         // }
+        
+        // --- 3. Notify Institute Managers (Push Notification) ---
+        const managers = await prisma.instituteManager.findMany({
+          where: { instituteId },
+          include: { user: { select: { pushToken: true } } }
+        });
+        
+        managers.forEach(manager => {
+          if (manager.user?.pushToken) {
+            sendExpoPushNotification({
+              pushToken: manager.user.pushToken,
+              title: `📞 New Lead: ${name}`,
+              body: `${name} (${phone}) sent a new enquiry for ${instituteName}.`,
+              data: { screen: '(manager)', instituteId }
+            }).catch(err => console.error("Manager push error:", err));
+          }
+        });
+        
       } catch (notifErr) {
         console.error("Failed to send async notifications:", notifErr);
       }

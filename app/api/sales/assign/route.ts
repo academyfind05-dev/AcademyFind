@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/notifications/email";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { sendExpoPushNotification } from "@/lib/pushNotifications";
 
 export async function POST(req: NextRequest) {
     try {
@@ -24,10 +25,9 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        // Verify the user is a sales manager
         const manager = await prisma.user.findUnique({
             where: { id: salesManagerId },
-            select: { id: true, role: true, email: true, name: true }
+            select: { id: true, role: true, email: true, name: true, pushToken: true }
         });
 
         if (!manager || manager.role !== "SALES_MANAGER") {
@@ -82,6 +82,16 @@ export async function POST(req: NextRequest) {
             });
         } catch (notifErr) {
             console.error("Failed to create sales manager in-app notification:", notifErr);
+        }
+
+        // 📱 Send Push Notification to Sales Manager
+        if (manager.pushToken) {
+            sendExpoPushNotification({
+                pushToken: manager.pushToken,
+                title: "📋 New Institute Assignment",
+                body: `You have been assigned to manage ${assignment.institute.name}${deadlineText ? ` (Deadline: ${deadlineText})` : ""}.`,
+                data: { screen: '(manager)', assignmentId: assignment.id }
+            }).catch(e => console.error("Sales push error:", e));
         }
 
         // 📧 2. Send Email to Sales Manager
