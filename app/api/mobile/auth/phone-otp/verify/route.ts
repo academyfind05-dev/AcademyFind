@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { autoGrantDailyLoginBonus } from "@/lib/wallet/auto-daily-login";
 
 // Verify Firebase ID Token using REST API (no firebase-admin needed!)
 async function verifyFirebaseIdToken(idToken: string) {
@@ -122,6 +123,13 @@ export async function POST(request: NextRequest) {
         userAgent: request.headers.get("user-agent") || "Mobile App"
       }
     });
+
+    // Auto-grant daily login bonus coins
+    try {
+      await autoGrantDailyLoginBonus(user.id);
+    } catch (e) {
+      console.error("Daily login bonus error:", e);
+    }
 
     return NextResponse.json({
       success: true,

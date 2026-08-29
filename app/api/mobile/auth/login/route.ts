@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { headers as nextHeaders } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { autoGrantDailyLoginBonus } from "@/lib/wallet/auto-daily-login";
 
 export async function POST(request: NextRequest) {
   try {
@@ -40,6 +41,13 @@ export async function POST(request: NextRequest) {
           userAgent: request.headers.get("user-agent") || "Mobile App"
         }
       });
+
+      // Auto-grant daily login coins
+      try {
+        await autoGrantDailyLoginBonus(response.user.id);
+      } catch (e) {
+        console.error("Daily login bonus error:", e);
+      }
 
       return NextResponse.json({ ...response, token: rawToken });
     }
