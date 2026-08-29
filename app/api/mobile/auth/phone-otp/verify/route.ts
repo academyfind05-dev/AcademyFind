@@ -1,73 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { phoneOtpStore } from "../send/route";
-
-const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API_KEY || "AIzaSyCJVo2m1ic_xT4BLDELw6h63mOjO9PqquE";
+import { getAuth } from 'firebase-admin/auth';
+// Initialize Firebase Admin if not already initialized
+import '@/lib/firebase-admin';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { phone, otp, name, email: userProvidedEmail } = body;
+    const { idToken, name, email: userProvidedEmail } = body;
 
-    if (!phone || !otp) {
+    if (!idToken) {
       return NextResponse.json(
-        { success: false, error: "Phone number and OTP are required" },
+        { success: false, error: "Firebase ID Token is required" },
         { status: 400 }
       );
     }
 
-    const cleanPhone = phone.replace(/[^0-9]/g, "").slice(-10);
-    const storedRecord = phoneOtpStore.get(cleanPhone);
+    let decodedToken;
+    let cleanPhone = "";
 
-    let isValidOtp = false;
-
-    // 1. Dev Bypass for rapid testing
-    if (otp === "123456") {
-      isValidOtp = true;
-    }
-
-    // 2. Check Firebase verification if sessionInfo exists
-    if (!isValidOtp && storedRecord?.sessionInfo) {
-      try {
-        const fbRes = await fetch(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPhoneNumber?key=${FIREBASE_API_KEY}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              sessionInfo: storedRecord.sessionInfo,
-              code: otp,
-            }),
-          }
-        );
-        const fbData = await fbRes.json();
-        if (fbData.idToken || fbData.phoneNumber) {
-          isValidOtp = true;
-          console.log(`🔥 [FIREBASE OTP VERIFIED] ${cleanPhone}`);
-        } else {
-          console.warn("Firebase OTP verify failed:", fbData);
-        }
-      } catch (fbErr) {
-        console.error("Firebase OTP verify error:", fbErr);
+    try {
+      // 1. Verify the ID Token using Firebase Admin SDK
+      decodedToken = await getAuth().verifyIdToken(idToken);
+      
+      if (!decodedToken.phone_number) {
+        throw new Error("Phone number is missing in the verified token.");
       }
-    }
-
-    // 3. Check local OTP store if not yet verified
-    if (!isValidOtp && storedRecord) {
-      if (storedRecord.otp === otp && Date.now() < storedRecord.expiresAt) {
-        isValidOtp = true;
-      }
-    }
-
-    if (!isValidOtp) {
+      
+      // 2. Extract and clean the phone number
+      cleanPhone = decodedToken.phone_number.replace(/[^0-9]/g, "").slice(-10);
+      console.log(`✅ [FIREBASE ADMIN VERIFIED] User: ${cleanPhone}`);
+      
+    } catch (firebaseError: any) {
+      console.error("Firebase Admin verifyIdToken error:", firebaseError);
       return NextResponse.json(
-        { success: false, error: "Invalid or expired OTP" },
-        { status: 400 }
+        { success: false, error: "Invalid or expired Firebase session" },
+        { status: 401 }
       );
     }
-
-    // Clear OTP after successful match
-    phoneOtpStore.delete(cleanPhone);
 
     const fallbackEmail = `user_${cleanPhone}@phone.academyfind.com`;
     const finalEmail = (userProvidedEmail && userProvidedEmail.includes("@")) ? userProvidedEmail.trim().toLowerCase() : fallbackEmail;
