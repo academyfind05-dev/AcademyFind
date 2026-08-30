@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
         });
 
         // Also fetch institutes that match the area name in address (fallback for those without coords)
-        const institutesWithAddressMatch = areaName
+        const institutesWithAddressMatch: any[] = areaName
             ? await prisma.institute.findMany({
                   where: {
                       isActive: true,
@@ -102,13 +102,13 @@ export async function GET(req: NextRequest) {
 
         // Merge (avoid duplicates)
         const seenIds = new Set(inRadius.map((i) => i.id));
-        const allMatched = [
+        const allMatched: any[] = [
             ...inRadius,
             ...institutesWithAddressMatch.filter((i) => !seenIds.has(i.id)),
         ];
 
         // Categorise each institute
-        const result = allMatched.map((inst) => {
+        const result = allMatched.map((inst: any) => {
             const assignment = inst.salesAssignments ?? null;
             let status: "FREE" | "ASSIGNED_TO_YOU" | "ASSIGNED_TO_OTHER";
 
@@ -133,10 +133,10 @@ export async function GET(req: NextRequest) {
                         : null,
                 status,
                 currentManager:
-                    status === "ASSIGNED_TO_OTHER"
+                    status === "ASSIGNED_TO_OTHER" && assignment
                         ? {
-                              id: assignment!.salesManagerId,
-                              name: assignment!.salesManager?.name || "Unknown",
+                              id: assignment.salesManagerId,
+                              name: assignment.salesManager?.name || "Unknown",
                           }
                         : null,
             };
@@ -221,7 +221,7 @@ export async function POST(req: NextRequest) {
                 (i) => haversineKm(lat, lng, i.latitude!, i.longitude!) <= radiusKm
             );
 
-            const addressMatches = areaName
+            const addressMatches: any[] = areaName
                 ? await prisma.institute.findMany({
                       where: {
                           isActive: true,
@@ -236,13 +236,13 @@ export async function POST(req: NextRequest) {
                 : [];
 
             const seen = new Set(inRadius.map((i) => i.id));
-            const allCandidates = [
+            const allCandidates: any[] = [
                 ...inRadius,
                 ...addressMatches.filter((i) => !seen.has(i.id)),
             ];
 
             for (const inst of allCandidates) {
-                const existing = inst.salesAssignments;
+                const existing = (inst as any).salesAssignments;
                 if (!existing) {
                     // Free → always assign
                     instituteIds.push(inst.id);
