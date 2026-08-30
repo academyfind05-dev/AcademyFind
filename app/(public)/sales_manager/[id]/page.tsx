@@ -66,8 +66,9 @@ export default async function SalesManagerDashboardPage({
     const notContacted = assignments.filter((a: any) => a.contactStatus === "NOT_CONTACTED").length;
     const contacted = assignments.filter((a: any) => a.contactStatus === "CONTACTED").length;
     const onboarded = assignments.filter((a: any) => a.contactStatus === "ONBOARDED").length;
+    const upgraded = assignments.filter((a: any) => a.contactStatus === "UPGRADED").length;
     const overdue = assignments.filter((a: any) =>
-        a.deadline && new Date(a.deadline) < now && a.contactStatus !== "ONBOARDED"
+        a.deadline && new Date(a.deadline) < now && a.contactStatus !== "ONBOARDED" && a.contactStatus !== "UPGRADED"
     ).length;
 
     const sevenDaysLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -76,7 +77,8 @@ export default async function SalesManagerDashboardPage({
             a.deadline &&
             new Date(a.deadline) >= now &&
             new Date(a.deadline) <= sevenDaysLater &&
-            a.contactStatus !== "ONBOARDED"
+            a.contactStatus !== "ONBOARDED" &&
+            a.contactStatus !== "UPGRADED"
         )
         .sort((a: any, b: any) => new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime());
 
@@ -100,6 +102,7 @@ export default async function SalesManagerDashboardPage({
                 notContacted={notContacted}
                 contacted={contacted}
                 onboarded={onboarded}
+                upgraded={upgraded}
                 overdue={overdue}
             />
 

@@ -26,6 +26,12 @@ export function SalesStatusBadge({ status }: { status: string }) {
             label: "Onboarded",
             dot: "bg-emerald-500",
         },
+        UPGRADED: {
+            bg: "bg-violet-100",
+            text: "text-violet-800",
+            label: "Upgraded 🚀",
+            dot: "bg-violet-600",
+        },
     };
 
     const c = config[status] || config.NOT_CONTACTED;

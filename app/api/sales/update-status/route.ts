@@ -57,9 +57,9 @@ export async function POST(req: NextRequest) {
             // Clear onboarded fields
             updateData.onboardedPlan = null;
             updateData.onboardedAt = null;
-        } else if (contactStatus === "ONBOARDED") {
+        } else if (contactStatus === "ONBOARDED" || contactStatus === "UPGRADED") {
             updateData.interest = "INTERESTED";
-            updateData.onboardedPlan = onboardedPlan || null;
+            updateData.onboardedPlan = onboardedPlan || "PREMIUM";
             updateData.onboardedAt = assignment.onboardedAt || new Date();
             if (!assignment.contactedAt) {
                 updateData.contactedAt = new Date();
@@ -83,7 +83,9 @@ export async function POST(req: NextRequest) {
         // 🔔 Notify Admins about the assignment status update
         const managerName = updated.salesManager?.name || session.user.name || "Sales Manager";
         const instName = updated.institute?.name || "Institute";
-        const statusDisplay = contactStatus === "ONBOARDED" ? `ONBOARDED (${onboardedPlan || 'PREMIUM'})` : contactStatus;
+        const statusDisplay = (contactStatus === "ONBOARDED" || contactStatus === "UPGRADED")
+            ? `${contactStatus} (${onboardedPlan || 'PREMIUM'})`
+            : contactStatus;
 
         notifyAdmins(
             "SALES_ASSIGNMENT_UPDATE",

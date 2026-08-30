@@ -96,6 +96,18 @@ export async function approveInstituteRequest(requestId: string) {
         revalidatePath("/af-ass-manage/instituteRequests");
         revalidatePath("/af-ass-manage");
 
+        // 🔔 Notify Sales Manager & Admin if this institute is assigned
+        try {
+            const { notifySalesManagerOnInstituteClaim } = await import("@/lib/notifications/salesNotifications");
+            await notifySalesManagerOnInstituteClaim({
+                instituteId: request.instituteId,
+                instituteName: request.institute.name,
+                ownerName: request.user?.name || request.ownerName || undefined,
+            });
+        } catch (e) {
+            console.error("Sales manager claim notification error:", e);
+        }
+
         // Send Email to the Manager
         if (request.user?.email) {
             try {

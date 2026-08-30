@@ -77,3 +77,36 @@ export async function notifyAdminsPush({
     console.error("notifyAdminsPush error:", error);
   }
 }
+
+/**
+ * Send live push notification directly to a specific user/sales manager on their mobile app
+ */
+export async function notifyUserPush({
+  userId,
+  title,
+  body,
+  data = {},
+}: {
+  userId: string;
+  title: string;
+  body: string;
+  data?: Record<string, any>;
+}) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { pushToken: true }
+    });
+
+    if (user?.pushToken) {
+      await sendExpoPushNotification({
+        pushToken: user.pushToken,
+        title,
+        body,
+        data,
+      });
+    }
+  } catch (error) {
+    console.error("notifyUserPush error:", error);
+  }
+}

@@ -101,7 +101,7 @@ export default async function SalesAssignmentsPage({
             ) : (
                 <div className="space-y-4">
                     {assignments.map((assignment: any) => {
-                        const isOverdue = assignment.deadline && new Date(assignment.deadline) < now && assignment.contactStatus !== "ONBOARDED";
+                        const isOverdue = assignment.deadline && new Date(assignment.deadline) < now && assignment.contactStatus !== "ONBOARDED" && assignment.contactStatus !== "UPGRADED";
                         const isExpanded = expandedId === assignment.id;
 
                         const cleanPhone = assignment.institute?.phone?.replace(/[^0-9]/g, "");
@@ -114,6 +114,8 @@ export default async function SalesAssignmentsPage({
                                 className={`border rounded-2xl overflow-hidden transition-all ${
                                     isOverdue
                                         ? "border-red-200 bg-red-50/30"
+                                        : assignment.contactStatus === "UPGRADED"
+                                        ? "border-violet-200 bg-violet-50/20"
                                         : assignment.contactStatus === "ONBOARDED"
                                         ? "border-emerald-200 bg-emerald-50/20"
                                         : "border-slate-200 bg-white"
@@ -207,11 +209,15 @@ export default async function SalesAssignmentsPage({
                                                 </div>
                                             )}
 
-                                            {/* Onboarded Plan */}
-                                            {assignment.contactStatus === "ONBOARDED" && assignment.onboardedPlan && (
+                                            {/* Onboarded / Upgraded Plan */}
+                                            {(assignment.contactStatus === "ONBOARDED" || assignment.contactStatus === "UPGRADED") && assignment.onboardedPlan && (
                                                 <div className="mt-2">
-                                                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                                                        Plan: {assignment.onboardedPlan}
+                                                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                                                        assignment.contactStatus === "UPGRADED"
+                                                            ? "text-violet-800 bg-violet-100 border-violet-200"
+                                                            : "text-emerald-700 bg-emerald-100 border-emerald-200"
+                                                    }`}>
+                                                        {assignment.contactStatus === "UPGRADED" ? "Upgraded Plan" : "Plan"}: {assignment.onboardedPlan}
                                                     </span>
                                                 </div>
                                             )}

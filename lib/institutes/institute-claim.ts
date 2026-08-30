@@ -89,6 +89,18 @@ export async function submitClaimRequest(formData: FormData) {
       data: { screen: '(admin)/claims' }
     });
 
+    // 🔔 Notify Sales Manager if assigned
+    try {
+      const { notifySalesManagerOnInstituteClaim } = await import("@/lib/notifications/salesNotifications");
+      await notifySalesManagerOnInstituteClaim({
+        instituteId,
+        instituteName: institute.name,
+        ownerName: fullName,
+      });
+    } catch (e) {
+      console.error("Sales claim notify error:", e);
+    }
+
     // Institute page aur admin queue ko revalidate karna taaki cache clear ho jaye
     revalidatePath(`/institute/${instituteId}`);
     revalidatePath("/institute/[idSlug]");

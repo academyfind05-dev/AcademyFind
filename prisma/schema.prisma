@@ -1568,6 +1568,7 @@ enum ContactStatus {
   CONTACTED
   IN_PROCESS
   ONBOARDED
+  UPGRADED
 }
 
 enum InterestStatus {

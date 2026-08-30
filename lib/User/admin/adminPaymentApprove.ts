@@ -57,6 +57,20 @@ export async function approvePayment(paymentId: string) {
         revalidatePath(`/af-ass-manage/payments/${paymentId}`);
         revalidatePath("/af-ass-manage");
         revalidatePath(`/manager/${payment.instituteId}/subscription`);
+
+        // 🔔 Notify Sales Manager & Admin about plan upgrade
+        try {
+            const { notifySalesManagerOnPlanUpgrade } = await import("@/lib/notifications/salesNotifications");
+            await notifySalesManagerOnPlanUpgrade({
+                instituteId: payment.instituteId,
+                instituteName: payment.institute?.name,
+                plan: payment.planRequested,
+                amountPaid: payment.amountPaid,
+            });
+        } catch (e) {
+            console.error("Sales manager plan upgrade notification error:", e);
+        }
+
         return { success: true, message: "Payment approved and plan activated!" };
     }catch(err){
         console.error(err);

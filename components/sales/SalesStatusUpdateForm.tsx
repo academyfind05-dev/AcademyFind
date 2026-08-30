@@ -78,6 +78,7 @@ export default function SalesStatusUpdateForm({
                     <option value="CONTACTED">Contacted</option>
                     <option value="IN_PROCESS">In Process</option>
                     <option value="ONBOARDED">Onboarded</option>
+                    <option value="UPGRADED">Upgraded 🚀</option>
                 </select>
             </div>
 
@@ -120,10 +121,12 @@ export default function SalesStatusUpdateForm({
                 </div>
             )}
 
-            {/* Onboarded Plan - shown when ONBOARDED */}
-            {status === "ONBOARDED" && (
+            {/* Onboarded / Upgraded Plan - shown when ONBOARDED or UPGRADED */}
+            {(status === "ONBOARDED" || status === "UPGRADED") && (
                 <div>
-                    <label className="block text-xs font-semibold text-slate-500 mb-1.5">Onboarded Plan</label>
+                    <label className="block text-xs font-semibold text-slate-500 mb-1.5">
+                        {status === "UPGRADED" ? "Upgraded Plan" : "Onboarded Plan"}
+                    </label>
                     <select
                         value={plan}
                         onChange={(e) => setPlan(e.target.value)}
@@ -131,9 +134,9 @@ export default function SalesStatusUpdateForm({
                     >
                         <option value="">Select a plan...</option>
                         <option value="BASIC">Basic</option>
+                        <option value="VERIFIED">Verified</option>
                         <option value="PREMIUM">Premium</option>
                         <option value="ULTRA">Ultra</option>
-                        <option value="VERIFIED">Verified</option>
                     </select>
                 </div>
             )}

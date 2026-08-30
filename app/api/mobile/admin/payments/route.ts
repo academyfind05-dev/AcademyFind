@@ -67,6 +67,19 @@ export async function PUT(request: NextRequest) {
         where: { id: payment.instituteId },
         data: { subscriptionPlan: payment.planRequested as any },
       }).catch(e => console.error("Failed to upgrade institute subscription plan:", e));
+
+      // 🔔 Notify Sales Manager & Admin about plan upgrade
+      try {
+        const { notifySalesManagerOnPlanUpgrade } = await import("@/lib/notifications/salesNotifications");
+        await notifySalesManagerOnPlanUpgrade({
+          instituteId: payment.instituteId,
+          instituteName: payment.institute?.name,
+          plan: payment.planRequested,
+          amountPaid: payment.amountPaid,
+        });
+      } catch (e) {
+        console.error("Sales manager plan upgrade notification error:", e);
+      }
     }
 
     return NextResponse.json({ success: true, data: updatedPayment });

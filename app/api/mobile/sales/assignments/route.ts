@@ -79,7 +79,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
     }
 
-    const { assignmentId, contactStatus, notes } = await request.json();
+    const { assignmentId, contactStatus, notes, remark, onboardedPlan } = await request.json();
     if (!assignmentId || !contactStatus) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
@@ -91,7 +91,17 @@ export async function PUT(request: NextRequest) {
     }
 
     const updateData: any = { contactStatus };
-    if (notes !== undefined) updateData.notes = notes;
+    if (remark !== undefined) updateData.remark = remark;
+    else if (notes !== undefined) updateData.remark = notes;
+
+    if (contactStatus === 'ONBOARDED' || contactStatus === 'UPGRADED') {
+      updateData.interest = 'INTERESTED';
+      updateData.onboardedPlan = onboardedPlan || 'PREMIUM';
+      updateData.onboardedAt = assignment.onboardedAt || new Date();
+      if (!assignment.contactedAt) updateData.contactedAt = new Date();
+    } else if (contactStatus === 'CONTACTED' || contactStatus === 'IN_PROCESS') {
+      updateData.contactedAt = assignment.contactedAt || new Date();
+    }
 
     const updated = await prisma.salesAssignment.update({
       where: { id: assignmentId },

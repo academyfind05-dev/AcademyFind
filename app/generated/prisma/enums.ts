@@ -243,7 +243,8 @@ export const ContactStatus = {
   NOT_CONTACTED: 'NOT_CONTACTED',
   CONTACTED: 'CONTACTED',
   IN_PROCESS: 'IN_PROCESS',
-  ONBOARDED: 'ONBOARDED'
+  ONBOARDED: 'ONBOARDED',
+  UPGRADED: 'UPGRADED'
 } as const
 
 export type ContactStatus = (typeof ContactStatus)[keyof typeof ContactStatus]
