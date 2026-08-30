@@ -142,7 +142,7 @@ export default async function AdminCallbacksPage({
             >
               Unassigned
             </Link>
-            {salesManagers.map((sm) => (
+            {salesManagers.map((sm: any) => (
               <Link
                 key={sm.id}
                 prefetch={false}
