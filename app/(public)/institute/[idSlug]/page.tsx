@@ -589,19 +589,22 @@ export default async function InstitutePage({ params }: PageProps) {
                             <UnlockContactButton type="website" hiddenValue="Visit Website" realValue={institute.website} isLoggedIn={!!userId} instituteId={institute.id} />
                           )}
                         </div>
-                        {(institute.facebookUrl || institute.instagramUrl || institute.twitterUrl || institute.youtubeUrl || institute.telegramUrl || institute.whatsappUrl) && (
-                          <div className="flex flex-wrap items-center gap-3 pt-2">
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mr-1 flex items-center gap-1">
-                              Social <Lock className="h-3 w-3" />
-                            </span>
-                            {institute.whatsappUrl && <div className="text-slate-300 blur-[2px]"><FaWhatsapp className="h-5 w-5" /></div>}
-                            {institute.instagramUrl && <div className="text-slate-300 blur-[2px]"><FaInstagram className="h-5 w-5" /></div>}
-                            {institute.facebookUrl && <div className="text-slate-300 blur-[2px]"><FaFacebook className="h-5 w-5" /></div>}
-                            {institute.youtubeUrl && <div className="text-slate-300 blur-[2px]"><FaYoutube className="h-5 w-5" /></div>}
-                            {institute.linkedinUrl && <div className="text-slate-300 blur-[2px]"><FaLinkedin className="h-5 w-5" /></div>}
-                            {institute.twitterUrl && <div className="text-slate-300 blur-[2px]"><FaTwitter className="h-5 w-5" /></div>}
-                          </div>
-                        )}
+                        <UnlockContactButton
+                          type="social"
+                          hiddenValue="Social Media"
+                          socialUrls={{
+                            instagram: institute.instagramUrl,
+                            facebook: institute.facebookUrl,
+                            youtube: institute.youtubeUrl,
+                            linkedin: institute.linkedinUrl,
+                            twitter: institute.twitterUrl,
+                            whatsapp: institute.whatsappUrl,
+                            telegram: institute.telegramUrl,
+                          }}
+                          isLoggedIn={!!userId}
+                          instituteId={institute.id}
+                          instituteName={institute.name}
+                        />
                       </div>
                     ) : (
                       <>
