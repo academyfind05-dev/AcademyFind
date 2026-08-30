@@ -236,7 +236,7 @@ export default async function AdminSalesManagerDetailPage({
                             <MapPin className="w-5 h-5 text-rose-500" /> Assigned Areas ({areaAssignments.length})
                         </CardTitle>
                         <span className="text-xs text-stone-500 font-bold bg-white px-2 py-1 rounded border border-stone-200">
-                            {areaAssignments.reduce((acc, a) => acc + a.institutes.length, 0)} institutes in areas
+                            {areaAssignments.reduce((acc: number, a: any) => acc + a.institutes.length, 0)} institutes in areas
                         </span>
                     </CardHeader>
                     <CardContent className="p-4 space-y-4">
