@@ -133,9 +133,29 @@ export async function GET(request: NextRequest) {
           : sort === 'newest'
           ? [{ planWeight: 'desc' }, { createdAt: 'desc' }]
           : [{ planWeight: 'desc' }, { googleReviewCount: 'desc' }, { reviewCount: 'desc' }],
-        include: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          logo: true,
+          coverImage: true,
+          imageUrl: true,
+          gallery: true,
+          address: true,
+          mode: true,
+          latitude: true,
+          longitude: true,
+          averageRating: true,
+          googleRating: true,
+          reviewCount: true,
+          googleReviewCount: true,
+          subscriptionPlan: true,
+          isVerified: true,
+          providerType: true,
+          planWeight: true,
+          createdAt: true,
           city: { select: { name: true } },
-          categories: { select: { category: { select: { name: true } } }, take: 3 }
+          categories: { select: { category: { select: { name: true, slug: true } } }, take: 3 }
         }
       });
 
@@ -191,9 +211,29 @@ export async function GET(request: NextRequest) {
         isActive: true,
         isPublished: true,
       },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        logo: true,
+        coverImage: true,
+        imageUrl: true,
+        gallery: true,
+        address: true,
+        mode: true,
+        latitude: true,
+        longitude: true,
+        averageRating: true,
+        googleRating: true,
+        reviewCount: true,
+        googleReviewCount: true,
+        subscriptionPlan: true,
+        isVerified: true,
+        providerType: true,
+        planWeight: true,
+        createdAt: true,
         city: { select: { name: true } },
-        categories: { select: { category: { select: { name: true } } }, take: 3 }
+        categories: { select: { category: { select: { name: true, slug: true } } }, take: 3 }
       }
     });
 
