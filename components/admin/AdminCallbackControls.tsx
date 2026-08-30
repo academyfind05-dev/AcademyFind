@@ -97,7 +97,9 @@ export default function CallbackControls({
     // Clean phone number (remove spaces, symbols)
     const cleanPhone = institutePhone.replace(/\D/g, "");
 
-    const instituteLink = instituteSlug ? `https://academyfind.com/institute/${id}-${instituteSlug}` : "https://academyfind.com";
+    const instituteLink = instituteSlug
+      ? (instituteSlug.startsWith("http") ? instituteSlug : `https://academyfind.com/institute/${instituteSlug}`)
+      : "https://academyfind.com";
 
     const message = `Hello ${instituteName || "Institute"} \uD83D\uDC4B
 
