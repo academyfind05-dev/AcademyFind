@@ -9,7 +9,7 @@ import {
 } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import {
   ArrowLeft,
   CheckCheck,
@@ -99,6 +99,11 @@ export function MessageWindow({
 
   const meta = metaData?.conversation;
   const messages = data?.messages ?? [];
+
+  // Instantly mark read in sidebar cache when conversation opens
+  useEffect(() => {
+    mutate("/api/v2/conversations");
+  }, [conversationId, messages.length]);
 
   // Auto scroll to bottom on new messages
   useEffect(() => {
@@ -376,7 +381,7 @@ function MessageBubble({
           <DropdownMenuTrigger asChild>
             <button className={`relative size-8 shrink-0 overflow-hidden rounded-full bg-slate-100 mt-1 hover:ring-2 hover:ring-amber-200 transition-all ${isMine ? "hidden" : ""}`}>
               {msg.sender.image ? (
-                <Image src={msg.sender.image} alt="" fill className="object-cover" />
+                <img src={msg.sender.image} alt="" className="w-full h-full object-cover" />
               ) : (
                 <span className="flex h-full items-center justify-center text-xs font-bold text-slate-400">
                   {(msg.sender.name ?? "?").charAt(0).toUpperCase()}
@@ -408,7 +413,7 @@ function MessageBubble({
         <div className="w-8 shrink-0" />
       )}
 
-      <div className={`max-w-[65%] ${isMine ? "items-end" : "items-start"} flex flex-col`}>
+      <div className={`max-w-[75%] ${isMine ? "items-end" : "items-start"} flex flex-col`}>
         {/* Name + time */}
         {!isSameUser && !isMine && (
           <div className="mb-1 flex items-baseline gap-2">
@@ -432,10 +437,11 @@ function MessageBubble({
           </div>
         )}
 
-        {/* Bubble */}
-        <div className="relative group/bubble flex flex-col">
+        {/* Bubble + Actions Row */}
+        <div className={`flex items-center gap-1.5 ${isMine ? "flex-row-reverse" : "flex-row"}`}>
+          {/* Bubble */}
           <div
-            className={`rounded-2xl px-4 py-2.5 text-sm shadow-sm border transition-all duration-300 hover:shadow-md hover:scale-[1.01] ${isDeleted
+            className={`rounded-2xl px-4 py-2.5 text-sm shadow-sm border transition-all duration-300 hover:shadow-md ${isDeleted
               ? "bg-white/40 backdrop-blur-sm border-white/60 text-slate-400 italic"
               : isMine
                 ? "bg-gradient-to-br from-amber-400 to-amber-500 border-amber-300/50 text-amber-950 font-medium drop-shadow-sm rounded-tr-sm"
@@ -451,28 +457,38 @@ function MessageBubble({
             )}
           </div>
 
-          {/* Hover actions */}
+          {/* Hover actions (Row-level group hover ensures toolbar stays open while cursor moves to it) */}
           {!isDeleted && (
             <div
-              className={`absolute top-0 ${isMine ? "-left-24" : "-right-24"} hidden group-hover/bubble:flex items-center gap-1 rounded-xl border border-slate-200 bg-white shadow-sm px-2 py-1`}
+              className={`flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 backdrop-blur-sm shadow-sm px-2 py-1 transition-all duration-200 ${
+                showReactions
+                  ? "opacity-100 z-20 pointer-events-auto scale-100"
+                  : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto scale-95 group-hover:scale-100"
+              }`}
             >
               {/* Emoji picker toggle */}
               <div className="relative">
                 <button
                   type="button"
-                  onClick={() => setShowReactions((v) => !v)}
-                  className="text-slate-400 hover:text-amber-600 p-0.5"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowReactions((v) => !v);
+                  }}
+                  className="text-slate-400 hover:text-amber-600 p-0.5 transition-colors"
                 >
                   <Smile className="size-4" />
                 </button>
                 {showReactions && (
-                  <div className="absolute bottom-8 left-0 flex gap-1 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg z-10">
+                  <div
+                    className={`absolute bottom-8 ${isMine ? "right-0" : "left-0"} flex gap-1 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl z-30 animate-in fade-in zoom-in-95 duration-150`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     {QUICK_REACTIONS.map((e: string) => (
                       <button
                         key={e}
                         type="button"
                         onClick={() => { onReaction(e); setShowReactions(false); }}
-                        className="text-base hover:scale-125 transition-transform"
+                        className="text-lg hover:scale-125 transition-transform px-1 py-0.5 active:scale-95"
                       >
                         {e}
                       </button>
@@ -484,7 +500,7 @@ function MessageBubble({
               <button
                 type="button"
                 onClick={onReply}
-                className="text-slate-400 hover:text-blue-600 p-0.5 text-xs"
+                className="text-slate-400 hover:text-blue-600 p-0.5 text-xs transition-colors font-bold"
                 title="Reply"
               >
                 ↩
@@ -493,7 +509,7 @@ function MessageBubble({
                 <button
                   type="button"
                   onClick={onDelete}
-                  className="text-slate-400 hover:text-rose-500 p-0.5"
+                  className="text-slate-400 hover:text-rose-500 p-0.5 transition-colors"
                   title="Delete"
                 >
                   <Trash2 className="size-3.5" />
@@ -503,7 +519,7 @@ function MessageBubble({
                 <button
                   type="button"
                   onClick={onReport}
-                  className="text-slate-400 hover:text-rose-500 p-0.5"
+                  className="text-slate-400 hover:text-rose-500 p-0.5 transition-colors"
                   title="Report"
                 >
                   <AlertTriangle className="size-3.5" />

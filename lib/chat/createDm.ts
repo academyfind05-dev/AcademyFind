@@ -12,11 +12,11 @@ export async function getOrCreateDm(
   const [initiator, receiver, block] = await Promise.all([
     prisma.user.findUnique({
       where: { id: initiatorId },
-      select: { allowDms: true, chatSettings: true },
+      select: { id: true, role: true, allowDms: true, chatSettings: true },
     }),
     prisma.user.findUnique({
       where: { id: receiverId },
-      select: { allowDms: true, chatSettings: true },
+      select: { id: true, role: true, allowDms: true, chatSettings: true },
     }),
     prisma.userBlock.findFirst({
       where: {
@@ -30,12 +30,18 @@ export async function getOrCreateDm(
     }),
   ]);
 
-  if (!initiator || !receiver || block) throw new Error("Messaging unavailable");
+  if (!initiator || !receiver) throw new Error("User not found");
+
+  const isPrivileged = initiator.role === "ADMIN" || initiator.role === "SALES_MANAGER";
+
+  if (!isPrivileged && block) throw new Error("Messaging unavailable");
+
   if (
-    !initiator.allowDms ||
-    !receiver.allowDms ||
-    initiator.chatSettings?.allowDirectMessages === false ||
-    receiver.chatSettings?.allowDirectMessages === false
+    !isPrivileged &&
+    (!initiator.allowDms ||
+      !receiver.allowDms ||
+      initiator.chatSettings?.allowDirectMessages === false ||
+      receiver.chatSettings?.allowDirectMessages === false)
   ) {
     throw new Error("Direct messages are disabled");
   }

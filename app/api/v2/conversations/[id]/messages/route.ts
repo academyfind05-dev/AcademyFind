@@ -58,6 +58,12 @@ export async function GET(req: Request, { params }: Params) {
   const cursor = url.searchParams.get("cursor") ?? undefined;
   const take = Math.min(Number(url.searchParams.get("take") ?? 50), 100);
 
+  // Mark conversation as read for the current user
+  prisma.conversationParticipant.updateMany({
+    where: { conversationId, userId: session.user.id },
+    data: { lastReadAt: new Date() },
+  }).catch((err) => console.error("Error updating lastReadAt:", err));
+
   const messages = await prisma.message.findMany({
     where: { conversationId, deletedAt: null },
     orderBy: { createdAt: "desc" },

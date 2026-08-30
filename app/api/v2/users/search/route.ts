@@ -10,32 +10,40 @@ export async function GET(req: Request) {
         }
 
         const { searchParams } = new URL(req.url);
-        const q = searchParams.get("q");
+        const q = searchParams.get("q")?.trim();
         const instituteId = searchParams.get("instituteId");
 
-        if (!q || !instituteId) {
-            return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
+        if (!q) {
+            return NextResponse.json({ users: [] });
         }
 
         const users = await prisma.user.findMany({
             where: {
+                id: { not: session.user.id },
                 OR: [
                     { name: { contains: q, mode: "insensitive" } },
                     { username: { contains: q, mode: "insensitive" } },
-                    { email: { contains: q, mode: "insensitive" } }
+                    { email: { contains: q, mode: "insensitive" } },
+                    { phone: { contains: q, mode: "insensitive" } }
                 ]
             },
-            take: 10,
+            take: 20,
             select: {
                 id: true,
                 name: true,
                 username: true,
                 email: true,
-                image: true
+                phone: true,
+                image: true,
+                role: true,
             }
         });
 
-        // Add member / invite status
+        if (!instituteId) {
+            return NextResponse.json({ users });
+        }
+
+        // Add member / invite status if instituteId is provided
         const enrichedUsers = await Promise.all(users.map(async (u: any) => {
             const membership = await prisma.instituteMembership.findFirst({
                 where: { userId: u.id, instituteId }

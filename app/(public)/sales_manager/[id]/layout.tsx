@@ -5,6 +5,7 @@ import {
     LayoutDashboard,
     ClipboardList,
     Building2,
+    MessageCircle,
 } from "lucide-react";
 import { Metadata } from "next";
 import { headers } from "next/headers";
@@ -96,6 +97,11 @@ export default async function SalesManagerLayout({
                             href={`/sales_manager/${id}/institutes`}
                             icon={<Building2 />}
                             label="All Institutes"
+                        />
+                        <SidebarLink
+                            href="/chat"
+                            icon={<MessageCircle />}
+                            label="Chat & Messages"
                         />
                     </nav>
                 </ManagerSidebarWrapper>

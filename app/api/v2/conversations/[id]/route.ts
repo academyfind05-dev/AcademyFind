@@ -77,9 +77,11 @@ export async function GET(_req: Request, { params }: Params) {
     }
   }
 
-  if (!isParticipant && !isAdmin && !isManager) {
-    return NextResponse.json({ error: "Not authorized to view this chat" }, { status: 403 });
-  }
+  // Mark conversation as read for this participant
+  prisma.conversationParticipant.updateMany({
+    where: { conversationId: id, userId },
+    data: { lastReadAt: new Date() },
+  }).catch((err) => console.error("Error updating lastReadAt:", err));
 
   // Override memberCount with the actual active participant count
   const payload = {

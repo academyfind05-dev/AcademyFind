@@ -14,55 +14,102 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id') || session.user.id;
     const search = searchParams.get('search') || '';
+    const cityId = searchParams.get('cityId') || '';
+    const categoryId = searchParams.get('categoryId') || '';
+    const subscriptionPlan = searchParams.get('subscriptionPlan') || '';
+    const status = searchParams.get('status') || 'all';
+    const sortBy = searchParams.get('sortBy') || 'name_asc';
+    const assignment = searchParams.get('assignment') || 'all';
 
     // Get the sales manager's assigned categories
     const assignedCategories = await prisma.salesCategoryAssignment.findMany({
       where: { salesManagerId: id },
-      select: { categoryId: true, category: { select: { name: true } } },
+      select: { categoryId: true, category: { select: { id: true, name: true } } },
     });
 
     const assignedCategoryIds = assignedCategories.map((c: any) => c.categoryId);
 
     const whereCondition: any = {};
-    if (assignedCategoryIds.length > 0) {
-      whereCondition.categories = {
-        some: { categoryId: { in: assignedCategoryIds } }
-      };
-    }
+
     if (search) {
       whereCondition.name = { contains: search, mode: "insensitive" };
     }
 
-    const institutes = await prisma.institute.findMany({
-      where: whereCondition,
-      select: {
-        id: true,
-        name: true,
-        phone: true,
-        email: true,
-        city: { select: { name: true } },
-        categories: {
-          include: { category: { select: { id: true, name: true } } },
-          take: 2,
-        },
-        salesAssignments: {
-          select: {
-            id: true,
-            salesManagerId: true,
-            contactStatus: true,
-            salesManager: { select: { name: true } }
+    if (cityId) {
+      whereCondition.cityId = cityId;
+    }
+
+    if (categoryId) {
+      whereCondition.categories = {
+        some: { categoryId }
+      };
+    } else if (assignedCategoryIds.length > 0) {
+      whereCondition.categories = {
+        some: { categoryId: { in: assignedCategoryIds } }
+      };
+    }
+
+    if (status === 'active') whereCondition.isActive = true;
+    else if (status === 'inactive') whereCondition.isActive = false;
+    else if (status === 'published') whereCondition.isPublished = true;
+    else if (status === 'hidden') whereCondition.isPublished = false;
+
+    if (subscriptionPlan) {
+      whereCondition.subscriptionPlan = subscriptionPlan;
+    }
+
+    if (assignment === 'my_assignments') {
+      whereCondition.salesAssignments = { salesManagerId: id };
+    } else if (assignment === 'unassigned') {
+      whereCondition.salesAssignments = null;
+    } else if (assignment === 'other_assignments') {
+      whereCondition.salesAssignments = { salesManagerId: { not: id } };
+    }
+
+    let orderByCondition: any = { name: "asc" };
+    if (sortBy === 'newest') orderByCondition = { createdAt: "desc" };
+    else if (sortBy === 'oldest') orderByCondition = { createdAt: "asc" };
+    else if (sortBy === 'views') orderByCondition = { viewCount: "desc" };
+
+    const [institutes, cities, allCategories] = await Promise.all([
+      prisma.institute.findMany({
+        where: whereCondition,
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+          email: true,
+          subscriptionPlan: true,
+          isActive: true,
+          isPublished: true,
+          city: { select: { name: true } },
+          categories: {
+            include: { category: { select: { id: true, name: true } } },
+            take: 2,
+          },
+          salesAssignments: {
+            select: {
+              id: true,
+              salesManagerId: true,
+              contactStatus: true,
+              salesManager: { select: { name: true } }
+            }
           }
-        }
-      },
-      take: 50,
-      orderBy: { name: "asc" },
-    });
+        },
+        take: 50,
+        orderBy: orderByCondition,
+      }),
+      prisma.city.findMany({ orderBy: { name: "asc" } }),
+      prisma.category.findMany({ orderBy: { name: "asc" } }),
+    ]);
 
     return NextResponse.json({ 
       success: true, 
       data: {
         institutes,
-        assignedCategories
+        assignedCategories,
+        cities,
+        categories: allCategories,
       } 
     });
   } catch (error: any) {
