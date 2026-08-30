@@ -59,6 +59,9 @@ export default async function SalesAssignmentsPage({
                 },
                 salesManager: {
                     select: { id: true, name: true }
+                },
+                areaAssignment: {
+                    select: { id: true, areaName: true, radiusKm: true }
                 }
             },
             orderBy: [{ contactStatus: "asc" }, { deadline: "asc" }, { createdAt: "desc" }],
@@ -70,7 +73,6 @@ export default async function SalesAssignmentsPage({
             select: { id: true, name: true },
             orderBy: { name: "asc" },
         }),
-
     ]);
 
     const now = new Date();
@@ -190,6 +192,11 @@ export default async function SalesAssignmentsPage({
                                                 <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100">
                                                     <User className="w-2.5 h-2.5" /> Assigned to you
                                                 </span>
+                                                {assignment.areaAssignment && (
+                                                    <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-100">
+                                                        <MapPin className="w-2.5 h-2.5" /> {assignment.areaAssignment.areaName} ({assignment.areaAssignment.radiusKm} km)
+                                                    </span>
+                                                )}
                                             </div>
 
                                             {/* Remark Preview */}

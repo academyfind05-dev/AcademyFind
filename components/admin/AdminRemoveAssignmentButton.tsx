@@ -6,7 +6,7 @@ import { Trash2, Loader2 } from "lucide-react";
 
 interface RemoveAssignmentButtonProps {
     assignmentId: string;
-    type: "institute" | "category";
+    type: "institute" | "category" | "area";
     label: string;
 }
 

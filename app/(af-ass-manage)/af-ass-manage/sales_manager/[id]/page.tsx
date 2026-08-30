@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { SalesStatusBadge } from "@/components/sales/SalesStatusBadge";
 import AdminAssignInstituteForm from "@/components/admin/AdminAssignInstituteForm";
 import AdminAssignCategoryForm from "@/components/admin/AdminAssignCategoryForm";
+import AdminAssignAreaForm from "@/components/admin/AdminAssignAreaForm";
 import RemoveAssignmentButton from "@/components/admin/AdminRemoveAssignmentButton";
 import {
     User,
@@ -17,6 +18,8 @@ import {
     PhoneOff,
     AlertTriangle,
     ExternalLink,
+    MapPin,
+    ChevronDown,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -50,7 +53,7 @@ export default async function AdminSalesManagerDetailPage({
         notFound();
     }
 
-    const [assignments, categoryAssignments, allInstitutes, allCategories] = await Promise.all([
+    const [assignments, categoryAssignments, areaAssignments, allInstitutes, allCategories] = await Promise.all([
         // Current assignments
         prisma.salesAssignment.findMany({
             where: { salesManagerId: id },
@@ -67,6 +70,13 @@ export default async function AdminSalesManagerDetailPage({
                             take: 2,
                         }
                     }
+                },
+                areaAssignment: {
+                    select: {
+                        id: true,
+                        areaName: true,
+                        radiusKm: true,
+                    }
                 }
             },
             orderBy: [{ contactStatus: "asc" }, { deadline: "asc" }],
@@ -77,6 +87,28 @@ export default async function AdminSalesManagerDetailPage({
             where: { salesManagerId: id },
             include: {
                 category: { select: { id: true, name: true } }
+            },
+            orderBy: { createdAt: "desc" },
+        }),
+
+        // Area assignments with linked institutes & their real-time statuses
+        prisma.salesAreaAssignment.findMany({
+            where: { salesManagerId: id },
+            include: {
+                institutes: {
+                    include: {
+                        institute: {
+                            select: {
+                                id: true,
+                                name: true,
+                                phone: true,
+                                address: true,
+                                city: { select: { name: true } },
+                            }
+                        }
+                    },
+                    orderBy: [{ contactStatus: "asc" }, { updatedAt: "desc" }]
+                }
             },
             orderBy: { createdAt: "desc" },
         }),
@@ -190,10 +222,111 @@ export default async function AdminSalesManagerDetailPage({
             </Card>
 
             {/* Assignment Forms */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <AdminAssignInstituteForm salesManagerId={id} />
                 <AdminAssignCategoryForm salesManagerId={id} categories={allCategories} />
+                <AdminAssignAreaForm salesManagerId={id} />
             </div>
+
+            {/* Area Assignments */}
+            {areaAssignments.length > 0 && (
+                <Card className="border-stone-200 shadow-sm overflow-hidden bg-white">
+                    <CardHeader className="bg-stone-50 border-b border-stone-100 p-4 flex flex-row items-center justify-between">
+                        <CardTitle className="text-base flex items-center gap-2 text-stone-800">
+                            <MapPin className="w-5 h-5 text-rose-500" /> Assigned Areas ({areaAssignments.length})
+                        </CardTitle>
+                        <span className="text-xs text-stone-500 font-bold bg-white px-2 py-1 rounded border border-stone-200">
+                            {areaAssignments.reduce((acc, a) => acc + a.institutes.length, 0)} institutes in areas
+                        </span>
+                    </CardHeader>
+                    <CardContent className="p-4 space-y-4">
+                        {areaAssignments.map((area: any) => {
+                            const totalInArea = area.institutes.length;
+                            const onboardedInArea = area.institutes.filter((i: any) => i.contactStatus === "ONBOARDED").length;
+                            const contactedInArea = area.institutes.filter((i: any) => i.contactStatus === "CONTACTED").length;
+                            const notContactedInArea = area.institutes.filter((i: any) => i.contactStatus === "NOT_CONTACTED").length;
+
+                            return (
+                                <div key={area.id} className="border border-stone-200 rounded-2xl p-4 bg-stone-50/50 space-y-3">
+                                    <div className="flex flex-wrap items-center justify-between gap-3">
+                                        <div className="flex items-center gap-2.5">
+                                            <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
+                                                <MapPin className="w-4 h-4" />
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center gap-2">
+                                                    <h4 className="font-bold text-sm text-stone-800">{area.areaName}</h4>
+                                                    <span className="bg-rose-50 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-200">
+                                                        {area.radiusKm} km radius
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-3 text-xs text-stone-400 mt-0.5">
+                                                    <span>Assigned: {formatIST(area.createdAt, "MMM dd, yyyy")}</span>
+                                                    {area.deadline && (
+                                                        <span className="flex items-center gap-1 text-stone-600 font-medium">
+                                                            <CalendarDays className="w-3 h-3 text-stone-400" />
+                                                            Deadline: {formatIST(area.deadline, "MMM dd, yyyy")}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex items-center gap-1.5 text-xs font-bold">
+                                                <span className="bg-white border border-stone-200 px-2 py-1 rounded-lg text-stone-700">
+                                                    Total: {totalInArea}
+                                                </span>
+                                                <span className="bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-lg text-emerald-700">
+                                                    Onboarded: {onboardedInArea}
+                                                </span>
+                                                <span className="bg-blue-50 border border-blue-200 px-2 py-1 rounded-lg text-blue-700">
+                                                    Contacted: {contactedInArea}
+                                                </span>
+                                                <span className="bg-stone-100 border border-stone-200 px-2 py-1 rounded-lg text-stone-600">
+                                                    Pending: {notContactedInArea}
+                                                </span>
+                                            </div>
+                                            <RemoveAssignmentButton assignmentId={area.id} type="area" label={area.areaName} />
+                                        </div>
+                                    </div>
+
+                                    {/* Expandable Institutes List under this area */}
+                                    {totalInArea > 0 && (
+                                        <details className="group border-t border-stone-200/80 pt-2">
+                                            <summary className="cursor-pointer text-xs font-bold text-stone-600 hover:text-stone-900 flex items-center justify-between py-1 select-none">
+                                                <span>View {totalInArea} institutes in {area.areaName}</span>
+                                                <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180 text-stone-400" />
+                                            </summary>
+                                            <div className="mt-2 divide-y divide-stone-100 bg-white rounded-xl border border-stone-200 overflow-hidden">
+                                                {area.institutes.map((item: any) => (
+                                                    <div key={item.id} className="p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+                                                        <div className="min-w-0">
+                                                            <p className="font-bold text-stone-800 text-sm truncate">{item.institute.name}</p>
+                                                            <p className="text-stone-500 text-[11px] truncate">{item.institute.address || item.institute.city?.name}</p>
+                                                            {item.institute.phone && (
+                                                                <p className="text-stone-400 text-[10px] mt-0.5">📞 {item.institute.phone}</p>
+                                                            )}
+                                                        </div>
+                                                        <div className="flex items-center gap-3 shrink-0">
+                                                            {item.remark && (
+                                                                <span className="text-stone-600 bg-stone-50 px-2 py-1 rounded border border-stone-200 text-[11px] max-w-[200px] truncate" title={item.remark}>
+                                                                    💬 {item.remark}
+                                                                </span>
+                                                            )}
+                                                            <SalesStatusBadge status={item.contactStatus} />
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </details>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </CardContent>
+                </Card>
+            )}
 
             {/* Category Assignments */}
             {categoryAssignments.length > 0 && (
@@ -259,11 +392,17 @@ export default async function AdminSalesManagerDetailPage({
                                             <td className="p-4 align-top">
                                                 <div>
                                                     <div className="font-bold text-stone-800 text-sm">{a.institute.name}</div>
-                                                    <div className="text-xs text-stone-500 flex items-center gap-2 mt-1">
+                                                    <div className="text-xs text-stone-500 flex flex-wrap items-center gap-2 mt-1">
                                                         <span className="font-medium">{a.institute.city?.name}</span>
                                                         {a.institute.categories?.[0] && (
                                                             <span className="bg-stone-100 px-1.5 py-0.5 rounded text-[10px] font-bold border border-stone-200">
                                                                 {a.institute.categories[0].category.name}
+                                                            </span>
+                                                        )}
+                                                        {a.areaAssignment && (
+                                                            <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-bold border border-rose-200 flex items-center gap-0.5">
+                                                                <MapPin className="w-2.5 h-2.5" />
+                                                                {a.areaAssignment.areaName}
                                                             </span>
                                                         )}
                                                     </div>

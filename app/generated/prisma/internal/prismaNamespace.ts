@@ -428,6 +428,7 @@ export const ModelName = {
   SubscriptionPayment: 'SubscriptionPayment',
   SalesAssignment: 'SalesAssignment',
   SalesCategoryAssignment: 'SalesCategoryAssignment',
+  SalesAreaAssignment: 'SalesAreaAssignment',
   LifeCoachRequest: 'LifeCoachRequest',
   AdminNotification: 'AdminNotification',
   JobPosting: 'JobPosting',
@@ -492,7 +493,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting" | "enquiryStatusHistory"
+    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "salesAreaAssignment" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting" | "enquiryStatusHistory"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3749,6 +3750,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SalesCategoryAssignmentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SalesCategoryAssignmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    SalesAreaAssignment: {
+      payload: Prisma.$SalesAreaAssignmentPayload<ExtArgs>
+      fields: Prisma.SalesAreaAssignmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SalesAreaAssignmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SalesAreaAssignmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>
+        }
+        findFirst: {
+          args: Prisma.SalesAreaAssignmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SalesAreaAssignmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>
+        }
+        findMany: {
+          args: Prisma.SalesAreaAssignmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>[]
+        }
+        create: {
+          args: Prisma.SalesAreaAssignmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>
+        }
+        createMany: {
+          args: Prisma.SalesAreaAssignmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SalesAreaAssignmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>[]
+        }
+        delete: {
+          args: Prisma.SalesAreaAssignmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>
+        }
+        update: {
+          args: Prisma.SalesAreaAssignmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.SalesAreaAssignmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SalesAreaAssignmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SalesAreaAssignmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.SalesAreaAssignmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SalesAreaAssignmentPayload>
+        }
+        aggregate: {
+          args: Prisma.SalesAreaAssignmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSalesAreaAssignment>
+        }
+        groupBy: {
+          args: Prisma.SalesAreaAssignmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SalesAreaAssignmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SalesAreaAssignmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SalesAreaAssignmentCountAggregateOutputType> | number
         }
       }
     }
@@ -8132,6 +8207,7 @@ export const SalesAssignmentScalarFieldEnum = {
   id: 'id',
   salesManagerId: 'salesManagerId',
   instituteId: 'instituteId',
+  areaAssignmentId: 'areaAssignmentId',
   contactStatus: 'contactStatus',
   interest: 'interest',
   remark: 'remark',
@@ -8155,6 +8231,21 @@ export const SalesCategoryAssignmentScalarFieldEnum = {
 } as const
 
 export type SalesCategoryAssignmentScalarFieldEnum = (typeof SalesCategoryAssignmentScalarFieldEnum)[keyof typeof SalesCategoryAssignmentScalarFieldEnum]
+
+
+export const SalesAreaAssignmentScalarFieldEnum = {
+  id: 'id',
+  salesManagerId: 'salesManagerId',
+  areaName: 'areaName',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  radiusKm: 'radiusKm',
+  deadline: 'deadline',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SalesAreaAssignmentScalarFieldEnum = (typeof SalesAreaAssignmentScalarFieldEnum)[keyof typeof SalesAreaAssignmentScalarFieldEnum]
 
 
 export const LifeCoachRequestScalarFieldEnum = {
@@ -9679,6 +9770,7 @@ export type GlobalOmitConfig = {
   subscriptionPayment?: Prisma.SubscriptionPaymentOmit
   salesAssignment?: Prisma.SalesAssignmentOmit
   salesCategoryAssignment?: Prisma.SalesCategoryAssignmentOmit
+  salesAreaAssignment?: Prisma.SalesAreaAssignmentOmit
   lifeCoachRequest?: Prisma.LifeCoachRequestOmit
   adminNotification?: Prisma.AdminNotificationOmit
   jobPosting?: Prisma.JobPostingOmit

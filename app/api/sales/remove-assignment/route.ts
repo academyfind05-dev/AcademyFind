@@ -31,8 +31,12 @@ export async function POST(req: NextRequest) {
             await prisma.salesCategoryAssignment.delete({
                 where: { id: assignmentId }
             });
+        } else if (type === "area") {
+            await prisma.salesAreaAssignment.delete({
+                where: { id: assignmentId }
+            });
         } else {
-            return NextResponse.json({ error: "Invalid type. Must be 'institute' or 'category'" }, { status: 400 });
+            return NextResponse.json({ error: "Invalid type. Must be 'institute', 'category', or 'area'" }, { status: 400 });
         }
 
         return NextResponse.json({ success: true });

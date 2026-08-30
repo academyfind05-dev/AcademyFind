@@ -43,6 +43,7 @@ model User {
   instituteRequests        InstituteRequest[]
   salesAssignments         SalesAssignment[]         @relation("SalesAssignments")
   salesCategoryAssignments SalesCategoryAssignment[] @relation("SalesCategoryAssignments")
+  salesAreaAssignments     SalesAreaAssignment[]     @relation("SalesAreaAssignments")
   sessions                 Session[]
   payments                 SubscriptionPayment[]
   compareLists             UserCompareList[]
@@ -1094,24 +1095,27 @@ model SubscriptionPayment {
 }
 
 model SalesAssignment {
-  id             String            @id @default(cuid())
-  salesManagerId String
-  instituteId    String            @unique
-  contactStatus  ContactStatus     @default(NOT_CONTACTED)
-  interest       InterestStatus?
-  remark         String?
-  onboardedPlan  SubscriptionPlan?
-  deadline       DateTime?
-  contactedAt    DateTime?
-  onboardedAt    DateTime?
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  institute      Institute         @relation(fields: [instituteId], references: [id], onDelete: Cascade)
-  salesManager   User              @relation("SalesAssignments", fields: [salesManagerId], references: [id], onDelete: Cascade)
+  id               String               @id @default(cuid())
+  salesManagerId   String
+  instituteId      String               @unique
+  areaAssignmentId String?
+  contactStatus    ContactStatus        @default(NOT_CONTACTED)
+  interest         InterestStatus?
+  remark           String?
+  onboardedPlan    SubscriptionPlan?
+  deadline         DateTime?
+  contactedAt      DateTime?
+  onboardedAt      DateTime?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  institute        Institute            @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  salesManager     User                 @relation("SalesAssignments", fields: [salesManagerId], references: [id], onDelete: Cascade)
+  areaAssignment   SalesAreaAssignment? @relation("AreaAssignmentInstitutes", fields: [areaAssignmentId], references: [id], onDelete: SetNull)
 
   @@index([salesManagerId])
   @@index([instituteId])
   @@index([contactStatus])
+  @@index([areaAssignmentId])
   @@map("sales_assignment")
 }
 
@@ -1127,6 +1131,23 @@ model SalesCategoryAssignment {
   @@unique([salesManagerId, categoryId])
   @@index([salesManagerId])
   @@map("sales_category_assignment")
+}
+
+model SalesAreaAssignment {
+  id             String            @id @default(cuid())
+  salesManagerId String
+  areaName       String
+  latitude       Float
+  longitude      Float
+  radiusKm       Float
+  deadline       DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  salesManager   User              @relation("SalesAreaAssignments", fields: [salesManagerId], references: [id], onDelete: Cascade)
+  institutes     SalesAssignment[] @relation("AreaAssignmentInstitutes")
+
+  @@index([salesManagerId])
+  @@map("sales_area_assignment")
 }
 
 model LifeCoachRequest {

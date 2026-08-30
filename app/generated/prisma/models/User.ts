@@ -368,6 +368,7 @@ export type UserWhereInput = {
   instituteRequests?: Prisma.InstituteRequestListRelationFilter
   salesAssignments?: Prisma.SalesAssignmentListRelationFilter
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentListRelationFilter
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   payments?: Prisma.SubscriptionPaymentListRelationFilter
   compareLists?: Prisma.UserCompareListListRelationFilter
@@ -452,6 +453,7 @@ export type UserOrderByWithRelationInput = {
   instituteRequests?: Prisma.InstituteRequestOrderByRelationAggregateInput
   salesAssignments?: Prisma.SalesAssignmentOrderByRelationAggregateInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentOrderByRelationAggregateInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   payments?: Prisma.SubscriptionPaymentOrderByRelationAggregateInput
   compareLists?: Prisma.UserCompareListOrderByRelationAggregateInput
@@ -539,6 +541,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   instituteRequests?: Prisma.InstituteRequestListRelationFilter
   salesAssignments?: Prisma.SalesAssignmentListRelationFilter
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentListRelationFilter
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   payments?: Prisma.SubscriptionPaymentListRelationFilter
   compareLists?: Prisma.UserCompareListListRelationFilter
@@ -689,6 +692,7 @@ export type UserCreateInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -773,6 +777,7 @@ export type UserUncheckedCreateInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -857,6 +862,7 @@ export type UserUpdateInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -941,6 +947,7 @@ export type UserUncheckedUpdateInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -1631,6 +1638,20 @@ export type UserUpdateOneRequiredWithoutSalesCategoryAssignmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSalesCategoryAssignmentsInput, Prisma.UserUpdateWithoutSalesCategoryAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutSalesCategoryAssignmentsInput>
 }
 
+export type UserCreateNestedOneWithoutSalesAreaAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSalesAreaAssignmentsInput, Prisma.UserUncheckedCreateWithoutSalesAreaAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSalesAreaAssignmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSalesAreaAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSalesAreaAssignmentsInput, Prisma.UserUncheckedCreateWithoutSalesAreaAssignmentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSalesAreaAssignmentsInput
+  upsert?: Prisma.UserUpsertWithoutSalesAreaAssignmentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSalesAreaAssignmentsInput, Prisma.UserUpdateWithoutSalesAreaAssignmentsInput>, Prisma.UserUncheckedUpdateWithoutSalesAreaAssignmentsInput>
+}
+
 export type UserCreateNestedOneWithoutAdminNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAdminNotificationsInput, Prisma.UserUncheckedCreateWithoutAdminNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminNotificationsInput
@@ -2023,6 +2044,7 @@ export type UserCreateWithoutWalletInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -2106,6 +2128,7 @@ export type UserUncheckedCreateWithoutWalletInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -2205,6 +2228,7 @@ export type UserUpdateWithoutWalletInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -2288,6 +2312,7 @@ export type UserUncheckedUpdateWithoutWalletInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -2371,6 +2396,7 @@ export type UserCreateWithoutReputationInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -2454,6 +2480,7 @@ export type UserUncheckedCreateWithoutReputationInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -2553,6 +2580,7 @@ export type UserUpdateWithoutReputationInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -2636,6 +2664,7 @@ export type UserUncheckedUpdateWithoutReputationInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -2719,6 +2748,7 @@ export type UserCreateWithoutPreferencesInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -2802,6 +2832,7 @@ export type UserUncheckedCreateWithoutPreferencesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -2901,6 +2932,7 @@ export type UserUpdateWithoutPreferencesInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -2984,6 +3016,7 @@ export type UserUncheckedUpdateWithoutPreferencesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -3067,6 +3100,7 @@ export type UserCreateWithoutSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutUserInput
@@ -3150,6 +3184,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutUserInput
@@ -3249,6 +3284,7 @@ export type UserUpdateWithoutSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutUserNestedInput
@@ -3332,6 +3368,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutUserNestedInput
@@ -3414,6 +3451,7 @@ export type UserCreateWithoutAccountsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -3497,6 +3535,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -3596,6 +3635,7 @@ export type UserUpdateWithoutAccountsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -3679,6 +3719,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -3762,6 +3803,7 @@ export type UserCreateWithoutManagedInstitutesInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -3845,6 +3887,7 @@ export type UserUncheckedCreateWithoutManagedInstitutesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -3944,6 +3987,7 @@ export type UserUpdateWithoutManagedInstitutesInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -4027,6 +4071,7 @@ export type UserUncheckedUpdateWithoutManagedInstitutesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -4110,6 +4155,7 @@ export type UserCreateWithoutReviewsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -4193,6 +4239,7 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -4292,6 +4339,7 @@ export type UserUpdateWithoutReviewsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -4375,6 +4423,7 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -4459,6 +4508,7 @@ export type UserCreateWithoutReviewRepliesInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -4542,6 +4592,7 @@ export type UserUncheckedCreateWithoutReviewRepliesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -4641,6 +4692,7 @@ export type UserUpdateWithoutReviewRepliesInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -4724,6 +4776,7 @@ export type UserUncheckedUpdateWithoutReviewRepliesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -4806,6 +4859,7 @@ export type UserCreateWithoutClaimsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -4889,6 +4943,7 @@ export type UserUncheckedCreateWithoutClaimsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -4988,6 +5043,7 @@ export type UserUpdateWithoutClaimsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -5071,6 +5127,7 @@ export type UserUncheckedUpdateWithoutClaimsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -5155,6 +5212,7 @@ export type UserCreateWithoutShortlistedInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -5238,6 +5296,7 @@ export type UserUncheckedCreateWithoutShortlistedInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -5337,6 +5396,7 @@ export type UserUpdateWithoutShortlistedInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -5420,6 +5480,7 @@ export type UserUncheckedUpdateWithoutShortlistedInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -5503,6 +5564,7 @@ export type UserCreateWithoutViewHistoryInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -5586,6 +5648,7 @@ export type UserUncheckedCreateWithoutViewHistoryInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -5685,6 +5748,7 @@ export type UserUpdateWithoutViewHistoryInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -5768,6 +5832,7 @@ export type UserUncheckedUpdateWithoutViewHistoryInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -5851,6 +5916,7 @@ export type UserCreateWithoutTeacherProfileInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -5934,6 +6000,7 @@ export type UserUncheckedCreateWithoutTeacherProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -6033,6 +6100,7 @@ export type UserUpdateWithoutTeacherProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -6116,6 +6184,7 @@ export type UserUncheckedUpdateWithoutTeacherProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -6199,6 +6268,7 @@ export type UserCreateWithoutStudentProfileInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -6282,6 +6352,7 @@ export type UserUncheckedCreateWithoutStudentProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -6381,6 +6452,7 @@ export type UserUpdateWithoutStudentProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -6464,6 +6536,7 @@ export type UserUncheckedUpdateWithoutStudentProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -6547,6 +6620,7 @@ export type UserCreateWithoutMembershipsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -6630,6 +6704,7 @@ export type UserUncheckedCreateWithoutMembershipsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -6729,6 +6804,7 @@ export type UserUpdateWithoutMembershipsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -6812,6 +6888,7 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -6895,6 +6972,7 @@ export type UserCreateWithoutCreatedConversationsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -6978,6 +7056,7 @@ export type UserUncheckedCreateWithoutCreatedConversationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -7077,6 +7156,7 @@ export type UserUpdateWithoutCreatedConversationsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -7160,6 +7240,7 @@ export type UserUncheckedUpdateWithoutCreatedConversationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -7243,6 +7324,7 @@ export type UserCreateWithoutConversationParticipantsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -7326,6 +7408,7 @@ export type UserUncheckedCreateWithoutConversationParticipantsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -7425,6 +7508,7 @@ export type UserUpdateWithoutConversationParticipantsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -7508,6 +7592,7 @@ export type UserUncheckedUpdateWithoutConversationParticipantsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -7591,6 +7676,7 @@ export type UserCreateWithoutMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -7674,6 +7760,7 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -7773,6 +7860,7 @@ export type UserUpdateWithoutMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -7856,6 +7944,7 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -7939,6 +8028,7 @@ export type UserCreateWithoutMessageReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -8022,6 +8112,7 @@ export type UserUncheckedCreateWithoutMessageReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -8121,6 +8212,7 @@ export type UserUpdateWithoutMessageReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -8204,6 +8296,7 @@ export type UserUncheckedUpdateWithoutMessageReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -8287,6 +8380,7 @@ export type UserCreateWithoutMessageReadsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -8370,6 +8464,7 @@ export type UserUncheckedCreateWithoutMessageReadsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -8469,6 +8564,7 @@ export type UserUpdateWithoutMessageReadsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -8552,6 +8648,7 @@ export type UserUncheckedUpdateWithoutMessageReadsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -8635,6 +8732,7 @@ export type UserCreateWithoutMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -8718,6 +8816,7 @@ export type UserUncheckedCreateWithoutMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -8806,6 +8905,7 @@ export type UserCreateWithoutResolvedMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -8889,6 +8989,7 @@ export type UserUncheckedCreateWithoutResolvedMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -8988,6 +9089,7 @@ export type UserUpdateWithoutMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -9071,6 +9173,7 @@ export type UserUncheckedUpdateWithoutMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -9165,6 +9268,7 @@ export type UserUpdateWithoutResolvedMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -9248,6 +9352,7 @@ export type UserUncheckedUpdateWithoutResolvedMessageReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -9331,6 +9436,7 @@ export type UserCreateWithoutChatSettingsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -9414,6 +9520,7 @@ export type UserUncheckedCreateWithoutChatSettingsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -9513,6 +9620,7 @@ export type UserUpdateWithoutChatSettingsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -9596,6 +9704,7 @@ export type UserUncheckedUpdateWithoutChatSettingsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -9679,6 +9788,7 @@ export type UserCreateWithoutNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -9762,6 +9872,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -9861,6 +9972,7 @@ export type UserUpdateWithoutNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -9944,6 +10056,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -10027,6 +10140,7 @@ export type UserCreateWithoutBlockedUsersInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -10110,6 +10224,7 @@ export type UserUncheckedCreateWithoutBlockedUsersInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -10198,6 +10313,7 @@ export type UserCreateWithoutBlockedByUsersInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -10281,6 +10397,7 @@ export type UserUncheckedCreateWithoutBlockedByUsersInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -10380,6 +10497,7 @@ export type UserUpdateWithoutBlockedUsersInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -10463,6 +10581,7 @@ export type UserUncheckedUpdateWithoutBlockedUsersInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -10557,6 +10676,7 @@ export type UserUpdateWithoutBlockedByUsersInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -10640,6 +10760,7 @@ export type UserUncheckedUpdateWithoutBlockedByUsersInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -10723,6 +10844,7 @@ export type UserCreateWithoutContactMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -10806,6 +10928,7 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -10905,6 +11028,7 @@ export type UserUpdateWithoutContactMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -10988,6 +11112,7 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -11070,6 +11195,7 @@ export type UserCreateWithoutInstituteRequestsInput = {
   claims?: Prisma.InstituteClaimCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -11153,6 +11279,7 @@ export type UserUncheckedCreateWithoutInstituteRequestsInput = {
   claims?: Prisma.InstituteClaimUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -11252,6 +11379,7 @@ export type UserUpdateWithoutInstituteRequestsInput = {
   claims?: Prisma.InstituteClaimUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -11335,6 +11463,7 @@ export type UserUncheckedUpdateWithoutInstituteRequestsInput = {
   claims?: Prisma.InstituteClaimUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -11419,6 +11548,7 @@ export type UserCreateWithoutPaymentsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutUserInput
@@ -11502,6 +11632,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutUserInput
@@ -11601,6 +11732,7 @@ export type UserUpdateWithoutPaymentsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutUserNestedInput
@@ -11684,6 +11816,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutUserNestedInput
@@ -11766,6 +11899,7 @@ export type UserCreateWithoutSalesAssignmentsInput = {
   claims?: Prisma.InstituteClaimCreateNestedManyWithoutUserInput
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -11849,6 +11983,7 @@ export type UserUncheckedCreateWithoutSalesAssignmentsInput = {
   claims?: Prisma.InstituteClaimUncheckedCreateNestedManyWithoutUserInput
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -11948,6 +12083,7 @@ export type UserUpdateWithoutSalesAssignmentsInput = {
   claims?: Prisma.InstituteClaimUpdateManyWithoutUserNestedInput
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -12031,6 +12167,7 @@ export type UserUncheckedUpdateWithoutSalesAssignmentsInput = {
   claims?: Prisma.InstituteClaimUncheckedUpdateManyWithoutUserNestedInput
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -12114,6 +12251,7 @@ export type UserCreateWithoutSalesCategoryAssignmentsInput = {
   claims?: Prisma.InstituteClaimCreateNestedManyWithoutUserInput
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -12197,6 +12335,7 @@ export type UserUncheckedCreateWithoutSalesCategoryAssignmentsInput = {
   claims?: Prisma.InstituteClaimUncheckedCreateNestedManyWithoutUserInput
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -12296,6 +12435,7 @@ export type UserUpdateWithoutSalesCategoryAssignmentsInput = {
   claims?: Prisma.InstituteClaimUpdateManyWithoutUserNestedInput
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -12379,6 +12519,359 @@ export type UserUncheckedUpdateWithoutSalesCategoryAssignmentsInput = {
   claims?: Prisma.InstituteClaimUncheckedUpdateManyWithoutUserNestedInput
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
+  compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
+  viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutUserNestedInput
+  shortlisted?: Prisma.UserShortlistUncheckedUpdateManyWithoutUserNestedInput
+  distributionLogs?: Prisma.LeadDistributionLogUncheckedUpdateManyWithoutAdminNestedInput
+  blogAuthorProfile?: Prisma.BlogAuthorProfileUncheckedUpdateOneWithoutUserNestedInput
+  blogComments?: Prisma.BlogCommentUncheckedUpdateManyWithoutUserNestedInput
+  blogReactions?: Prisma.BlogReactionUncheckedUpdateManyWithoutUserNestedInput
+  blogViews?: Prisma.BlogViewUncheckedUpdateManyWithoutUserNestedInput
+  blogBookmarks?: Prisma.BlogBookmarkUncheckedUpdateManyWithoutUserNestedInput
+  followedAuthors?: Prisma.BlogAuthorFollowerUncheckedUpdateManyWithoutUserNestedInput
+  reviewedPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutReviewedByNestedInput
+  publishedPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutPublishedByNestedInput
+  editedPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutLastEditedByNestedInput
+  blogRevisions?: Prisma.BlogRevisionUncheckedUpdateManyWithoutCreatedByNestedInput
+  reviewReplies?: Prisma.ReviewReplyUncheckedUpdateManyWithoutUserNestedInput
+  visitorSessions?: Prisma.VisitorSessionUncheckedUpdateManyWithoutUserNestedInput
+  blogReports?: Prisma.BlogReportUncheckedUpdateManyWithoutUserNestedInput
+  resolvedBlogReports?: Prisma.BlogReportUncheckedUpdateManyWithoutResolvedByNestedInput
+  studentProfile?: Prisma.StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+  teacherProfile?: Prisma.TeacherProfileUncheckedUpdateOneWithoutUserNestedInput
+  memberships?: Prisma.InstituteMembershipUncheckedUpdateManyWithoutUserNestedInput
+  chatSettings?: Prisma.ChatSettingsUncheckedUpdateOneWithoutUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  messageReads?: Prisma.MessageReadUncheckedUpdateManyWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUncheckedUpdateManyWithoutUserNestedInput
+  messageReports?: Prisma.MessageReportUncheckedUpdateManyWithoutReporterNestedInput
+  resolvedMessageReports?: Prisma.MessageReportUncheckedUpdateManyWithoutResolverNestedInput
+  blockedUsers?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockerNestedInput
+  blockedByUsers?: Prisma.UserBlockUncheckedUpdateManyWithoutBlockedNestedInput
+  createdConversations?: Prisma.ConversationUncheckedUpdateManyWithoutCreatedByNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.UserWalletUncheckedUpdateOneWithoutUserNestedInput
+  reputation?: Prisma.UserReputationUncheckedUpdateOneWithoutUserNestedInput
+  preferences?: Prisma.UserPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  educations?: Prisma.UserEducationUncheckedUpdateManyWithoutUserNestedInput
+  experiences?: Prisma.UserExperienceUncheckedUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  skills?: Prisma.UserSkillUncheckedUpdateManyWithoutUserNestedInput
+  instituteVisits?: Prisma.InstituteVisitUncheckedUpdateManyWithoutUserNestedInput
+  advertisements?: Prisma.AdvertisementUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSalesAreaAssignmentsInput = {
+  id?: string
+  name?: string | null
+  username: string
+  email: string
+  phone?: string | null
+  passwordHash?: string | null
+  image?: string | null
+  coverImage?: string | null
+  role?: $Enums.Role
+  isActive?: boolean
+  emailVerified?: boolean
+  onboardingCompleted?: boolean
+  lastLoginAt?: Date | string | null
+  pushToken?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  canAddInstitute?: boolean
+  canWriteBlogs?: boolean
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  telegramUrl?: string | null
+  twitterUrl?: string | null
+  youtubeUrl?: string | null
+  linkedinUrl?: string | null
+  whatsappUrl?: string | null
+  allowDms?: boolean
+  isVisible?: boolean
+  managedInstitutes?: Prisma.InstituteManagerCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  adminNotifications?: Prisma.AdminNotificationCreateNestedManyWithoutUserInput
+  communityAnswers?: Prisma.CommunityAnswerCreateNestedManyWithoutUserInput
+  communityQuestions?: Prisma.CommunityQuestionCreateNestedManyWithoutUserInput
+  claims?: Prisma.InstituteClaimCreateNestedManyWithoutUserInput
+  instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
+  salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
+  compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
+  viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutUserInput
+  shortlisted?: Prisma.UserShortlistCreateNestedManyWithoutUserInput
+  distributionLogs?: Prisma.LeadDistributionLogCreateNestedManyWithoutAdminInput
+  blogAuthorProfile?: Prisma.BlogAuthorProfileCreateNestedOneWithoutUserInput
+  blogComments?: Prisma.BlogCommentCreateNestedManyWithoutUserInput
+  blogReactions?: Prisma.BlogReactionCreateNestedManyWithoutUserInput
+  blogViews?: Prisma.BlogViewCreateNestedManyWithoutUserInput
+  blogBookmarks?: Prisma.BlogBookmarkCreateNestedManyWithoutUserInput
+  followedAuthors?: Prisma.BlogAuthorFollowerCreateNestedManyWithoutUserInput
+  reviewedPosts?: Prisma.BlogPostCreateNestedManyWithoutReviewedByInput
+  publishedPosts?: Prisma.BlogPostCreateNestedManyWithoutPublishedByInput
+  editedPosts?: Prisma.BlogPostCreateNestedManyWithoutLastEditedByInput
+  blogRevisions?: Prisma.BlogRevisionCreateNestedManyWithoutCreatedByInput
+  reviewReplies?: Prisma.ReviewReplyCreateNestedManyWithoutUserInput
+  visitorSessions?: Prisma.VisitorSessionCreateNestedManyWithoutUserInput
+  blogReports?: Prisma.BlogReportCreateNestedManyWithoutUserInput
+  resolvedBlogReports?: Prisma.BlogReportCreateNestedManyWithoutResolvedByInput
+  studentProfile?: Prisma.StudentProfileCreateNestedOneWithoutUserInput
+  teacherProfile?: Prisma.TeacherProfileCreateNestedOneWithoutUserInput
+  memberships?: Prisma.InstituteMembershipCreateNestedManyWithoutUserInput
+  chatSettings?: Prisma.ChatSettingsCreateNestedOneWithoutUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  messageReads?: Prisma.MessageReadCreateNestedManyWithoutUserInput
+  messageReactions?: Prisma.MessageReactionCreateNestedManyWithoutUserInput
+  messageReports?: Prisma.MessageReportCreateNestedManyWithoutReporterInput
+  resolvedMessageReports?: Prisma.MessageReportCreateNestedManyWithoutResolverInput
+  blockedUsers?: Prisma.UserBlockCreateNestedManyWithoutBlockerInput
+  blockedByUsers?: Prisma.UserBlockCreateNestedManyWithoutBlockedInput
+  createdConversations?: Prisma.ConversationCreateNestedManyWithoutCreatedByInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  wallet?: Prisma.UserWalletCreateNestedOneWithoutUserInput
+  reputation?: Prisma.UserReputationCreateNestedOneWithoutUserInput
+  preferences?: Prisma.UserPreferenceCreateNestedOneWithoutUserInput
+  educations?: Prisma.UserEducationCreateNestedManyWithoutUserInput
+  experiences?: Prisma.UserExperienceCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  skills?: Prisma.UserSkillCreateNestedManyWithoutUserInput
+  instituteVisits?: Prisma.InstituteVisitCreateNestedManyWithoutUserInput
+  advertisements?: Prisma.AdvertisementCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSalesAreaAssignmentsInput = {
+  id?: string
+  name?: string | null
+  username: string
+  email: string
+  phone?: string | null
+  passwordHash?: string | null
+  image?: string | null
+  coverImage?: string | null
+  role?: $Enums.Role
+  isActive?: boolean
+  emailVerified?: boolean
+  onboardingCompleted?: boolean
+  lastLoginAt?: Date | string | null
+  pushToken?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  canAddInstitute?: boolean
+  canWriteBlogs?: boolean
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  telegramUrl?: string | null
+  twitterUrl?: string | null
+  youtubeUrl?: string | null
+  linkedinUrl?: string | null
+  whatsappUrl?: string | null
+  allowDms?: boolean
+  isVisible?: boolean
+  managedInstitutes?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutUserInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  adminNotifications?: Prisma.AdminNotificationUncheckedCreateNestedManyWithoutUserInput
+  communityAnswers?: Prisma.CommunityAnswerUncheckedCreateNestedManyWithoutUserInput
+  communityQuestions?: Prisma.CommunityQuestionUncheckedCreateNestedManyWithoutUserInput
+  claims?: Prisma.InstituteClaimUncheckedCreateNestedManyWithoutUserInput
+  instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
+  salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
+  compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
+  viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutUserInput
+  shortlisted?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutUserInput
+  distributionLogs?: Prisma.LeadDistributionLogUncheckedCreateNestedManyWithoutAdminInput
+  blogAuthorProfile?: Prisma.BlogAuthorProfileUncheckedCreateNestedOneWithoutUserInput
+  blogComments?: Prisma.BlogCommentUncheckedCreateNestedManyWithoutUserInput
+  blogReactions?: Prisma.BlogReactionUncheckedCreateNestedManyWithoutUserInput
+  blogViews?: Prisma.BlogViewUncheckedCreateNestedManyWithoutUserInput
+  blogBookmarks?: Prisma.BlogBookmarkUncheckedCreateNestedManyWithoutUserInput
+  followedAuthors?: Prisma.BlogAuthorFollowerUncheckedCreateNestedManyWithoutUserInput
+  reviewedPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutReviewedByInput
+  publishedPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutPublishedByInput
+  editedPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutLastEditedByInput
+  blogRevisions?: Prisma.BlogRevisionUncheckedCreateNestedManyWithoutCreatedByInput
+  reviewReplies?: Prisma.ReviewReplyUncheckedCreateNestedManyWithoutUserInput
+  visitorSessions?: Prisma.VisitorSessionUncheckedCreateNestedManyWithoutUserInput
+  blogReports?: Prisma.BlogReportUncheckedCreateNestedManyWithoutUserInput
+  resolvedBlogReports?: Prisma.BlogReportUncheckedCreateNestedManyWithoutResolvedByInput
+  studentProfile?: Prisma.StudentProfileUncheckedCreateNestedOneWithoutUserInput
+  teacherProfile?: Prisma.TeacherProfileUncheckedCreateNestedOneWithoutUserInput
+  memberships?: Prisma.InstituteMembershipUncheckedCreateNestedManyWithoutUserInput
+  chatSettings?: Prisma.ChatSettingsUncheckedCreateNestedOneWithoutUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  messageReads?: Prisma.MessageReadUncheckedCreateNestedManyWithoutUserInput
+  messageReactions?: Prisma.MessageReactionUncheckedCreateNestedManyWithoutUserInput
+  messageReports?: Prisma.MessageReportUncheckedCreateNestedManyWithoutReporterInput
+  resolvedMessageReports?: Prisma.MessageReportUncheckedCreateNestedManyWithoutResolverInput
+  blockedUsers?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockerInput
+  blockedByUsers?: Prisma.UserBlockUncheckedCreateNestedManyWithoutBlockedInput
+  createdConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutCreatedByInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  wallet?: Prisma.UserWalletUncheckedCreateNestedOneWithoutUserInput
+  reputation?: Prisma.UserReputationUncheckedCreateNestedOneWithoutUserInput
+  preferences?: Prisma.UserPreferenceUncheckedCreateNestedOneWithoutUserInput
+  educations?: Prisma.UserEducationUncheckedCreateNestedManyWithoutUserInput
+  experiences?: Prisma.UserExperienceUncheckedCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  skills?: Prisma.UserSkillUncheckedCreateNestedManyWithoutUserInput
+  instituteVisits?: Prisma.InstituteVisitUncheckedCreateNestedManyWithoutUserInput
+  advertisements?: Prisma.AdvertisementUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSalesAreaAssignmentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSalesAreaAssignmentsInput, Prisma.UserUncheckedCreateWithoutSalesAreaAssignmentsInput>
+}
+
+export type UserUpsertWithoutSalesAreaAssignmentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSalesAreaAssignmentsInput, Prisma.UserUncheckedUpdateWithoutSalesAreaAssignmentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSalesAreaAssignmentsInput, Prisma.UserUncheckedCreateWithoutSalesAreaAssignmentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSalesAreaAssignmentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSalesAreaAssignmentsInput, Prisma.UserUncheckedUpdateWithoutSalesAreaAssignmentsInput>
+}
+
+export type UserUpdateWithoutSalesAreaAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  canWriteBlogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allowDms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managedInstitutes?: Prisma.InstituteManagerUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  adminNotifications?: Prisma.AdminNotificationUpdateManyWithoutUserNestedInput
+  communityAnswers?: Prisma.CommunityAnswerUpdateManyWithoutUserNestedInput
+  communityQuestions?: Prisma.CommunityQuestionUpdateManyWithoutUserNestedInput
+  claims?: Prisma.InstituteClaimUpdateManyWithoutUserNestedInput
+  instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
+  salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
+  compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
+  viewHistory?: Prisma.UserHistoryUpdateManyWithoutUserNestedInput
+  shortlisted?: Prisma.UserShortlistUpdateManyWithoutUserNestedInput
+  distributionLogs?: Prisma.LeadDistributionLogUpdateManyWithoutAdminNestedInput
+  blogAuthorProfile?: Prisma.BlogAuthorProfileUpdateOneWithoutUserNestedInput
+  blogComments?: Prisma.BlogCommentUpdateManyWithoutUserNestedInput
+  blogReactions?: Prisma.BlogReactionUpdateManyWithoutUserNestedInput
+  blogViews?: Prisma.BlogViewUpdateManyWithoutUserNestedInput
+  blogBookmarks?: Prisma.BlogBookmarkUpdateManyWithoutUserNestedInput
+  followedAuthors?: Prisma.BlogAuthorFollowerUpdateManyWithoutUserNestedInput
+  reviewedPosts?: Prisma.BlogPostUpdateManyWithoutReviewedByNestedInput
+  publishedPosts?: Prisma.BlogPostUpdateManyWithoutPublishedByNestedInput
+  editedPosts?: Prisma.BlogPostUpdateManyWithoutLastEditedByNestedInput
+  blogRevisions?: Prisma.BlogRevisionUpdateManyWithoutCreatedByNestedInput
+  reviewReplies?: Prisma.ReviewReplyUpdateManyWithoutUserNestedInput
+  visitorSessions?: Prisma.VisitorSessionUpdateManyWithoutUserNestedInput
+  blogReports?: Prisma.BlogReportUpdateManyWithoutUserNestedInput
+  resolvedBlogReports?: Prisma.BlogReportUpdateManyWithoutResolvedByNestedInput
+  studentProfile?: Prisma.StudentProfileUpdateOneWithoutUserNestedInput
+  teacherProfile?: Prisma.TeacherProfileUpdateOneWithoutUserNestedInput
+  memberships?: Prisma.InstituteMembershipUpdateManyWithoutUserNestedInput
+  chatSettings?: Prisma.ChatSettingsUpdateOneWithoutUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  messageReads?: Prisma.MessageReadUpdateManyWithoutUserNestedInput
+  messageReactions?: Prisma.MessageReactionUpdateManyWithoutUserNestedInput
+  messageReports?: Prisma.MessageReportUpdateManyWithoutReporterNestedInput
+  resolvedMessageReports?: Prisma.MessageReportUpdateManyWithoutResolverNestedInput
+  blockedUsers?: Prisma.UserBlockUpdateManyWithoutBlockerNestedInput
+  blockedByUsers?: Prisma.UserBlockUpdateManyWithoutBlockedNestedInput
+  createdConversations?: Prisma.ConversationUpdateManyWithoutCreatedByNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  wallet?: Prisma.UserWalletUpdateOneWithoutUserNestedInput
+  reputation?: Prisma.UserReputationUpdateOneWithoutUserNestedInput
+  preferences?: Prisma.UserPreferenceUpdateOneWithoutUserNestedInput
+  educations?: Prisma.UserEducationUpdateManyWithoutUserNestedInput
+  experiences?: Prisma.UserExperienceUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  skills?: Prisma.UserSkillUpdateManyWithoutUserNestedInput
+  instituteVisits?: Prisma.InstituteVisitUpdateManyWithoutUserNestedInput
+  advertisements?: Prisma.AdvertisementUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSalesAreaAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pushToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  canAddInstitute?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  canWriteBlogs?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  allowDms?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVisible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managedInstitutes?: Prisma.InstituteManagerUncheckedUpdateManyWithoutUserNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  adminNotifications?: Prisma.AdminNotificationUncheckedUpdateManyWithoutUserNestedInput
+  communityAnswers?: Prisma.CommunityAnswerUncheckedUpdateManyWithoutUserNestedInput
+  communityQuestions?: Prisma.CommunityQuestionUncheckedUpdateManyWithoutUserNestedInput
+  claims?: Prisma.InstituteClaimUncheckedUpdateManyWithoutUserNestedInput
+  instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
+  salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -12462,6 +12955,7 @@ export type UserCreateWithoutAdminNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -12545,6 +13039,7 @@ export type UserUncheckedCreateWithoutAdminNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -12644,6 +13139,7 @@ export type UserUpdateWithoutAdminNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -12727,6 +13223,7 @@ export type UserUncheckedUpdateWithoutAdminNotificationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -12811,6 +13308,7 @@ export type UserCreateWithoutInstituteVisitsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -12894,6 +13392,7 @@ export type UserUncheckedCreateWithoutInstituteVisitsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -12993,6 +13492,7 @@ export type UserUpdateWithoutInstituteVisitsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -13076,6 +13576,7 @@ export type UserUncheckedUpdateWithoutInstituteVisitsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -13159,6 +13660,7 @@ export type UserCreateWithoutCompareListsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutUserInput
@@ -13242,6 +13744,7 @@ export type UserUncheckedCreateWithoutCompareListsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutUserInput
@@ -13341,6 +13844,7 @@ export type UserUpdateWithoutCompareListsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutUserNestedInput
@@ -13424,6 +13928,7 @@ export type UserUncheckedUpdateWithoutCompareListsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutUserNestedInput
@@ -13506,6 +14011,7 @@ export type UserCreateWithoutCommunityQuestionsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -13589,6 +14095,7 @@ export type UserUncheckedCreateWithoutCommunityQuestionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -13688,6 +14195,7 @@ export type UserUpdateWithoutCommunityQuestionsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -13771,6 +14279,7 @@ export type UserUncheckedUpdateWithoutCommunityQuestionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -13854,6 +14363,7 @@ export type UserCreateWithoutCommunityAnswersInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -13937,6 +14447,7 @@ export type UserUncheckedCreateWithoutCommunityAnswersInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -14036,6 +14547,7 @@ export type UserUpdateWithoutCommunityAnswersInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -14119,6 +14631,7 @@ export type UserUncheckedUpdateWithoutCommunityAnswersInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -14203,6 +14716,7 @@ export type UserCreateWithoutDistributionLogsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -14286,6 +14800,7 @@ export type UserUncheckedCreateWithoutDistributionLogsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -14385,6 +14900,7 @@ export type UserUpdateWithoutDistributionLogsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -14468,6 +14984,7 @@ export type UserUncheckedUpdateWithoutDistributionLogsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -14551,6 +15068,7 @@ export type UserCreateWithoutBlogAuthorProfileInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -14634,6 +15152,7 @@ export type UserUncheckedCreateWithoutBlogAuthorProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -14733,6 +15252,7 @@ export type UserUpdateWithoutBlogAuthorProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -14816,6 +15336,7 @@ export type UserUncheckedUpdateWithoutBlogAuthorProfileInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -14899,6 +15420,7 @@ export type UserCreateWithoutReviewedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -14982,6 +15504,7 @@ export type UserUncheckedCreateWithoutReviewedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -15070,6 +15593,7 @@ export type UserCreateWithoutPublishedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -15153,6 +15677,7 @@ export type UserUncheckedCreateWithoutPublishedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -15241,6 +15766,7 @@ export type UserCreateWithoutEditedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -15324,6 +15850,7 @@ export type UserUncheckedCreateWithoutEditedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -15423,6 +15950,7 @@ export type UserUpdateWithoutReviewedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -15506,6 +16034,7 @@ export type UserUncheckedUpdateWithoutReviewedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -15600,6 +16129,7 @@ export type UserUpdateWithoutPublishedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -15683,6 +16213,7 @@ export type UserUncheckedUpdateWithoutPublishedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -15777,6 +16308,7 @@ export type UserUpdateWithoutEditedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -15860,6 +16392,7 @@ export type UserUncheckedUpdateWithoutEditedPostsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -15943,6 +16476,7 @@ export type UserCreateWithoutBlogRevisionsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -16026,6 +16560,7 @@ export type UserUncheckedCreateWithoutBlogRevisionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -16125,6 +16660,7 @@ export type UserUpdateWithoutBlogRevisionsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -16208,6 +16744,7 @@ export type UserUncheckedUpdateWithoutBlogRevisionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -16291,6 +16828,7 @@ export type UserCreateWithoutBlogViewsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -16374,6 +16912,7 @@ export type UserUncheckedCreateWithoutBlogViewsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -16473,6 +17012,7 @@ export type UserUpdateWithoutBlogViewsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -16556,6 +17096,7 @@ export type UserUncheckedUpdateWithoutBlogViewsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -16639,6 +17180,7 @@ export type UserCreateWithoutBlogBookmarksInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -16722,6 +17264,7 @@ export type UserUncheckedCreateWithoutBlogBookmarksInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -16821,6 +17364,7 @@ export type UserUpdateWithoutBlogBookmarksInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -16904,6 +17448,7 @@ export type UserUncheckedUpdateWithoutBlogBookmarksInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -16987,6 +17532,7 @@ export type UserCreateWithoutFollowedAuthorsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -17070,6 +17616,7 @@ export type UserUncheckedCreateWithoutFollowedAuthorsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -17169,6 +17716,7 @@ export type UserUpdateWithoutFollowedAuthorsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -17252,6 +17800,7 @@ export type UserUncheckedUpdateWithoutFollowedAuthorsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -17335,6 +17884,7 @@ export type UserCreateWithoutResolvedBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -17418,6 +17968,7 @@ export type UserUncheckedCreateWithoutResolvedBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -17506,6 +18057,7 @@ export type UserCreateWithoutBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -17589,6 +18141,7 @@ export type UserUncheckedCreateWithoutBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -17688,6 +18241,7 @@ export type UserUpdateWithoutResolvedBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -17771,6 +18325,7 @@ export type UserUncheckedUpdateWithoutResolvedBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -17865,6 +18420,7 @@ export type UserUpdateWithoutBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -17948,6 +18504,7 @@ export type UserUncheckedUpdateWithoutBlogReportsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -18031,6 +18588,7 @@ export type UserCreateWithoutBlogCommentsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -18114,6 +18672,7 @@ export type UserUncheckedCreateWithoutBlogCommentsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -18213,6 +18772,7 @@ export type UserUpdateWithoutBlogCommentsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -18296,6 +18856,7 @@ export type UserUncheckedUpdateWithoutBlogCommentsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -18379,6 +18940,7 @@ export type UserCreateWithoutBlogReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -18462,6 +19024,7 @@ export type UserUncheckedCreateWithoutBlogReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -18561,6 +19124,7 @@ export type UserUpdateWithoutBlogReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -18644,6 +19208,7 @@ export type UserUncheckedUpdateWithoutBlogReactionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -18727,6 +19292,7 @@ export type UserCreateWithoutEducationsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -18810,6 +19376,7 @@ export type UserUncheckedCreateWithoutEducationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -18909,6 +19476,7 @@ export type UserUpdateWithoutEducationsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -18992,6 +19560,7 @@ export type UserUncheckedUpdateWithoutEducationsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -19075,6 +19644,7 @@ export type UserCreateWithoutExperiencesInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -19158,6 +19728,7 @@ export type UserUncheckedCreateWithoutExperiencesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -19257,6 +19828,7 @@ export type UserUpdateWithoutExperiencesInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -19340,6 +19912,7 @@ export type UserUncheckedUpdateWithoutExperiencesInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -19423,6 +19996,7 @@ export type UserCreateWithoutAchievementsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -19506,6 +20080,7 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -19605,6 +20180,7 @@ export type UserUpdateWithoutAchievementsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -19688,6 +20264,7 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -19771,6 +20348,7 @@ export type UserCreateWithoutSkillsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -19854,6 +20432,7 @@ export type UserUncheckedCreateWithoutSkillsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -19953,6 +20532,7 @@ export type UserUpdateWithoutSkillsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -20036,6 +20616,7 @@ export type UserUncheckedUpdateWithoutSkillsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -20119,6 +20700,7 @@ export type UserCreateWithoutVisitorSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -20202,6 +20784,7 @@ export type UserUncheckedCreateWithoutVisitorSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -20301,6 +20884,7 @@ export type UserUpdateWithoutVisitorSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -20384,6 +20968,7 @@ export type UserUncheckedUpdateWithoutVisitorSessionsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -20467,6 +21052,7 @@ export type UserCreateWithoutAdvertisementsInput = {
   instituteRequests?: Prisma.InstituteRequestCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListCreateNestedManyWithoutUserInput
@@ -20550,6 +21136,7 @@ export type UserUncheckedCreateWithoutAdvertisementsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedCreateNestedManyWithoutUserInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedCreateNestedManyWithoutSalesManagerInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutUserInput
   compareLists?: Prisma.UserCompareListUncheckedCreateNestedManyWithoutUserInput
@@ -20649,6 +21236,7 @@ export type UserUpdateWithoutAdvertisementsInput = {
   instituteRequests?: Prisma.InstituteRequestUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUpdateManyWithoutUserNestedInput
@@ -20732,6 +21320,7 @@ export type UserUncheckedUpdateWithoutAdvertisementsInput = {
   instituteRequests?: Prisma.InstituteRequestUncheckedUpdateManyWithoutUserNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   salesCategoryAssignments?: Prisma.SalesCategoryAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
+  salesAreaAssignments?: Prisma.SalesAreaAssignmentUncheckedUpdateManyWithoutSalesManagerNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutUserNestedInput
   compareLists?: Prisma.UserCompareListUncheckedUpdateManyWithoutUserNestedInput
@@ -20793,6 +21382,7 @@ export type UserCountOutputType = {
   instituteRequests: number
   salesAssignments: number
   salesCategoryAssignments: number
+  salesAreaAssignments: number
   sessions: number
   payments: number
   compareLists: number
@@ -20843,6 +21433,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   instituteRequests?: boolean | UserCountOutputTypeCountInstituteRequestsArgs
   salesAssignments?: boolean | UserCountOutputTypeCountSalesAssignmentsArgs
   salesCategoryAssignments?: boolean | UserCountOutputTypeCountSalesCategoryAssignmentsArgs
+  salesAreaAssignments?: boolean | UserCountOutputTypeCountSalesAreaAssignmentsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   payments?: boolean | UserCountOutputTypeCountPaymentsArgs
   compareLists?: boolean | UserCountOutputTypeCountCompareListsArgs
@@ -20960,6 +21551,13 @@ export type UserCountOutputTypeCountSalesAssignmentsArgs<ExtArgs extends runtime
  */
 export type UserCountOutputTypeCountSalesCategoryAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SalesCategoryAssignmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSalesAreaAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SalesAreaAssignmentWhereInput
 }
 
 /**
@@ -21260,6 +21858,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   instituteRequests?: boolean | Prisma.User$instituteRequestsArgs<ExtArgs>
   salesAssignments?: boolean | Prisma.User$salesAssignmentsArgs<ExtArgs>
   salesCategoryAssignments?: boolean | Prisma.User$salesCategoryAssignmentsArgs<ExtArgs>
+  salesAreaAssignments?: boolean | Prisma.User$salesAreaAssignmentsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   compareLists?: boolean | Prisma.User$compareListsArgs<ExtArgs>
@@ -21409,6 +22008,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   instituteRequests?: boolean | Prisma.User$instituteRequestsArgs<ExtArgs>
   salesAssignments?: boolean | Prisma.User$salesAssignmentsArgs<ExtArgs>
   salesCategoryAssignments?: boolean | Prisma.User$salesCategoryAssignmentsArgs<ExtArgs>
+  salesAreaAssignments?: boolean | Prisma.User$salesAreaAssignmentsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   compareLists?: boolean | Prisma.User$compareListsArgs<ExtArgs>
@@ -21471,6 +22071,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     instituteRequests: Prisma.$InstituteRequestPayload<ExtArgs>[]
     salesAssignments: Prisma.$SalesAssignmentPayload<ExtArgs>[]
     salesCategoryAssignments: Prisma.$SalesCategoryAssignmentPayload<ExtArgs>[]
+    salesAreaAssignments: Prisma.$SalesAreaAssignmentPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     payments: Prisma.$SubscriptionPaymentPayload<ExtArgs>[]
     compareLists: Prisma.$UserCompareListPayload<ExtArgs>[]
@@ -21948,6 +22549,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   instituteRequests<T extends Prisma.User$instituteRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$instituteRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InstituteRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   salesAssignments<T extends Prisma.User$salesAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$salesAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalesAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   salesCategoryAssignments<T extends Prisma.User$salesCategoryAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$salesCategoryAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalesCategoryAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  salesAreaAssignments<T extends Prisma.User$salesAreaAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$salesAreaAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalesAreaAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   compareLists<T extends Prisma.User$compareListsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$compareListsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompareListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -22678,6 +23280,30 @@ export type User$salesCategoryAssignmentsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.SalesCategoryAssignmentScalarFieldEnum | Prisma.SalesCategoryAssignmentScalarFieldEnum[]
+}
+
+/**
+ * User.salesAreaAssignments
+ */
+export type User$salesAreaAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SalesAreaAssignment
+   */
+  select?: Prisma.SalesAreaAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SalesAreaAssignment
+   */
+  omit?: Prisma.SalesAreaAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SalesAreaAssignmentInclude<ExtArgs> | null
+  where?: Prisma.SalesAreaAssignmentWhereInput
+  orderBy?: Prisma.SalesAreaAssignmentOrderByWithRelationInput | Prisma.SalesAreaAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.SalesAreaAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SalesAreaAssignmentScalarFieldEnum | Prisma.SalesAreaAssignmentScalarFieldEnum[]
 }
 
 /**

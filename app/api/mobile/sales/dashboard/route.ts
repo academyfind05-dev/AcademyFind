@@ -14,22 +14,43 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id') || session.user.id;
 
-    const assignments = await prisma.salesAssignment.findMany({
-      where: { salesManagerId: id },
-      include: {
-        institute: {
-          select: {
-            name: true,
-            city: { select: { name: true } },
-            categories: {
-              include: { category: { select: { name: true } } },
-              take: 1,
-            },
+    const [assignments, assignedAreas] = await Promise.all([
+      prisma.salesAssignment.findMany({
+        where: { salesManagerId: id },
+        include: {
+          institute: {
+            select: {
+              name: true,
+              city: { select: { name: true } },
+              categories: {
+                include: { category: { select: { name: true } } },
+                take: 1,
+              },
+            }
+          },
+          areaAssignment: {
+            select: {
+              id: true,
+              areaName: true,
+              radiusKm: true,
+            }
           }
-        }
-      },
-      orderBy: { updatedAt: "desc" },
-    });
+        },
+        orderBy: { updatedAt: "desc" },
+      }),
+      prisma.salesAreaAssignment.findMany({
+        where: { salesManagerId: id },
+        include: {
+          institutes: {
+            select: {
+              id: true,
+              contactStatus: true,
+            }
+          }
+        },
+        orderBy: { createdAt: "desc" }
+      })
+    ]);
 
     const now = new Date();
 
@@ -56,6 +77,7 @@ export async function GET(request: NextRequest) {
       data: {
         stats: { total, notContacted, contacted, onboarded, overdue },
         upcomingDeadlines,
+        assignedAreas,
         recentActivity: assignments.slice(0, 5)
       } 
     });

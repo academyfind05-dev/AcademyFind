@@ -95,6 +95,7 @@ export const ModelName = {
   SubscriptionPayment: 'SubscriptionPayment',
   SalesAssignment: 'SalesAssignment',
   SalesCategoryAssignment: 'SalesCategoryAssignment',
+  SalesAreaAssignment: 'SalesAreaAssignment',
   LifeCoachRequest: 'LifeCoachRequest',
   AdminNotification: 'AdminNotification',
   JobPosting: 'JobPosting',
@@ -877,6 +878,7 @@ export const SalesAssignmentScalarFieldEnum = {
   id: 'id',
   salesManagerId: 'salesManagerId',
   instituteId: 'instituteId',
+  areaAssignmentId: 'areaAssignmentId',
   contactStatus: 'contactStatus',
   interest: 'interest',
   remark: 'remark',
@@ -900,6 +902,21 @@ export const SalesCategoryAssignmentScalarFieldEnum = {
 } as const
 
 export type SalesCategoryAssignmentScalarFieldEnum = (typeof SalesCategoryAssignmentScalarFieldEnum)[keyof typeof SalesCategoryAssignmentScalarFieldEnum]
+
+
+export const SalesAreaAssignmentScalarFieldEnum = {
+  id: 'id',
+  salesManagerId: 'salesManagerId',
+  areaName: 'areaName',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  radiusKm: 'radiusKm',
+  deadline: 'deadline',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SalesAreaAssignmentScalarFieldEnum = (typeof SalesAreaAssignmentScalarFieldEnum)[keyof typeof SalesAreaAssignmentScalarFieldEnum]
 
 
 export const LifeCoachRequestScalarFieldEnum = {

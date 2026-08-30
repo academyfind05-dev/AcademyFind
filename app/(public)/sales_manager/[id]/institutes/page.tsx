@@ -120,8 +120,8 @@ export default async function SalesAllInstitutesPage({
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {institutes.map((inst: any) => {
-                        const myAssignment = inst.salesAssignment?.salesManagerId === id ? inst.salesAssignment : null;
-                        const otherAssignment = inst.salesAssignment?.salesManagerId !== id ? inst.salesAssignment : null;
+                        const myAssignment = inst.salesAssignments?.salesManagerId === id ? inst.salesAssignments : null;
+                        const otherAssignment = inst.salesAssignments && inst.salesAssignments.salesManagerId !== id ? inst.salesAssignments : null;
 
                         return (
                             <div

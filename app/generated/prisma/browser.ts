@@ -238,6 +238,11 @@ export type SalesAssignment = Prisma.SalesAssignmentModel
  */
 export type SalesCategoryAssignment = Prisma.SalesCategoryAssignmentModel
 /**
+ * Model SalesAreaAssignment
+ * 
+ */
+export type SalesAreaAssignment = Prisma.SalesAreaAssignmentModel
+/**
  * Model LifeCoachRequest
  * 
  */

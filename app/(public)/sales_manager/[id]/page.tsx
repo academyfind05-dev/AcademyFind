@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import SalesDashboardStats from "@/components/sales/SalesDashboardStats";
 import { SalesStatusBadge } from "@/components/sales/SalesStatusBadge";
-import { Clock, AlertTriangle, ArrowRight, Building2, CalendarDays } from "lucide-react";
+import { Clock, AlertTriangle, ArrowRight, Building2, CalendarDays, MapPin, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
@@ -22,30 +22,51 @@ export default async function SalesManagerDashboardPage({
 }) {
     const { id } = await params;
 
-    const assignments = await prisma.salesAssignment.findMany({
-        where: { salesManagerId: id },
-        include: {
-            institute: {
-                select: {
-                    name: true,
-                    city: { select: { name: true } },
-                    categories: {
-                        include: { category: { select: { name: true } } },
-                        take: 1,
-                    },
+    const [assignments, assignedAreas] = await Promise.all([
+        prisma.salesAssignment.findMany({
+            where: { salesManagerId: id },
+            include: {
+                institute: {
+                    select: {
+                        name: true,
+                        city: { select: { name: true } },
+                        categories: {
+                            include: { category: { select: { name: true } } },
+                            take: 1,
+                        },
+                    }
+                },
+                areaAssignment: {
+                    select: {
+                        id: true,
+                        areaName: true,
+                        radiusKm: true,
+                    }
                 }
-            }
-        },
-        orderBy: { updatedAt: "desc" },
-    });
+            },
+            orderBy: { updatedAt: "desc" },
+        }),
+        prisma.salesAreaAssignment.findMany({
+            where: { salesManagerId: id },
+            include: {
+                institutes: {
+                    select: {
+                        id: true,
+                        contactStatus: true,
+                    }
+                }
+            },
+            orderBy: { createdAt: "desc" }
+        })
+    ]);
 
     const now = new Date();
 
     const total = assignments.length;
     const notContacted = assignments.filter((a: any) => a.contactStatus === "NOT_CONTACTED").length;
-    const contacted = assignments.filter((a:any) => a.contactStatus === "CONTACTED").length;
-    const onboarded = assignments.filter((a:any) => a.contactStatus === "ONBOARDED").length;
-    const overdue = assignments.filter((a:any) =>
+    const contacted = assignments.filter((a: any) => a.contactStatus === "CONTACTED").length;
+    const onboarded = assignments.filter((a: any) => a.contactStatus === "ONBOARDED").length;
+    const overdue = assignments.filter((a: any) =>
         a.deadline && new Date(a.deadline) < now && a.contactStatus !== "ONBOARDED"
     ).length;
 
@@ -57,7 +78,7 @@ export default async function SalesManagerDashboardPage({
             new Date(a.deadline) <= sevenDaysLater &&
             a.contactStatus !== "ONBOARDED"
         )
-        .sort((a:any, b:any) => new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime());
+        .sort((a: any, b: any) => new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime());
 
     // Recent activity (last 5 updated)
     const recentActivity = assignments.slice(0, 5);
@@ -81,6 +102,59 @@ export default async function SalesManagerDashboardPage({
                 onboarded={onboarded}
                 overdue={overdue}
             />
+
+            {/* Assigned Areas (if any) */}
+            {assignedAreas.length > 0 && (
+                <div className="border border-slate-200 bg-white rounded-3xl p-6 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h3 className="font-bold text-slate-800 text-base flex items-center gap-2">
+                            <MapPin className="w-5 h-5 text-rose-500" /> My Assigned Areas ({assignedAreas.length})
+                        </h3>
+                        <Link href={`/sales_manager/${id}/assignments`} className="text-xs font-bold text-teal-600 hover:underline">
+                            View in Assignments →
+                        </Link>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {assignedAreas.map((area: any) => {
+                            const totalArea = area.institutes.length;
+                            const onboardedArea = area.institutes.filter((i: any) => i.contactStatus === "ONBOARDED").length;
+                            const contactedArea = area.institutes.filter((i: any) => i.contactStatus === "CONTACTED").length;
+                            const pendingArea = area.institutes.filter((i: any) => i.contactStatus === "NOT_CONTACTED").length;
+                            const pct = totalArea > 0 ? Math.round((onboardedArea / totalArea) * 100) : 0;
+
+                            return (
+                                <div key={area.id} className="border border-slate-200 rounded-2xl p-4 bg-slate-50/50 hover:bg-slate-50 transition-colors flex flex-col justify-between">
+                                    <div>
+                                        <div className="flex items-start justify-between gap-2">
+                                            <h4 className="font-bold text-sm text-slate-800 truncate">{area.areaName}</h4>
+                                            <span className="bg-rose-100 text-rose-700 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
+                                                {area.radiusKm} km
+                                            </span>
+                                        </div>
+                                        <p className="text-xs text-slate-500 mt-1">
+                                            {totalArea} institutes assigned
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-4 pt-3 border-t border-slate-200/60 space-y-2">
+                                        <div className="flex justify-between text-[11px] font-semibold text-slate-600">
+                                            <span>Progress ({pct}%)</span>
+                                            <span className="text-emerald-700 font-bold">{onboardedArea} / {totalArea} Onboarded</span>
+                                        </div>
+                                        <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                                            <div style={{ width: `${pct}%` }} className="bg-emerald-500 h-full rounded-full transition-all duration-500" />
+                                        </div>
+                                        <div className="flex justify-between text-[10px] text-slate-400">
+                                            <span>{contactedArea} Contacted</span>
+                                            <span>{pendingArea} Pending</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
 
             {/* Two Column Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -136,10 +210,16 @@ export default async function SalesManagerDashboardPage({
                                             <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                                             {a.institute.name}
                                         </p>
-                                        <p className="text-xs text-slate-500 mt-0.5 ml-5.5">
-                                            {a.institute.city?.name}
-                                            {a.institute.categories?.[0] && ` · ${a.institute.categories[0].category.name}`}
-                                        </p>
+                                        <div className="flex items-center gap-2 mt-0.5 ml-5.5 text-xs text-slate-500 flex-wrap">
+                                            <span>{a.institute.city?.name}</span>
+                                            {a.institute.categories?.[0] && <span>· {a.institute.categories[0].category.name}</span>}
+                                            {a.areaAssignment && (
+                                                <span className="bg-rose-50 text-rose-700 text-[10px] font-bold px-1.5 py-0.2 rounded border border-rose-200 flex items-center gap-0.5">
+                                                    <MapPin className="w-2.5 h-2.5" />
+                                                    {a.areaAssignment.areaName}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                     <SalesStatusBadge status={a.contactStatus} />
                                 </div>

@@ -26,26 +26,46 @@ export async function GET(request: NextRequest) {
       where.institute = { name: { contains: search, mode: "insensitive" } };
     }
 
-    const assignments = await prisma.salesAssignment.findMany({
-      where,
-      include: {
-        institute: {
-          select: {
-            name: true,
-            email: true,
-            phone: true,
-            city: { select: { name: true } },
-            categories: {
-              include: { category: { select: { name: true } } },
-              take: 2,
-            },
+    const [assignments, assignedAreas] = await Promise.all([
+      prisma.salesAssignment.findMany({
+        where,
+        include: {
+          institute: {
+            select: {
+              name: true,
+              email: true,
+              phone: true,
+              city: { select: { name: true } },
+              categories: {
+                include: { category: { select: { name: true } } },
+                take: 2,
+              },
+            }
+          },
+          areaAssignment: {
+            select: {
+              id: true,
+              areaName: true,
+              radiusKm: true,
+            }
           }
-        }
-      },
-      orderBy: { updatedAt: "desc" },
-    });
+        },
+        orderBy: { updatedAt: "desc" },
+      }),
+      prisma.salesAreaAssignment.findMany({
+        where: { salesManagerId: id },
+        select: {
+          id: true,
+          areaName: true,
+          radiusKm: true,
+          deadline: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: "desc" }
+      })
+    ]);
 
-    return NextResponse.json({ success: true, data: assignments });
+    return NextResponse.json({ success: true, data: assignments, areas: assignedAreas });
   } catch (error: any) {
     console.error("Sales Assignments API Error:", error);
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
