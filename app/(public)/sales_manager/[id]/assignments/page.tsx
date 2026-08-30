@@ -4,7 +4,8 @@ import { headers } from "next/headers";
 import { SalesStatusBadge, InterestBadge } from "@/components/sales/SalesStatusBadge";
 import SalesStatusUpdateForm from "@/components/sales/SalesStatusUpdateForm";
 import SalesAssignmentFilters from "@/components/sales/SalesAssignmentFilters";
-import { ClipboardList, MapPin, CalendarDays, User, Building2, MessageSquare } from "lucide-react";
+import { ClipboardList, MapPin, CalendarDays, User, Building2, MessageSquare, Phone, Mail } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
 
@@ -101,6 +102,9 @@ export default async function SalesAssignmentsPage({
                         const isOverdue = assignment.deadline && new Date(assignment.deadline) < now && assignment.contactStatus !== "ONBOARDED";
                         const isExpanded = expandedId === assignment.id;
 
+                        const cleanPhone = assignment.institute?.phone?.replace(/[^0-9]/g, "");
+                        const formattedPhone = cleanPhone ? (cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone) : "";
+                        const waText = encodeURIComponent(`Hi! I am reaching out from AcademyFind regarding ${assignment.institute?.name || "your institute"}.`);
 
                         return (
                             <div
@@ -134,7 +138,7 @@ export default async function SalesAssignmentsPage({
 
                                             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-slate-500">
                                                 <span className="flex items-center gap-1">
-                                                    <MapPin className="w-3 h-3" />
+                                                    <MapPin className="w-3 h-3 text-slate-400" />
                                                     {assignment.institute.city?.name || "N/A"}
                                                 </span>
                                                 {assignment.institute.categories?.[0] && (
@@ -150,18 +154,39 @@ export default async function SalesAssignmentsPage({
                                                 )}
                                                 {assignment.institute.phone && (
                                                     <span className="flex items-center gap-1">
-                                                        📞 {assignment.institute.phone}
+                                                        <Phone className="w-3 h-3 text-slate-400" /> {assignment.institute.phone}
                                                     </span>
                                                 )}
                                                 {assignment.institute.email && (
                                                     <span className="flex items-center gap-1">
-                                                        ✉️ {assignment.institute.email}
+                                                        <Mail className="w-3 h-3 text-slate-400" /> {assignment.institute.email}
                                                     </span>
                                                 )}
                                             </div>
 
+                                            {/* Action Buttons: WhatsApp & Call */}
+                                            {assignment.institute.phone && (
+                                                <div className="flex flex-wrap items-center gap-2 mt-3">
+                                                    <a
+                                                        href={`https://wa.me/${formattedPhone}?text=${waText}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold shadow-xs transition-all active:scale-95"
+                                                    >
+                                                        <FaWhatsapp className="w-4 h-4" /> Message on WhatsApp
+                                                    </a>
+
+                                                    <a
+                                                        href={`tel:${assignment.institute.phone}`}
+                                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200 transition-all active:scale-95"
+                                                    >
+                                                        <Phone className="w-3.5 h-3.5 text-slate-500" /> Call Institute
+                                                    </a>
+                                                </div>
+                                            )}
+
                                             {/* Ownership Tags */}
-                                            <div className="flex items-center gap-2 mt-2 flex-wrap">
+                                            <div className="flex items-center gap-2 mt-2.5 flex-wrap">
                                                 <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100">
                                                     <User className="w-2.5 h-2.5" /> Assigned to you
                                                 </span>

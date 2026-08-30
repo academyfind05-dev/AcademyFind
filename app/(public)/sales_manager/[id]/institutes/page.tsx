@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { SalesStatusBadge } from "@/components/sales/SalesStatusBadge";
-import { Building2, MapPin, Search, User, Tag } from "lucide-react";
+import { Building2, MapPin, Search, User, Tag, Phone, Mail } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 
 export default async function SalesAllInstitutesPage({
@@ -150,10 +151,35 @@ export default async function SalesAllInstitutesPage({
                                             </div>
                                         )}
 
-                                        {/* Contact Info */}
-                                        <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-2 text-xs text-slate-500">
-                                            {inst.phone && <span>📞 {inst.phone}</span>}
-                                            {inst.email && <span>✉️ {inst.email}</span>}
+                                        {/* Contact Info & Action Buttons */}
+                                        <div className="flex flex-wrap items-center gap-2 mt-3">
+                                            {inst.phone && (
+                                                <>
+                                                    <a
+                                                        href={`https://wa.me/${(() => {
+                                                            const cleaned = inst.phone.replace(/[^0-9]/g, '');
+                                                            return cleaned.length === 10 ? `91${cleaned}` : cleaned;
+                                                        })()}?text=${encodeURIComponent(`Hi! I am reaching out from AcademyFind regarding ${inst.name}.`)}`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold shadow-xs transition-all active:scale-95"
+                                                    >
+                                                        <FaWhatsapp className="w-3.5 h-3.5" /> WhatsApp
+                                                    </a>
+
+                                                    <a
+                                                        href={`tel:${inst.phone}`}
+                                                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold border border-slate-200 transition-all active:scale-95"
+                                                    >
+                                                        <Phone className="w-3 h-3 text-slate-500" /> {inst.phone}
+                                                    </a>
+                                                </>
+                                            )}
+                                            {inst.email && (
+                                                <span className="text-xs text-slate-400 flex items-center gap-1 py-1">
+                                                    <Mail className="w-3 h-3 text-slate-400" /> {inst.email}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
 
