@@ -62,7 +62,7 @@ export async function GET(req: Request, { params }: Params) {
   prisma.conversationParticipant.updateMany({
     where: { conversationId, userId: session.user.id },
     data: { lastReadAt: new Date() },
-  }).catch((err) => console.error("Error updating lastReadAt:", err));
+  }).catch((err: any) => console.error("Error updating lastReadAt:", err));
 
   const messages = await prisma.message.findMany({
     where: { conversationId, deletedAt: null },

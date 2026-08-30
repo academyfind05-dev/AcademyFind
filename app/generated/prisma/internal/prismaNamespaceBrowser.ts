@@ -548,6 +548,10 @@ export const InstituteEnquiryScalarFieldEnum = {
   userContactStatus: 'userContactStatus',
   isForwarded: 'isForwarded',
   adminNote: 'adminNote',
+  salesManagerNote: 'salesManagerNote',
+  assignedSalesManagerId: 'assignedSalesManagerId',
+  lastUpdatedByRole: 'lastUpdatedByRole',
+  lastUpdatedByName: 'lastUpdatedByName',
   parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1668,6 +1672,8 @@ export const EnquiryStatusHistoryScalarFieldEnum = {
   oldStatus: 'oldStatus',
   newStatus: 'newStatus',
   statusType: 'statusType',
+  updatedByRole: 'updatedByRole',
+  updatedByName: 'updatedByName',
   createdAt: 'createdAt'
 } as const
 

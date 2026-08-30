@@ -20,19 +20,27 @@ const PLAN_CONFIG = {
 export default async function AdminCallbackDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const callback = await prisma.instituteEnquiry.findUnique({
-    where: { id },
-    include: {
-      institute: true,
-      distributionLogs: {
-        include: { admin: { select: { id: true, name: true, email: true } } },
-        orderBy: { createdAt: 'desc' }
-      },
-      statusHistory: {
-        orderBy: { createdAt: 'desc' }
+  const [callback, salesManagers] = await Promise.all([
+    prisma.instituteEnquiry.findUnique({
+      where: { id },
+      include: {
+        institute: true,
+        assignedSalesManager: { select: { id: true, name: true, email: true } },
+        distributionLogs: {
+          include: { admin: { select: { id: true, name: true, email: true } } },
+          orderBy: { createdAt: 'desc' }
+        },
+        statusHistory: {
+          orderBy: { createdAt: 'desc' }
+        }
       }
-    }
-  });
+    }),
+    prisma.user.findMany({
+      where: { role: "SALES_MANAGER", isActive: true },
+      select: { id: true, name: true, email: true },
+      orderBy: { name: "asc" },
+    }),
+  ]);
 
   if (!callback) return notFound();
 
@@ -74,7 +82,7 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
           </div>
 
           {/* Controls Component */}
-          <div className="shrink-0 flex flex-col gap-2">
+          <div className="shrink-0 flex flex-col gap-2 w-full sm:w-auto">
             <CallbackControls 
               id={callback.id} 
               currentStatus={callback.status} 
@@ -86,6 +94,13 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
               instituteSlug={callback.institute ? `${callback.institute.id}-${callback.institute.slug}` : undefined}
               studentMessage={callback.message || ""}
               adminNote={callback.adminNote}
+              salesManagerNote={callback.salesManagerNote}
+              isSalesManager={false}
+              salesManagers={salesManagers}
+              assignedSalesManagerId={callback.assignedSalesManagerId}
+              assignedSalesManagerName={callback.assignedSalesManager?.name || callback.assignedSalesManager?.email}
+              lastUpdatedByRole={callback.lastUpdatedByRole}
+              lastUpdatedByName={callback.lastUpdatedByName}
             />
           </div>
         </CardHeader>
@@ -154,7 +169,7 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
               <div className="space-y-3">
                 {callback.statusHistory.map((history: any) => (
                   <div key={history.id} className="bg-stone-50 border border-stone-100 rounded-xl p-3 flex items-center justify-between flex-wrap gap-2 text-sm text-stone-700">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-bold text-stone-900">{history.statusType === 'INSTITUTE' ? 'Institute' : 'Student'} Status</span>
                       <span className="text-stone-400">changed from</span>
                       <Badge variant="outline" className="bg-stone-100 text-stone-600 border-stone-200 uppercase text-[10px] shadow-none">{history.oldStatus || "NEW"}</Badge>
@@ -166,6 +181,11 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
                         ${history.newStatus === 'JUNK' ? 'bg-red-100 text-red-700 border-red-200' : ''}
                         ${!['MESSAGED', 'CALLED', 'DNP', 'JUNK'].includes(history.newStatus) ? 'bg-blue-50 text-blue-700 border-blue-200' : ''}
                       `}>{history.newStatus}</Badge>
+                      {history.updatedByName && (
+                        <span className="text-xs bg-white text-stone-600 px-2 py-0.5 rounded-md border border-stone-200 font-medium">
+                          by <strong>{history.updatedByName}</strong> ({history.updatedByRole === 'SALES_MANAGER' ? 'Sales Manager' : 'Admin'})
+                        </span>
+                      )}
                     </div>
                     <div className="text-xs text-stone-400 flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5" />

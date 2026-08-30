@@ -81,7 +81,7 @@ export async function GET(_req: Request, { params }: Params) {
   prisma.conversationParticipant.updateMany({
     where: { conversationId: id, userId },
     data: { lastReadAt: new Date() },
-  }).catch((err) => console.error("Error updating lastReadAt:", err));
+  }).catch((err: any) => console.error("Error updating lastReadAt:", err));
 
   // Override memberCount with the actual active participant count
   const payload = {

@@ -44,6 +44,7 @@ model User {
   salesAssignments         SalesAssignment[]         @relation("SalesAssignments")
   salesCategoryAssignments SalesCategoryAssignment[] @relation("SalesCategoryAssignments")
   salesAreaAssignments     SalesAreaAssignment[]     @relation("SalesAreaAssignments")
+  salesEnquiryAssignments  InstituteEnquiry[]        @relation("SalesEnquiryAssignments")
   sessions                 Session[]
   payments                 SubscriptionPayment[]
   compareLists             UserCompareList[]
@@ -600,24 +601,30 @@ model UserHistory {
 }
 
 model InstituteEnquiry {
-  id               String                @id @default(cuid())
-  instituteId      String
-  name             String
-  phone            String
-  email            String?
-  message          String?
-  status           String                @default("NEW")
-  userContactStatus String               @default("NEW")
-  isForwarded      Boolean               @default(false)
-  adminNote        String?               @db.Text
-  parentId         String?
-  createdAt        DateTime              @default(now())
-  updatedAt        DateTime              @updatedAt
-  institute        Institute             @relation(fields: [instituteId], references: [id], onDelete: Cascade)
-  distributionLogs LeadDistributionLog[] @relation("DistributionLogs")
-  statusHistory    EnquiryStatusHistory[]
+  id                     String                @id @default(cuid())
+  instituteId            String
+  name                   String
+  phone                  String
+  email                  String?
+  message                String?
+  status                 String                @default("NEW")
+  userContactStatus       String                @default("NEW")
+  isForwarded            Boolean               @default(false)
+  adminNote              String?               @db.Text
+  salesManagerNote       String?               @db.Text
+  assignedSalesManagerId String?
+  assignedSalesManager   User?                 @relation("SalesEnquiryAssignments", fields: [assignedSalesManagerId], references: [id], onDelete: SetNull)
+  lastUpdatedByRole      String?
+  lastUpdatedByName      String?
+  parentId               String?
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
+  institute              Institute             @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  distributionLogs       LeadDistributionLog[] @relation("DistributionLogs")
+  statusHistory          EnquiryStatusHistory[]
 
   @@index([instituteId])
+  @@index([assignedSalesManagerId])
   @@map("institute_enquiry")
 }
 
@@ -2499,6 +2506,8 @@ model EnquiryStatusHistory {
   oldStatus       String?
   newStatus       String
   statusType      String           // INSTITUTE or STUDENT
+  updatedByRole   String?          // ADMIN | SALES_MANAGER | SYSTEM
+  updatedByName   String?
   createdAt       DateTime         @default(now())
 
   enquiry         InstituteEnquiry @relation(fields: [enquiryId], references: [id], onDelete: Cascade)

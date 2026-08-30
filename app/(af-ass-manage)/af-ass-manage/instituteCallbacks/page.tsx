@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
-import { MessageSquare, Building2, Eye, Calendar, User, Phone, Filter, ArrowLeft } from "lucide-react";
+import { MessageSquare, Building2, Eye, Calendar, User, Phone, Filter, ArrowLeft, UserCheck } from "lucide-react";
 import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
 import { deleteCallbackAction } from "./actions";
 
@@ -14,6 +14,7 @@ export default async function AdminCallbacksPage({
   const params = await searchParams;
   const currentFilter = params.status || 'ALL';
   const instituteIdFilter = params.instituteId;
+  const salesManagerFilter = params.salesManagerId || 'ALL';
 
   // 🚀 Sirf Original Leads dikhani hain Admin ko, copies nahi!
   const whereCondition: any = {
@@ -21,42 +22,48 @@ export default async function AdminCallbacksPage({
   };
 
   if (currentFilter !== 'ALL') {
-    if (currentFilter.startsWith('ASSIGNED_TO_')) {
-      // Optional logic here
-    } else {
-      whereCondition.status = currentFilter;
-    }
+    whereCondition.status = currentFilter;
   }
   
   if (instituteIdFilter) {
     whereCondition.instituteId = instituteIdFilter;
   }
 
-  // Fetch callbacks based on filter
-  const callbacks = await prisma.instituteEnquiry.findMany({
-    where: whereCondition,
-    include: {
-      institute: {
-        select: {
-          id: true,
-          name: true,
-        }
+  if (salesManagerFilter === 'UNASSIGNED') {
+    whereCondition.assignedSalesManagerId = null;
+  } else if (salesManagerFilter !== 'ALL') {
+    whereCondition.assignedSalesManagerId = salesManagerFilter;
+  }
+
+  // Fetch callbacks and active sales managers
+  const [callbacks, salesManagers] = await Promise.all([
+    prisma.instituteEnquiry.findMany({
+      where: whereCondition,
+      include: {
+        institute: {
+          select: {
+            id: true,
+            name: true,
+          }
+        },
+        assignedSalesManager: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          }
+        },
       },
-      // 🚀 BONUS: Hum ye count bhi manga lete hain taaki table me dikha sakein
-      // ki kya ye admin ne aage kisi ko distribute/sell kari hai ya nahi.
-      // (Agar iska koi child hoga matlab ye distribute hui hai)
-      // _count: {
-      //     select: {
-      //         // Prisma mein self-relation array ko access karne ke liye relation name chahiye
-      //         // Iske liye schema mein `children InstituteEnquiry[] @relation("ForwardedLeads")` type add karna hota hai.
-      //         // Abhi simple rakhte hain, hum detail page pe check karenge.
-      //     }
-      // }
-    },
-    orderBy: {
-      createdAt: 'desc'
-    }
-  });
+      orderBy: {
+        createdAt: 'desc'
+      }
+    }),
+    prisma.user.findMany({
+      where: { role: "SALES_MANAGER", isActive: true },
+      select: { id: true, name: true, email: true },
+      orderBy: { name: "asc" }
+    })
+  ]);
 
   // Filter options array
   const filterOptions = [
@@ -87,24 +94,69 @@ export default async function AdminCallbacksPage({
         </div>
       </div>
 
-      {/* 🚀 Simple Filter Bar */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-        <div className="text-sm font-bold text-slate-400 flex items-center gap-1.5 mr-2">
-          <Filter className="w-4 h-4" /> Filter:
+      {/* 🚀 Filter Bars */}
+      <div className="flex flex-col gap-3">
+        {/* Status Filters */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <div className="text-sm font-bold text-slate-400 flex items-center gap-1.5 mr-2 shrink-0">
+            <Filter className="w-4 h-4" /> Status:
+          </div>
+          {filterOptions.map((opt: any) => (
+            <Link
+              key={opt.value}
+              prefetch={false}
+              href={`/af-ass-manage/instituteCallbacks?status=${opt.value}${salesManagerFilter !== 'ALL' ? `&salesManagerId=${salesManagerFilter}` : ''}${instituteIdFilter ? `&instituteId=${instituteIdFilter}` : ''}`}
+              className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap ${currentFilter === opt.value
+                ? "bg-stone-900 text-white shadow-md shadow-stone-900/20 scale-105"
+                : "bg-white border border-stone-100 text-slate-500 hover:bg-stone-50 hover:text-stone-700 hover:border-stone-200"
+                }`}
+            >
+              {opt.label}
+            </Link>
+          ))}
         </div>
-        {filterOptions.map((opt: any) => (
-          <Link
-            key={opt.value}
-            prefetch={false}
-            href={`/af-ass-manage/instituteCallbacks?status=${opt.value}${instituteIdFilter ? `&instituteId=${instituteIdFilter}` : ''}`}
-            className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap ${currentFilter === opt.value
-              ? "bg-stone-900 text-white shadow-md shadow-stone-900/20 scale-105"
-              : "bg-white border border-stone-100 text-slate-500 hover:bg-stone-50 hover:text-stone-700 hover:border-stone-200"
+
+        {/* Sales Manager Filters */}
+        {salesManagers.length > 0 && (
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <div className="text-sm font-bold text-indigo-400 flex items-center gap-1.5 mr-2 shrink-0">
+              <UserCheck className="w-4 h-4 text-indigo-600" /> Sales Manager:
+            </div>
+            <Link
+              prefetch={false}
+              href={`/af-ass-manage/instituteCallbacks?status=${currentFilter}&salesManagerId=ALL${instituteIdFilter ? `&instituteId=${instituteIdFilter}` : ''}`}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${salesManagerFilter === 'ALL'
+                ? "bg-indigo-600 text-white shadow-xs"
+                : "bg-white border border-indigo-100 text-indigo-700 hover:bg-indigo-50"
               }`}
-          >
-            {opt.label}
-          </Link>
-        ))}
+            >
+              All
+            </Link>
+            <Link
+              prefetch={false}
+              href={`/af-ass-manage/instituteCallbacks?status=${currentFilter}&salesManagerId=UNASSIGNED${instituteIdFilter ? `&instituteId=${instituteIdFilter}` : ''}`}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${salesManagerFilter === 'UNASSIGNED'
+                ? "bg-indigo-600 text-white shadow-xs"
+                : "bg-white border border-indigo-100 text-indigo-700 hover:bg-indigo-50"
+              }`}
+            >
+              Unassigned
+            </Link>
+            {salesManagers.map((sm) => (
+              <Link
+                key={sm.id}
+                prefetch={false}
+                href={`/af-ass-manage/instituteCallbacks?status=${currentFilter}&salesManagerId=${sm.id}${instituteIdFilter ? `&instituteId=${instituteIdFilter}` : ''}`}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-colors whitespace-nowrap ${salesManagerFilter === sm.id
+                  ? "bg-indigo-600 text-white shadow-xs"
+                  : "bg-white border border-indigo-100 text-indigo-700 hover:bg-indigo-50"
+                }`}
+              >
+                {sm.name || sm.email}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mt-4">
@@ -144,14 +196,25 @@ export default async function AdminCallbacksPage({
                     </td>
                     <td className="p-5">
                       {callback.institute ? (
-                        <Link
-                          href={`/af-ass-manage/institutes/${callback.institute.id}`}
-                          prefetch={false}
-                          className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-800 font-semibold transition"
-                        >
-                          <Building2 className="w-4 h-4" />
-                          <span className="truncate max-w-[200px]">{callback.institute.name}</span>
-                        </Link>
+                        <div>
+                          <Link
+                            href={`/af-ass-manage/institutes/${callback.institute.id}`}
+                            prefetch={false}
+                            className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-800 font-semibold transition"
+                          >
+                            <Building2 className="w-4 h-4 shrink-0" />
+                            <span className="truncate max-w-[180px]">{callback.institute.name}</span>
+                          </Link>
+                          <div className="mt-1">
+                            {callback.assignedSalesManager ? (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+                                <UserCheck className="w-3 h-3" /> {callback.assignedSalesManager.name || callback.assignedSalesManager.email}
+                              </span>
+                            ) : (
+                              <span className="text-[10px] text-slate-400 italic">Unassigned</span>
+                            )}
+                          </div>
+                        </div>
                       ) : (
                         <span className="text-red-400 italic">Institute Deleted</span>
                       )}

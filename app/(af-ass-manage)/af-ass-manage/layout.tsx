@@ -89,7 +89,7 @@ export default async function AdminLayout({
     ] = await Promise.all([
         prisma.instituteClaim.count({ where: { status: "PENDING" } }),
         prisma.review.count({ where: { status: "PENDING" } }),
-        prisma.adminNotification.count({ where: { isRead: false } }),
+        prisma.adminNotification.count({ where: { userId: session.user.id, isRead: false } }),
         prisma.contactMessage.count({ where: { isRead: false } }),
         prisma.instituteRequest.count({ where: { status: "PENDING" } }),
         prisma.lifeCoachRequest.count({ where: { status: "PENDING" } }),
@@ -104,7 +104,7 @@ export default async function AdminLayout({
     const [pendingMemberships, pendingChatReports, salesManagerUpdateCount] = await Promise.all([
         prisma.instituteMembership.count({ where: { status: "PENDING" } }),
         prisma.messageReport.count({ where: { status: "PENDING" } }),
-        prisma.adminNotification.count({ where: { type: "SALES_ASSIGNMENT_UPDATE", isRead: false } }),
+        prisma.adminNotification.count({ where: { userId: session.user.id, type: "SALES_ASSIGNMENT_UPDATE", isRead: false } }),
     ]);
 
     return (

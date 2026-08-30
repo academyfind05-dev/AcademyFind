@@ -6,6 +6,7 @@ import {
     ClipboardList,
     Building2,
     MessageCircle,
+    Headphones,
 } from "lucide-react";
 import { Metadata } from "next";
 import { headers } from "next/headers";
@@ -87,6 +88,11 @@ export default async function SalesManagerLayout({
                             href={`/sales_manager/${id}`}
                             icon={<LayoutDashboard />}
                             label="Dashboard"
+                        />
+                        <SidebarLink
+                            href={`/sales_manager/${id}/enquiries`}
+                            icon={<Headphones />}
+                            label="Assigned Leads"
                         />
                         <SidebarLink
                             href={`/sales_manager/${id}/assignments`}
