@@ -123,7 +123,7 @@ export default async function SalesManagerEnquiriesPage({
                   </td>
                 </tr>
               ) : (
-                enquiries.map((enquiry) => (
+                enquiries.map((enquiry: any) => (
                   <tr key={enquiry.id} className="hover:bg-slate-50/60 transition-colors group">
                     <td className="p-4 whitespace-nowrap">
                       <div className="flex flex-col text-slate-700 font-medium">

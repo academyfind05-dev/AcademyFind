@@ -173,7 +173,7 @@ export default async function SalesManagerEnquiryDetailPage({
                 <History className="w-4 h-4 text-teal-600" /> Status Timeline
               </h3>
               <div className="space-y-3">
-                {enquiry.statusHistory.map((history) => (
+                {enquiry.statusHistory.map((history: any) => (
                   <div
                     key={history.id}
                     className="bg-slate-50 border border-slate-200/60 rounded-2xl p-3.5 flex items-center justify-between flex-wrap gap-2 text-xs text-slate-700"
