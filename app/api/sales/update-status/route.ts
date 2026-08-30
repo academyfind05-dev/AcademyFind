@@ -51,6 +51,12 @@ export async function POST(req: NextRequest) {
             // Clear onboarded fields if moving back
             updateData.onboardedPlan = null;
             updateData.onboardedAt = null;
+        } else if (contactStatus === "IN_PROCESS") {
+            updateData.interest = interest || null;
+            updateData.contactedAt = assignment.contactedAt || new Date();
+            // Clear onboarded fields
+            updateData.onboardedPlan = null;
+            updateData.onboardedAt = null;
         } else if (contactStatus === "ONBOARDED") {
             updateData.interest = "INTERESTED";
             updateData.onboardedPlan = onboardedPlan || null;

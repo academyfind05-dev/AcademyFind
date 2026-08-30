@@ -63,6 +63,7 @@ export default function SalesAssignmentFilters({ categories }: SalesAssignmentFi
                         <option value="">All Statuses</option>
                         <option value="NOT_CONTACTED">Not Contacted</option>
                         <option value="CONTACTED">Contacted</option>
+                        <option value="IN_PROCESS">In Process</option>
                         <option value="ONBOARDED">Onboarded</option>
                     </select>
                 </div>

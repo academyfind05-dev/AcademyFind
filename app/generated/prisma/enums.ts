@@ -242,6 +242,7 @@ export type SubscriptionPlan = (typeof SubscriptionPlan)[keyof typeof Subscripti
 export const ContactStatus = {
   NOT_CONTACTED: 'NOT_CONTACTED',
   CONTACTED: 'CONTACTED',
+  IN_PROCESS: 'IN_PROCESS',
   ONBOARDED: 'ONBOARDED'
 } as const
 

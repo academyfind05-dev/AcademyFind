@@ -1545,6 +1545,7 @@ enum SubscriptionPlan {
 enum ContactStatus {
   NOT_CONTACTED
   CONTACTED
+  IN_PROCESS
   ONBOARDED
 }
 

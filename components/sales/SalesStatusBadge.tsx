@@ -14,6 +14,12 @@ export function SalesStatusBadge({ status }: { status: string }) {
             label: "Contacted",
             dot: "bg-amber-500",
         },
+        IN_PROCESS: {
+            bg: "bg-purple-50",
+            text: "text-purple-700",
+            label: "In Process",
+            dot: "bg-purple-500",
+        },
         ONBOARDED: {
             bg: "bg-emerald-50",
             text: "text-emerald-700",
