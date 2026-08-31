@@ -33,7 +33,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 import SalesStatusUpdateForm from "@/components/sales/SalesStatusUpdateForm";
 import { SalesStatusBadge } from "@/components/sales/SalesStatusBadge";
-import { formatIST } from "@/lib/utils";
+import { formatIST, generateInstituteWhatsAppMessage, formatWhatsAppNumber } from "@/lib/utils";
 
 export interface TerritoryInstitute {
   assignmentId: string;
@@ -89,27 +89,48 @@ function TerritoryCircleOverlay({ areas }: { areas: TerritoryArea[] }) {
     if (!map || typeof window === "undefined" || !window.google?.maps) return;
 
     // Clear old circles
-    circlesRef.current.forEach((c) => c.setMap(null));
+    circlesRef.current.forEach((c) => {
+      try {
+        c.setMap(null);
+      } catch {
+        // silent cleanup
+      }
+    });
     circlesRef.current = [];
 
     // Create new circles
     areas.forEach((a) => {
-      if (!a.latitude || !a.longitude) return;
-      const circle = new google.maps.Circle({
-        map,
-        center: { lat: a.latitude, lng: a.longitude },
-        radius: a.radiusKm * 1000,
-        fillColor: "#0284c7",
-        fillOpacity: 0.12,
-        strokeColor: "#0284c7",
-        strokeOpacity: 0.7,
-        strokeWeight: 2,
-      });
-      circlesRef.current.push(circle);
+      const lat = Number(a.latitude);
+      const lng = Number(a.longitude);
+      const radius = Number(a.radiusKm);
+
+      if (isNaN(lat) || isNaN(lng) || !isFinite(lat) || !isFinite(lng) || isNaN(radius) || radius <= 0) return;
+
+      try {
+        const circle = new google.maps.Circle({
+          map,
+          center: { lat, lng },
+          radius: radius * 1000,
+          fillColor: "#0284c7",
+          fillOpacity: 0.12,
+          strokeColor: "#0284c7",
+          strokeOpacity: 0.7,
+          strokeWeight: 2,
+        });
+        circlesRef.current.push(circle);
+      } catch (err) {
+        console.warn("TerritoryCircle error:", err);
+      }
     });
 
     return () => {
-      circlesRef.current.forEach((c) => c.setMap(null));
+      circlesRef.current.forEach((c) => {
+        try {
+          c.setMap(null);
+        } catch {
+          // silent cleanup
+        }
+      });
       circlesRef.current = [];
     };
   }, [map, areas]);
@@ -132,9 +153,25 @@ export default function SalesTerritoryMap({
   const [routePlan, setRoutePlan] = useState<TerritoryInstitute[]>([]);
   const [isRouteDrawerOpen, setIsRouteDrawerOpen] = useState(false);
 
-  // Filter institutes with valid coordinates
+  // Filter institutes with valid coordinates (safe numeric parsing)
   const validInstitutes = useMemo(() => {
-    return institutes.filter((inst) => inst.latitude !== null && inst.longitude !== null);
+    return institutes
+      .map((inst) => {
+        const lat = typeof inst.latitude === "number" ? inst.latitude : parseFloat(String(inst.latitude || ""));
+        const lng = typeof inst.longitude === "number" ? inst.longitude : parseFloat(String(inst.longitude || ""));
+        return {
+          ...inst,
+          parsedLat: lat,
+          parsedLng: lng,
+        };
+      })
+      .filter(
+        (inst) =>
+          !isNaN(inst.parsedLat) &&
+          !isNaN(inst.parsedLng) &&
+          isFinite(inst.parsedLat) &&
+          isFinite(inst.parsedLng)
+      );
   }, [institutes]);
 
   // Apply Area and Status Filters
@@ -160,15 +197,16 @@ export default function SalesTerritoryMap({
   const defaultCenter = useMemo(() => {
     if (filteredInstitutes.length > 0) {
       return {
-        lat: filteredInstitutes[0].latitude!,
-        lng: filteredInstitutes[0].longitude!,
+        lat: filteredInstitutes[0].parsedLat,
+        lng: filteredInstitutes[0].parsedLng,
       };
     }
-    if (areas.length > 0 && areas[0].latitude && areas[0].longitude) {
-      return {
-        lat: areas[0].latitude,
-        lng: areas[0].longitude,
-      };
+    if (areas.length > 0) {
+      const aLat = Number(areas[0].latitude);
+      const aLng = Number(areas[0].longitude);
+      if (!isNaN(aLat) && !isNaN(aLng) && isFinite(aLat) && isFinite(aLng)) {
+        return { lat: aLat, lng: aLng };
+      }
     }
     return { lat: 28.6139, lng: 77.209 }; // Delhi Default
   }, [filteredInstitutes, areas]);
@@ -302,7 +340,7 @@ export default function SalesTerritoryMap({
               return (
                 <AdvancedMarker
                   key={inst.assignmentId}
-                  position={{ lat: inst.latitude!, lng: inst.longitude! }}
+                  position={{ lat: inst.parsedLat, lng: inst.parsedLng }}
                   onClick={() => {
                     setSelectedInstitute(inst);
                     setShowStatusUpdate(false);
@@ -391,8 +429,8 @@ export default function SalesTerritoryMap({
                   {/* WhatsApp */}
                   {selectedInstitute.phone ? (
                     <a
-                      href={`https://wa.me/${selectedInstitute.phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-                        `Hi, I am reaching out from AcademyFind regarding ${selectedInstitute.name}.`
+                      href={`https://api.whatsapp.com/send?phone=${formatWhatsAppNumber(selectedInstitute.phone)}&text=${encodeURIComponent(
+                        generateInstituteWhatsAppMessage(selectedInstitute.name, selectedInstitute.slug, selectedInstitute.instituteId)
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

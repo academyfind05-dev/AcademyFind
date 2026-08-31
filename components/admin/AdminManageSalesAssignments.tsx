@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import {
   Building2,
@@ -106,6 +107,12 @@ export default function AdminManageSalesAssignments({
   const [loadingAction, setLoadingAction] = useState<string | null>(null);
 
   // Confirmation Modal State
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     title: string;
@@ -222,7 +229,7 @@ export default function AdminManageSalesAssignments({
       setConfirmModal(null);
       setSelectedInstIds(new Set());
       setSelectedInArea({});
-      router.refresh();
+      window.location.reload();
     } catch (err: any) {
       alert(err.message || "Something went wrong");
     } finally {
@@ -352,13 +359,13 @@ export default function AdminManageSalesAssignments({
                     </div>
                   </div>
 
-                  {/* Expandable Institutes List in Area with Checkboxes */}
+                  {/* Expandable Institutes List in Area with Checkboxes (Closed by default) */}
                   {totalInArea > 0 && (
-                    <details className="group border-t border-stone-200/80 pt-2" open>
-                      <summary className="cursor-pointer text-xs font-bold text-stone-600 hover:text-stone-900 flex items-center justify-between py-1 select-none">
+                    <details className="group border-t border-stone-200/80 pt-2">
+                      <summary className="cursor-pointer text-xs font-bold text-stone-600 hover:text-stone-900 flex items-center justify-between py-1.5 px-1 rounded-lg hover:bg-stone-100/60 transition-colors select-none">
                         <div className="flex items-center gap-2">
                           <span className="font-extrabold text-stone-700">
-                            Selectively remove institutes ({totalInArea} institutes in this area):
+                            View / Select Institutes ({totalInArea} in this area):
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -376,7 +383,7 @@ export default function AdminManageSalesAssignments({
                         </div>
                       </summary>
 
-                      <div className="mt-2 divide-y divide-stone-100 bg-white rounded-xl border border-stone-200 overflow-hidden">
+                      <div className="mt-2 divide-y divide-stone-100 bg-white rounded-xl border border-stone-200 overflow-hidden max-h-72 overflow-y-auto">
                         {area.institutes.map((item) => {
                           const isChecked = selectedThisArea.has(item.id);
                           return (
@@ -724,9 +731,9 @@ export default function AdminManageSalesAssignments({
       </Card>
 
       {/* ─── CONFIRMATION MODAL ─── */}
-      {confirmModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-stone-100 overflow-hidden p-6 space-y-4">
+      {mounted && confirmModal && createPortal(
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-stone-100 p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xl">
               <Trash2 className="w-6 h-6" />
             </div>
@@ -767,7 +774,8 @@ export default function AdminManageSalesAssignments({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

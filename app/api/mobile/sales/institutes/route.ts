@@ -77,6 +77,7 @@ export async function GET(request: NextRequest) {
         select: {
           id: true,
           name: true,
+          slug: true,
           phone: true,
           email: true,
           subscriptionPlan: true,

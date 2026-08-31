@@ -4,6 +4,7 @@ import SalesInstituteFilters from "@/components/sales/SalesInstituteFilters";
 import { Building2, MapPin, User, Tag, Phone, Mail, Sparkles, Eye } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
+import { generateInstituteWhatsAppMessage, formatWhatsAppNumber } from "@/lib/utils";
 
 export default async function SalesAllInstitutesPage({
     params,
@@ -90,6 +91,7 @@ export default async function SalesAllInstitutesPage({
             select: {
                 id: true,
                 name: true,
+                slug: true,
                 phone: true,
                 email: true,
                 subscriptionPlan: true,
@@ -244,10 +246,7 @@ export default async function SalesAllInstitutesPage({
                                         {inst.phone && (
                                             <>
                                                 <a
-                                                    href={`https://wa.me/${(() => {
-                                                        const cleaned = inst.phone.replace(/[^0-9]/g, '');
-                                                        return cleaned.length === 10 ? `91${cleaned}` : cleaned;
-                                                    })()}?text=${encodeURIComponent(`Hi! I am reaching out from AcademyFind regarding ${inst.name}.`)}`}
+                                                    href={`https://api.whatsapp.com/send?phone=${formatWhatsAppNumber(inst.phone)}&text=${encodeURIComponent(generateInstituteWhatsAppMessage(inst.name, inst.slug, inst.id))}`}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold shadow-xs transition-all active:scale-95"

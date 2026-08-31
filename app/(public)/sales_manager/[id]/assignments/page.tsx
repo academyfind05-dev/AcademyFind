@@ -20,7 +20,7 @@ import {
   List,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-import { formatIST } from "@/lib/utils";
+import { formatIST, generateInstituteWhatsAppMessage, formatWhatsAppNumber } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function SalesAssignmentsPage({
@@ -214,16 +214,13 @@ export default async function SalesAssignmentsPage({
                   assignment.contactStatus !== "UPGRADED";
                 const isExpanded = expandedId === assignment.id;
 
-                const cleanPhone = assignment.institute?.phone?.replace(/[^0-9]/g, "");
-                const formattedPhone = cleanPhone
-                  ? cleanPhone.length === 10
-                    ? `91${cleanPhone}`
-                    : cleanPhone
-                  : "";
+                const formattedPhone = formatWhatsAppNumber(assignment.institute?.phone);
                 const waText = encodeURIComponent(
-                  `Hi! I am reaching out from AcademyFind regarding ${
-                    assignment.institute?.name || "your institute"
-                  }.`
+                  generateInstituteWhatsAppMessage(
+                    assignment.institute?.name || "Institute",
+                    assignment.institute?.slug,
+                    assignment.institute?.id
+                  )
                 );
 
                 return (
@@ -296,7 +293,7 @@ export default async function SalesAssignmentsPage({
                           {assignment.institute.phone && (
                             <div className="flex flex-wrap items-center gap-2 mt-3">
                               <a
-                                href={`https://wa.me/${formattedPhone}?text=${waText}`}
+                                href={`https://api.whatsapp.com/send?phone=${formattedPhone}&text=${waText}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold shadow-xs transition-all active:scale-95"

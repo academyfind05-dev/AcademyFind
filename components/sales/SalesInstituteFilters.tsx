@@ -50,12 +50,12 @@ export default function SalesInstituteFilters({
         router.push(pathname);
     };
 
-    const hasActiveFilters = 
-        currentSearch || 
-        currentCity || 
-        currentCategory || 
-        (currentStatus && currentStatus !== "all") || 
-        currentSubscriptionPlan || 
+    const hasActiveFilters =
+        currentSearch ||
+        currentCity ||
+        currentCategory ||
+        (currentStatus && currentStatus !== "all") ||
+        currentSubscriptionPlan ||
         (currentSortBy && currentSortBy !== "name_asc") ||
         (currentAssignment && currentAssignment !== "all");
 
@@ -76,7 +76,7 @@ export default function SalesInstituteFilters({
                 )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-3">
                 {/* 1. Search Bar */}
                 <form onSubmit={handleSearchSubmit} className="col-span-1 sm:col-span-2 relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />

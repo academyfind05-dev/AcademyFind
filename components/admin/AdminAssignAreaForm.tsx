@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   MapPin,
@@ -22,8 +22,8 @@ interface InstitutePreview {
   address: string;
   phone: string | null;
   city: string | null;
-  latitude: number | null;
-  longitude: number | null;
+  latitude: number | string | null;
+  longitude: number | string | null;
   distanceKm: number | null;
   status: "FREE" | "ASSIGNED_TO_YOU" | "ASSIGNED_TO_OTHER";
   currentManager: { id: string; name: string } | null;
@@ -42,7 +42,7 @@ interface AdminAssignAreaFormProps {
 
 const RADIUS_OPTIONS = [1, 2, 3, 5, 10, 15, 25];
 
-// ── Radius Circle Overlay for Mini Preview Map ──────────────────────────────
+// ── Safe Radius Circle Overlay for Mini Preview Map ──────────────────────────
 function MiniCircleOverlay({ center, radiusKm }: { center: { lat: number; lng: number }; radiusKm: number }) {
   const map = useMap();
   const circleRef = useRef<google.maps.Circle | null>(null);
@@ -50,25 +50,41 @@ function MiniCircleOverlay({ center, radiusKm }: { center: { lat: number; lng: n
   useEffect(() => {
     if (!map || typeof window === "undefined" || !window.google?.maps) return;
 
-    if (!circleRef.current) {
-      circleRef.current = new google.maps.Circle({
-        map,
-        center,
-        radius: radiusKm * 1000,
-        fillColor: "#e11d48",
-        fillOpacity: 0.12,
-        strokeColor: "#e11d48",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-      });
-    } else {
-      circleRef.current.setCenter(center);
-      circleRef.current.setRadius(radiusKm * 1000);
+    const lat = Number(center.lat);
+    const lng = Number(center.lng);
+    const rad = Number(radiusKm);
+
+    if (isNaN(lat) || isNaN(lng) || !isFinite(lat) || !isFinite(lng) || isNaN(rad) || rad <= 0) {
+      return;
+    }
+
+    try {
+      if (!circleRef.current) {
+        circleRef.current = new google.maps.Circle({
+          map,
+          center: { lat, lng },
+          radius: rad * 1000,
+          fillColor: "#e11d48",
+          fillOpacity: 0.12,
+          strokeColor: "#e11d48",
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+        });
+      } else {
+        circleRef.current.setCenter({ lat, lng });
+        circleRef.current.setRadius(rad * 1000);
+      }
+    } catch (err) {
+      console.warn("Error updating circle overlay:", err);
     }
 
     return () => {
       if (circleRef.current) {
-        circleRef.current.setMap(null);
+        try {
+          circleRef.current.setMap(null);
+        } catch {
+          // silent cleanup
+        }
         circleRef.current = null;
       }
     };
@@ -123,11 +139,11 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
       }
 
       setSummary(data.summary);
-      setInstitutes(data.institutes);
+      setInstitutes(data.institutes || []);
 
       // Pre-select all FREE institutes
       const preSelected = new Set<string>();
-      for (const inst of data.institutes as InstitutePreview[]) {
+      for (const inst of (data.institutes || []) as InstitutePreview[]) {
         if (inst.status === "FREE") preSelected.add(inst.id);
       }
       setSelectedIds(preSelected);
@@ -140,10 +156,18 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
 
   // ── Handler when Location is selected from Autocomplete ────────────────
   const handleLocationSelect = (lat: number, lng: number, address: string) => {
+    const validLat = Number(lat);
+    const validLng = Number(lng);
+
+    if (isNaN(validLat) || isNaN(validLng) || !isFinite(validLat) || !isFinite(validLng)) {
+      setError("Selected location has invalid coordinates. Please try another area.");
+      return;
+    }
+
     setAreaName(address);
-    const newCoords = { lat, lng, displayName: address };
+    const newCoords = { lat: validLat, lng: validLng, displayName: address };
     setCoords(newCoords);
-    fetchPreviewForCoords(lat, lng, address);
+    fetchPreviewForCoords(validLat, validLng, address);
   };
 
   // ── Handle Radius Change ───────────────────────────────────────────────
@@ -233,6 +257,29 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
     setError("");
   };
 
+  // ── Safe Sanitized Coordinates for Map ────────────────────────────────
+  const validCenter = useMemo(() => {
+    if (!coords) return null;
+    const lat = Number(coords.lat);
+    const lng = Number(coords.lng);
+    if (isNaN(lat) || isNaN(lng) || !isFinite(lat) || !isFinite(lng)) return null;
+    return { lat, lng };
+  }, [coords]);
+
+  const validInstitutesWithCoords = useMemo(() => {
+    return institutes
+      .map((inst) => {
+        const lat = typeof inst.latitude === "number" ? inst.latitude : parseFloat(String(inst.latitude || ""));
+        const lng = typeof inst.longitude === "number" ? inst.longitude : parseFloat(String(inst.longitude || ""));
+        return {
+          ...inst,
+          parsedLat: lat,
+          parsedLng: lng,
+        };
+      })
+      .filter((inst) => !isNaN(inst.parsedLat) && !isNaN(inst.parsedLng) && isFinite(inst.parsedLat) && isFinite(inst.parsedLng));
+  }, [institutes]);
+
   return (
     <div className="bg-white border border-stone-200 rounded-3xl p-6 shadow-sm space-y-5">
       {/* Header */}
@@ -288,7 +335,7 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
           </div>
 
           {/* Selected Location Details Card */}
-          {coords && (
+          {coords && validCenter && (
             <div className="p-3.5 bg-emerald-50/80 border border-emerald-200 rounded-2xl flex items-center justify-between gap-3 animate-in fade-in">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
@@ -297,7 +344,7 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
                 <div className="min-w-0">
                   <p className="text-xs font-extrabold text-emerald-950 truncate">{coords.displayName}</p>
                   <p className="text-[11px] text-emerald-700 font-medium">
-                    Coordinates: {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
+                    Coordinates: {validCenter.lat.toFixed(4)}, {validCenter.lng.toFixed(4)}
                   </p>
                 </div>
               </div>
@@ -368,7 +415,7 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
           )}
 
           {/* Results Summary & Interactive Mini Map Preview */}
-          {summary && !previewing && coords && (
+          {summary && !previewing && coords && validCenter && (
             <div className="space-y-4 pt-2 border-t border-stone-100">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 <div className="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
@@ -410,36 +457,34 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
                   <div className="h-64 w-full rounded-2xl overflow-hidden border border-stone-200 shadow-inner relative">
                     <Map
                       mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID || "DEMO_MAP_ID"}
-                      defaultCenter={{ lat: coords.lat, lng: coords.lng }}
+                      defaultCenter={{ lat: validCenter.lat, lng: validCenter.lng }}
                       defaultZoom={radiusKm <= 2 ? 14 : radiusKm <= 5 ? 13 : 12}
                       gestureHandling="greedy"
                       disableDefaultUI={true}
                       style={{ width: "100%", height: "100%" }}
                     >
-                      <MiniCircleOverlay center={{ lat: coords.lat, lng: coords.lng }} radiusKm={radiusKm} />
+                      <MiniCircleOverlay center={{ lat: validCenter.lat, lng: validCenter.lng }} radiusKm={radiusKm} />
 
                       {/* Center Point */}
-                      <AdvancedMarker position={{ lat: coords.lat, lng: coords.lng }}>
+                      <AdvancedMarker position={{ lat: validCenter.lat, lng: validCenter.lng }}>
                         <Pin background="#e11d48" borderColor="#881337" glyphColor="#ffffff" scale={1.2} />
                       </AdvancedMarker>
 
                       {/* Institute Pins */}
-                      {institutes
-                        .filter((i) => i.latitude !== null && i.longitude !== null)
-                        .map((inst) => {
-                          const isFree = inst.status === "FREE";
-                          const isMine = inst.status === "ASSIGNED_TO_YOU";
-                          const bg = isFree ? "#10b981" : isMine ? "#0284c7" : "#f59e0b";
-                          return (
-                            <AdvancedMarker
-                              key={inst.id}
-                              position={{ lat: inst.latitude!, lng: inst.longitude! }}
-                              title={inst.name}
-                            >
-                              <Pin background={bg} borderColor="#ffffff" glyphColor="#ffffff" scale={0.9} />
-                            </AdvancedMarker>
-                          );
-                        })}
+                      {validInstitutesWithCoords.map((inst) => {
+                        const isFree = inst.status === "FREE";
+                        const isMine = inst.status === "ASSIGNED_TO_YOU";
+                        const bg = isFree ? "#10b981" : isMine ? "#0284c7" : "#f59e0b";
+                        return (
+                          <AdvancedMarker
+                            key={inst.id}
+                            position={{ lat: inst.parsedLat, lng: inst.parsedLng }}
+                            title={inst.name}
+                          >
+                            <Pin background={bg} borderColor="#ffffff" glyphColor="#ffffff" scale={0.9} />
+                          </AdvancedMarker>
+                        );
+                      })}
                     </Map>
                   </div>
                 )}

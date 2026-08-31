@@ -150,27 +150,27 @@ export default function CallbackControls({
       ? (instituteSlug.startsWith("http") ? instituteSlug : `https://academyfind.com/institute/${instituteSlug}`)
       : "https://academyfind.com";
 
-    const message = `Hello ${instituteName || "Institute"} 👋
+    const message = `Hello ${instituteName || "Institute"} \uD83D\uDC4B
 
-We received a student enquiry for your classes on AcademyFind from ${studentName || "a student"}. 🎓
+We received a student enquiry for your classes on AcademyFind from ${studentName || "a student"}. \uD83C\uDF93
 
 Student would like to know:
 ${studentMessage || "Please contact me for more details."}
 
 If ${studentName || "the student"} hasn't contacted you directly, reply to this message and we'll help facilitate the connection.
 
-🚀 Want more enquiries like this?
+\uD83D\uDE80 Want more enquiries like this?
 
 Claim your AcademyFind profile to receive student leads directly and build your institute's presence on India's education discovery platform.
 
-🔗 ${instituteLink}
+\uD83D\uDD17 ${instituteLink}
 
 Your AcademyFind profile can also serve as your online institute page.
 
 Discover. Compare. Connect. Decide better.
 
 Team AcademyFind
-🌐 www.academyfind.com | 📞 9045699938`;
+\uD83C\uDF10 www.academyfind.com | \uD83D\uDCDE 9045699938`;
 
     let formattedPhone = cleanPhone;
     if (formattedPhone.startsWith("0")) formattedPhone = formattedPhone.slice(1);
@@ -184,9 +184,9 @@ Team AcademyFind
 
     const cleanPhone = studentPhone.replace(/\D/g, "");
 
-    const message = `Hi ${studentName || "Student"} 👋
+    const message = `Hi ${studentName || "Student"} \uD83D\uDC4B
 
-Thank you for choosing AcademyFind! 🎓
+Thank you for choosing AcademyFind! \uD83C\uDF93
 
 Your enquiry for ${instituteName || "an institute"} has been shared with the institute. They've been requested to contact you shortly.
 
@@ -194,11 +194,11 @@ Your enquiry for ${instituteName || "an institute"} has been shared with the ins
 
 With AcademyFind, you can discover, compare and connect with coaching institutes, tutors and learning centres across India — and make more informed decisions before joining.
 
-Wishing you the best in your learning journey! 🌟
+Wishing you the best in your learning journey! \uD83C\uDF1F
 
 Team AcademyFind
-🌐 www.academyfind.com
-📞 9045699938`;
+\uD83C\uDF10 www.academyfind.com
+\uD83D\uDCDE 9045699938`;
 
     let formattedPhone = cleanPhone;
     if (formattedPhone.startsWith("0")) formattedPhone = formattedPhone.slice(1);
