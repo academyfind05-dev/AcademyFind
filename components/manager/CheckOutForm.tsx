@@ -31,6 +31,9 @@ export default function CheckoutForm({
   const [isLoading, setIsLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isFailModalOpen, setIsFailModalOpen] = useState(false);
+  const [failReason, setFailReason] = useState("");
 
   // Payment Method State
   const [paymentMethod, setPaymentMethod] = useState<"QR" | "BANK">("QR");
@@ -91,12 +94,13 @@ export default function CheckoutForm({
 
     const res = await submitPaymentProof(instituteId, formData);
     if (res.success) {
-      toast.success("Payment submitted for verification!");
       formElement.reset();
       setImagePreview("");
       setImageFile(null);
+      setIsSuccessModalOpen(true);
     } else {
-      toast.error(res.error || "Can't submit payment info");
+      setFailReason(res.error || "Something went wrong while submitting your payment proof.");
+      setIsFailModalOpen(true);
     }
     setIsLoading(false);
   };
@@ -107,7 +111,52 @@ export default function CheckoutForm({
 
   return (
     // 🚀 Container padding and gap reduced (gap-10 -> gap-8, py-12 -> py-8)
-    <div className="flex flex-col gap-8 max-w-3xl w-full mx-auto py-8 px-4 sm:px-6">
+    <div className="flex flex-col gap-8 max-w-3xl w-full mx-auto py-8 px-4 sm:px-6 relative">
+
+      {/* FAILURE MODAL */}
+      {isFailModalOpen && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl text-center border border-slate-100 animate-in zoom-in-95 duration-300">
+            <div className="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <X className="w-10 h-10 text-rose-600" />
+            </div>
+            <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Submission Failed</h2>
+            <p className="text-slate-600 mb-8 leading-relaxed">
+              {failReason} Please check your connection and try again, or contact support if the issue persists.
+            </p>
+            <Button 
+              onClick={() => setIsFailModalOpen(false)} 
+              className="w-full py-4 text-base font-bold bg-rose-600 hover:bg-rose-700 rounded-xl"
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* SUCCESS MODAL */}
+      {isSuccessModalOpen && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl text-center border border-slate-100 animate-in zoom-in-95 duration-300">
+            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="w-10 h-10 text-emerald-600" />
+            </div>
+            <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Payment Under Review!</h2>
+            <p className="text-slate-600 mb-8 leading-relaxed">
+              Your payment proof has been successfully submitted. Our team will verify it and activate your <strong>{plan.name}</strong> plan shortly. You will be notified once the review is complete.
+            </p>
+            <Button 
+              onClick={() => {
+                setIsSuccessModalOpen(false);
+                window.location.href = `/manager/${instituteId}/subscription`;
+              }} 
+              className="w-full py-4 text-base font-bold bg-slate-900 hover:bg-slate-800 rounded-xl"
+            >
+              Back to Subscriptions
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* 🟢 STEP 1: Order Summary (Scaled Down) */}
       <div className="rounded-3xl border border-slate-200 bg-white shadow-sm p-6 md:p-8">
