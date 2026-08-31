@@ -8,6 +8,7 @@ import {
     MessageCircle,
     Headphones,
     Send,
+    MapPin,
 } from "lucide-react";
 import { Metadata } from "next";
 import { headers } from "next/headers";
@@ -99,6 +100,11 @@ export default async function SalesManagerLayout({
                             href={`/sales_manager/${id}/assignments`}
                             icon={<ClipboardList />}
                             label="My Assignments"
+                        />
+                        <SidebarLink
+                            href={`/sales_manager/${id}/map`}
+                            icon={<MapPin />}
+                            label="Territory Map"
                         />
                         <SidebarLink
                             href={`/sales_manager/${id}/requests`}

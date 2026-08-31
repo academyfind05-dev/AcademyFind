@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   MapPin,
@@ -11,7 +11,9 @@ import {
   ChevronDown,
   X,
   RefreshCcw,
+  Map as MapIcon,
 } from "lucide-react";
+import { Map, AdvancedMarker, Pin, useMap } from "@vis.gl/react-google-maps";
 import AdminLocationAutoComplete from "@/components/admin/AdminLocationAutoComplete";
 
 interface InstitutePreview {
@@ -20,7 +22,8 @@ interface InstitutePreview {
   address: string;
   phone: string | null;
   city: string | null;
-  hasCoords: boolean;
+  latitude: number | null;
+  longitude: number | null;
   distanceKm: number | null;
   status: "FREE" | "ASSIGNED_TO_YOU" | "ASSIGNED_TO_OTHER";
   currentManager: { id: string; name: string } | null;
@@ -39,6 +42,41 @@ interface AdminAssignAreaFormProps {
 
 const RADIUS_OPTIONS = [1, 2, 3, 5, 10, 15, 25];
 
+// ── Radius Circle Overlay for Mini Preview Map ──────────────────────────────
+function MiniCircleOverlay({ center, radiusKm }: { center: { lat: number; lng: number }; radiusKm: number }) {
+  const map = useMap();
+  const circleRef = useRef<google.maps.Circle | null>(null);
+
+  useEffect(() => {
+    if (!map || typeof window === "undefined" || !window.google?.maps) return;
+
+    if (!circleRef.current) {
+      circleRef.current = new google.maps.Circle({
+        map,
+        center,
+        radius: radiusKm * 1000,
+        fillColor: "#e11d48",
+        fillOpacity: 0.12,
+        strokeColor: "#e11d48",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+      });
+    } else {
+      circleRef.current.setCenter(center);
+      circleRef.current.setRadius(radiusKm * 1000);
+    }
+
+    return () => {
+      if (circleRef.current) {
+        circleRef.current.setMap(null);
+        circleRef.current = null;
+      }
+    };
+  }, [map, center.lat, center.lng, radiusKm]);
+
+  return null;
+}
+
 export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaFormProps) {
   const router = useRouter();
 
@@ -55,6 +93,7 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [includeReassign, setIncludeReassign] = useState(false);
   const [showList, setShowList] = useState(true);
+  const [showMapPreview, setShowMapPreview] = useState(true);
 
   // Assignment Execution State
   const [assigning, setAssigning] = useState(false);
@@ -328,8 +367,8 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
             </div>
           )}
 
-          {/* Results Summary */}
-          {summary && !previewing && (
+          {/* Results Summary & Interactive Mini Map Preview */}
+          {summary && !previewing && coords && (
             <div className="space-y-4 pt-2 border-t border-stone-100">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 <div className="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
@@ -348,6 +387,62 @@ export default function AdminAssignAreaForm({ salesManagerId }: AdminAssignAreaF
                   <p className="text-[10px] font-bold text-amber-700 uppercase">With Others</p>
                   <p className="text-xl font-black text-amber-900 mt-0.5">{summary.assignedToOther}</p>
                 </div>
+              </div>
+
+              {/* 🗺️ VISUAL MINI MAP PREVIEW */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setShowMapPreview(!showMapPreview)}
+                    className="text-xs font-bold text-stone-700 hover:text-stone-900 flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <MapIcon className="w-3.5 h-3.5 text-rose-500" />
+                    <span>{showMapPreview ? "Hide" : "Show"} Spatial Coverage Map</span>
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showMapPreview ? "rotate-180" : ""}`} />
+                  </button>
+                  <span className="text-[11px] text-stone-400 font-medium">
+                    Radius circle ({radiusKm} km)
+                  </span>
+                </div>
+
+                {showMapPreview && (
+                  <div className="h-64 w-full rounded-2xl overflow-hidden border border-stone-200 shadow-inner relative">
+                    <Map
+                      mapId={process.env.NEXT_PUBLIC_GOOGLE_MAP_ID || "DEMO_MAP_ID"}
+                      defaultCenter={{ lat: coords.lat, lng: coords.lng }}
+                      defaultZoom={radiusKm <= 2 ? 14 : radiusKm <= 5 ? 13 : 12}
+                      gestureHandling="greedy"
+                      disableDefaultUI={true}
+                      style={{ width: "100%", height: "100%" }}
+                    >
+                      <MiniCircleOverlay center={{ lat: coords.lat, lng: coords.lng }} radiusKm={radiusKm} />
+
+                      {/* Center Point */}
+                      <AdvancedMarker position={{ lat: coords.lat, lng: coords.lng }}>
+                        <Pin background="#e11d48" borderColor="#881337" glyphColor="#ffffff" scale={1.2} />
+                      </AdvancedMarker>
+
+                      {/* Institute Pins */}
+                      {institutes
+                        .filter((i) => i.latitude !== null && i.longitude !== null)
+                        .map((inst) => {
+                          const isFree = inst.status === "FREE";
+                          const isMine = inst.status === "ASSIGNED_TO_YOU";
+                          const bg = isFree ? "#10b981" : isMine ? "#0284c7" : "#f59e0b";
+                          return (
+                            <AdvancedMarker
+                              key={inst.id}
+                              position={{ lat: inst.latitude!, lng: inst.longitude! }}
+                              title={inst.name}
+                            >
+                              <Pin background={bg} borderColor="#ffffff" glyphColor="#ffffff" scale={0.9} />
+                            </AdvancedMarker>
+                          );
+                        })}
+                    </Map>
+                  </div>
+                )}
               </div>
 
               {/* Reassign option */}

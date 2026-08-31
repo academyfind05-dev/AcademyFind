@@ -8,6 +8,14 @@ interface NotifyChatParams {
   messageType?: string;
 }
 
+interface ChatParticipantItem {
+  userId: string;
+  user: {
+    id: string;
+    pushToken: string | null;
+  } | null;
+}
+
 /**
  * Sends both in-app and mobile push notifications to all active participants in a conversation.
  */
@@ -42,7 +50,7 @@ export async function notifyChatParticipants({
     const senderName = sender.name || sender.username || "Someone";
 
     // 2. Fetch all active participants except sender who haven't muted notifications
-    const participants = await prisma.conversationParticipant.findMany({
+    const participants: ChatParticipantItem[] = await prisma.conversationParticipant.findMany({
       where: {
         conversationId,
         userId: { not: senderId },
@@ -93,7 +101,7 @@ export async function notifyChatParticipants({
     // 4. Create in-app UserNotification entries
     try {
       await prisma.userNotification.createMany({
-        data: participants.map((p) => ({
+        data: participants.map((p: ChatParticipantItem) => ({
           userId: p.userId,
           type: "MESSAGE",
           title,
