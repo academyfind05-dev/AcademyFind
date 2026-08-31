@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'place_id is required' }, { status: 400 });
   }
 
-  // 0. Handle OSM place_id if passed
-  if (placeId.startsWith('osm_')) {
+  // 0. Handle OSM, Photon, Static City, or custom place_id if passed
+  if (placeId.startsWith('osm_') || placeId.startsWith('photon_') || placeId.startsWith('static_city_') || placeId.startsWith('sec') || placeId.startsWith('kp') || placeId.startsWith('alpha') || placeId.startsWith('cp_') || placeId.startsWith('lajpat_') || placeId.startsWith('kalu_') || placeId.startsWith('mukherjee_') || placeId.startsWith('laxmi_')) {
     return NextResponse.json({
       result: {
         formatted_address: searchParams.get('address') || 'Selected Location',
