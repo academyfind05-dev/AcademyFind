@@ -734,6 +734,7 @@ export type InstituteWhereInput = {
   instituteRequest?: Prisma.XOR<Prisma.InstituteRequestNullableScalarRelationFilter, Prisma.InstituteRequestWhereInput> | null
   notablepersons?: Prisma.NotablePersonsListRelationFilter
   salesAssignments?: Prisma.XOR<Prisma.SalesAssignmentNullableScalarRelationFilter, Prisma.SalesAssignmentWhereInput> | null
+  salesRequests?: Prisma.SalesAssignmentRequestListRelationFilter
   payments?: Prisma.SubscriptionPaymentListRelationFilter
   viewHistory?: Prisma.UserHistoryListRelationFilter
   shortlistedBy?: Prisma.UserShortlistListRelationFilter
@@ -832,6 +833,7 @@ export type InstituteOrderByWithRelationInput = {
   instituteRequest?: Prisma.InstituteRequestOrderByWithRelationInput
   notablepersons?: Prisma.NotablePersonsOrderByRelationAggregateInput
   salesAssignments?: Prisma.SalesAssignmentOrderByWithRelationInput
+  salesRequests?: Prisma.SalesAssignmentRequestOrderByRelationAggregateInput
   payments?: Prisma.SubscriptionPaymentOrderByRelationAggregateInput
   viewHistory?: Prisma.UserHistoryOrderByRelationAggregateInput
   shortlistedBy?: Prisma.UserShortlistOrderByRelationAggregateInput
@@ -933,6 +935,7 @@ export type InstituteWhereUniqueInput = Prisma.AtLeast<{
   instituteRequest?: Prisma.XOR<Prisma.InstituteRequestNullableScalarRelationFilter, Prisma.InstituteRequestWhereInput> | null
   notablepersons?: Prisma.NotablePersonsListRelationFilter
   salesAssignments?: Prisma.XOR<Prisma.SalesAssignmentNullableScalarRelationFilter, Prisma.SalesAssignmentWhereInput> | null
+  salesRequests?: Prisma.SalesAssignmentRequestListRelationFilter
   payments?: Prisma.SubscriptionPaymentListRelationFilter
   viewHistory?: Prisma.UserHistoryListRelationFilter
   shortlistedBy?: Prisma.UserShortlistListRelationFilter
@@ -1174,6 +1177,7 @@ export type InstituteCreateInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -1271,6 +1275,7 @@ export type InstituteUncheckedCreateInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -1368,6 +1373,7 @@ export type InstituteUpdateInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -1465,6 +1471,7 @@ export type InstituteUncheckedUpdateInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -2275,6 +2282,22 @@ export type InstituteUpdateOneRequiredWithoutSalesAssignmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.InstituteUpdateToOneWithWhereWithoutSalesAssignmentsInput, Prisma.InstituteUpdateWithoutSalesAssignmentsInput>, Prisma.InstituteUncheckedUpdateWithoutSalesAssignmentsInput>
 }
 
+export type InstituteCreateNestedOneWithoutSalesRequestsInput = {
+  create?: Prisma.XOR<Prisma.InstituteCreateWithoutSalesRequestsInput, Prisma.InstituteUncheckedCreateWithoutSalesRequestsInput>
+  connectOrCreate?: Prisma.InstituteCreateOrConnectWithoutSalesRequestsInput
+  connect?: Prisma.InstituteWhereUniqueInput
+}
+
+export type InstituteUpdateOneWithoutSalesRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.InstituteCreateWithoutSalesRequestsInput, Prisma.InstituteUncheckedCreateWithoutSalesRequestsInput>
+  connectOrCreate?: Prisma.InstituteCreateOrConnectWithoutSalesRequestsInput
+  upsert?: Prisma.InstituteUpsertWithoutSalesRequestsInput
+  disconnect?: Prisma.InstituteWhereInput | boolean
+  delete?: Prisma.InstituteWhereInput | boolean
+  connect?: Prisma.InstituteWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InstituteUpdateToOneWithWhereWithoutSalesRequestsInput, Prisma.InstituteUpdateWithoutSalesRequestsInput>, Prisma.InstituteUncheckedUpdateWithoutSalesRequestsInput>
+}
+
 export type InstituteCreateNestedOneWithoutDailyViewsInput = {
   create?: Prisma.XOR<Prisma.InstituteCreateWithoutDailyViewsInput, Prisma.InstituteUncheckedCreateWithoutDailyViewsInput>
   connectOrCreate?: Prisma.InstituteCreateOrConnectWithoutDailyViewsInput
@@ -2573,6 +2596,7 @@ export type InstituteCreateWithoutCityInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -2669,6 +2693,7 @@ export type InstituteUncheckedCreateWithoutCityInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -2862,6 +2887,7 @@ export type InstituteCreateWithoutCategoriesInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -2958,6 +2984,7 @@ export type InstituteUncheckedCreateWithoutCategoriesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -3070,6 +3097,7 @@ export type InstituteUpdateWithoutCategoriesInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -3166,6 +3194,7 @@ export type InstituteUncheckedUpdateWithoutCategoriesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -3262,6 +3291,7 @@ export type InstituteCreateWithoutManagersInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -3358,6 +3388,7 @@ export type InstituteUncheckedCreateWithoutManagersInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -3470,6 +3501,7 @@ export type InstituteUpdateWithoutManagersInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -3566,6 +3598,7 @@ export type InstituteUncheckedUpdateWithoutManagersInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -3662,6 +3695,7 @@ export type InstituteCreateWithoutReviewsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -3758,6 +3792,7 @@ export type InstituteUncheckedCreateWithoutReviewsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -3870,6 +3905,7 @@ export type InstituteUpdateWithoutReviewsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -3966,6 +4002,7 @@ export type InstituteUncheckedUpdateWithoutReviewsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -4062,6 +4099,7 @@ export type InstituteCreateWithoutClaimsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -4158,6 +4196,7 @@ export type InstituteUncheckedCreateWithoutClaimsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -4270,6 +4309,7 @@ export type InstituteUpdateWithoutClaimsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -4366,6 +4406,7 @@ export type InstituteUncheckedUpdateWithoutClaimsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -4463,6 +4504,7 @@ export type InstituteCreateWithoutShortlistedByInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   blogPosts?: Prisma.BlogPostCreateNestedManyWithoutRelatedInstituteInput
@@ -4559,6 +4601,7 @@ export type InstituteUncheckedCreateWithoutShortlistedByInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutRelatedInstituteInput
@@ -4671,6 +4714,7 @@ export type InstituteUpdateWithoutShortlistedByInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   blogPosts?: Prisma.BlogPostUpdateManyWithoutRelatedInstituteNestedInput
@@ -4767,6 +4811,7 @@ export type InstituteUncheckedUpdateWithoutShortlistedByInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutRelatedInstituteNestedInput
@@ -4863,6 +4908,7 @@ export type InstituteCreateWithoutViewHistoryInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
   blogPosts?: Prisma.BlogPostCreateNestedManyWithoutRelatedInstituteInput
@@ -4959,6 +5005,7 @@ export type InstituteUncheckedCreateWithoutViewHistoryInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
   blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutRelatedInstituteInput
@@ -5071,6 +5118,7 @@ export type InstituteUpdateWithoutViewHistoryInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
   blogPosts?: Prisma.BlogPostUpdateManyWithoutRelatedInstituteNestedInput
@@ -5167,6 +5215,7 @@ export type InstituteUncheckedUpdateWithoutViewHistoryInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
   blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutRelatedInstituteNestedInput
@@ -5262,6 +5311,7 @@ export type InstituteCreateWithoutEnquiriesInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -5358,6 +5408,7 @@ export type InstituteUncheckedCreateWithoutEnquiriesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -5470,6 +5521,7 @@ export type InstituteUpdateWithoutEnquiriesInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -5566,6 +5618,7 @@ export type InstituteUncheckedUpdateWithoutEnquiriesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -5663,6 +5716,7 @@ export type InstituteCreateWithoutMembershipsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -5759,6 +5813,7 @@ export type InstituteUncheckedCreateWithoutMembershipsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -5871,6 +5926,7 @@ export type InstituteUpdateWithoutMembershipsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -5967,6 +6023,7 @@ export type InstituteUncheckedUpdateWithoutMembershipsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -6063,6 +6120,7 @@ export type InstituteCreateWithoutStudentRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -6159,6 +6217,7 @@ export type InstituteUncheckedCreateWithoutStudentRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -6271,6 +6330,7 @@ export type InstituteUpdateWithoutStudentRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -6367,6 +6427,7 @@ export type InstituteUncheckedUpdateWithoutStudentRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -6463,6 +6524,7 @@ export type InstituteCreateWithoutTeacherRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -6559,6 +6621,7 @@ export type InstituteUncheckedCreateWithoutTeacherRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -6671,6 +6734,7 @@ export type InstituteUpdateWithoutTeacherRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -6767,6 +6831,7 @@ export type InstituteUncheckedUpdateWithoutTeacherRecordsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -6863,6 +6928,7 @@ export type InstituteCreateWithoutConversationsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -6959,6 +7025,7 @@ export type InstituteUncheckedCreateWithoutConversationsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -7071,6 +7138,7 @@ export type InstituteUpdateWithoutConversationsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -7167,6 +7235,7 @@ export type InstituteUncheckedUpdateWithoutConversationsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -7262,6 +7331,7 @@ export type InstituteCreateWithoutInstituteRequestInput = {
   operatingHours?: Prisma.InstituteOperatingHourCreateNestedManyWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -7358,6 +7428,7 @@ export type InstituteUncheckedCreateWithoutInstituteRequestInput = {
   operatingHours?: Prisma.InstituteOperatingHourUncheckedCreateNestedManyWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -7470,6 +7541,7 @@ export type InstituteUpdateWithoutInstituteRequestInput = {
   operatingHours?: Prisma.InstituteOperatingHourUpdateManyWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -7566,6 +7638,7 @@ export type InstituteUncheckedUpdateWithoutInstituteRequestInput = {
   operatingHours?: Prisma.InstituteOperatingHourUncheckedUpdateManyWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -7663,6 +7736,7 @@ export type InstituteCreateWithoutPaymentsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
   blogPosts?: Prisma.BlogPostCreateNestedManyWithoutRelatedInstituteInput
@@ -7759,6 +7833,7 @@ export type InstituteUncheckedCreateWithoutPaymentsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
   blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutRelatedInstituteInput
@@ -7871,6 +7946,7 @@ export type InstituteUpdateWithoutPaymentsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
   blogPosts?: Prisma.BlogPostUpdateManyWithoutRelatedInstituteNestedInput
@@ -7967,6 +8043,7 @@ export type InstituteUncheckedUpdateWithoutPaymentsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
   blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutRelatedInstituteNestedInput
@@ -8062,6 +8139,7 @@ export type InstituteCreateWithoutSalesAssignmentsInput = {
   operatingHours?: Prisma.InstituteOperatingHourCreateNestedManyWithoutInstituteInput
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -8158,6 +8236,7 @@ export type InstituteUncheckedCreateWithoutSalesAssignmentsInput = {
   operatingHours?: Prisma.InstituteOperatingHourUncheckedCreateNestedManyWithoutInstituteInput
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -8270,6 +8349,7 @@ export type InstituteUpdateWithoutSalesAssignmentsInput = {
   operatingHours?: Prisma.InstituteOperatingHourUpdateManyWithoutInstituteNestedInput
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -8366,6 +8446,411 @@ export type InstituteUncheckedUpdateWithoutSalesAssignmentsInput = {
   operatingHours?: Prisma.InstituteOperatingHourUncheckedUpdateManyWithoutInstituteNestedInput
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
+  payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
+  viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
+  shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
+  blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutRelatedInstituteNestedInput
+  memberships?: Prisma.InstituteMembershipUncheckedUpdateManyWithoutInstituteNestedInput
+  studentRecords?: Prisma.StudentInstituteRecordUncheckedUpdateManyWithoutInstituteNestedInput
+  teacherRecords?: Prisma.TeacherInstituteRecordUncheckedUpdateManyWithoutInstituteNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutInstituteNestedInput
+}
+
+export type InstituteCreateWithoutSalesRequestsInput = {
+  id?: string
+  providerType?: $Enums.ProviderType
+  name: string
+  slug: string
+  description?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  address: string
+  latitude?: number | null
+  longitude?: number | null
+  logo?: string | null
+  coverImage?: string | null
+  googlePlaceId?: string | null
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  isVerified?: boolean
+  isFeatured?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  imageUrl?: string | null
+  averageRating?: number | null
+  reviewCount?: number
+  googleMapsUrl?: string | null
+  placeTypes?: Prisma.InstituteCreateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteCreategalleryInput | string[]
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  planWeight?: number
+  youtubeVideos?: Prisma.InstituteCreateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteCreateclassroomImagesInput | string[]
+  feeInfo?: string | null
+  planExpiresAt?: Date | string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  telegramUrl?: string | null
+  twitterUrl?: string | null
+  youtubeUrl?: string | null
+  linkedinUrl?: string | null
+  whatsappUrl?: string | null
+  isPublished?: boolean
+  mode?: $Enums.InstituteMode
+  viewCount?: number
+  affiliations?: Prisma.InstituteCreateaffiliationsInput | string[]
+  awards?: Prisma.InstituteCreateawardsInput | string[]
+  brochureUrl?: string | null
+  compareCount?: number
+  cons?: Prisma.InstituteCreateconsInput | string[]
+  establishedYear?: number | null
+  feeMax?: number | null
+  feeMin?: number | null
+  hasCertification?: boolean
+  hasDemoClasses?: boolean
+  hasHostelFacility?: boolean
+  hasOnlineClasses?: boolean
+  hasScholarship?: boolean
+  mediumOfInstruction?: Prisma.InstituteCreatemediumOfInstructionInput | string[]
+  metaDescription?: string | null
+  metaTitle?: string | null
+  metaKeywords?: string | null
+  pros?: Prisma.InstituteCreateprosInput | string[]
+  refundPolicy?: string | null
+  totalBranches?: number | null
+  totalStudents?: number | null
+  crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  city: Prisma.CityCreateNestedOneWithoutInstitutesInput
+  categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
+  managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutInstituteInput
+  communityQuestions?: Prisma.CommunityQuestionCreateNestedManyWithoutInstituteInput
+  compareListItems?: Prisma.CompareListInstituteCreateNestedManyWithoutInstituteInput
+  achievements?: Prisma.InstituteAchievementCreateNestedManyWithoutInstituteInput
+  batches?: Prisma.InstituteBatchCreateNestedManyWithoutInstituteInput
+  claims?: Prisma.InstituteClaimCreateNestedManyWithoutInstituteInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheCreateNestedManyWithoutInstitute1Input
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheCreateNestedManyWithoutInstitute2Input
+  dailyViews?: Prisma.InstituteDailyViewCreateNestedManyWithoutInstituteInput
+  visits?: Prisma.InstituteVisitCreateNestedManyWithoutInstituteInput
+  enquiries?: Prisma.InstituteEnquiryCreateNestedManyWithoutInstituteInput
+  facilities?: Prisma.InstituteFacilityCreateNestedManyWithoutInstituteInput
+  faqs?: Prisma.InstituteFAQCreateNestedManyWithoutInstituteInput
+  highlightStats?: Prisma.InstituteHighlightStatCreateNestedManyWithoutInstituteInput
+  operatingHours?: Prisma.InstituteOperatingHourCreateNestedManyWithoutInstituteInput
+  instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
+  notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
+  salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
+  viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
+  shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
+  blogPosts?: Prisma.BlogPostCreateNestedManyWithoutRelatedInstituteInput
+  memberships?: Prisma.InstituteMembershipCreateNestedManyWithoutInstituteInput
+  studentRecords?: Prisma.StudentInstituteRecordCreateNestedManyWithoutInstituteInput
+  teacherRecords?: Prisma.TeacherInstituteRecordCreateNestedManyWithoutInstituteInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutInstituteInput
+}
+
+export type InstituteUncheckedCreateWithoutSalesRequestsInput = {
+  id?: string
+  providerType?: $Enums.ProviderType
+  name: string
+  slug: string
+  description?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  address: string
+  latitude?: number | null
+  longitude?: number | null
+  logo?: string | null
+  coverImage?: string | null
+  googlePlaceId?: string | null
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  cityId: string
+  isVerified?: boolean
+  isFeatured?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  imageUrl?: string | null
+  averageRating?: number | null
+  reviewCount?: number
+  googleMapsUrl?: string | null
+  placeTypes?: Prisma.InstituteCreateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteCreategalleryInput | string[]
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  planWeight?: number
+  youtubeVideos?: Prisma.InstituteCreateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteCreateclassroomImagesInput | string[]
+  feeInfo?: string | null
+  planExpiresAt?: Date | string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  telegramUrl?: string | null
+  twitterUrl?: string | null
+  youtubeUrl?: string | null
+  linkedinUrl?: string | null
+  whatsappUrl?: string | null
+  isPublished?: boolean
+  mode?: $Enums.InstituteMode
+  viewCount?: number
+  affiliations?: Prisma.InstituteCreateaffiliationsInput | string[]
+  awards?: Prisma.InstituteCreateawardsInput | string[]
+  brochureUrl?: string | null
+  compareCount?: number
+  cons?: Prisma.InstituteCreateconsInput | string[]
+  establishedYear?: number | null
+  feeMax?: number | null
+  feeMin?: number | null
+  hasCertification?: boolean
+  hasDemoClasses?: boolean
+  hasHostelFacility?: boolean
+  hasOnlineClasses?: boolean
+  hasScholarship?: boolean
+  mediumOfInstruction?: Prisma.InstituteCreatemediumOfInstructionInput | string[]
+  metaDescription?: string | null
+  metaTitle?: string | null
+  metaKeywords?: string | null
+  pros?: Prisma.InstituteCreateprosInput | string[]
+  refundPolicy?: string | null
+  totalBranches?: number | null
+  totalStudents?: number | null
+  crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
+  managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
+  communityQuestions?: Prisma.CommunityQuestionUncheckedCreateNestedManyWithoutInstituteInput
+  compareListItems?: Prisma.CompareListInstituteUncheckedCreateNestedManyWithoutInstituteInput
+  achievements?: Prisma.InstituteAchievementUncheckedCreateNestedManyWithoutInstituteInput
+  batches?: Prisma.InstituteBatchUncheckedCreateNestedManyWithoutInstituteInput
+  claims?: Prisma.InstituteClaimUncheckedCreateNestedManyWithoutInstituteInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheUncheckedCreateNestedManyWithoutInstitute1Input
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheUncheckedCreateNestedManyWithoutInstitute2Input
+  dailyViews?: Prisma.InstituteDailyViewUncheckedCreateNestedManyWithoutInstituteInput
+  visits?: Prisma.InstituteVisitUncheckedCreateNestedManyWithoutInstituteInput
+  enquiries?: Prisma.InstituteEnquiryUncheckedCreateNestedManyWithoutInstituteInput
+  facilities?: Prisma.InstituteFacilityUncheckedCreateNestedManyWithoutInstituteInput
+  faqs?: Prisma.InstituteFAQUncheckedCreateNestedManyWithoutInstituteInput
+  highlightStats?: Prisma.InstituteHighlightStatUncheckedCreateNestedManyWithoutInstituteInput
+  operatingHours?: Prisma.InstituteOperatingHourUncheckedCreateNestedManyWithoutInstituteInput
+  instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
+  notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
+  salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
+  viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
+  shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
+  blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutRelatedInstituteInput
+  memberships?: Prisma.InstituteMembershipUncheckedCreateNestedManyWithoutInstituteInput
+  studentRecords?: Prisma.StudentInstituteRecordUncheckedCreateNestedManyWithoutInstituteInput
+  teacherRecords?: Prisma.TeacherInstituteRecordUncheckedCreateNestedManyWithoutInstituteInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutInstituteInput
+}
+
+export type InstituteCreateOrConnectWithoutSalesRequestsInput = {
+  where: Prisma.InstituteWhereUniqueInput
+  create: Prisma.XOR<Prisma.InstituteCreateWithoutSalesRequestsInput, Prisma.InstituteUncheckedCreateWithoutSalesRequestsInput>
+}
+
+export type InstituteUpsertWithoutSalesRequestsInput = {
+  update: Prisma.XOR<Prisma.InstituteUpdateWithoutSalesRequestsInput, Prisma.InstituteUncheckedUpdateWithoutSalesRequestsInput>
+  create: Prisma.XOR<Prisma.InstituteCreateWithoutSalesRequestsInput, Prisma.InstituteUncheckedCreateWithoutSalesRequestsInput>
+  where?: Prisma.InstituteWhereInput
+}
+
+export type InstituteUpdateToOneWithWhereWithoutSalesRequestsInput = {
+  where?: Prisma.InstituteWhereInput
+  data: Prisma.XOR<Prisma.InstituteUpdateWithoutSalesRequestsInput, Prisma.InstituteUncheckedUpdateWithoutSalesRequestsInput>
+}
+
+export type InstituteUpdateWithoutSalesRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  providerType?: Prisma.EnumProviderTypeFieldUpdateOperationsInput | $Enums.ProviderType
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeTypes?: Prisma.InstituteUpdateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteUpdategalleryInput | string[]
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  planWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  youtubeVideos?: Prisma.InstituteUpdateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteUpdateclassroomImagesInput | string[]
+  feeInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mode?: Prisma.EnumInstituteModeFieldUpdateOperationsInput | $Enums.InstituteMode
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  affiliations?: Prisma.InstituteUpdateaffiliationsInput | string[]
+  awards?: Prisma.InstituteUpdateawardsInput | string[]
+  brochureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  cons?: Prisma.InstituteUpdateconsInput | string[]
+  establishedYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasCertification?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasDemoClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasHostelFacility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasOnlineClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasScholarship?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mediumOfInstruction?: Prisma.InstituteUpdatemediumOfInstructionInput | string[]
+  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pros?: Prisma.InstituteUpdateprosInput | string[]
+  refundPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
+  categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
+  managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutInstituteNestedInput
+  communityQuestions?: Prisma.CommunityQuestionUpdateManyWithoutInstituteNestedInput
+  compareListItems?: Prisma.CompareListInstituteUpdateManyWithoutInstituteNestedInput
+  achievements?: Prisma.InstituteAchievementUpdateManyWithoutInstituteNestedInput
+  batches?: Prisma.InstituteBatchUpdateManyWithoutInstituteNestedInput
+  claims?: Prisma.InstituteClaimUpdateManyWithoutInstituteNestedInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheUpdateManyWithoutInstitute1NestedInput
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheUpdateManyWithoutInstitute2NestedInput
+  dailyViews?: Prisma.InstituteDailyViewUpdateManyWithoutInstituteNestedInput
+  visits?: Prisma.InstituteVisitUpdateManyWithoutInstituteNestedInput
+  enquiries?: Prisma.InstituteEnquiryUpdateManyWithoutInstituteNestedInput
+  facilities?: Prisma.InstituteFacilityUpdateManyWithoutInstituteNestedInput
+  faqs?: Prisma.InstituteFAQUpdateManyWithoutInstituteNestedInput
+  highlightStats?: Prisma.InstituteHighlightStatUpdateManyWithoutInstituteNestedInput
+  operatingHours?: Prisma.InstituteOperatingHourUpdateManyWithoutInstituteNestedInput
+  instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
+  notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
+  salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
+  viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
+  shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
+  blogPosts?: Prisma.BlogPostUpdateManyWithoutRelatedInstituteNestedInput
+  memberships?: Prisma.InstituteMembershipUpdateManyWithoutInstituteNestedInput
+  studentRecords?: Prisma.StudentInstituteRecordUpdateManyWithoutInstituteNestedInput
+  teacherRecords?: Prisma.TeacherInstituteRecordUpdateManyWithoutInstituteNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutInstituteNestedInput
+}
+
+export type InstituteUncheckedUpdateWithoutSalesRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  providerType?: Prisma.EnumProviderTypeFieldUpdateOperationsInput | $Enums.ProviderType
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  cityId?: Prisma.StringFieldUpdateOperationsInput | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeTypes?: Prisma.InstituteUpdateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteUpdategalleryInput | string[]
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  planWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  youtubeVideos?: Prisma.InstituteUpdateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteUpdateclassroomImagesInput | string[]
+  feeInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mode?: Prisma.EnumInstituteModeFieldUpdateOperationsInput | $Enums.InstituteMode
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  affiliations?: Prisma.InstituteUpdateaffiliationsInput | string[]
+  awards?: Prisma.InstituteUpdateawardsInput | string[]
+  brochureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  cons?: Prisma.InstituteUpdateconsInput | string[]
+  establishedYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasCertification?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasDemoClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasHostelFacility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasOnlineClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasScholarship?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mediumOfInstruction?: Prisma.InstituteUpdatemediumOfInstructionInput | string[]
+  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pros?: Prisma.InstituteUpdateprosInput | string[]
+  refundPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
+  managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
+  communityQuestions?: Prisma.CommunityQuestionUncheckedUpdateManyWithoutInstituteNestedInput
+  compareListItems?: Prisma.CompareListInstituteUncheckedUpdateManyWithoutInstituteNestedInput
+  achievements?: Prisma.InstituteAchievementUncheckedUpdateManyWithoutInstituteNestedInput
+  batches?: Prisma.InstituteBatchUncheckedUpdateManyWithoutInstituteNestedInput
+  claims?: Prisma.InstituteClaimUncheckedUpdateManyWithoutInstituteNestedInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheUncheckedUpdateManyWithoutInstitute1NestedInput
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheUncheckedUpdateManyWithoutInstitute2NestedInput
+  dailyViews?: Prisma.InstituteDailyViewUncheckedUpdateManyWithoutInstituteNestedInput
+  visits?: Prisma.InstituteVisitUncheckedUpdateManyWithoutInstituteNestedInput
+  enquiries?: Prisma.InstituteEnquiryUncheckedUpdateManyWithoutInstituteNestedInput
+  facilities?: Prisma.InstituteFacilityUncheckedUpdateManyWithoutInstituteNestedInput
+  faqs?: Prisma.InstituteFAQUncheckedUpdateManyWithoutInstituteNestedInput
+  highlightStats?: Prisma.InstituteHighlightStatUncheckedUpdateManyWithoutInstituteNestedInput
+  operatingHours?: Prisma.InstituteOperatingHourUncheckedUpdateManyWithoutInstituteNestedInput
+  instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
+  notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
+  salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -8462,6 +8947,7 @@ export type InstituteCreateWithoutDailyViewsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -8558,6 +9044,7 @@ export type InstituteUncheckedCreateWithoutDailyViewsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -8670,6 +9157,7 @@ export type InstituteUpdateWithoutDailyViewsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -8766,6 +9254,7 @@ export type InstituteUncheckedUpdateWithoutDailyViewsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -8862,6 +9351,7 @@ export type InstituteCreateWithoutVisitsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -8958,6 +9448,7 @@ export type InstituteUncheckedCreateWithoutVisitsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -9070,6 +9561,7 @@ export type InstituteUpdateWithoutVisitsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -9166,6 +9658,7 @@ export type InstituteUncheckedUpdateWithoutVisitsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -9262,6 +9755,7 @@ export type InstituteCreateWithoutFacilitiesInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -9358,6 +9852,7 @@ export type InstituteUncheckedCreateWithoutFacilitiesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -9470,6 +9965,7 @@ export type InstituteUpdateWithoutFacilitiesInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -9566,6 +10062,7 @@ export type InstituteUncheckedUpdateWithoutFacilitiesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -9662,6 +10159,7 @@ export type InstituteCreateWithoutBatchesInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -9758,6 +10256,7 @@ export type InstituteUncheckedCreateWithoutBatchesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -9870,6 +10369,7 @@ export type InstituteUpdateWithoutBatchesInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -9966,6 +10466,7 @@ export type InstituteUncheckedUpdateWithoutBatchesInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -10062,6 +10563,7 @@ export type InstituteCreateWithoutHighlightStatsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -10158,6 +10660,7 @@ export type InstituteUncheckedCreateWithoutHighlightStatsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -10270,6 +10773,7 @@ export type InstituteUpdateWithoutHighlightStatsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -10366,6 +10870,7 @@ export type InstituteUncheckedUpdateWithoutHighlightStatsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -10462,6 +10967,7 @@ export type InstituteCreateWithoutAchievementsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -10558,6 +11064,7 @@ export type InstituteUncheckedCreateWithoutAchievementsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -10670,6 +11177,7 @@ export type InstituteUpdateWithoutAchievementsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -10766,6 +11274,7 @@ export type InstituteUncheckedUpdateWithoutAchievementsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -10862,6 +11371,7 @@ export type InstituteCreateWithoutFaqsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -10958,6 +11468,7 @@ export type InstituteUncheckedCreateWithoutFaqsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -11070,6 +11581,7 @@ export type InstituteUpdateWithoutFaqsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -11166,6 +11678,7 @@ export type InstituteUncheckedUpdateWithoutFaqsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -11262,6 +11775,7 @@ export type InstituteCreateWithoutOperatingHoursInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -11358,6 +11872,7 @@ export type InstituteUncheckedCreateWithoutOperatingHoursInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -11470,6 +11985,7 @@ export type InstituteUpdateWithoutOperatingHoursInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -11566,6 +12082,7 @@ export type InstituteUncheckedUpdateWithoutOperatingHoursInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -11662,6 +12179,7 @@ export type InstituteCreateWithoutCompareListItemsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -11758,6 +12276,7 @@ export type InstituteUncheckedCreateWithoutCompareListItemsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -11870,6 +12389,7 @@ export type InstituteUpdateWithoutCompareListItemsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -11966,6 +12486,7 @@ export type InstituteUncheckedUpdateWithoutCompareListItemsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -12062,6 +12583,7 @@ export type InstituteCreateWithoutCommunityQuestionsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -12158,6 +12680,7 @@ export type InstituteUncheckedCreateWithoutCommunityQuestionsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -12270,6 +12793,7 @@ export type InstituteUpdateWithoutCommunityQuestionsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -12366,6 +12890,7 @@ export type InstituteUncheckedUpdateWithoutCommunityQuestionsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -12462,6 +12987,7 @@ export type InstituteCreateWithoutNotablepersonsInput = {
   operatingHours?: Prisma.InstituteOperatingHourCreateNestedManyWithoutInstituteInput
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -12558,6 +13084,7 @@ export type InstituteUncheckedCreateWithoutNotablepersonsInput = {
   operatingHours?: Prisma.InstituteOperatingHourUncheckedCreateNestedManyWithoutInstituteInput
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -12670,6 +13197,7 @@ export type InstituteUpdateWithoutNotablepersonsInput = {
   operatingHours?: Prisma.InstituteOperatingHourUpdateManyWithoutInstituteNestedInput
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -12766,6 +13294,7 @@ export type InstituteUncheckedUpdateWithoutNotablepersonsInput = {
   operatingHours?: Prisma.InstituteOperatingHourUncheckedUpdateManyWithoutInstituteNestedInput
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -12862,6 +13391,7 @@ export type InstituteCreateWithoutComparisonsAsFirstInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -12958,6 +13488,7 @@ export type InstituteUncheckedCreateWithoutComparisonsAsFirstInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -13059,6 +13590,7 @@ export type InstituteCreateWithoutComparisonsAsSecondInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -13155,6 +13687,7 @@ export type InstituteUncheckedCreateWithoutComparisonsAsSecondInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -13267,6 +13800,7 @@ export type InstituteUpdateWithoutComparisonsAsFirstInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -13363,6 +13897,7 @@ export type InstituteUncheckedUpdateWithoutComparisonsAsFirstInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -13470,6 +14005,7 @@ export type InstituteUpdateWithoutComparisonsAsSecondInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -13566,6 +14102,7 @@ export type InstituteUncheckedUpdateWithoutComparisonsAsSecondInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -13663,6 +14200,7 @@ export type InstituteCreateWithoutBlogPostsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -13759,6 +14297,7 @@ export type InstituteUncheckedCreateWithoutBlogPostsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -13871,6 +14410,7 @@ export type InstituteUpdateWithoutBlogPostsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -13967,6 +14507,7 @@ export type InstituteUncheckedUpdateWithoutBlogPostsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -14062,6 +14603,7 @@ export type InstituteCreateWithoutCrmIntegrationsInput = {
   instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
@@ -14158,6 +14700,7 @@ export type InstituteUncheckedCreateWithoutCrmIntegrationsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
   notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
   payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
   viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
   shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
@@ -14270,6 +14813,7 @@ export type InstituteUpdateWithoutCrmIntegrationsInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -14366,6 +14910,7 @@ export type InstituteUncheckedUpdateWithoutCrmIntegrationsInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -14529,6 +15074,7 @@ export type InstituteUpdateWithoutCityInput = {
   instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
@@ -14625,6 +15171,7 @@ export type InstituteUncheckedUpdateWithoutCityInput = {
   instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
   notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
   salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
   payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
   viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
   shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
@@ -14727,6 +15274,7 @@ export type InstituteCountOutputType = {
   highlightStats: number
   operatingHours: number
   notablepersons: number
+  salesRequests: number
   payments: number
   viewHistory: number
   shortlistedBy: number
@@ -14757,6 +15305,7 @@ export type InstituteCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensi
   highlightStats?: boolean | InstituteCountOutputTypeCountHighlightStatsArgs
   operatingHours?: boolean | InstituteCountOutputTypeCountOperatingHoursArgs
   notablepersons?: boolean | InstituteCountOutputTypeCountNotablepersonsArgs
+  salesRequests?: boolean | InstituteCountOutputTypeCountSalesRequestsArgs
   payments?: boolean | InstituteCountOutputTypeCountPaymentsArgs
   viewHistory?: boolean | InstituteCountOutputTypeCountViewHistoryArgs
   shortlistedBy?: boolean | InstituteCountOutputTypeCountShortlistedByArgs
@@ -14913,6 +15462,13 @@ export type InstituteCountOutputTypeCountNotablepersonsArgs<ExtArgs extends runt
 /**
  * InstituteCountOutputType without action
  */
+export type InstituteCountOutputTypeCountSalesRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SalesAssignmentRequestWhereInput
+}
+
+/**
+ * InstituteCountOutputType without action
+ */
 export type InstituteCountOutputTypeCountPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SubscriptionPaymentWhereInput
 }
@@ -15055,6 +15611,7 @@ export type InstituteSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   instituteRequest?: boolean | Prisma.Institute$instituteRequestArgs<ExtArgs>
   notablepersons?: boolean | Prisma.Institute$notablepersonsArgs<ExtArgs>
   salesAssignments?: boolean | Prisma.Institute$salesAssignmentsArgs<ExtArgs>
+  salesRequests?: boolean | Prisma.Institute$salesRequestsArgs<ExtArgs>
   payments?: boolean | Prisma.Institute$paymentsArgs<ExtArgs>
   viewHistory?: boolean | Prisma.Institute$viewHistoryArgs<ExtArgs>
   shortlistedBy?: boolean | Prisma.Institute$shortlistedByArgs<ExtArgs>
@@ -15296,6 +15853,7 @@ export type InstituteInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   instituteRequest?: boolean | Prisma.Institute$instituteRequestArgs<ExtArgs>
   notablepersons?: boolean | Prisma.Institute$notablepersonsArgs<ExtArgs>
   salesAssignments?: boolean | Prisma.Institute$salesAssignmentsArgs<ExtArgs>
+  salesRequests?: boolean | Prisma.Institute$salesRequestsArgs<ExtArgs>
   payments?: boolean | Prisma.Institute$paymentsArgs<ExtArgs>
   viewHistory?: boolean | Prisma.Institute$viewHistoryArgs<ExtArgs>
   shortlistedBy?: boolean | Prisma.Institute$shortlistedByArgs<ExtArgs>
@@ -15338,6 +15896,7 @@ export type $InstitutePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     instituteRequest: Prisma.$InstituteRequestPayload<ExtArgs> | null
     notablepersons: Prisma.$NotablePersonsPayload<ExtArgs>[]
     salesAssignments: Prisma.$SalesAssignmentPayload<ExtArgs> | null
+    salesRequests: Prisma.$SalesAssignmentRequestPayload<ExtArgs>[]
     payments: Prisma.$SubscriptionPaymentPayload<ExtArgs>[]
     viewHistory: Prisma.$UserHistoryPayload<ExtArgs>[]
     shortlistedBy: Prisma.$UserShortlistPayload<ExtArgs>[]
@@ -15829,6 +16388,7 @@ export interface Prisma__InstituteClient<T, Null = never, ExtArgs extends runtim
   instituteRequest<T extends Prisma.Institute$instituteRequestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$instituteRequestArgs<ExtArgs>>): Prisma.Prisma__InstituteRequestClient<runtime.Types.Result.GetResult<Prisma.$InstituteRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notablepersons<T extends Prisma.Institute$notablepersonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$notablepersonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotablePersonsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   salesAssignments<T extends Prisma.Institute$salesAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$salesAssignmentsArgs<ExtArgs>>): Prisma.Prisma__SalesAssignmentClient<runtime.Types.Result.GetResult<Prisma.$SalesAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  salesRequests<T extends Prisma.Institute$salesRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$salesRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalesAssignmentRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.Institute$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   viewHistory<T extends Prisma.Institute$viewHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$viewHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shortlistedBy<T extends Prisma.Institute$shortlistedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$shortlistedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserShortlistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -16823,6 +17383,30 @@ export type Institute$salesAssignmentsArgs<ExtArgs extends runtime.Types.Extensi
    */
   include?: Prisma.SalesAssignmentInclude<ExtArgs> | null
   where?: Prisma.SalesAssignmentWhereInput
+}
+
+/**
+ * Institute.salesRequests
+ */
+export type Institute$salesRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SalesAssignmentRequest
+   */
+  select?: Prisma.SalesAssignmentRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SalesAssignmentRequest
+   */
+  omit?: Prisma.SalesAssignmentRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SalesAssignmentRequestInclude<ExtArgs> | null
+  where?: Prisma.SalesAssignmentRequestWhereInput
+  orderBy?: Prisma.SalesAssignmentRequestOrderByWithRelationInput | Prisma.SalesAssignmentRequestOrderByWithRelationInput[]
+  cursor?: Prisma.SalesAssignmentRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SalesAssignmentRequestScalarFieldEnum | Prisma.SalesAssignmentRequestScalarFieldEnum[]
 }
 
 /**

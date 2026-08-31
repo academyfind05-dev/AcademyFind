@@ -45,6 +45,8 @@ model User {
   salesCategoryAssignments SalesCategoryAssignment[] @relation("SalesCategoryAssignments")
   salesAreaAssignments     SalesAreaAssignment[]     @relation("SalesAreaAssignments")
   salesEnquiryAssignments  InstituteEnquiry[]        @relation("SalesEnquiryAssignments")
+  salesRequests            SalesAssignmentRequest[]  @relation("SalesAssignmentRequests")
+  reviewedSalesRequests    SalesAssignmentRequest[]  @relation("ReviewedSalesRequests")
   sessions                 Session[]
   payments                 SubscriptionPayment[]
   compareLists             UserCompareList[]
@@ -417,6 +419,7 @@ model Institute {
   instituteRequest    InstituteRequest?
   notablepersons      NotablePersons[]
   salesAssignments    SalesAssignment?
+  salesRequests       SalesAssignmentRequest[]
   payments            SubscriptionPayment[]
   viewHistory         UserHistory[]
   shortlistedBy       UserShortlist[]
@@ -474,6 +477,7 @@ model Category {
   institutes               InstituteCategory[]
   cityContents             CategoryCityContent[]
   salesCategoryAssignments SalesCategoryAssignment[]
+  salesRequests            SalesAssignmentRequest[]
 
   preferredBy UserPreferredCategory[]
 
@@ -1155,6 +1159,55 @@ model SalesAreaAssignment {
 
   @@index([salesManagerId])
   @@map("sales_area_assignment")
+}
+
+enum SalesRequestType {
+  INSTITUTE
+  AREA
+  CATEGORY
+}
+
+enum SalesRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model SalesAssignmentRequest {
+  id             String             @id @default(cuid())
+  salesManagerId String
+  type           SalesRequestType
+  status         SalesRequestStatus @default(PENDING)
+  
+  // For INSTITUTE type
+  instituteId    String?
+  
+  // For AREA type
+  areaName       String?
+  latitude       Float?
+  longitude      Float?
+  radiusKm       Float?
+  
+  // For CATEGORY type
+  categoryId     String?
+  
+  reason         String?
+  adminRemark    String?
+  reviewedAt     DateTime?
+  reviewedById   String?
+  
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  
+  salesManager   User               @relation("SalesAssignmentRequests", fields: [salesManagerId], references: [id], onDelete: Cascade)
+  institute      Institute?         @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  category       Category?          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  reviewedBy     User?              @relation("ReviewedSalesRequests", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  @@index([salesManagerId])
+  @@index([status])
+  @@index([type])
+  @@map("sales_assignment_request")
 }
 
 model LifeCoachRequest {

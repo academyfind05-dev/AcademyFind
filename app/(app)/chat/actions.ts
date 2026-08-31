@@ -10,6 +10,7 @@ import { getOrCreateDm } from "@/lib/chat/createDm";
 import { ensureInstituteChannels } from "@/lib/chat/ensureInstituteChannels";
 import { moderateContent } from "@/lib/chat/moderateContent";
 import { notifyUser } from "@/lib/notifications/notify";
+import { notifyChatParticipants } from "@/lib/chat/notifyChatParticipants";
 
 // ─── sendMessage ──────────────────────────────────────────
 const sendSchema = z.object({
@@ -58,6 +59,14 @@ export async function sendMessage(
     where: { id: conversationId },
     data: { lastMessageId: message.id, lastMessageAt: new Date(), lastActivityAt: new Date() },
   });
+
+  // 🔔 Notify participants (In-App + Push Notifications)
+  notifyChatParticipants({
+    conversationId,
+    senderId: session.user.id,
+    messageContent: parsed.data.content,
+    messageType: parsed.data.type,
+  }).catch((err) => console.error("Chat notification error:", err));
 
   return { success: true, messageId: message.id };
 }

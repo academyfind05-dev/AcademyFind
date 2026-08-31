@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/getSession";
 import { prisma } from "@/lib/prisma";
+import { notifyChatParticipants } from "@/lib/chat/notifyChatParticipants";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -158,6 +159,14 @@ export async function POST(req: Request, { params }: Params) {
       where: { id: conversationId },
       data: { lastMessageAt: new Date() },
     });
+
+    // 🔔 Notify all other participants (In-App + Mobile Push Notifications)
+    notifyChatParticipants({
+      conversationId,
+      senderId: session.user.id,
+      messageContent: content.trim(),
+      messageType: type,
+    }).catch((notifErr) => console.error("Chat notification error:", notifErr));
 
     return NextResponse.json({ message }, { status: 201 });
   } catch (err: any) {

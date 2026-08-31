@@ -101,10 +101,11 @@ export default async function AdminLayout({
     ]);
 
     // New route counts
-    const [pendingMemberships, pendingChatReports, salesManagerUpdateCount] = await Promise.all([
+    const [pendingMemberships, pendingChatReports, salesManagerUpdateCount, pendingSalesRequests] = await Promise.all([
         prisma.instituteMembership.count({ where: { status: "PENDING" } }),
         prisma.messageReport.count({ where: { status: "PENDING" } }),
         prisma.adminNotification.count({ where: { userId: session.user.id, type: "SALES_ASSIGNMENT_UPDATE", isRead: false } }),
+        prisma.salesAssignmentRequest.count({ where: { status: "PENDING" } }),
     ]);
 
     return (
@@ -146,6 +147,7 @@ export default async function AdminLayout({
                         <SidebarLink href="/af-ass-manage/institutes" icon={<Building2 />} label="All Institutes" />
                         <SidebarLink href="/af-ass-manage/users" icon={<Users />} label="User Management" />
                         <SidebarLink href="/af-ass-manage/sales_manager" icon={<Briefcase />} label="Sales Managers" count={salesManagerUpdateCount} />
+                        <SidebarLink href="/af-ass-manage/sales_requests" icon={<Briefcase />} label="↳ Assignment Requests" count={pendingSalesRequests} />
 
                         {/* 👇 Careers me jobAppCount pass kiya hai */}
                         <SidebarLink href="/af-ass-manage/careers" icon={<IdCard />} label="Careers" count={jobAppCount} />

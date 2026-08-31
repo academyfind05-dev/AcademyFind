@@ -197,6 +197,24 @@ export const ContactSenderType = {
 export type ContactSenderType = (typeof ContactSenderType)[keyof typeof ContactSenderType]
 
 
+export const SalesRequestType = {
+  INSTITUTE: 'INSTITUTE',
+  AREA: 'AREA',
+  CATEGORY: 'CATEGORY'
+} as const
+
+export type SalesRequestType = (typeof SalesRequestType)[keyof typeof SalesRequestType]
+
+
+export const SalesRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type SalesRequestStatus = (typeof SalesRequestStatus)[keyof typeof SalesRequestStatus]
+
+
 export const InstituteMode = {
   OFFLINE: 'OFFLINE',
   ONLINE: 'ONLINE',

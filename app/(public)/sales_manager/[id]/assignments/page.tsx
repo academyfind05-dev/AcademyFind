@@ -78,7 +78,7 @@ export default async function SalesAssignmentsPage({
     const now = new Date();
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="space-y-6 animate-in fade-in duration-500 w-full max-w-full min-w-0">
             {/* Header */}
             <div>
                 <h1 className="text-3xl font-extrabold text-slate-900 flex items-center gap-3">

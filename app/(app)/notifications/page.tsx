@@ -76,7 +76,7 @@ export default async function NotificationsPage() {
       message: n.body, // Mapping body to standard message field
       isRead: n.isRead,
       referenceId: n.entityId, // Mapping entityId to standard reference field
-      actionUrl: null, // Standard users don't use actionUrl here
+      actionUrl: n.type === "MESSAGE" && n.entityId ? `/chat/${n.entityId}` : null,
       createdAt: n.createdAt,
     }));
   }

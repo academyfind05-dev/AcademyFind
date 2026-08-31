@@ -7,6 +7,7 @@ import {
     Building2,
     MessageCircle,
     Headphones,
+    Send,
 } from "lucide-react";
 import { Metadata } from "next";
 import { headers } from "next/headers";
@@ -100,6 +101,11 @@ export default async function SalesManagerLayout({
                             label="My Assignments"
                         />
                         <SidebarLink
+                            href={`/sales_manager/${id}/requests`}
+                            icon={<Send />}
+                            label="Assignment Requests"
+                        />
+                        <SidebarLink
                             href={`/sales_manager/${id}/institutes`}
                             icon={<Building2 />}
                             label="All Institutes"
@@ -113,7 +119,7 @@ export default async function SalesManagerLayout({
                 </ManagerSidebarWrapper>
 
                 {/* --- MAIN CONTENT AREA --- */}
-                <main className="flex-1 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 min-h-[600px]">
+                <main className="flex-1 min-w-0 max-w-full bg-white rounded-3xl border border-slate-100 shadow-sm p-4 sm:p-6 md:p-8 min-h-[600px] overflow-hidden">
                     {children}
                 </main>
             </div>

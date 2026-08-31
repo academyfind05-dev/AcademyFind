@@ -6,11 +6,13 @@ export async function sendExpoPushNotification({
   title,
   body,
   data = {},
+  channelId = 'default',
 }: {
   pushToken: string;
   title: string;
   body: string;
   data?: Record<string, any>;
+  channelId?: string;
 }) {
   if (!pushToken || !pushToken.startsWith('ExponentPushToken[')) {
     console.warn('⚠️ Invalid Expo push token:', pushToken);
@@ -24,6 +26,8 @@ export async function sendExpoPushNotification({
       title,
       body,
       data,
+      channelId,
+      _displayInForeground: true,
     };
 
     const res = await fetch('https://exp.host/--/api/v2/push/send', {

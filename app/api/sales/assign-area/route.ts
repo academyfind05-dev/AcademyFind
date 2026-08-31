@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/prisma";
+import { meili } from "@/lib/meilisearch";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { sendExpoPushNotification } from "@/lib/pushNotifications";
@@ -17,7 +18,7 @@ function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): nu
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// ─── GET: Preview institutes within radius ──────────────────────────────────
+// ─── GET: Preview institutes within radius using Meilisearch + DB ───────────────
 // Query: ?lat=28.65&lng=77.19&radius=3&salesManagerId=xxx&areaName=Karol+Bagh
 export async function GET(req: NextRequest) {
     try {
@@ -37,13 +38,41 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: "lat, lng, and salesManagerId are required" }, { status: 400 });
         }
 
-        // Fetch all institutes that have lat/lng
-        const institutesWithCoords = await prisma.institute.findMany({
-            where: {
-                latitude: { not: null },
-                longitude: { not: null },
-                isActive: true,
-            },
+        const radiusInMeters = Math.round(radius * 1000);
+        let meiliMatchedIds: string[] = [];
+
+        // ⚡ 1. Meilisearch Fast Geospatial Search
+        try {
+            const meiliRes = await meili.index("global_search").search("", {
+                filter: [
+                    `type = "institute"`,
+                    `_geoRadius(${lat}, ${lng}, ${radiusInMeters})`,
+                ],
+                limit: 500,
+                sort: [`_geoPoint(${lat}, ${lng}):asc`],
+            });
+
+            if (meiliRes?.hits && meiliRes.hits.length > 0) {
+                meiliMatchedIds = meiliRes.hits
+                    .map((h: any) => h.prismaId || (typeof h.id === "string" && h.id.startsWith("inst-") ? h.id.replace("inst-", "") : h.id))
+                    .filter(Boolean);
+            }
+        } catch (meiliErr) {
+            console.warn("Meilisearch _geoRadius search fallback to DB:", meiliErr);
+        }
+
+        // 🗄️ 2. DB Query for Institutes
+        const institutesQuery: any = {
+            isActive: true,
+            OR: [
+                ...(meiliMatchedIds.length > 0 ? [{ id: { in: meiliMatchedIds } }] : []),
+                { latitude: { not: null }, longitude: { not: null } },
+                ...(areaName ? [{ address: { contains: areaName, mode: "insensitive" } }] : []),
+            ],
+        };
+
+        const dbInstitutes = await prisma.institute.findMany({
+            where: institutesQuery,
             select: {
                 id: true,
                 name: true,
@@ -63,49 +92,36 @@ export async function GET(req: NextRequest) {
             },
         });
 
-        // Also fetch institutes that match the area name in address (fallback for those without coords)
-        const institutesWithAddressMatch: any[] = areaName
-            ? await prisma.institute.findMany({
-                  where: {
-                      isActive: true,
-                      OR: [
-                          { latitude: null },
-                          { longitude: null },
-                      ],
-                      address: { contains: areaName, mode: "insensitive" },
-                  },
-                  select: {
-                      id: true,
-                      name: true,
-                      address: true,
-                      phone: true,
-                      latitude: true,
-                      longitude: true,
-                      city: { select: { name: true } },
-                      salesAssignments: {
-                          select: {
-                              id: true,
-                              salesManagerId: true,
-                              contactStatus: true,
-                              salesManager: { select: { id: true, name: true } },
-                          },
-                      },
-                  },
-              })
-            : [];
+        // 3. Filter strictly within radius & calculate exact distance
+        const matchedInstitutes: any[] = [];
+        const seenIds = new Set<string>();
 
-        // Filter by Haversine radius
-        const inRadius = institutesWithCoords.filter((inst) => {
-            const d = haversineKm(lat, lng, inst.latitude!, inst.longitude!);
-            return d <= radius;
+        // Prioritize Meilisearch matched ones first if available
+        for (const inst of dbInstitutes) {
+            if (seenIds.has(inst.id)) continue;
+
+            let distance: number | null = null;
+            if (inst.latitude && inst.longitude) {
+                distance = haversineKm(lat, lng, inst.latitude, inst.longitude);
+                if (distance <= radius) {
+                    seenIds.add(inst.id);
+                    matchedInstitutes.push({ ...inst, distanceKm: distance });
+                }
+            } else if (areaName && inst.address && inst.address.toLowerCase().includes(areaName.toLowerCase())) {
+                seenIds.add(inst.id);
+                matchedInstitutes.push({ ...inst, distanceKm: null });
+            }
+        }
+
+        // Sort by distance ascending
+        matchedInstitutes.sort((a, b) => {
+            if (a.distanceKm !== null && b.distanceKm !== null) return a.distanceKm - b.distanceKm;
+            if (a.distanceKm !== null) return -1;
+            if (b.distanceKm !== null) return 1;
+            return 0;
         });
 
-        // Merge (avoid duplicates)
-        const seenIds = new Set(inRadius.map((i) => i.id));
-        const allMatched: any[] = [
-            ...inRadius,
-            ...institutesWithAddressMatch.filter((i) => !seenIds.has(i.id)),
-        ];
+        const allMatched = matchedInstitutes;
 
         // Categorise each institute
         const result = allMatched.map((inst: any) => {

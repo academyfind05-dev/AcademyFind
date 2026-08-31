@@ -151,45 +151,74 @@ export function NotificationBell() {
                 No notifications yet.
               </div>
             ) : (
-              notifications.slice(0, 8).map((n) => (
-                <div
-                  key={n.id}
-                  className={`flex items-start gap-3 px-4 py-3 hover:bg-slate-50 ${!n.isRead ? "bg-amber-50/50" : ""
+              notifications.slice(0, 8).map((n) => {
+                const targetUrl =
+                  n.type === "MESSAGE" && n.entityId
+                    ? `/chat/${n.entityId}`
+                    : n.actionUrl || null;
+
+                const content = (
+                  <div
+                    className={`flex items-start gap-3 px-4 py-3 hover:bg-slate-50 transition-colors ${
+                      !n.isRead ? "bg-amber-50/50" : ""
                     }`}
-                >
-                  <span className="mt-0.5 text-base shrink-0">
-                    {TYPE_EMOJI[n.type] ?? "🔔"}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-sm ${!n.isRead ? "font-semibold text-slate-900" : "text-slate-700"}`}>
-                      {n.title}
-                    </p>
-                    {n?.message && (
-                      <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">
-                        {n.message}
+                  >
+                    <span className="mt-0.5 text-base shrink-0">
+                      {TYPE_EMOJI[n.type] ?? "🔔"}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm ${!n.isRead ? "font-semibold text-slate-900" : "text-slate-700"}`}>
+                        {n.title}
                       </p>
-                    )}
-                    {n.body && (
-                      <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">
-                        {n.body}
+                      {n?.message && (
+                        <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">
+                          {n.message}
+                        </p>
+                      )}
+                      {n.body && (
+                        <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">
+                          {n.body}
+                        </p>
+                      )}
+                      <p className="mt-1 text-[10px] text-slate-400">
+                        {timeAgo(n.createdAt)}
                       </p>
+                    </div>
+                    {!n.isRead && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          markOneRead(n.id);
+                        }}
+                        className="shrink-0 p-1 text-slate-300 hover:text-emerald-500"
+                        title="Mark read"
+                      >
+                        <Check className="size-3.5" />
+                      </button>
                     )}
-                    <p className="mt-1 text-[10px] text-slate-400">
-                      {timeAgo(n.createdAt)}
-                    </p>
                   </div>
-                  {!n.isRead && (
-                    <button
-                      type="button"
-                      onClick={() => markOneRead(n.id)}
-                      className="shrink-0 text-slate-300 hover:text-emerald-500"
-                      title="Mark read"
+                );
+
+                if (targetUrl) {
+                  return (
+                    <Link
+                      key={n.id}
+                      href={targetUrl}
+                      onClick={() => {
+                        if (!n.isRead) markOneRead(n.id);
+                        setOpen(false);
+                      }}
+                      className="block"
                     >
-                      <Check className="size-3.5" />
-                    </button>
-                  )}
-                </div>
-              ))
+                      {content}
+                    </Link>
+                  );
+                }
+
+                return <div key={n.id}>{content}</div>;
+              })
             )}
           </div>
 
