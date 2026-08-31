@@ -1,6 +1,6 @@
 import { formatIST } from "@/lib/utils";
 import { prisma } from "@/lib/prisma";
-import { Check, X, ShieldAlert, MapPin, BadgeIndianRupee, UserCheck, Filter } from "lucide-react";
+import { Check, X, ShieldAlert, MapPin, BadgeIndianRupee, UserCheck, Filter, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ApprovalButtons from "@/components/admin/AdminApprovalButtons";
@@ -190,7 +190,23 @@ export default async function AdminApprovalsPage({
                                             </div>
                                         )}
 
-                                        <div className="pt-2 flex justify-end items-center gap-2">
+                                        <div className="pt-2 flex flex-wrap justify-end items-center gap-2">
+                                            <Link 
+                                                href={`/af-ass-manage/instituteRequests/${req.id}`} 
+                                                className="px-4 py-2 text-sm font-bold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-full transition-all flex items-center gap-2 border border-indigo-200"
+                                            >
+                                                <ExternalLink className="w-4 h-4" /> View Request Details
+                                            </Link>
+
+                                            {req.institute && (
+                                                <Link 
+                                                    href={`/af-ass-manage/institutes/${req.institute.id}`} 
+                                                    className="px-4 py-2 text-sm font-bold bg-stone-100 text-stone-700 hover:bg-stone-200 rounded-full transition-all flex items-center gap-2 border border-stone-200"
+                                                >
+                                                    <ExternalLink className="w-4 h-4" /> View Institute
+                                                </Link>
+                                            )}
+
                                             {/* Only show approval buttons if the request is still PENDING */}
                                             {req.status === "PENDING" && req.institute && (
                                                 <ApprovalButtons requestId={req.id} />

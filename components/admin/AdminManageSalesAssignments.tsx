@@ -21,9 +21,10 @@ import {
   Clock,
   X,
   Sparkles,
+  MessageSquare,
 } from "lucide-react";
 import { SalesStatusBadge } from "@/components/sales/SalesStatusBadge";
-import { formatIST } from "@/lib/utils";
+import { formatIST, formatWhatsAppNumber, generateInstituteWhatsAppMessage } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface InstituteItem {
@@ -42,6 +43,7 @@ interface InstituteItem {
   institute: {
     id: string;
     name: string;
+    slug?: string | null;
     phone?: string | null;
     email?: string | null;
     address?: string | null;
@@ -720,6 +722,17 @@ export default function AdminManageSalesAssignments({
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
+                        {a.institute.phone && (
+                          <a
+                            href={`https://api.whatsapp.com/send?phone=${formatWhatsAppNumber(a.institute.phone)}&text=${encodeURIComponent(generateInstituteWhatsAppMessage(a.institute.name, a.institute.slug, a.institute.id))}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1.5 text-stone-400 hover:text-[#25D366] hover:bg-[#25D366]/10 rounded-lg transition-colors ml-1 inline-flex"
+                            title={`WhatsApp ${a.institute.name}`}
+                          >
+                            <MessageSquare className="w-3.5 h-3.5" />
+                          </a>
+                        )}
                       </td>
                     </tr>
                   );

@@ -101,6 +101,7 @@ export default async function AdminSalesManagerDetailPage({
                             select: {
                                 id: true,
                                 name: true,
+                                slug: true,
                                 phone: true,
                                 address: true,
                                 city: { select: { name: true } },
