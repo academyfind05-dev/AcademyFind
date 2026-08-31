@@ -28,8 +28,14 @@ export async function GET(request: NextRequest) {
 
     // Apply exact parity filters
     if (type && type !== "ALL") searchFilters.push(`type = "${type}"`);
-    if (city && city !== "ALL") searchFilters.push(`citySlug = "${city}"`);
-    if (category && category !== "ALL") searchFilters.push(`categorySlugs = "${category}"`); 
+    if (city && city !== "ALL") {
+      const cleanCity = city.toLowerCase().trim();
+      searchFilters.push(`(citySlug = "${cleanCity}" OR citySlug = "${city}" OR cityName = "${city}")`);
+    }
+    if (category && category !== "ALL") {
+      const cleanCat = category.toLowerCase().trim();
+      searchFilters.push(`(categorySlugs = "${cleanCat}" OR categorySlugs = "${category}")`);
+    }
     if (ratingStr && ratingStr !== "all") searchFilters.push(`googleRating >= ${ratingStr}`);
     if (providerType && providerType !== "ALL") searchFilters.push(`providerType = "${providerType}"`);
 
@@ -58,17 +64,31 @@ export async function GET(request: NextRequest) {
     } else if (lat && lng && (sort === "nearest_location" || sort === "nearest_me")) {
       sortOptions = ["planWeight:desc", `_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc"];
     } else {
-      sortOptions = ["planWeight:desc", "googleReviewCount:desc"]; // default fallback: Plan Tier -> Review Count
+      sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
     }
 
-    let searchRes = await meili.index("global_search").search(q, {
-      limit: limit,
-      offset: offset,
-      filter: searchFilters,
-      sort: sortOptions,
-    });
+    // If q is only matching the category slug/title, don't restrict fulltext keyword search
+    const isCategoryOnly = category && q && (
+      q.toLowerCase() === category.toLowerCase() ||
+      q.toLowerCase().replace(/\s+/g, '-') === category.toLowerCase() ||
+      category.toLowerCase().includes(q.toLowerCase().replace(/\s+coaching/i, ''))
+    );
+    const meiliQuery = isCategoryOnly ? '' : q;
 
-    let hits = searchRes.hits || [];
+    let hits: any[] = [];
+    let estimatedTotal = 0;
+    try {
+      const searchRes = await meili.index("global_search").search(meiliQuery, {
+        limit: limit,
+        offset: offset,
+        filter: searchFilters,
+        sort: sortOptions,
+      });
+      hits = searchRes.hits || [];
+      estimatedTotal = searchRes.estimatedTotalHits || hits.length;
+    } catch (mErr) {
+      console.warn("Meilisearch search error, using DB fallback:", mErr);
+    }
 
     // Fallback if strict search returns nothing, perform direct Prisma query for exact city/category match
     if (hits.length === 0) {
@@ -78,7 +98,13 @@ export async function GET(request: NextRequest) {
       };
 
       if (city && city !== "ALL") {
-        dbWhere.city = { slug: city };
+        const cleanCity = city.toLowerCase().trim();
+        dbWhere.OR = [
+          { city: { slug: { equals: cleanCity, mode: 'insensitive' } } },
+          { city: { name: { equals: city.trim(), mode: 'insensitive' } } },
+          { city: { slug: { contains: cleanCity, mode: 'insensitive' } } },
+          { address: { contains: city.trim(), mode: 'insensitive' } }
+        ];
       }
 
       if (category && category !== "ALL") {
@@ -97,9 +123,14 @@ export async function GET(request: NextRequest) {
       }
 
       if (ratingStr && ratingStr !== "all") {
-        dbWhere.OR = [
-          { googleRating: { gte: parseFloat(ratingStr) } },
-          { averageRating: { gte: parseFloat(ratingStr) } }
+        dbWhere.AND = [
+          ...(dbWhere.AND || []),
+          {
+            OR: [
+              { googleRating: { gte: parseFloat(ratingStr) } },
+              { averageRating: { gte: parseFloat(ratingStr) } }
+            ]
+          }
         ];
       }
 
@@ -112,8 +143,9 @@ export async function GET(request: NextRequest) {
         dbWhere.mode = { in: modes };
       }
 
-      if (q.trim()) {
+      if (q.trim() && !isCategoryOnly) {
         dbWhere.AND = [
+          ...(dbWhere.AND || []),
           {
             OR: [
               { name: { contains: q, mode: 'insensitive' } },
@@ -262,7 +294,7 @@ export async function GET(request: NextRequest) {
        _type: "blog"
     }));
 
-    const totalHits = searchRes.estimatedTotalHits || 0;
+    const totalHits = estimatedTotal || orderedInstitutes.length || 0;
 
     return NextResponse.json({ 
       success: true, 
