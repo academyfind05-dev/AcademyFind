@@ -8,6 +8,7 @@ import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
 import { deleteInstituteRequestAction } from "../actions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import AdminRequestStatusForm from "@/components/admin/AdminRequestStatusForm";
 
 export default async function InstituteRequestDetailPage({
     params
@@ -66,7 +67,9 @@ export default async function InstituteRequestDetailPage({
                     <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                         request.status === 'APPROVED' ? 'bg-green-100 text-green-700 border border-green-200' :
                         request.status === 'REJECTED' ? 'bg-red-100 text-red-700 border border-red-200' :
-                        'bg-amber-100 text-amber-700 border border-amber-200'
+                        request.status === 'CALL_BACK' ? 'bg-indigo-100 text-indigo-700 border border-indigo-200' :
+                        request.status === 'FOLLOW_UP' ? 'bg-orange-100 text-orange-700 border border-orange-200' :
+                        'bg-stone-100 text-stone-700 border border-stone-200'
                     }`}>
                         {request.status}
                     </span>
@@ -169,6 +172,21 @@ export default async function InstituteRequestDetailPage({
                             </CardContent>
                         </Card>
                     )}
+
+                    <Card className="shadow-sm border-stone-200 overflow-hidden">
+                        <CardHeader className="bg-indigo-50/50 border-b border-indigo-100 pb-4">
+                            <CardTitle className="text-sm font-bold text-indigo-900 flex items-center gap-2">
+                                <CheckCircle2 className="w-4 h-4 text-indigo-600" /> Status & Notes
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-5">
+                            <AdminRequestStatusForm 
+                                requestId={request.id} 
+                                initialStatus={request.status} 
+                                initialNotes={request.adminNotes} 
+                            />
+                        </CardContent>
+                    </Card>
                 </div>
 
                 {/* Right Column: Institute Meta */}

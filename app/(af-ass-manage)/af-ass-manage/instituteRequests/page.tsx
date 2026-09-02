@@ -41,6 +41,8 @@ export default async function AdminApprovalsPage({
     const filterOptions = [
         { label: "All", value: "ALL" },
         { label: "Pending", value: "PENDING" },
+        { label: "Call Back", value: "CALL_BACK" },
+        { label: "Follow Up", value: "FOLLOW_UP" },
         { label: "Approved", value: "APPROVED" },
         { label: "Rejected", value: "REJECTED" },
     ];
@@ -101,10 +103,13 @@ export default async function AdminApprovalsPage({
                                     <div className="flex items-center gap-3">
                                         <div className="font-mono">{formatIST(req.createdAt)}</div>
                                         {/* 🚀 Status Badge */}
-                                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${req.status === 'APPROVED' ? 'bg-green-100 text-green-700 border border-green-200' :
+                                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                            req.status === 'APPROVED' ? 'bg-green-100 text-green-700 border border-green-200' :
                                             req.status === 'REJECTED' ? 'bg-red-100 text-red-700 border border-red-200' :
-                                                'bg-stone-100 text-stone-700 border border-stone-200'
-                                            }`}>
+                                            req.status === 'CALL_BACK' ? 'bg-indigo-100 text-indigo-700 border border-indigo-200' :
+                                            req.status === 'FOLLOW_UP' ? 'bg-orange-100 text-orange-700 border border-orange-200' :
+                                            'bg-stone-100 text-stone-700 border border-stone-200'
+                                        }`}>
                                             {req.status}
                                         </span>
                                     </div>

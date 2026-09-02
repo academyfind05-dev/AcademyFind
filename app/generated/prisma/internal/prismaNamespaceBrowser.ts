@@ -856,6 +856,7 @@ export const InstituteRequestScalarFieldEnum = {
   ownerPhone: 'ownerPhone',
   ownerDesignation: 'ownerDesignation',
   status: 'status',
+  adminNotes: 'adminNotes',
   createdAt: 'createdAt'
 } as const
 

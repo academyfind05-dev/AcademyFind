@@ -1080,6 +1080,7 @@ model InstituteRequest {
   ownerPhone       String?
   ownerDesignation String?
   status           String    @default("PENDING")
+  adminNotes       String?   @db.Text
   createdAt        DateTime  @default(now())
   institute        Institute @relation(fields: [instituteId], references: [id], onDelete: Cascade)
   user             User      @relation(fields: [userId], references: [id])
