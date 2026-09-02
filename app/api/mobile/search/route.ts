@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
     const q = searchParams.get('q') || '';
     const category = searchParams.get('category') || '';
     const city = searchParams.get('city') || '';
+    const address = searchParams.get('address') || '';
     const sort = searchParams.get('sort') || 'reviews';
     const ratingStr = searchParams.get('rating');
     const modeStr = searchParams.get('mode');
@@ -18,6 +19,29 @@ export async function GET(request: NextRequest) {
     const lat = searchParams.get('lat');
     const lng = searchParams.get('lng');
     const radius = searchParams.get('radius') || '5';
+
+    // Auto-detect city from address if city is not explicitly passed
+    let effectiveCity = city;
+    if ((!effectiveCity || effectiveCity === 'ALL') && address) {
+      const lowerAddr = address.toLowerCase();
+      for (const [key, slug] of [
+        ['meerut', 'meerut'],
+        ['greater noida', 'greater-noida'],
+        ['noida', 'noida'],
+        ['delhi', 'delhi'],
+        ['ghaziabad', 'ghaziabad'],
+        ['faridabad', 'faridabad'],
+        ['gurugram', 'gurugram'],
+        ['gurgaon', 'gurugram'],
+        ['sonipat', 'sonipat'],
+        ['modinagar', 'modinagar'],
+      ] as const) {
+        if (lowerAddr.includes(key)) {
+          effectiveCity = slug;
+          break;
+        }
+      }
+    }
     
     // pagination
     const page = parseInt(searchParams.get('page') || '1');
@@ -28,9 +52,9 @@ export async function GET(request: NextRequest) {
 
     // Apply exact parity filters
     if (type && type !== "ALL") searchFilters.push(`type = "${type}"`);
-    if (city && city !== "ALL") {
-      const cleanCity = city.toLowerCase().trim();
-      searchFilters.push(`(citySlug = "${cleanCity}" OR citySlug = "${city}" OR cityName = "${city}")`);
+    if (effectiveCity && effectiveCity !== "ALL") {
+      const cleanCity = effectiveCity.toLowerCase().trim();
+      searchFilters.push(`(citySlug = "${cleanCity}" OR citySlug = "${effectiveCity}" OR cityName = "${effectiveCity}")`);
     }
     if (category && category !== "ALL") {
       const cleanCat = category.toLowerCase().trim();
@@ -97,13 +121,13 @@ export async function GET(request: NextRequest) {
         isPublished: true,
       };
 
-      if (city && city !== "ALL") {
-        const cleanCity = city.toLowerCase().trim();
+      if (effectiveCity && effectiveCity !== "ALL") {
+        const cleanCity = effectiveCity.toLowerCase().trim();
         dbWhere.OR = [
           { city: { slug: { equals: cleanCity, mode: 'insensitive' } } },
-          { city: { name: { equals: city.trim(), mode: 'insensitive' } } },
+          { city: { name: { equals: effectiveCity.trim(), mode: 'insensitive' } } },
           { city: { slug: { contains: cleanCity, mode: 'insensitive' } } },
-          { address: { contains: city.trim(), mode: 'insensitive' } }
+          { address: { contains: effectiveCity.trim(), mode: 'insensitive' } }
         ];
       }
 
