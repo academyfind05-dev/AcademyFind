@@ -164,11 +164,11 @@ export default async function AdminCallbacksPage({
           <table className="w-full text-left text-sm text-slate-600">
             <thead className="bg-stone-50/50 border-b border-stone-100/50 text-slate-500 uppercase tracking-wider text-xs font-bold">
               <tr>
-                <th className="p-5">Date</th>
-                <th className="p-5">Student Info</th>
-                <th className="p-5">Original Target Institute</th>
-                <th className="p-5">Admin Status</th>
-                <th className="p-5 text-right">Action</th>
+                <th className="py-3 px-4">Date</th>
+                <th className="py-3 px-4">Student Info</th>
+                <th className="py-3 px-4">Original Target Institute</th>
+                <th className="py-3 px-4">Admin Status</th>
+                <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100/50">
@@ -181,7 +181,7 @@ export default async function AdminCallbacksPage({
               ) : (
                 callbacks.map((callback: any) => (
                   <tr key={callback.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="p-5 whitespace-nowrap">
+                    <td className="py-3 px-4 whitespace-nowrap">
                       <div className="flex flex-col text-slate-700 font-medium">
                         <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-slate-400" />
@@ -190,13 +190,13 @@ export default async function AdminCallbacksPage({
                         <span className="text-xs text-slate-400 mt-1 pl-6">{formatIST(callback.createdAt, "hh:mm a")}</span>
                       </div>
                     </td>
-                    <td className="p-5">
+                    <td className="py-3 px-4">
                       <div className="font-bold text-slate-900 flex items-center gap-1.5"><User className="w-3.5 h-3.5 text-slate-400" /> {callback.name}</div>
                       <div className="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-slate-400" />{callback.phone}</div>
                     </td>
-                    <td className="p-5">
+                    <td className="py-3 px-4">
                       {callback.institute ? (
-                        <div>
+                        <div className="flex flex-col gap-1.5">
                           <Link
                             href={`/af-ass-manage/institutes/${callback.institute.id}`}
                             prefetch={false}
@@ -205,13 +205,15 @@ export default async function AdminCallbacksPage({
                             <Building2 className="w-4 h-4 shrink-0" />
                             <span className="truncate max-w-[180px]">{callback.institute.name}</span>
                           </Link>
-                          <div className="mt-1">
+                          <div>
                             {callback.assignedSalesManager ? (
                               <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
                                 <UserCheck className="w-3 h-3" /> {callback.assignedSalesManager.name || callback.assignedSalesManager.email}
                               </span>
                             ) : (
-                              <span className="text-[10px] text-slate-400 italic">Unassigned</span>
+                              <span className="inline-flex items-center gap-1 text-[10px] text-slate-400 italic">
+                                <UserCheck className="w-3 h-3" /> Unassigned
+                              </span>
                             )}
                           </div>
                         </div>
@@ -219,7 +221,7 @@ export default async function AdminCallbacksPage({
                         <span className="text-red-400 italic">Institute Deleted</span>
                       )}
                     </td>
-                    <td className="p-5">
+                    <td className="py-3 px-4">
                       <div className="flex flex-col gap-1.5">
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-bold text-stone-400 uppercase w-16">Institute:</span>
@@ -249,7 +251,7 @@ export default async function AdminCallbacksPage({
                         </div>
                       </div>
                     </td>
-                    <td className="p-5 text-right">
+                    <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link prefetch={false} href={`/af-ass-manage/instituteCallbacks/${callback.id}`}>
                           <button className="p-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:text-stone-600 hover:border-stone-200 hover:bg-stone-50 transition-all shadow-xs cursor-pointer">
