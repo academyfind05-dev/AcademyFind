@@ -127,26 +127,39 @@ export async function GET(request: NextRequest) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API_KEY || 'AIzaSyCJVo2m1ic_xT4BLDELw6h63mOjO9PqquE';
   if (apiKey) {
     try {
-      const googleRes = await fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(query)}&components=country:in&key=${apiKey}`
-      );
+      const googleRes = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': apiKey,
+          'Referer': 'https://www.academyfind.com'
+        },
+        body: JSON.stringify({
+          input: query,
+          includedRegionCodes: ['IN']
+        })
+      });
+      
       if (googleRes.ok) {
         const googleData = await googleRes.json();
-        if (googleData.predictions && Array.isArray(googleData.predictions)) {
-          for (const p of googleData.predictions) {
-            const desc = p.description;
-            if (!seenDescriptions.has(desc.toLowerCase())) {
-              seenDescriptions.add(desc.toLowerCase());
-              predictions.push({
-                description: desc,
-                place_id: p.place_id,
-                lat: null, // will be fetched on demand via details route
-                lng: null,
-                structured_formatting: {
-                  main_text: p.structured_formatting?.main_text || desc.split(',')[0],
-                  secondary_text: p.structured_formatting?.secondary_text || '',
-                },
-              });
+        if (googleData.suggestions && Array.isArray(googleData.suggestions)) {
+          for (const s of googleData.suggestions) {
+            if (s.placePrediction) {
+              const p = s.placePrediction;
+              const desc = p.text?.text;
+              if (desc && !seenDescriptions.has(desc.toLowerCase())) {
+                seenDescriptions.add(desc.toLowerCase());
+                predictions.push({
+                  description: desc,
+                  place_id: p.placeId,
+                  lat: null, // will be fetched on demand via details route
+                  lng: null,
+                  structured_formatting: {
+                    main_text: p.structuredFormat?.mainText?.text || desc.split(',')[0],
+                    secondary_text: p.structuredFormat?.secondaryText?.text || '',
+                  },
+                });
+              }
             }
           }
         }
