@@ -53,20 +53,35 @@ export async function PATCH(req: Request) {
 
   const body = await req.json().catch(() => ({}));
   const { id, all } = body as { id?: string; all?: boolean };
+  const isAdmin = session.user.role === "ADMIN";
 
   if (all) {
-    await prisma.userNotification.updateMany({
-      where: { userId: session.user.id, isRead: false },
-      data: { isRead: true },
-    });
+    if (isAdmin) {
+      await prisma.adminNotification.updateMany({
+        where: { isRead: false },
+        data: { isRead: true },
+      });
+    } else {
+      await prisma.userNotification.updateMany({
+        where: { userId: session.user.id, isRead: false },
+        data: { isRead: true },
+      });
+    }
     return NextResponse.json({ success: true });
   }
 
   if (id) {
-    await prisma.userNotification.updateMany({
-      where: { id, userId: session.user.id },
-      data: { isRead: true },
-    });
+    if (isAdmin) {
+      await prisma.adminNotification.updateMany({
+        where: { id },
+        data: { isRead: true },
+      });
+    } else {
+      await prisma.userNotification.updateMany({
+        where: { id, userId: session.user.id },
+        data: { isRead: true },
+      });
+    }
     return NextResponse.json({ success: true });
   }
 
