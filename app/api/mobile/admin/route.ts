@@ -15,21 +15,42 @@ export async function GET() {
   try {
     await requireAdmin();
 
-    const [totalInstitutes, activeInstitutes, totalUsers, totalLeads, totalReviews, pendingClaims, pendingPayments, newEnquiries] = await Promise.all([
+    const [
+      totalInstitutes,
+      activeInstitutes,
+      totalUsers,
+      totalLeads,
+      totalReviews,
+      pendingClaims,
+      pendingInstituteRequests,
+      pendingPayments,
+      newEnquiries
+    ] = await Promise.all([
       prisma.institute.count(),
       prisma.institute.count({ where: { isActive: true } }),
       prisma.user.count(),
-      prisma.instituteEnquiry.count(),
+      prisma.instituteEnquiry.count({ where: { isForwarded: false } }),
       prisma.review.count(),
+      prisma.instituteClaim.count({ where: { status: 'PENDING' } }),
       prisma.instituteRequest.count({ where: { status: 'PENDING' } }),
       prisma.subscriptionPayment.count({ where: { status: 'PENDING' } }),
-      prisma.instituteEnquiry.count({ where: { status: 'NEW' } }),
+      prisma.instituteEnquiry.count({ where: { status: 'NEW', isForwarded: false } }),
     ]);
 
     return NextResponse.json({
       success: true,
       data: {
-        stats: { totalInstitutes, activeInstitutes, totalUsers, totalLeads, totalReviews, pendingClaims, pendingPayments, newEnquiries },
+        stats: {
+          totalInstitutes,
+          activeInstitutes,
+          totalUsers,
+          totalLeads,
+          totalReviews,
+          pendingClaims,
+          pendingInstituteRequests,
+          pendingPayments,
+          newEnquiries
+        },
       },
     });
   } catch (error: any) {
