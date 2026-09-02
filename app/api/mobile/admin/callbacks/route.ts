@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
     await checkAdmin();
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'ALL';
+    const salesManagerId = searchParams.get('salesManagerId');
 
     const whereCondition: any = {
       isForwarded: false
@@ -24,10 +25,17 @@ export async function GET(request: NextRequest) {
       whereCondition.status = status;
     }
 
+    if (salesManagerId === 'UNASSIGNED') {
+      whereCondition.assignedSalesManagerId = null;
+    } else if (salesManagerId && salesManagerId !== 'ALL') {
+      whereCondition.assignedSalesManagerId = salesManagerId;
+    }
+
     const callbacks = await prisma.instituteEnquiry.findMany({
       where: whereCondition,
       include: {
         institute: { select: { id: true, name: true, phone: true, slug: true } },
+        assignedSalesManager: { select: { id: true, name: true, email: true, phone: true } },
         distributionLogs: {
           include: { admin: { select: { id: true, name: true } } },
           orderBy: { createdAt: 'desc' }
@@ -50,7 +58,7 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     await checkAdmin();
-    const { id, status, userContactStatus, adminNote } = await request.json();
+    const { id, status, userContactStatus, adminNote, assignedSalesManagerId } = await request.json();
 
     if (!id) {
       return NextResponse.json({ success: false, error: 'Callback ID is required' }, { status: 400 });
@@ -91,11 +99,16 @@ export async function PUT(request: NextRequest) {
       updateData.adminNote = adminNote;
     }
 
+    if (assignedSalesManagerId !== undefined) {
+      updateData.assignedSalesManagerId = assignedSalesManagerId || null;
+    }
+
     const updated = await prisma.instituteEnquiry.update({
       where: { id },
       data: updateData,
       include: {
         institute: { select: { id: true, name: true, phone: true, slug: true } },
+        assignedSalesManager: { select: { id: true, name: true, email: true, phone: true } },
       }
     });
 

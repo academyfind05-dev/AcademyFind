@@ -10,19 +10,29 @@ export async function GET(req: Request) {
     }
 
     const { searchParams } = new URL(req.url);
-    const salesManagerId = searchParams.get("salesManagerId") || session.user.id;
+    const salesManagerId = searchParams.get("salesManagerId");
     const status = searchParams.get("status") || "ALL";
     const search = searchParams.get("search") || "";
 
     // Access check
-    if (session.user.role !== "ADMIN" && session.user.id !== salesManagerId) {
+    if (session.user.role !== "ADMIN" && salesManagerId && session.user.id !== salesManagerId) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     const whereCondition: any = {
-      assignedSalesManagerId: salesManagerId,
       isForwarded: false,
     };
+
+    if (session.user.role === "ADMIN") {
+      if (salesManagerId && salesManagerId !== "ALL") {
+        whereCondition.assignedSalesManagerId = salesManagerId;
+      } else {
+        // Admin views all enquiries assigned to sales managers
+        whereCondition.assignedSalesManagerId = { not: null };
+      }
+    } else {
+      whereCondition.assignedSalesManagerId = session.user.id;
+    }
 
     if (status !== "ALL") {
       whereCondition.status = status;
@@ -45,6 +55,13 @@ export async function GET(req: Request) {
             name: true,
             phone: true,
             slug: true,
+          },
+        },
+        assignedSalesManager: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
           },
         },
         statusHistory: {
