@@ -13,10 +13,10 @@ export async function GET(request: NextRequest) {
     const where: any = {};
     if (status) where.status = status;
 
-    const claims = await prisma.instituteRequest.findMany({
+    const claims = await prisma.instituteClaim.findMany({
       where,
       include: {
-        institute: { select: { id: true, name: true, slug: true } },
+        institute: { select: { id: true, name: true, slug: true, city: { select: { name: true } } } },
         user: { select: { id: true, name: true, email: true } },
       },
       orderBy: { createdAt: 'desc' },
@@ -36,7 +36,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     const { id, status } = body;
 
-    const claim = await prisma.instituteRequest.update({
+    const claim = await prisma.instituteClaim.update({
       where: { id },
       data: { status },
     });
