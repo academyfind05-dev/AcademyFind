@@ -202,7 +202,13 @@ const CITY_MAP = [
   { keywords: ["sonipat"], slug: "sonipat" },
   { keywords: ["ghaziabad"], slug: "ghaziabad" },
   { keywords: ["meerut"], slug: "meerut" },
+  { keywords: ["mumbai"], slug: "mumbai" },
+  { keywords: ["visakhapatnam", "vizag"], slug: "visakhapatnam" },
+  { keywords: ["bangalore", "bengaluru"], slug: "bangalore" },
+  { keywords: ["ahmedabad"], slug: "ahmedabad" },
+  { keywords: ["jaipur"], slug: "jaipur" },
 ];
+
 
 export function SearchBar() {
   const [input, setInput] = useState("");
