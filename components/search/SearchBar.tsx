@@ -431,6 +431,46 @@ export function SearchBar() {
         params.set("city", "meerut");
         router.push(`/search?${params.toString()}`);
       }
+    } else if (selectedLocation?.lat === 18.9582347 && selectedLocation?.lng === 72.8319514) {
+      params.delete("lat");
+      params.delete("lng");
+      if (matchedCategorySlug) router.push(`/${matchedCategorySlug}/mumbai?${params.toString()}`);
+      else {
+        params.set("city", "mumbai");
+        router.push(`/search?${params.toString()}`);
+      }
+    } else if (selectedLocation?.lat === 17.7343219 && selectedLocation?.lng === 83.3129841) {
+      params.delete("lat");
+      params.delete("lng");
+      if (matchedCategorySlug) router.push(`/${matchedCategorySlug}/visakhapatnam?${params.toString()}`);
+      else {
+        params.set("city", "visakhapatnam");
+        router.push(`/search?${params.toString()}`);
+      }
+    } else if (selectedLocation?.lat === 12.9628957 && selectedLocation?.lng === 77.57754) {
+      params.delete("lat");
+      params.delete("lng");
+      if (matchedCategorySlug) router.push(`/${matchedCategorySlug}/bangalore?${params.toString()}`);
+      else {
+        params.set("city", "bangalore");
+        router.push(`/search?${params.toString()}`);
+      }
+    } else if (selectedLocation?.lat === 23.0225237 && selectedLocation?.lng === 72.57128639999999) {
+      params.delete("lat");
+      params.delete("lng");
+      if (matchedCategorySlug) router.push(`/${matchedCategorySlug}/ahmedabad?${params.toString()}`);
+      else {
+        params.set("city", "ahmedabad");
+        router.push(`/search?${params.toString()}`);
+      }
+    } else if (selectedLocation?.lat === 26.9124336 && selectedLocation?.lng === 75.7872709) {
+      params.delete("lat");
+      params.delete("lng");
+      if (matchedCategorySlug) router.push(`/${matchedCategorySlug}/jaipur?${params.toString()}`);
+      else {
+        params.set("city", "jaipur");
+        router.push(`/search?${params.toString()}`);
+      }
     }
     else if (matchedCategorySlug && matchedCitySlug) {
       router.push(`/${matchedCategorySlug}/${matchedCitySlug}?${params.toString()}`);

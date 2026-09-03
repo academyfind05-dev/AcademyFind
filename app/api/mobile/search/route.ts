@@ -70,8 +70,23 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Geo-Radius
-    if (lat && lng && radius !== "ALL") {
+    const CITY_COORDINATES: Record<string, { lat: number; lng: number }> = {
+      'meerut': { lat: 28.9844618, lng: 77.7064137 },
+      'noida': { lat: 28.5355161, lng: 77.3910265 },
+      'greater-noida': { lat: 28.4743879, lng: 77.5039904 },
+      'delhi': { lat: 28.7040592, lng: 77.1024902 },
+      'gurugram': { lat: 28.4594965, lng: 77.0266383 },
+      'faridabad': { lat: 28.4089123, lng: 77.3177894 },
+      'ghaziabad': { lat: 28.6691565, lng: 77.4537578 },
+      'modinagar': { lat: 28.8344396, lng: 77.5698527 },
+      'sonipat': { lat: 28.9930823, lng: 77.0150735 },
+    };
+
+    const effectiveLat = lat || (effectiveCity && CITY_COORDINATES[effectiveCity] ? String(CITY_COORDINATES[effectiveCity].lat) : null);
+    const effectiveLng = lng || (effectiveCity && CITY_COORDINATES[effectiveCity] ? String(CITY_COORDINATES[effectiveCity].lng) : null);
+
+    // Geo-Radius (only when explicitly requested with radius filter and coordinates)
+    if (lat && lng && radius && radius !== "ALL") {
       const radiusInMeters = parseInt(radius) * 1000;
       searchFilters.push(`_geoRadius(${lat}, ${lng}, ${radiusInMeters})`);
     }
@@ -85,7 +100,10 @@ export async function GET(request: NextRequest) {
       sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
     } else if (sort === "newest") {
       sortOptions = ["planWeight:desc", "createdAt:desc"];
-    } else if (lat && lng && (sort === "nearest_location" || sort === "nearest_me")) {
+    } else if (effectiveLat && effectiveLng && (sort === "nearest_location" || sort === "nearest_me")) {
+      sortOptions = ["planWeight:desc", `_geoPoint(${effectiveLat}, ${effectiveLng}):asc`, "googleReviewCount:desc"];
+    } else if (lat && lng) {
+      // When a specific locality coordinates are passed, prioritize distance to that locality
       sortOptions = ["planWeight:desc", `_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc"];
     } else {
       sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
