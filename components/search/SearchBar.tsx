@@ -193,6 +193,7 @@ export const CATEGORY_MAP = [
 ];
 
 const CITY_MAP = [
+  // Delhi NCR & Nearby
   { keywords: ["Greater Noida"], slug: "greater-noida" },
   { keywords: ["noida"], slug: "noida" },
   { keywords: ["delhi", "new delhi"], slug: "delhi" },
@@ -202,11 +203,33 @@ const CITY_MAP = [
   { keywords: ["sonipat"], slug: "sonipat" },
   { keywords: ["ghaziabad"], slug: "ghaziabad" },
   { keywords: ["meerut"], slug: "meerut" },
-  { keywords: ["mumbai"], slug: "mumbai" },
-  { keywords: ["visakhapatnam", "vizag"], slug: "visakhapatnam" },
+  
+  // Metro Cities
+  { keywords: ["mumbai", "navi mumbai", "thane"], slug: "mumbai" },
   { keywords: ["bangalore", "bengaluru"], slug: "bangalore" },
-  { keywords: ["ahmedabad"], slug: "ahmedabad" },
+  { keywords: ["hyderabad", "secunderabad"], slug: "hyderabad" },
+  { keywords: ["chennai", "madras"], slug: "chennai" },
+  { keywords: ["kolkata", "calcutta"], slug: "kolkata" },
+  { keywords: ["pune", "pcmc"], slug: "pune" },
+  { keywords: ["ahmedabad", "gandhinagar"], slug: "ahmedabad" },
+
+  // Other Major Cities & Coaching Hubs
   { keywords: ["jaipur"], slug: "jaipur" },
+  { keywords: ["kota"], slug: "kota" },
+  { keywords: ["lucknow"], slug: "lucknow" },
+  { keywords: ["kanpur"], slug: "kanpur" },
+  { keywords: ["patna"], slug: "patna" },
+  { keywords: ["indore"], slug: "indore" },
+  { keywords: ["bhopal"], slug: "bhopal" },
+  { keywords: ["chandigarh", "mohali", "panchkula"], slug: "chandigarh" },
+  { keywords: ["dehradun"], slug: "dehradun" },
+  { keywords: ["visakhapatnam", "vizag"], slug: "visakhapatnam" },
+  { keywords: ["surat"], slug: "surat" },
+  { keywords: ["nagpur"], slug: "nagpur" },
+  { keywords: ["vadodara", "baroda"], slug: "vadodara" },
+  { keywords: ["ranchi"], slug: "ranchi" },
+  { keywords: ["bhubaneswar"], slug: "bhubaneswar" },
+  { keywords: ["guwahati"], slug: "guwahati" },
 ];
 
 
