@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth/getSession';
 
+export const dynamic = 'force-dynamic';
+
 async function requireAdmin() {
   const session = await getSession();
   if (!session?.user) throw new Error('Unauthorized');
