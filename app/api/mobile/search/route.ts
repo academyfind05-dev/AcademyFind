@@ -118,33 +118,55 @@ export async function GET(request: NextRequest) {
       'ghaziabad': { lat: 28.6691565, lng: 77.4537578 },
       'modinagar': { lat: 28.8344396, lng: 77.5698527 },
       'sonipat': { lat: 28.9930823, lng: 77.0150735 },
+      'kota': { lat: 25.1825442, lng: 75.8288424 },
+      'jaipur': { lat: 26.9124336, lng: 75.7872709 },
+      'lucknow': { lat: 26.8467088, lng: 80.9461592 },
+      'kanpur': { lat: 26.449923, lng: 80.331874 },
+      'agra': { lat: 27.1766701, lng: 78.0080745 },
+      'varanasi': { lat: 25.3176452, lng: 82.9739144 },
+      'prayagraj': { lat: 25.4358011, lng: 81.846311 },
+      'patna': { lat: 25.5940947, lng: 85.1375645 },
+      'ranchi': { lat: 23.3440997, lng: 85.309562 },
+      'bhopal': { lat: 23.2599333, lng: 77.412615 },
+      'indore': { lat: 22.7195687, lng: 75.8577258 },
+      'chandigarh': { lat: 30.7333148, lng: 76.7794179 },
+      'dehradun': { lat: 30.3164945, lng: 78.0321918 },
+      'mumbai': { lat: 19.0759837, lng: 72.8776559 },
+      'pune': { lat: 18.5204303, lng: 73.8567437 },
+      'bangalore': { lat: 12.9715987, lng: 77.5945627 },
+      'hyderabad': { lat: 17.385044, lng: 78.486671 },
+      'chennai': { lat: 13.0826802, lng: 80.2707184 },
+      'kolkata': { lat: 22.572646, lng: 88.363895 },
+      'ahmedabad': { lat: 23.022505, lng: 72.5713621 },
+      'surat': { lat: 21.1702401, lng: 72.8310607 },
+      'vadodara': { lat: 22.3071588, lng: 73.1812187 },
+      'nagpur': { lat: 21.1458004, lng: 79.0881546 },
     };
 
-    const effectiveLat = lat || (effectiveCity && CITY_COORDINATES[effectiveCity] ? String(CITY_COORDINATES[effectiveCity].lat) : null);
-    const effectiveLng = lng || (effectiveCity && CITY_COORDINATES[effectiveCity] ? String(CITY_COORDINATES[effectiveCity].lng) : null);
+    const effectiveLat = (lat && lat !== '0') ? lat : (effectiveCity && CITY_COORDINATES[effectiveCity] ? String(CITY_COORDINATES[effectiveCity].lat) : null);
+    const effectiveLng = (lng && lng !== '0') ? lng : (effectiveCity && CITY_COORDINATES[effectiveCity] ? String(CITY_COORDINATES[effectiveCity].lng) : null);
+
+    // Sorting and geo active coords:
+    const activeLat = lat || effectiveLat;
+    const activeLng = lng || effectiveLng;
+
+    const isGeoRadiusActive = !!(activeLat && activeLng && radius && radius !== "ALL");
 
     // Geo-Radius (only when explicitly requested with radius filter and coordinates)
-    if (lat && lng && radius && radius !== "ALL") {
+    if (isGeoRadiusActive && activeLat && activeLng) {
       const radiusInMeters = parseInt(radius) * 1000;
-      searchFilters.push(`_geoRadius(${lat}, ${lng}, ${radiusInMeters})`);
+      searchFilters.push(`_geoRadius(${activeLat}, ${activeLng}, ${radiusInMeters})`);
     }
 
-    // Sorting:
     let sortOptions: string[] = ["planWeight:desc", "googleReviewCount:desc"];
-    if (sort === "rating") {
+    if (activeLat && activeLng) {
+      sortOptions = [`_geoPoint(${activeLat}, ${activeLng}):asc`, "googleReviewCount:desc", "planWeight:desc", "googleRating:desc"];
+    } else if (sort === "rating") {
       sortOptions = ["planWeight:desc", "googleRating:desc"];
     } else if (sort === "reviews") {
       sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
     } else if (sort === "newest") {
       sortOptions = ["planWeight:desc", "createdAt:desc"];
-    } else if (effectiveLat && effectiveLng && (sort === "nearest_location" || sort === "nearest_me")) {
-      // ✅ Nearest sorting: Distance ascending FIRST, then tie-breaker: most reviewed (googleReviewCount:desc)
-      sortOptions = [`_geoPoint(${effectiveLat}, ${effectiveLng}):asc`, "googleReviewCount:desc", "planWeight:desc", "googleRating:desc"];
-    } else if (lat && lng && (sort === "nearest_location" || sort === "nearest_me")) {
-      sortOptions = [`_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc", "planWeight:desc", "googleRating:desc"];
-    } else if (lat && lng) {
-      // When a specific locality coordinates are passed, prioritize distance to that locality
-      sortOptions = [`_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc", "planWeight:desc", "googleRating:desc"];
     } else {
       sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
     }
@@ -172,8 +194,6 @@ export async function GET(request: NextRequest) {
       console.warn("Meilisearch search error, using DB fallback:", mErr);
     }
 
-    const isGeoRadiusActive = !!(lat && lng && radius && radius !== "ALL");
-
     // Retry with empty query if keyword search was too strict, but KEEP geo-radius filters
     if (hits.length === 0 && meiliQuery.trim().length > 0) {
       try {
@@ -190,8 +210,8 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // ✅ CRITICAL: If a geo-radius was active in "Nearest to Me" mode and no institutes exist within that radius,
-    // NEVER fall back to institutes 200km away! Return empty results so user sees "No institutes nearby".
+    // ✅ CRITICAL: If a geo-radius was active and no institutes exist within that radius in Meilisearch
+    // and sort is nearest, never fall back to distant institutes.
     if (hits.length === 0 && isGeoRadiusActive && (sort === 'nearest_location' || sort === 'nearest_me')) {
       return NextResponse.json({
         success: true,
@@ -282,8 +302,8 @@ export async function GET(request: NextRequest) {
 
       const fallbackDbInstitutes = await prisma.institute.findMany({
         where: dbWhere,
-        take: limit,
-        skip: offset,
+        take: isGeoRadiusActive ? 100 : limit,
+        skip: isGeoRadiusActive ? 0 : offset,
         orderBy: sort === 'rating'
           ? [{ planWeight: 'desc' }, { googleRating: 'desc' }]
           : sort === 'newest'
@@ -316,8 +336,8 @@ export async function GET(request: NextRequest) {
       });
 
       if (fallbackDbInstitutes.length > 0) {
-        const userLatNum = lat ? parseFloat(lat) : (effectiveLat ? parseFloat(effectiveLat) : null);
-        const userLngNum = lng ? parseFloat(lng) : (effectiveLng ? parseFloat(effectiveLng) : null);
+        const userLatNum = activeLat ? parseFloat(activeLat) : null;
+        const userLngNum = activeLng ? parseFloat(activeLng) : null;
 
         let formattedFallback = fallbackDbInstitutes.map(inst => {
           let distance: string | null = null;
@@ -339,7 +359,7 @@ export async function GET(request: NextRequest) {
           formattedFallback = formattedFallback.filter(inst => inst.distance !== null && parseFloat(inst.distance) <= maxRadius);
         }
 
-        if (sort === 'nearest_location' || sort === 'nearest_me') {
+        if (userLatNum && userLngNum) {
           formattedFallback.sort((a, b) => {
             const distA = a.distance !== null ? parseFloat(a.distance) : 999999;
             const distB = b.distance !== null ? parseFloat(b.distance) : 999999;
@@ -350,19 +370,24 @@ export async function GET(request: NextRequest) {
             const revA = a.googleReviewCount || a.reviewCount || 0;
             const revB = b.googleReviewCount || b.reviewCount || 0;
             if (revB !== revA) return revB - revA;
-            return (b.planWeight || 0) - (a.planWeight || 0);
+            const planA = a.planWeight || 0;
+            const planB = b.planWeight || 0;
+            if (planB !== planA) return planB - planA;
+            return (b.averageRating || 0) - (a.averageRating || 0);
           });
         }
+
+        const paginatedFallback = isGeoRadiusActive ? formattedFallback.slice(offset, offset + limit) : formattedFallback;
 
         return NextResponse.json({
           success: true,
           data: {
-            results: formattedFallback,
+            results: paginatedFallback,
             pagination: {
               total: formattedFallback.length,
               page,
               limit,
-              totalPages: formattedFallback.length > 0 ? 1 : 0
+              totalPages: Math.ceil(formattedFallback.length / limit)
             }
           }
         });
@@ -412,11 +437,11 @@ export async function GET(request: NextRequest) {
       let distanceKm: string | null = null;
       if (hit?._geoDistance !== undefined && hit?._geoDistance !== null) {
         distanceKm = (hit._geoDistance / 1000).toFixed(1);
-      } else if (effectiveLat && effectiveLng) {
+      } else if (activeLat && activeLng) {
         const iLat = inst.latitude ? Number(inst.latitude) : (hit?._geo?.lat ? Number(hit._geo.lat) : null);
         const iLng = inst.longitude ? Number(inst.longitude) : (hit?._geo?.lng ? Number(hit._geo.lng) : null);
         if (iLat && iLng) {
-          distanceKm = calcDistanceKm(Number(effectiveLat), Number(effectiveLng), iLat, iLng).toFixed(1);
+          distanceKm = calcDistanceKm(Number(activeLat), Number(activeLng), iLat, iLng).toFixed(1);
         }
       }
 
@@ -437,8 +462,8 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // ✅ If sort by nearest, enforce distance ascending and tie-breaker: most reviewed
-    if (sort === 'nearest_location' || sort === 'nearest_me') {
+    // ✅ If coordinates are active, ALWAYS sort by distance ascending and tie-breaker: most reviewed
+    if (activeLat && activeLng) {
       orderedInstitutes.sort((a: any, b: any) => {
         const distA = a.distance !== null && a.distance !== undefined ? parseFloat(a.distance) : 999999;
         const distB = b.distance !== null && b.distance !== undefined ? parseFloat(b.distance) : 999999;
@@ -449,7 +474,10 @@ export async function GET(request: NextRequest) {
         const revA = a.googleReviewCount || a.reviewCount || 0;
         const revB = b.googleReviewCount || b.reviewCount || 0;
         if (revB !== revA) return revB - revA;
-        return (b.planWeight || 0) - (a.planWeight || 0);
+        const planA = a.planWeight || 0;
+        const planB = b.planWeight || 0;
+        if (planB !== planA) return planB - planA;
+        return (b.averageRating || 0) - (a.averageRating || 0);
       });
     }
 
