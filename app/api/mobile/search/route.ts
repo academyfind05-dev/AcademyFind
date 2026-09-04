@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { meili } from '@/lib/meilisearch';
 
+function calcDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -91,8 +103,7 @@ export async function GET(request: NextRequest) {
       searchFilters.push(`_geoRadius(${lat}, ${lng}, ${radiusInMeters})`);
     }
 
-    // Sorting: Always prioritize Tier (planWeight: Ultra -> Premium -> Verified -> Basic)
-    // By default within tier, sort by Number of Reviews (googleReviewCount)
+    // Sorting:
     let sortOptions: string[] = ["planWeight:desc", "googleReviewCount:desc"];
     if (sort === "rating") {
       sortOptions = ["planWeight:desc", "googleRating:desc"];
@@ -101,10 +112,13 @@ export async function GET(request: NextRequest) {
     } else if (sort === "newest") {
       sortOptions = ["planWeight:desc", "createdAt:desc"];
     } else if (effectiveLat && effectiveLng && (sort === "nearest_location" || sort === "nearest_me")) {
-      sortOptions = ["planWeight:desc", `_geoPoint(${effectiveLat}, ${effectiveLng}):asc`, "googleReviewCount:desc"];
+      // ✅ Nearest sorting: Distance ascending FIRST, then tie-breaker: most reviewed (googleReviewCount:desc)
+      sortOptions = [`_geoPoint(${effectiveLat}, ${effectiveLng}):asc`, "googleReviewCount:desc", "planWeight:desc", "googleRating:desc"];
+    } else if (lat && lng && (sort === "nearest_location" || sort === "nearest_me")) {
+      sortOptions = [`_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc", "planWeight:desc", "googleRating:desc"];
     } else if (lat && lng) {
       // When a specific locality coordinates are passed, prioritize distance to that locality
-      sortOptions = ["planWeight:desc", `_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc"];
+      sortOptions = [`_geoPoint(${lat}, ${lng}):asc`, "googleReviewCount:desc", "planWeight:desc", "googleRating:desc"];
     } else {
       sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
     }
@@ -234,22 +248,13 @@ export async function GET(request: NextRequest) {
       });
 
       if (fallbackDbInstitutes.length > 0) {
-        const userLatNum = lat ? parseFloat(lat) : null;
-        const userLngNum = lng ? parseFloat(lng) : null;
+        const userLatNum = lat ? parseFloat(lat) : (effectiveLat ? parseFloat(effectiveLat) : null);
+        const userLngNum = lng ? parseFloat(lng) : (effectiveLng ? parseFloat(effectiveLng) : null);
 
-        const formattedFallback = fallbackDbInstitutes.map(inst => {
+        let formattedFallback = fallbackDbInstitutes.map(inst => {
           let distance: string | null = null;
           if (userLatNum && userLngNum && inst.latitude && inst.longitude) {
-            const radlat1 = (Math.PI * userLatNum) / 180;
-            const radlat2 = (Math.PI * inst.latitude) / 180;
-            const theta = userLngNum - inst.longitude;
-            const radtheta = (Math.PI * theta) / 180;
-            let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-            if (dist > 1) dist = 1;
-            dist = Math.acos(dist);
-            dist = (dist * 180) / Math.PI;
-            dist = dist * 60 * 1.1515 * 1.609344; // Convert to KM
-            distance = dist.toFixed(1);
+            distance = calcDistanceKm(userLatNum, userLngNum, Number(inst.latitude), Number(inst.longitude)).toFixed(1);
           }
 
           return {
@@ -260,6 +265,21 @@ export async function GET(request: NextRequest) {
             reviewCount: inst.googleReviewCount || inst.reviewCount || 12,
           };
         });
+
+        if (sort === 'nearest_location' || sort === 'nearest_me') {
+          formattedFallback.sort((a, b) => {
+            const distA = a.distance !== null ? parseFloat(a.distance) : 999999;
+            const distB = b.distance !== null ? parseFloat(b.distance) : 999999;
+            if (Math.abs(distA - distB) > 0.05) {
+              return distA - distB; // Ascending by distance
+            }
+            // Tie-breaker: Most reviewed
+            const revA = a.googleReviewCount || a.reviewCount || 0;
+            const revB = b.googleReviewCount || b.reviewCount || 0;
+            if (revB !== revA) return revB - revA;
+            return (b.planWeight || 0) - (a.planWeight || 0);
+          });
+        }
 
         return NextResponse.json({
           success: true,
@@ -316,14 +336,41 @@ export async function GET(request: NextRequest) {
       const hit = hits.find((h: any) => h.prismaId === id);
       if (!inst) return [];
       
+      let distanceKm: string | null = null;
+      if (hit?._geoDistance !== undefined && hit?._geoDistance !== null) {
+        distanceKm = (hit._geoDistance / 1000).toFixed(1);
+      } else if (effectiveLat && effectiveLng) {
+        const iLat = inst.latitude ? Number(inst.latitude) : (hit?._geo?.lat ? Number(hit._geo.lat) : null);
+        const iLng = inst.longitude ? Number(inst.longitude) : (hit?._geo?.lng ? Number(hit._geo.lng) : null);
+        if (iLat && iLng) {
+          distanceKm = calcDistanceKm(Number(effectiveLat), Number(effectiveLng), iLat, iLng).toFixed(1);
+        }
+      }
+
       return [{
         ...inst,
         _type: "institute",
-        distance: hit?._geoDistance ? (hit._geoDistance / 1000).toFixed(1) : null,
+        distance: distanceKm,
         averageRating: hit?.googleRating || inst.averageRating,
         reviewCount: hit?.googleReviewCount || inst.reviewCount,
       }];
     });
+
+    // ✅ If sort by nearest, enforce distance ascending and tie-breaker: most reviewed
+    if (sort === 'nearest_location' || sort === 'nearest_me') {
+      orderedInstitutes.sort((a: any, b: any) => {
+        const distA = a.distance !== null && a.distance !== undefined ? parseFloat(a.distance) : 999999;
+        const distB = b.distance !== null && b.distance !== undefined ? parseFloat(b.distance) : 999999;
+        if (Math.abs(distA - distB) > 0.05) {
+          return distA - distB; // Ascending by distance
+        }
+        // Tie-breaker: Most reviewed
+        const revA = a.googleReviewCount || a.reviewCount || 0;
+        const revB = b.googleReviewCount || b.reviewCount || 0;
+        if (revB !== revA) return revB - revA;
+        return (b.planWeight || 0) - (a.planWeight || 0);
+      });
+    }
 
     // For Jobs and Blogs, we just return the Meilisearch hits directly
     const jobs = hits.filter((h: any) => h.type === "job").map((h: any) => ({
