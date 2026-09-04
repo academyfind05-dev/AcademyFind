@@ -146,6 +146,41 @@ export async function GET(request: NextRequest) {
       console.warn("Meilisearch search error, using DB fallback:", mErr);
     }
 
+    const isGeoRadiusActive = !!(lat && lng && radius && radius !== "ALL");
+
+    // Retry with empty query if keyword search was too strict, but KEEP geo-radius filters
+    if (hits.length === 0 && meiliQuery.trim().length > 0) {
+      try {
+        const retryRes = await meili.index("global_search").search("", {
+          limit: limit,
+          offset: offset,
+          filter: searchFilters,
+          sort: sortOptions,
+        });
+        hits = retryRes.hits || [];
+        estimatedTotal = retryRes.estimatedTotalHits || hits.length;
+      } catch (err) {
+        // ignore
+      }
+    }
+
+    // ✅ CRITICAL: If a geo-radius was active and no institutes exist within that radius,
+    // NEVER fall back to institutes 200km away! Return empty results so user sees "No institutes nearby".
+    if (hits.length === 0 && isGeoRadiusActive) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          results: [],
+          pagination: {
+            total: 0,
+            page,
+            limit,
+            totalPages: 0,
+          }
+        }
+      });
+    }
+
     // Fallback if strict search returns nothing, perform direct Prisma query for exact city/category match
     if (hits.length === 0) {
       const dbWhere: any = {
@@ -266,6 +301,11 @@ export async function GET(request: NextRequest) {
           };
         });
 
+        if (isGeoRadiusActive && radius) {
+          const maxRadius = parseFloat(radius);
+          formattedFallback = formattedFallback.filter(inst => inst.distance !== null && parseFloat(inst.distance) <= maxRadius);
+        }
+
         if (sort === 'nearest_location' || sort === 'nearest_me') {
           formattedFallback.sort((a, b) => {
             const distA = a.distance !== null ? parseFloat(a.distance) : 999999;
@@ -286,10 +326,10 @@ export async function GET(request: NextRequest) {
           data: {
             results: formattedFallback,
             pagination: {
-              total: fallbackDbInstitutes.length,
+              total: formattedFallback.length,
               page,
               limit,
-              totalPages: 1
+              totalPages: formattedFallback.length > 0 ? 1 : 0
             }
           }
         });
@@ -331,7 +371,7 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    const orderedInstitutes = instituteIds.flatMap((id: string) => {
+    let orderedInstitutes = instituteIds.flatMap((id: string) => {
       const inst = dbInstitutes.find((i: any) => i.id === id);
       const hit = hits.find((h: any) => h.prismaId === id);
       if (!inst) return [];
@@ -355,6 +395,14 @@ export async function GET(request: NextRequest) {
         reviewCount: hit?.googleReviewCount || inst.reviewCount,
       }];
     });
+
+    // Strict radius filter for institutes returned from Meilisearch
+    if (isGeoRadiusActive && radius) {
+      const maxRadius = parseFloat(radius);
+      orderedInstitutes = orderedInstitutes.filter((inst: any) => {
+        return inst.distance !== null && inst.distance !== undefined && parseFloat(inst.distance) <= maxRadius;
+      });
+    }
 
     // ✅ If sort by nearest, enforce distance ascending and tie-breaker: most reviewed
     if (sort === 'nearest_location' || sort === 'nearest_me') {
