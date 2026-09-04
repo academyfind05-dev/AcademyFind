@@ -23,6 +23,8 @@ type Props = {
     radius?: string;
     sort?: string;
     page?: string;
+    userlat?: string;
+    userlng?: string;
     providerType?: string;
   }>;
 };
@@ -61,6 +63,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const { 
     q = "", type = "", city = "", category = "", rating = "",
     lat = "", lng = "", address = "", radius = "5", sort = "rating", page = "1",
+    userlat = "", userlng = "",
     providerType = "" 
   } = await searchParams;
 
@@ -105,6 +108,7 @@ export default async function SearchPage({ searchParams }: Props) {
                query={q} type={type} city={city} category={category} 
                rating={rating} lat={lat} lng={lng} radius={radius} 
                sort={sort} page={page} providerType={providerType}
+               userlat={userlat} userlng={userlng}
             />
 
             <RelatedCategories />

@@ -426,7 +426,7 @@ export default function LoginComponent() {
                     href="/register"
                     className="font-semibold text-amber-400 hover:text-amber-500"
                   >
-                    Sign Up
+                    Sign Up for free
                   </Link>
                 </p>
               </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Search } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -248,6 +248,26 @@ export function SearchBar() {
   } | null>(null);
 
   const router = useRouter();
+  const [isClaiming, setIsClaiming] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("claim") === "true") {
+      setIsClaiming(true);
+      setTimeout(() => {
+        if (wrapperRef.current) {
+          wrapperRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 500);
+    } else {
+      setIsClaiming(false);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -535,11 +555,21 @@ export function SearchBar() {
     >
       {/* 1. "What" Input Box */}
       <div ref={wrapperRef} className="relative min-w-0 w-full flex-1 bg-white p-2 sm:p-0">
+        {isClaiming && (
+          <div className="absolute -top-12 left-0 sm:left-2 bg-amber-500 text-white shadow-xl shadow-amber-500/20 text-xs sm:text-sm font-extrabold px-4 py-2 rounded-xl animate-bounce z-10 flex items-center gap-2">
+            <Search className="size-4" />
+            Search your institute to claim 👇
+          </div>
+        )}
         <div className="flex items-center h-12 px-2 sm:px-0">
           <Search className="mr-3 h-5 w-5 shrink-0 text-slate-400 sm:text-amber-500 sm:ml-2" />
           <Input
+            ref={inputRef}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => {
+              setInput(e.target.value);
+              setIsClaiming(false);
+            }}
             onFocus={() => {
               if (input.trim().length >= 2) setShowSuggestions(true);
             }}
