@@ -30,23 +30,49 @@ export async function GET(request: NextRequest) {
     const providerType = searchParams.get('providerType') || 'ALL';
     const lat = searchParams.get('lat');
     const lng = searchParams.get('lng');
-    const radius = searchParams.get('radius') || '5';
+    const radius = searchParams.get('radius') || null;
 
     // Auto-detect city from address if city is not explicitly passed
     let effectiveCity = city;
     if ((!effectiveCity || effectiveCity === 'ALL') && address) {
       const lowerAddr = address.toLowerCase();
       for (const [key, slug] of [
-        ['meerut', 'meerut'],
         ['greater noida', 'greater-noida'],
         ['noida', 'noida'],
         ['delhi', 'delhi'],
-        ['ghaziabad', 'ghaziabad'],
-        ['faridabad', 'faridabad'],
+        ['new delhi', 'delhi'],
         ['gurugram', 'gurugram'],
         ['gurgaon', 'gurugram'],
+        ['faridabad', 'faridabad'],
+        ['ghaziabad', 'ghaziabad'],
+        ['meerut', 'meerut'],
         ['sonipat', 'sonipat'],
         ['modinagar', 'modinagar'],
+        ['kota', 'kota'],
+        ['jaipur', 'jaipur'],
+        ['lucknow', 'lucknow'],
+        ['kanpur', 'kanpur'],
+        ['agra', 'agra'],
+        ['varanasi', 'varanasi'],
+        ['prayagraj', 'prayagraj'],
+        ['patna', 'patna'],
+        ['ranchi', 'ranchi'],
+        ['bhopal', 'bhopal'],
+        ['indore', 'indore'],
+        ['chandigarh', 'chandigarh'],
+        ['mohali', 'chandigarh'],
+        ['dehradun', 'dehradun'],
+        ['mumbai', 'mumbai'],
+        ['pune', 'pune'],
+        ['bangalore', 'bangalore'],
+        ['bengaluru', 'bangalore'],
+        ['hyderabad', 'hyderabad'],
+        ['chennai', 'chennai'],
+        ['kolkata', 'kolkata'],
+        ['ahmedabad', 'ahmedabad'],
+        ['surat', 'surat'],
+        ['vadodara', 'vadodara'],
+        ['nagpur', 'nagpur'],
       ] as const) {
         if (lowerAddr.includes(key)) {
           effectiveCity = slug;
@@ -164,9 +190,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // ✅ CRITICAL: If a geo-radius was active and no institutes exist within that radius,
+    // ✅ CRITICAL: If a geo-radius was active in "Nearest to Me" mode and no institutes exist within that radius,
     // NEVER fall back to institutes 200km away! Return empty results so user sees "No institutes nearby".
-    if (hits.length === 0 && isGeoRadiusActive) {
+    if (hits.length === 0 && isGeoRadiusActive && (sort === 'nearest_location' || sort === 'nearest_me')) {
       return NextResponse.json({
         success: true,
         data: {
@@ -195,6 +221,13 @@ export async function GET(request: NextRequest) {
           { city: { name: { equals: effectiveCity.trim(), mode: 'insensitive' } } },
           { city: { slug: { contains: cleanCity, mode: 'insensitive' } } },
           { address: { contains: effectiveCity.trim(), mode: 'insensitive' } }
+        ];
+      } else if (address && address.trim()) {
+        const cleanAddr = address.trim();
+        const firstAddrPart = cleanAddr.split(',')[0].trim();
+        dbWhere.OR = [
+          { address: { contains: firstAddrPart, mode: 'insensitive' } },
+          { address: { contains: cleanAddr, mode: 'insensitive' } }
         ];
       }
 
