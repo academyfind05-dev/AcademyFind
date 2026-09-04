@@ -24,7 +24,7 @@ export default async function ChatLayout({
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-amber-500/10 pointer-events-none" />
       
       {/* Sidebar */}
-      <ConversationSidebar userId={session.user.id} />
+      <ConversationSidebar userId={session.user.id} userRole={session.user.role} />
 
       {/* Main content */}
       <main className="flex flex-1 flex-col overflow-hidden relative z-10 w-full h-full">

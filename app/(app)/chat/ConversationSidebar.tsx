@@ -39,11 +39,13 @@ interface SearchedUser {
   role: string;
 }
 
-export function ConversationSidebar({ userId }: { userId: string }) {
+export function ConversationSidebar({ userId, userRole }: { userId: string; userRole?: string | null }) {
   const pathname = usePathname();
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState<"DIRECT" | "CHANNELS">("DIRECT");
+
+  const canCreateNewChat = userRole === "ADMIN" || userRole === "SALES_MANAGER";
 
   // New Chat Modal State
   const [isNewChatOpen, setIsNewChatOpen] = useState(false);
@@ -146,14 +148,16 @@ export function ConversationSidebar({ userId }: { userId: string }) {
               Messages
             </h2>
 
-            <button
-              onClick={() => setIsNewChatOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-bold shadow-sm shadow-amber-500/30 transition-all"
-              title="Message any user by name or @username"
-            >
-              <UserPlus className="w-3.5 h-3.5" />
-              <span>New Chat</span>
-            </button>
+            {canCreateNewChat && (
+              <button
+                onClick={() => setIsNewChatOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-bold shadow-sm shadow-amber-500/30 transition-all"
+                title="Message any user by name or @username"
+              >
+                <UserPlus className="w-3.5 h-3.5" />
+                <span>New Chat</span>
+              </button>
+            )}
           </div>
           
           {/* Tab Toggle */}
@@ -202,13 +206,17 @@ export function ConversationSidebar({ userId }: { userId: string }) {
           {!isLoading && conversations.length === 0 && (
             <div className="px-4 py-8 text-center text-sm font-medium text-slate-400 bg-white/30 rounded-2xl border border-white/50 m-2">
               No conversations yet.
-              <br />
-              <button
-                onClick={() => setIsNewChatOpen(true)}
-                className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 text-white text-xs font-bold hover:bg-amber-600 transition shadow-sm"
-              >
-                <UserPlus className="w-3.5 h-3.5" /> Message a User
-              </button>
+              {canCreateNewChat && (
+                <>
+                  <br />
+                  <button
+                    onClick={() => setIsNewChatOpen(true)}
+                    className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 text-white text-xs font-bold hover:bg-amber-600 transition shadow-sm"
+                  >
+                    <UserPlus className="w-3.5 h-3.5" /> Message a User
+                  </button>
+                </>
+              )}
             </div>
           )}
 
@@ -238,8 +246,8 @@ export function ConversationSidebar({ userId }: { userId: string }) {
         </div>
       </aside>
 
-      {/* 🚀 New Chat User Search Modal (for Admin, Sales Manager & Users) */}
-      {isNewChatOpen && (
+      {/* 🚀 New Chat User Search Modal (for Admin & Sales Manager only) */}
+      {canCreateNewChat && isNewChatOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200">
             {/* Modal Header */}

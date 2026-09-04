@@ -98,24 +98,20 @@ export function MessageWindow({
   });
 
   const meta = metaData?.conversation;
-  const messages = data?.messages ?? [];
+  const rawMessages = data?.messages ?? [];
+  const messages = [...rawMessages].reverse();
 
   // Instantly mark read in sidebar cache when conversation opens
   useEffect(() => {
     mutate("/api/v2/conversations");
   }, [conversationId, messages.length]);
 
-  // Auto scroll to bottom on new messages
+  // Auto scroll to bottom on initial load and new messages
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 200;
-    if (isNearBottom) {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      setShowScrollBtn(true);
-    }
-  }, [messages.length]);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [conversationId, messages.length]);
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -229,14 +225,14 @@ export function MessageWindow({
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="relative flex-1 overflow-y-auto px-4 py-4 z-10 custom-scrollbar"
+        className="relative flex-1 overflow-y-auto px-4 py-4 z-10 custom-scrollbar flex flex-col"
       >
         {messages.length === 0 ? (
           <div className="flex h-full items-center justify-center text-sm font-medium text-slate-500">
             No messages yet. Say hello! 👋
           </div>
         ) : (
-          <div className="space-y-1">
+          <div className="mt-auto space-y-1">
             {messages.map((msg: any, i: number) => {
               const prev = messages[i - 1];
               const isSameUser = prev?.sender.id === msg.sender.id;
@@ -367,6 +363,7 @@ function MessageBubble({
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
+  const [showActionsMobile, setShowActionsMobile] = useState(false);
 
   const isDeleted = msg.content === "[Message deleted]";
 
@@ -441,7 +438,8 @@ function MessageBubble({
         <div className={`flex items-center gap-1.5 ${isMine ? "flex-row-reverse" : "flex-row"}`}>
           {/* Bubble */}
           <div
-            className={`rounded-2xl px-4 py-2.5 text-sm shadow-sm border transition-all duration-300 hover:shadow-md ${isDeleted
+            onClick={() => !isDeleted && setShowActionsMobile((v) => !v)}
+            className={`rounded-2xl px-4 py-2.5 text-sm shadow-sm border transition-all duration-300 hover:shadow-md cursor-pointer select-none ${isDeleted
               ? "bg-white/40 backdrop-blur-sm border-white/60 text-slate-400 italic"
               : isMine
                 ? "bg-gradient-to-br from-amber-400 to-amber-500 border-amber-300/50 text-amber-950 font-medium drop-shadow-sm rounded-tr-sm"
@@ -457,11 +455,11 @@ function MessageBubble({
             )}
           </div>
 
-          {/* Hover actions (Row-level group hover ensures toolbar stays open while cursor moves to it) */}
+          {/* Hover / Tap actions */}
           {!isDeleted && (
             <div
               className={`flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 backdrop-blur-sm shadow-sm px-2 py-1 transition-all duration-200 ${
-                showReactions
+                showReactions || showActionsMobile
                   ? "opacity-100 z-20 pointer-events-auto scale-100"
                   : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto scale-95 group-hover:scale-100"
               }`}
@@ -487,7 +485,7 @@ function MessageBubble({
                       <button
                         key={e}
                         type="button"
-                        onClick={() => { onReaction(e); setShowReactions(false); }}
+                        onClick={() => { onReaction(e); setShowReactions(false); setShowActionsMobile(false); }}
                         className="text-lg hover:scale-125 transition-transform px-1 py-0.5 active:scale-95"
                       >
                         {e}
@@ -499,7 +497,7 @@ function MessageBubble({
 
               <button
                 type="button"
-                onClick={onReply}
+                onClick={() => { onReply(); setShowActionsMobile(false); }}
                 className="text-slate-400 hover:text-blue-600 p-0.5 text-xs transition-colors font-bold"
                 title="Reply"
               >
@@ -508,7 +506,7 @@ function MessageBubble({
               {isMine && (
                 <button
                   type="button"
-                  onClick={onDelete}
+                  onClick={() => { onDelete(); setShowActionsMobile(false); }}
                   className="text-slate-400 hover:text-rose-500 p-0.5 transition-colors"
                   title="Delete"
                 >
@@ -518,7 +516,7 @@ function MessageBubble({
               {!isMine && (
                 <button
                   type="button"
-                  onClick={onReport}
+                  onClick={() => { onReport(); setShowActionsMobile(false); }}
                   className="text-slate-400 hover:text-rose-500 p-0.5 transition-colors"
                   title="Report"
                 >
