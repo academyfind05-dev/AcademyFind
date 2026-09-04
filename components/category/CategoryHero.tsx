@@ -30,40 +30,52 @@ export default function CategoryHero({
           from the highest-rated institutes for {category.name}.
         </p>
 
-        {/* Stats */}
-        <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-2 sm:gap-4 max-w-xl">
+        {/* 🚀 STATS SECTION - Modern Mobile Card Layout */}
+        <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-4 max-w-2xl">
           
           {/* Stat 1 */}
-          <div className="flex flex-col items-center justify-center sm:items-start sm:justify-start rounded-2xl border border-amber-100 bg-white/80 p-3 sm:p-6 backdrop-blur text-center sm:text-left">
-            <Building2 className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 mb-1 sm:mb-0" />
-            <p className="mt-1 sm:mt-2 text-lg sm:text-2xl font-bold text-slate-900">
-              {totalCount}
-            </p>
-            <p className="text-[10px] sm:text-sm text-slate-500 leading-tight">
-              Institutes
-            </p>
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3 rounded-2xl border border-amber-100 bg-white/90 p-2.5 sm:p-4 shadow-xs backdrop-blur-sm text-center sm:text-left transition-all hover:shadow-md">
+            <div className="p-2 rounded-xl bg-amber-100/70 text-amber-600 shrink-0">
+              <Building2 className="h-4 w-4 sm:h-5 sm:w-5" />
+            </div>
+            <div>
+              <p className="text-sm sm:text-xl font-extrabold text-slate-900 leading-tight">
+                {totalCount}
+              </p>
+              <p className="text-[11px] sm:text-xs font-semibold text-slate-500 leading-none mt-0.5">
+                Institutes
+              </p>
+            </div>
           </div>
 
           {/* Stat 2 */}
-          <div className="flex flex-col items-center justify-center sm:items-start sm:justify-start rounded-2xl border border-amber-100 bg-white/80 p-3 sm:p-6 backdrop-blur text-center sm:text-left">
-            <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 mb-1 sm:mb-0" />
-            <p className="mt-1 sm:mt-2 text-lg sm:text-2xl font-bold text-slate-900">
-              100%
-            </p>
-            <p className="text-[10px] sm:text-sm text-slate-500 leading-tight">
-              Verified Data
-            </p>
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3 rounded-2xl border border-amber-100 bg-white/90 p-2.5 sm:p-4 shadow-xs backdrop-blur-sm text-center sm:text-left transition-all hover:shadow-md">
+            <div className="p-2 rounded-xl bg-amber-100/70 text-amber-600 shrink-0">
+              <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5" />
+            </div>
+            <div>
+              <p className="text-sm sm:text-xl font-extrabold text-slate-900 leading-tight">
+                100%
+              </p>
+              <p className="text-[11px] sm:text-xs font-semibold text-slate-500 leading-none mt-0.5">
+                Verified
+              </p>
+            </div>
           </div>
 
           {/* Stat 3 */}
-          <div className="flex flex-col items-center justify-center sm:items-start sm:justify-start rounded-2xl border border-amber-100 bg-white/80 p-3 sm:p-6 backdrop-blur text-center sm:text-left">
-            <Star className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600 mb-1 sm:mb-0" />
-            <p className="mt-1 sm:mt-2 text-lg sm:text-2xl font-bold text-slate-900">
-              Top
-            </p>
-            <p className="text-[10px] sm:text-sm text-slate-500 leading-tight">
-              Rated Choices
-            </p>
+          <div className="flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3 rounded-2xl border border-amber-100 bg-white/90 p-2.5 sm:p-4 shadow-xs backdrop-blur-sm text-center sm:text-left transition-all hover:shadow-md">
+            <div className="p-2 rounded-xl bg-amber-100/70 text-amber-600 shrink-0">
+              <Star className="h-4 w-4 sm:h-5 sm:w-5" />
+            </div>
+            <div>
+              <p className="text-sm sm:text-xl font-extrabold text-slate-900 leading-tight">
+                Top Rated
+              </p>
+              <p className="text-[11px] sm:text-xs font-semibold text-slate-500 leading-none mt-0.5">
+                Choices
+              </p>
+            </div>
           </div>
 
         </div>

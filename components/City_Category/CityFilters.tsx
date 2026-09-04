@@ -134,19 +134,19 @@ export default function CityFilters({ category, city, hasLocation }: Props) {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const triggerClasses = "rounded-full border-amber-200 bg-white hover:bg-amber-50 focus:ring-2 focus:ring-amber-400 focus:ring-offset-0 focus:outline-none transition-all data-[state=open]:bg-amber-50 data-[state=open]:border-amber-400 h-10 shadow-sm";
+  const triggerClasses = "!w-full w-full flex items-center justify-between px-4 rounded-full border border-amber-200 bg-white hover:bg-amber-50 focus:ring-2 focus:ring-amber-400 focus:ring-offset-0 focus:outline-none transition-all data-[state=open]:bg-amber-50 data-[state=open]:border-amber-400 h-11 shadow-sm text-sm";
 
-  // 🔥 Common Filters Content (Added pb-24 so bottom buttons are clearly visible)
-  const FiltersContent = (
-    <div className="flex flex-col gap-4 pb-24">
+  // 🔥 Quick Filters (Dropdowns)
+  const renderQuickFilters = () => (
+    <>
       <Select value={currentSort} onValueChange={(val) => handleFilterChange("sort", val)}>
-        <SelectTrigger className={`w-full ${triggerClasses}`}>
+        <SelectTrigger className={triggerClasses}>
           <div className="flex items-center gap-2 font-medium text-slate-700">
             <ArrowDownUp className="h-4 w-4 text-amber-400" />
             <SelectValue placeholder="Sort By" />
           </div>
         </SelectTrigger>
-        {/* 🔥 Fixed Z-Index: z-[200] so it opens OVER the sheet */}
+        {/* 🔥 Fixed Z-Index: z-[200] so it opens OVER other elements */}
         <SelectContent className="rounded-xl border-slate-100 shadow-xl z-[200]" position="popper" side="bottom" sideOffset={5}>
           <SelectItem value="relevance" className="cursor-pointer">Relevance</SelectItem>
           <SelectItem value="rating" className="cursor-pointer">Top Rated</SelectItem>
@@ -156,7 +156,7 @@ export default function CityFilters({ category, city, hasLocation }: Props) {
 
       {hasLocation && (
         <Select value={currentRadius} onValueChange={(val) => handleFilterChange("radius", val)}>
-          <SelectTrigger className={`w-full ${triggerClasses}`}>
+          <SelectTrigger className={triggerClasses}>
             <div className="flex items-center gap-2 font-medium text-slate-700">
               <MapPin className="h-4 w-4 text-amber-400" />
               <SelectValue placeholder="Distance" />
@@ -172,7 +172,7 @@ export default function CityFilters({ category, city, hasLocation }: Props) {
       )}
 
       <Select value={currentRating} onValueChange={(val) => handleFilterChange("rating", val)}>
-        <SelectTrigger className={`w-full ${triggerClasses}`}>
+        <SelectTrigger className={triggerClasses}>
           <div className="flex items-center gap-2 font-medium text-slate-700">
             <Star className="h-4 w-4 text-amber-400" />
             <SelectValue placeholder="Ratings" />
@@ -187,7 +187,7 @@ export default function CityFilters({ category, city, hasLocation }: Props) {
       </Select>
 
       <Select value={currentProviderType} onValueChange={(val) => handleFilterChange("providerType", val)}>
-        <SelectTrigger className={`w-full ${triggerClasses}`}>
+        <SelectTrigger className={triggerClasses}>
           <div className="flex items-center gap-2 font-medium text-slate-700">
             <UserCircle className="h-4 w-4 text-amber-400" />
             <SelectValue placeholder="Institute / Mentor" />
@@ -199,22 +199,12 @@ export default function CityFilters({ category, city, hasLocation }: Props) {
           <SelectItem value="INDIVIDUAL" className="cursor-pointer">Individual Tutors</SelectItem>
         </SelectContent>
       </Select>
+    </>
+  );
 
-      {/* <Select value={currentFee} onValueChange={(val) => handleFilterChange("fee", val)}>
-        <SelectTrigger className={`w-full ${triggerClasses}`}>
-          <div className="flex items-center gap-2 font-medium text-slate-700">
-            <IndianRupee className="h-4 w-4 text-amber-500" />
-            <SelectValue placeholder="Fees" />
-          </div>
-        </SelectTrigger>
-        <SelectContent className="rounded-xl border-slate-100 shadow-xl z-[200]" position="popper" side="bottom" sideOffset={4}>
-          <SelectItem value="all" className="cursor-pointer">Any Fee</SelectItem>
-          <SelectItem value="50000" className="cursor-pointer">&lt; ₹50,000</SelectItem>
-          <SelectItem value="100000" className="cursor-pointer">&lt; ₹1,00,000</SelectItem>
-          <SelectItem value="150000" className="cursor-pointer">&lt; ₹1,50,000</SelectItem>
-        </SelectContent>
-      </Select> */}
-
+  // 🔥 Detailed Filters (Modes, Checkboxes, Actions)
+  const renderDetailedFilters = () => (
+    <>
       <div className="rounded-3xl border border-amber-200 bg-white p-5 shadow-sm mt-1">
         <div className="flex items-center gap-2 font-bold text-slate-800 mb-4 pb-3 border-b border-slate-100">
           <MonitorSmartphone className="h-5 w-5 text-amber-400" />
@@ -245,7 +235,7 @@ export default function CityFilters({ category, city, hasLocation }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 mt-4">
+      <div className="flex flex-col gap-3 mt-1">
         {hasLocation && (
           <Button 
             variant="outline"
@@ -283,39 +273,13 @@ export default function CityFilters({ category, city, hasLocation }: Props) {
           </span>
         </Button>
       </div>
-    </div>
+    </>
   );
 
   return (
-    <>
-      {/* 🚀 Mobile View */}
-      <div className="lg:hidden mb-6">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="w-full justify-between border-slate-200 bg-white shadow-sm rounded-2xl py-6 font-bold text-slate-700 hover:bg-slate-50">
-              <span className="flex items-center gap-2">
-                <Filter className="w-5 h-5 text-amber-400" />
-                Filter Results
-              </span>
-              <span className="text-xs bg-slate-100 px-2.5 py-1 rounded-full text-slate-500">Tap to open</span>
-            </Button>
-          </SheetTrigger>
-          {/* 🔥 Fixed Width: w-full and max-w-none forces it to take full screen width cleanly */}
-          <SheetContent side="bottom" className="rounded-t-3xl h-[85vh] w-full max-w-none overflow-y-auto px-6 z-[150]">
-            <SheetHeader className="pb-4 border-b border-slate-100 mb-6 text-left">
-              <SheetTitle className="flex items-center gap-2 text-xl font-extrabold text-slate-800">
-                <Sparkles className="w-5 h-5 text-amber-400" /> Refine Search
-              </SheetTitle>
-            </SheetHeader>
-            {FiltersContent}
-          </SheetContent>
-        </Sheet>
-      </div>
-
-      {/* 💻 Desktop View */}
-      <section className="hidden lg:block mb-8">
-        {FiltersContent}
-      </section>
-    </>
+    <div className="flex flex-col gap-4 mb-8">
+      {renderQuickFilters()}
+      {renderDetailedFilters()}
+    </div>
   );
 }

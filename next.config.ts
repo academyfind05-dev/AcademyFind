@@ -30,6 +30,10 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "i.postimg.cc",
+      },
     ],
   },
   async rewrites() {
