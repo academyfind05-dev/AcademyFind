@@ -92,7 +92,7 @@ export default async function LeadIntegrationsPage() {
     }
   >();
 
-  integrations.forEach((item) => {
+  integrations.forEach((item: any) => {
     const existing = institutesMap.get(item.instituteId);
     if (existing) {
       existing.integrations.push(item);
@@ -113,7 +113,7 @@ export default async function LeadIntegrationsPage() {
   const connectedInstitutesList = Array.from(institutesMap.values());
 
   // Distinct institute options for filter dropdown
-  const instituteOptions = connectedInstitutesList.map((c) => ({
+  const instituteOptions = connectedInstitutesList.map((c: any) => ({
     id: c.institute.id,
     name: c.institute.name,
   }));
@@ -297,7 +297,7 @@ export default async function LeadIntegrationsPage() {
                       Active Sources ({integrations.length})
                     </span>
                     <div className="flex flex-wrap items-center gap-1.5">
-                      {integrations.map((item) => {
+                      {integrations.map((item: any) => {
                         if (item.provider === "GOOGLE") {
                           return (
                             <span
