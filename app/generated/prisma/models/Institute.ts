@@ -713,6 +713,7 @@ export type InstituteWhereInput = {
   totalBranches?: Prisma.IntNullableFilter<"Institute"> | number | null
   totalStudents?: Prisma.IntNullableFilter<"Institute"> | number | null
   crmIntegrations?: Prisma.CRMIntegrationListRelationFilter
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationListRelationFilter
   city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>
   categories?: Prisma.InstituteCategoryListRelationFilter
   managers?: Prisma.InstituteManagerListRelationFilter
@@ -812,6 +813,7 @@ export type InstituteOrderByWithRelationInput = {
   totalBranches?: Prisma.SortOrderInput | Prisma.SortOrder
   totalStudents?: Prisma.SortOrderInput | Prisma.SortOrder
   crmIntegrations?: Prisma.CRMIntegrationOrderByRelationAggregateInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationOrderByRelationAggregateInput
   city?: Prisma.CityOrderByWithRelationInput
   categories?: Prisma.InstituteCategoryOrderByRelationAggregateInput
   managers?: Prisma.InstituteManagerOrderByRelationAggregateInput
@@ -914,6 +916,7 @@ export type InstituteWhereUniqueInput = Prisma.AtLeast<{
   totalBranches?: Prisma.IntNullableFilter<"Institute"> | number | null
   totalStudents?: Prisma.IntNullableFilter<"Institute"> | number | null
   crmIntegrations?: Prisma.CRMIntegrationListRelationFilter
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationListRelationFilter
   city?: Prisma.XOR<Prisma.CityScalarRelationFilter, Prisma.CityWhereInput>
   categories?: Prisma.InstituteCategoryListRelationFilter
   managers?: Prisma.InstituteManagerListRelationFilter
@@ -1156,6 +1159,7 @@ export type InstituteCreateInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -1255,6 +1259,7 @@ export type InstituteUncheckedCreateInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -1352,6 +1357,7 @@ export type InstituteUpdateInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -1451,6 +1457,7 @@ export type InstituteUncheckedUpdateInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -2510,6 +2517,20 @@ export type InstituteUpdateOneRequiredWithoutCrmIntegrationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.InstituteUpdateToOneWithWhereWithoutCrmIntegrationsInput, Prisma.InstituteUpdateWithoutCrmIntegrationsInput>, Prisma.InstituteUncheckedUpdateWithoutCrmIntegrationsInput>
 }
 
+export type InstituteCreateNestedOneWithoutInboundLeadIntegrationsInput = {
+  create?: Prisma.XOR<Prisma.InstituteCreateWithoutInboundLeadIntegrationsInput, Prisma.InstituteUncheckedCreateWithoutInboundLeadIntegrationsInput>
+  connectOrCreate?: Prisma.InstituteCreateOrConnectWithoutInboundLeadIntegrationsInput
+  connect?: Prisma.InstituteWhereUniqueInput
+}
+
+export type InstituteUpdateOneRequiredWithoutInboundLeadIntegrationsNestedInput = {
+  create?: Prisma.XOR<Prisma.InstituteCreateWithoutInboundLeadIntegrationsInput, Prisma.InstituteUncheckedCreateWithoutInboundLeadIntegrationsInput>
+  connectOrCreate?: Prisma.InstituteCreateOrConnectWithoutInboundLeadIntegrationsInput
+  upsert?: Prisma.InstituteUpsertWithoutInboundLeadIntegrationsInput
+  connect?: Prisma.InstituteWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InstituteUpdateToOneWithWhereWithoutInboundLeadIntegrationsInput, Prisma.InstituteUpdateWithoutInboundLeadIntegrationsInput>, Prisma.InstituteUncheckedUpdateWithoutInboundLeadIntegrationsInput>
+}
+
 export type InstituteCreateWithoutCityInput = {
   id?: string
   providerType?: $Enums.ProviderType
@@ -2576,6 +2597,7 @@ export type InstituteCreateWithoutCityInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutInstituteInput
@@ -2673,6 +2695,7 @@ export type InstituteUncheckedCreateWithoutCityInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -2867,6 +2890,7 @@ export type InstituteCreateWithoutCategoriesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutInstituteInput
@@ -2965,6 +2989,7 @@ export type InstituteUncheckedCreateWithoutCategoriesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
   communityQuestions?: Prisma.CommunityQuestionUncheckedCreateNestedManyWithoutInstituteInput
@@ -3077,6 +3102,7 @@ export type InstituteUpdateWithoutCategoriesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutInstituteNestedInput
@@ -3175,6 +3201,7 @@ export type InstituteUncheckedUpdateWithoutCategoriesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
   communityQuestions?: Prisma.CommunityQuestionUncheckedUpdateManyWithoutInstituteNestedInput
@@ -3271,6 +3298,7 @@ export type InstituteCreateWithoutManagersInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutInstituteInput
@@ -3369,6 +3397,7 @@ export type InstituteUncheckedCreateWithoutManagersInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
   communityQuestions?: Prisma.CommunityQuestionUncheckedCreateNestedManyWithoutInstituteInput
@@ -3481,6 +3510,7 @@ export type InstituteUpdateWithoutManagersInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutInstituteNestedInput
@@ -3579,6 +3609,7 @@ export type InstituteUncheckedUpdateWithoutManagersInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
   communityQuestions?: Prisma.CommunityQuestionUncheckedUpdateManyWithoutInstituteNestedInput
@@ -3675,6 +3706,7 @@ export type InstituteCreateWithoutReviewsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -3773,6 +3805,7 @@ export type InstituteUncheckedCreateWithoutReviewsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   communityQuestions?: Prisma.CommunityQuestionUncheckedCreateNestedManyWithoutInstituteInput
@@ -3885,6 +3918,7 @@ export type InstituteUpdateWithoutReviewsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -3983,6 +4017,7 @@ export type InstituteUncheckedUpdateWithoutReviewsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   communityQuestions?: Prisma.CommunityQuestionUncheckedUpdateManyWithoutInstituteNestedInput
@@ -4079,6 +4114,7 @@ export type InstituteCreateWithoutClaimsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -4177,6 +4213,7 @@ export type InstituteUncheckedCreateWithoutClaimsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -4289,6 +4326,7 @@ export type InstituteUpdateWithoutClaimsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -4387,6 +4425,7 @@ export type InstituteUncheckedUpdateWithoutClaimsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -4483,6 +4522,7 @@ export type InstituteCreateWithoutShortlistedByInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -4581,6 +4621,7 @@ export type InstituteUncheckedCreateWithoutShortlistedByInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -4693,6 +4734,7 @@ export type InstituteUpdateWithoutShortlistedByInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -4791,6 +4833,7 @@ export type InstituteUncheckedUpdateWithoutShortlistedByInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -4887,6 +4930,7 @@ export type InstituteCreateWithoutViewHistoryInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -4985,6 +5029,7 @@ export type InstituteUncheckedCreateWithoutViewHistoryInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -5097,6 +5142,7 @@ export type InstituteUpdateWithoutViewHistoryInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -5195,6 +5241,7 @@ export type InstituteUncheckedUpdateWithoutViewHistoryInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -5291,6 +5338,7 @@ export type InstituteCreateWithoutEnquiriesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -5389,6 +5437,7 @@ export type InstituteUncheckedCreateWithoutEnquiriesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -5501,6 +5550,7 @@ export type InstituteUpdateWithoutEnquiriesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -5599,6 +5649,7 @@ export type InstituteUncheckedUpdateWithoutEnquiriesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -5695,6 +5746,7 @@ export type InstituteCreateWithoutMembershipsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -5793,6 +5845,7 @@ export type InstituteUncheckedCreateWithoutMembershipsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -5905,6 +5958,7 @@ export type InstituteUpdateWithoutMembershipsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -6003,6 +6057,7 @@ export type InstituteUncheckedUpdateWithoutMembershipsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -6099,6 +6154,7 @@ export type InstituteCreateWithoutStudentRecordsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -6197,6 +6253,7 @@ export type InstituteUncheckedCreateWithoutStudentRecordsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -6309,6 +6366,7 @@ export type InstituteUpdateWithoutStudentRecordsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -6407,6 +6465,7 @@ export type InstituteUncheckedUpdateWithoutStudentRecordsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -6503,6 +6562,7 @@ export type InstituteCreateWithoutTeacherRecordsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -6601,6 +6661,7 @@ export type InstituteUncheckedCreateWithoutTeacherRecordsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -6713,6 +6774,7 @@ export type InstituteUpdateWithoutTeacherRecordsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -6811,6 +6873,7 @@ export type InstituteUncheckedUpdateWithoutTeacherRecordsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -6907,6 +6970,7 @@ export type InstituteCreateWithoutConversationsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -7005,6 +7069,7 @@ export type InstituteUncheckedCreateWithoutConversationsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -7117,6 +7182,7 @@ export type InstituteUpdateWithoutConversationsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -7215,6 +7281,7 @@ export type InstituteUncheckedUpdateWithoutConversationsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -7311,6 +7378,7 @@ export type InstituteCreateWithoutInstituteRequestInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -7409,6 +7477,7 @@ export type InstituteUncheckedCreateWithoutInstituteRequestInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -7521,6 +7590,7 @@ export type InstituteUpdateWithoutInstituteRequestInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -7619,6 +7689,7 @@ export type InstituteUncheckedUpdateWithoutInstituteRequestInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -7715,6 +7786,7 @@ export type InstituteCreateWithoutPaymentsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -7813,6 +7885,7 @@ export type InstituteUncheckedCreateWithoutPaymentsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -7925,6 +7998,7 @@ export type InstituteUpdateWithoutPaymentsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -8023,6 +8097,7 @@ export type InstituteUncheckedUpdateWithoutPaymentsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -8119,6 +8194,7 @@ export type InstituteCreateWithoutSalesAssignmentsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -8217,6 +8293,7 @@ export type InstituteUncheckedCreateWithoutSalesAssignmentsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -8329,6 +8406,7 @@ export type InstituteUpdateWithoutSalesAssignmentsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -8427,6 +8505,7 @@ export type InstituteUncheckedUpdateWithoutSalesAssignmentsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -8523,6 +8602,7 @@ export type InstituteCreateWithoutSalesRequestsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -8621,6 +8701,7 @@ export type InstituteUncheckedCreateWithoutSalesRequestsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -8733,6 +8814,7 @@ export type InstituteUpdateWithoutSalesRequestsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -8831,6 +8913,7 @@ export type InstituteUncheckedUpdateWithoutSalesRequestsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -8927,6 +9010,7 @@ export type InstituteCreateWithoutDailyViewsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -9025,6 +9109,7 @@ export type InstituteUncheckedCreateWithoutDailyViewsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -9137,6 +9222,7 @@ export type InstituteUpdateWithoutDailyViewsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -9235,6 +9321,7 @@ export type InstituteUncheckedUpdateWithoutDailyViewsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -9331,6 +9418,7 @@ export type InstituteCreateWithoutVisitsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -9429,6 +9517,7 @@ export type InstituteUncheckedCreateWithoutVisitsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -9541,6 +9630,7 @@ export type InstituteUpdateWithoutVisitsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -9639,6 +9729,7 @@ export type InstituteUncheckedUpdateWithoutVisitsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -9735,6 +9826,7 @@ export type InstituteCreateWithoutFacilitiesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -9833,6 +9925,7 @@ export type InstituteUncheckedCreateWithoutFacilitiesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -9945,6 +10038,7 @@ export type InstituteUpdateWithoutFacilitiesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -10043,6 +10137,7 @@ export type InstituteUncheckedUpdateWithoutFacilitiesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -10139,6 +10234,7 @@ export type InstituteCreateWithoutBatchesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -10237,6 +10333,7 @@ export type InstituteUncheckedCreateWithoutBatchesInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -10349,6 +10446,7 @@ export type InstituteUpdateWithoutBatchesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -10447,6 +10545,7 @@ export type InstituteUncheckedUpdateWithoutBatchesInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -10543,6 +10642,7 @@ export type InstituteCreateWithoutHighlightStatsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -10641,6 +10741,7 @@ export type InstituteUncheckedCreateWithoutHighlightStatsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -10753,6 +10854,7 @@ export type InstituteUpdateWithoutHighlightStatsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -10851,6 +10953,7 @@ export type InstituteUncheckedUpdateWithoutHighlightStatsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -10947,6 +11050,7 @@ export type InstituteCreateWithoutAchievementsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -11045,6 +11149,7 @@ export type InstituteUncheckedCreateWithoutAchievementsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -11157,6 +11262,7 @@ export type InstituteUpdateWithoutAchievementsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -11255,6 +11361,7 @@ export type InstituteUncheckedUpdateWithoutAchievementsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -11351,6 +11458,7 @@ export type InstituteCreateWithoutFaqsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -11449,6 +11557,7 @@ export type InstituteUncheckedCreateWithoutFaqsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -11561,6 +11670,7 @@ export type InstituteUpdateWithoutFaqsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -11659,6 +11769,7 @@ export type InstituteUncheckedUpdateWithoutFaqsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -11755,6 +11866,7 @@ export type InstituteCreateWithoutOperatingHoursInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -11853,6 +11965,7 @@ export type InstituteUncheckedCreateWithoutOperatingHoursInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -11965,6 +12078,7 @@ export type InstituteUpdateWithoutOperatingHoursInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -12063,6 +12177,7 @@ export type InstituteUncheckedUpdateWithoutOperatingHoursInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -12159,6 +12274,7 @@ export type InstituteCreateWithoutCompareListItemsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -12257,6 +12373,7 @@ export type InstituteUncheckedCreateWithoutCompareListItemsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -12369,6 +12486,7 @@ export type InstituteUpdateWithoutCompareListItemsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -12467,6 +12585,7 @@ export type InstituteUncheckedUpdateWithoutCompareListItemsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -12563,6 +12682,7 @@ export type InstituteCreateWithoutCommunityQuestionsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -12661,6 +12781,7 @@ export type InstituteUncheckedCreateWithoutCommunityQuestionsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -12773,6 +12894,7 @@ export type InstituteUpdateWithoutCommunityQuestionsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -12871,6 +12993,7 @@ export type InstituteUncheckedUpdateWithoutCommunityQuestionsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -12967,6 +13090,7 @@ export type InstituteCreateWithoutNotablepersonsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -13065,6 +13189,7 @@ export type InstituteUncheckedCreateWithoutNotablepersonsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -13177,6 +13302,7 @@ export type InstituteUpdateWithoutNotablepersonsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -13275,6 +13401,7 @@ export type InstituteUncheckedUpdateWithoutNotablepersonsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -13371,6 +13498,7 @@ export type InstituteCreateWithoutComparisonsAsFirstInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -13469,6 +13597,7 @@ export type InstituteUncheckedCreateWithoutComparisonsAsFirstInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -13570,6 +13699,7 @@ export type InstituteCreateWithoutComparisonsAsSecondInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -13668,6 +13798,7 @@ export type InstituteUncheckedCreateWithoutComparisonsAsSecondInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -13780,6 +13911,7 @@ export type InstituteUpdateWithoutComparisonsAsFirstInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -13878,6 +14010,7 @@ export type InstituteUncheckedUpdateWithoutComparisonsAsFirstInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -13985,6 +14118,7 @@ export type InstituteUpdateWithoutComparisonsAsSecondInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -14083,6 +14217,7 @@ export type InstituteUncheckedUpdateWithoutComparisonsAsSecondInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -14179,6 +14314,7 @@ export type InstituteCreateWithoutBlogPostsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -14277,6 +14413,7 @@ export type InstituteUncheckedCreateWithoutBlogPostsInput = {
   totalBranches?: number | null
   totalStudents?: number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -14389,6 +14526,7 @@ export type InstituteUpdateWithoutBlogPostsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -14487,6 +14625,7 @@ export type InstituteUncheckedUpdateWithoutBlogPostsInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -14582,6 +14721,7 @@ export type InstituteCreateWithoutCrmIntegrationsInput = {
   refundPolicy?: string | null
   totalBranches?: number | null
   totalStudents?: number | null
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationCreateNestedManyWithoutInstituteInput
   city: Prisma.CityCreateNestedOneWithoutInstitutesInput
   categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
@@ -14680,6 +14820,7 @@ export type InstituteUncheckedCreateWithoutCrmIntegrationsInput = {
   refundPolicy?: string | null
   totalBranches?: number | null
   totalStudents?: number | null
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedCreateNestedManyWithoutInstituteInput
   categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
   managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
@@ -14792,6 +14933,7 @@ export type InstituteUpdateWithoutCrmIntegrationsInput = {
   refundPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
@@ -14890,6 +15032,415 @@ export type InstituteUncheckedUpdateWithoutCrmIntegrationsInput = {
   refundPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
+  managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
+  communityQuestions?: Prisma.CommunityQuestionUncheckedUpdateManyWithoutInstituteNestedInput
+  compareListItems?: Prisma.CompareListInstituteUncheckedUpdateManyWithoutInstituteNestedInput
+  achievements?: Prisma.InstituteAchievementUncheckedUpdateManyWithoutInstituteNestedInput
+  batches?: Prisma.InstituteBatchUncheckedUpdateManyWithoutInstituteNestedInput
+  claims?: Prisma.InstituteClaimUncheckedUpdateManyWithoutInstituteNestedInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheUncheckedUpdateManyWithoutInstitute1NestedInput
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheUncheckedUpdateManyWithoutInstitute2NestedInput
+  dailyViews?: Prisma.InstituteDailyViewUncheckedUpdateManyWithoutInstituteNestedInput
+  visits?: Prisma.InstituteVisitUncheckedUpdateManyWithoutInstituteNestedInput
+  enquiries?: Prisma.InstituteEnquiryUncheckedUpdateManyWithoutInstituteNestedInput
+  facilities?: Prisma.InstituteFacilityUncheckedUpdateManyWithoutInstituteNestedInput
+  faqs?: Prisma.InstituteFAQUncheckedUpdateManyWithoutInstituteNestedInput
+  highlightStats?: Prisma.InstituteHighlightStatUncheckedUpdateManyWithoutInstituteNestedInput
+  operatingHours?: Prisma.InstituteOperatingHourUncheckedUpdateManyWithoutInstituteNestedInput
+  instituteRequest?: Prisma.InstituteRequestUncheckedUpdateOneWithoutInstituteNestedInput
+  notablepersons?: Prisma.NotablePersonsUncheckedUpdateManyWithoutInstituteNestedInput
+  salesAssignments?: Prisma.SalesAssignmentUncheckedUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedUpdateManyWithoutInstituteNestedInput
+  payments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutInstituteNestedInput
+  viewHistory?: Prisma.UserHistoryUncheckedUpdateManyWithoutInstituteNestedInput
+  shortlistedBy?: Prisma.UserShortlistUncheckedUpdateManyWithoutInstituteNestedInput
+  blogPosts?: Prisma.BlogPostUncheckedUpdateManyWithoutRelatedInstituteNestedInput
+  memberships?: Prisma.InstituteMembershipUncheckedUpdateManyWithoutInstituteNestedInput
+  studentRecords?: Prisma.StudentInstituteRecordUncheckedUpdateManyWithoutInstituteNestedInput
+  teacherRecords?: Prisma.TeacherInstituteRecordUncheckedUpdateManyWithoutInstituteNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutInstituteNestedInput
+}
+
+export type InstituteCreateWithoutInboundLeadIntegrationsInput = {
+  id?: string
+  providerType?: $Enums.ProviderType
+  name: string
+  slug: string
+  description?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  address: string
+  latitude?: number | null
+  longitude?: number | null
+  logo?: string | null
+  coverImage?: string | null
+  googlePlaceId?: string | null
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  isVerified?: boolean
+  isFeatured?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  imageUrl?: string | null
+  averageRating?: number | null
+  reviewCount?: number
+  googleMapsUrl?: string | null
+  placeTypes?: Prisma.InstituteCreateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteCreategalleryInput | string[]
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  planWeight?: number
+  youtubeVideos?: Prisma.InstituteCreateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteCreateclassroomImagesInput | string[]
+  feeInfo?: string | null
+  planExpiresAt?: Date | string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  telegramUrl?: string | null
+  twitterUrl?: string | null
+  youtubeUrl?: string | null
+  linkedinUrl?: string | null
+  whatsappUrl?: string | null
+  isPublished?: boolean
+  mode?: $Enums.InstituteMode
+  viewCount?: number
+  affiliations?: Prisma.InstituteCreateaffiliationsInput | string[]
+  awards?: Prisma.InstituteCreateawardsInput | string[]
+  brochureUrl?: string | null
+  compareCount?: number
+  cons?: Prisma.InstituteCreateconsInput | string[]
+  establishedYear?: number | null
+  feeMax?: number | null
+  feeMin?: number | null
+  hasCertification?: boolean
+  hasDemoClasses?: boolean
+  hasHostelFacility?: boolean
+  hasOnlineClasses?: boolean
+  hasScholarship?: boolean
+  mediumOfInstruction?: Prisma.InstituteCreatemediumOfInstructionInput | string[]
+  metaDescription?: string | null
+  metaTitle?: string | null
+  metaKeywords?: string | null
+  pros?: Prisma.InstituteCreateprosInput | string[]
+  refundPolicy?: string | null
+  totalBranches?: number | null
+  totalStudents?: number | null
+  crmIntegrations?: Prisma.CRMIntegrationCreateNestedManyWithoutInstituteInput
+  city: Prisma.CityCreateNestedOneWithoutInstitutesInput
+  categories?: Prisma.InstituteCategoryCreateNestedManyWithoutInstituteInput
+  managers?: Prisma.InstituteManagerCreateNestedManyWithoutInstituteInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutInstituteInput
+  communityQuestions?: Prisma.CommunityQuestionCreateNestedManyWithoutInstituteInput
+  compareListItems?: Prisma.CompareListInstituteCreateNestedManyWithoutInstituteInput
+  achievements?: Prisma.InstituteAchievementCreateNestedManyWithoutInstituteInput
+  batches?: Prisma.InstituteBatchCreateNestedManyWithoutInstituteInput
+  claims?: Prisma.InstituteClaimCreateNestedManyWithoutInstituteInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheCreateNestedManyWithoutInstitute1Input
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheCreateNestedManyWithoutInstitute2Input
+  dailyViews?: Prisma.InstituteDailyViewCreateNestedManyWithoutInstituteInput
+  visits?: Prisma.InstituteVisitCreateNestedManyWithoutInstituteInput
+  enquiries?: Prisma.InstituteEnquiryCreateNestedManyWithoutInstituteInput
+  facilities?: Prisma.InstituteFacilityCreateNestedManyWithoutInstituteInput
+  faqs?: Prisma.InstituteFAQCreateNestedManyWithoutInstituteInput
+  highlightStats?: Prisma.InstituteHighlightStatCreateNestedManyWithoutInstituteInput
+  operatingHours?: Prisma.InstituteOperatingHourCreateNestedManyWithoutInstituteInput
+  instituteRequest?: Prisma.InstituteRequestCreateNestedOneWithoutInstituteInput
+  notablepersons?: Prisma.NotablePersonsCreateNestedManyWithoutInstituteInput
+  salesAssignments?: Prisma.SalesAssignmentCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestCreateNestedManyWithoutInstituteInput
+  payments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutInstituteInput
+  viewHistory?: Prisma.UserHistoryCreateNestedManyWithoutInstituteInput
+  shortlistedBy?: Prisma.UserShortlistCreateNestedManyWithoutInstituteInput
+  blogPosts?: Prisma.BlogPostCreateNestedManyWithoutRelatedInstituteInput
+  memberships?: Prisma.InstituteMembershipCreateNestedManyWithoutInstituteInput
+  studentRecords?: Prisma.StudentInstituteRecordCreateNestedManyWithoutInstituteInput
+  teacherRecords?: Prisma.TeacherInstituteRecordCreateNestedManyWithoutInstituteInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutInstituteInput
+}
+
+export type InstituteUncheckedCreateWithoutInboundLeadIntegrationsInput = {
+  id?: string
+  providerType?: $Enums.ProviderType
+  name: string
+  slug: string
+  description?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  address: string
+  latitude?: number | null
+  longitude?: number | null
+  logo?: string | null
+  coverImage?: string | null
+  googlePlaceId?: string | null
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  cityId: string
+  isVerified?: boolean
+  isFeatured?: boolean
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  imageUrl?: string | null
+  averageRating?: number | null
+  reviewCount?: number
+  googleMapsUrl?: string | null
+  placeTypes?: Prisma.InstituteCreateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteCreategalleryInput | string[]
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  planWeight?: number
+  youtubeVideos?: Prisma.InstituteCreateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteCreateclassroomImagesInput | string[]
+  feeInfo?: string | null
+  planExpiresAt?: Date | string | null
+  facebookUrl?: string | null
+  instagramUrl?: string | null
+  telegramUrl?: string | null
+  twitterUrl?: string | null
+  youtubeUrl?: string | null
+  linkedinUrl?: string | null
+  whatsappUrl?: string | null
+  isPublished?: boolean
+  mode?: $Enums.InstituteMode
+  viewCount?: number
+  affiliations?: Prisma.InstituteCreateaffiliationsInput | string[]
+  awards?: Prisma.InstituteCreateawardsInput | string[]
+  brochureUrl?: string | null
+  compareCount?: number
+  cons?: Prisma.InstituteCreateconsInput | string[]
+  establishedYear?: number | null
+  feeMax?: number | null
+  feeMin?: number | null
+  hasCertification?: boolean
+  hasDemoClasses?: boolean
+  hasHostelFacility?: boolean
+  hasOnlineClasses?: boolean
+  hasScholarship?: boolean
+  mediumOfInstruction?: Prisma.InstituteCreatemediumOfInstructionInput | string[]
+  metaDescription?: string | null
+  metaTitle?: string | null
+  metaKeywords?: string | null
+  pros?: Prisma.InstituteCreateprosInput | string[]
+  refundPolicy?: string | null
+  totalBranches?: number | null
+  totalStudents?: number | null
+  crmIntegrations?: Prisma.CRMIntegrationUncheckedCreateNestedManyWithoutInstituteInput
+  categories?: Prisma.InstituteCategoryUncheckedCreateNestedManyWithoutInstituteInput
+  managers?: Prisma.InstituteManagerUncheckedCreateNestedManyWithoutInstituteInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutInstituteInput
+  communityQuestions?: Prisma.CommunityQuestionUncheckedCreateNestedManyWithoutInstituteInput
+  compareListItems?: Prisma.CompareListInstituteUncheckedCreateNestedManyWithoutInstituteInput
+  achievements?: Prisma.InstituteAchievementUncheckedCreateNestedManyWithoutInstituteInput
+  batches?: Prisma.InstituteBatchUncheckedCreateNestedManyWithoutInstituteInput
+  claims?: Prisma.InstituteClaimUncheckedCreateNestedManyWithoutInstituteInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheUncheckedCreateNestedManyWithoutInstitute1Input
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheUncheckedCreateNestedManyWithoutInstitute2Input
+  dailyViews?: Prisma.InstituteDailyViewUncheckedCreateNestedManyWithoutInstituteInput
+  visits?: Prisma.InstituteVisitUncheckedCreateNestedManyWithoutInstituteInput
+  enquiries?: Prisma.InstituteEnquiryUncheckedCreateNestedManyWithoutInstituteInput
+  facilities?: Prisma.InstituteFacilityUncheckedCreateNestedManyWithoutInstituteInput
+  faqs?: Prisma.InstituteFAQUncheckedCreateNestedManyWithoutInstituteInput
+  highlightStats?: Prisma.InstituteHighlightStatUncheckedCreateNestedManyWithoutInstituteInput
+  operatingHours?: Prisma.InstituteOperatingHourUncheckedCreateNestedManyWithoutInstituteInput
+  instituteRequest?: Prisma.InstituteRequestUncheckedCreateNestedOneWithoutInstituteInput
+  notablepersons?: Prisma.NotablePersonsUncheckedCreateNestedManyWithoutInstituteInput
+  salesAssignments?: Prisma.SalesAssignmentUncheckedCreateNestedOneWithoutInstituteInput
+  salesRequests?: Prisma.SalesAssignmentRequestUncheckedCreateNestedManyWithoutInstituteInput
+  payments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutInstituteInput
+  viewHistory?: Prisma.UserHistoryUncheckedCreateNestedManyWithoutInstituteInput
+  shortlistedBy?: Prisma.UserShortlistUncheckedCreateNestedManyWithoutInstituteInput
+  blogPosts?: Prisma.BlogPostUncheckedCreateNestedManyWithoutRelatedInstituteInput
+  memberships?: Prisma.InstituteMembershipUncheckedCreateNestedManyWithoutInstituteInput
+  studentRecords?: Prisma.StudentInstituteRecordUncheckedCreateNestedManyWithoutInstituteInput
+  teacherRecords?: Prisma.TeacherInstituteRecordUncheckedCreateNestedManyWithoutInstituteInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutInstituteInput
+}
+
+export type InstituteCreateOrConnectWithoutInboundLeadIntegrationsInput = {
+  where: Prisma.InstituteWhereUniqueInput
+  create: Prisma.XOR<Prisma.InstituteCreateWithoutInboundLeadIntegrationsInput, Prisma.InstituteUncheckedCreateWithoutInboundLeadIntegrationsInput>
+}
+
+export type InstituteUpsertWithoutInboundLeadIntegrationsInput = {
+  update: Prisma.XOR<Prisma.InstituteUpdateWithoutInboundLeadIntegrationsInput, Prisma.InstituteUncheckedUpdateWithoutInboundLeadIntegrationsInput>
+  create: Prisma.XOR<Prisma.InstituteCreateWithoutInboundLeadIntegrationsInput, Prisma.InstituteUncheckedCreateWithoutInboundLeadIntegrationsInput>
+  where?: Prisma.InstituteWhereInput
+}
+
+export type InstituteUpdateToOneWithWhereWithoutInboundLeadIntegrationsInput = {
+  where?: Prisma.InstituteWhereInput
+  data: Prisma.XOR<Prisma.InstituteUpdateWithoutInboundLeadIntegrationsInput, Prisma.InstituteUncheckedUpdateWithoutInboundLeadIntegrationsInput>
+}
+
+export type InstituteUpdateWithoutInboundLeadIntegrationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  providerType?: Prisma.EnumProviderTypeFieldUpdateOperationsInput | $Enums.ProviderType
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeTypes?: Prisma.InstituteUpdateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteUpdategalleryInput | string[]
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  planWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  youtubeVideos?: Prisma.InstituteUpdateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteUpdateclassroomImagesInput | string[]
+  feeInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mode?: Prisma.EnumInstituteModeFieldUpdateOperationsInput | $Enums.InstituteMode
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  affiliations?: Prisma.InstituteUpdateaffiliationsInput | string[]
+  awards?: Prisma.InstituteUpdateawardsInput | string[]
+  brochureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  cons?: Prisma.InstituteUpdateconsInput | string[]
+  establishedYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasCertification?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasDemoClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasHostelFacility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasOnlineClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasScholarship?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mediumOfInstruction?: Prisma.InstituteUpdatemediumOfInstructionInput | string[]
+  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pros?: Prisma.InstituteUpdateprosInput | string[]
+  refundPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  city?: Prisma.CityUpdateOneRequiredWithoutInstitutesNestedInput
+  categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
+  managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutInstituteNestedInput
+  communityQuestions?: Prisma.CommunityQuestionUpdateManyWithoutInstituteNestedInput
+  compareListItems?: Prisma.CompareListInstituteUpdateManyWithoutInstituteNestedInput
+  achievements?: Prisma.InstituteAchievementUpdateManyWithoutInstituteNestedInput
+  batches?: Prisma.InstituteBatchUpdateManyWithoutInstituteNestedInput
+  claims?: Prisma.InstituteClaimUpdateManyWithoutInstituteNestedInput
+  comparisonsAsFirst?: Prisma.InstituteComparisonCacheUpdateManyWithoutInstitute1NestedInput
+  comparisonsAsSecond?: Prisma.InstituteComparisonCacheUpdateManyWithoutInstitute2NestedInput
+  dailyViews?: Prisma.InstituteDailyViewUpdateManyWithoutInstituteNestedInput
+  visits?: Prisma.InstituteVisitUpdateManyWithoutInstituteNestedInput
+  enquiries?: Prisma.InstituteEnquiryUpdateManyWithoutInstituteNestedInput
+  facilities?: Prisma.InstituteFacilityUpdateManyWithoutInstituteNestedInput
+  faqs?: Prisma.InstituteFAQUpdateManyWithoutInstituteNestedInput
+  highlightStats?: Prisma.InstituteHighlightStatUpdateManyWithoutInstituteNestedInput
+  operatingHours?: Prisma.InstituteOperatingHourUpdateManyWithoutInstituteNestedInput
+  instituteRequest?: Prisma.InstituteRequestUpdateOneWithoutInstituteNestedInput
+  notablepersons?: Prisma.NotablePersonsUpdateManyWithoutInstituteNestedInput
+  salesAssignments?: Prisma.SalesAssignmentUpdateOneWithoutInstituteNestedInput
+  salesRequests?: Prisma.SalesAssignmentRequestUpdateManyWithoutInstituteNestedInput
+  payments?: Prisma.SubscriptionPaymentUpdateManyWithoutInstituteNestedInput
+  viewHistory?: Prisma.UserHistoryUpdateManyWithoutInstituteNestedInput
+  shortlistedBy?: Prisma.UserShortlistUpdateManyWithoutInstituteNestedInput
+  blogPosts?: Prisma.BlogPostUpdateManyWithoutRelatedInstituteNestedInput
+  memberships?: Prisma.InstituteMembershipUpdateManyWithoutInstituteNestedInput
+  studentRecords?: Prisma.StudentInstituteRecordUpdateManyWithoutInstituteNestedInput
+  teacherRecords?: Prisma.TeacherInstituteRecordUpdateManyWithoutInstituteNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutInstituteNestedInput
+}
+
+export type InstituteUncheckedUpdateWithoutInboundLeadIntegrationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  providerType?: Prisma.EnumProviderTypeFieldUpdateOperationsInput | $Enums.ProviderType
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  cityId?: Prisma.StringFieldUpdateOperationsInput | string
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  googleMapsUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placeTypes?: Prisma.InstituteUpdateplaceTypesInput | string[]
+  gallery?: Prisma.InstituteUpdategalleryInput | string[]
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  planWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  youtubeVideos?: Prisma.InstituteUpdateyoutubeVideosInput | string[]
+  classroomImages?: Prisma.InstituteUpdateclassroomImagesInput | string[]
+  feeInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  planExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  facebookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twitterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mode?: Prisma.EnumInstituteModeFieldUpdateOperationsInput | $Enums.InstituteMode
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  affiliations?: Prisma.InstituteUpdateaffiliationsInput | string[]
+  awards?: Prisma.InstituteUpdateawardsInput | string[]
+  brochureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  compareCount?: Prisma.IntFieldUpdateOperationsInput | number
+  cons?: Prisma.InstituteUpdateconsInput | string[]
+  establishedYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  feeMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasCertification?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasDemoClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasHostelFacility?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasOnlineClasses?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasScholarship?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mediumOfInstruction?: Prisma.InstituteUpdatemediumOfInstructionInput | string[]
+  metaDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pros?: Prisma.InstituteUpdateprosInput | string[]
+  refundPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -15054,6 +15605,7 @@ export type InstituteUpdateWithoutCityInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutInstituteNestedInput
@@ -15151,6 +15703,7 @@ export type InstituteUncheckedUpdateWithoutCityInput = {
   totalBranches?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   totalStudents?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   crmIntegrations?: Prisma.CRMIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
+  inboundLeadIntegrations?: Prisma.InboundLeadIntegrationUncheckedUpdateManyWithoutInstituteNestedInput
   categories?: Prisma.InstituteCategoryUncheckedUpdateManyWithoutInstituteNestedInput
   managers?: Prisma.InstituteManagerUncheckedUpdateManyWithoutInstituteNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutInstituteNestedInput
@@ -15256,6 +15809,7 @@ export type InstituteUncheckedUpdateManyWithoutCityInput = {
 
 export type InstituteCountOutputType = {
   crmIntegrations: number
+  inboundLeadIntegrations: number
   categories: number
   managers: number
   reviews: number
@@ -15287,6 +15841,7 @@ export type InstituteCountOutputType = {
 
 export type InstituteCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   crmIntegrations?: boolean | InstituteCountOutputTypeCountCrmIntegrationsArgs
+  inboundLeadIntegrations?: boolean | InstituteCountOutputTypeCountInboundLeadIntegrationsArgs
   categories?: boolean | InstituteCountOutputTypeCountCategoriesArgs
   managers?: boolean | InstituteCountOutputTypeCountManagersArgs
   reviews?: boolean | InstituteCountOutputTypeCountReviewsArgs
@@ -15331,6 +15886,13 @@ export type InstituteCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
  */
 export type InstituteCountOutputTypeCountCrmIntegrationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CRMIntegrationWhereInput
+}
+
+/**
+ * InstituteCountOutputType without action
+ */
+export type InstituteCountOutputTypeCountInboundLeadIntegrationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InboundLeadIntegrationWhereInput
 }
 
 /**
@@ -15590,6 +16152,7 @@ export type InstituteSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   totalBranches?: boolean
   totalStudents?: boolean
   crmIntegrations?: boolean | Prisma.Institute$crmIntegrationsArgs<ExtArgs>
+  inboundLeadIntegrations?: boolean | Prisma.Institute$inboundLeadIntegrationsArgs<ExtArgs>
   city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
   categories?: boolean | Prisma.Institute$categoriesArgs<ExtArgs>
   managers?: boolean | Prisma.Institute$managersArgs<ExtArgs>
@@ -15832,6 +16395,7 @@ export type InstituteSelectScalar = {
 export type InstituteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "providerType" | "name" | "slug" | "description" | "phone" | "email" | "website" | "address" | "latitude" | "longitude" | "logo" | "coverImage" | "googlePlaceId" | "googleRating" | "googleReviewCount" | "cityId" | "isVerified" | "isFeatured" | "isActive" | "createdAt" | "updatedAt" | "imageUrl" | "averageRating" | "reviewCount" | "googleMapsUrl" | "placeTypes" | "gallery" | "subscriptionPlan" | "planWeight" | "youtubeVideos" | "classroomImages" | "feeInfo" | "planExpiresAt" | "facebookUrl" | "instagramUrl" | "telegramUrl" | "twitterUrl" | "youtubeUrl" | "linkedinUrl" | "whatsappUrl" | "isPublished" | "mode" | "viewCount" | "affiliations" | "awards" | "brochureUrl" | "compareCount" | "cons" | "establishedYear" | "feeMax" | "feeMin" | "hasCertification" | "hasDemoClasses" | "hasHostelFacility" | "hasOnlineClasses" | "hasScholarship" | "mediumOfInstruction" | "metaDescription" | "metaTitle" | "metaKeywords" | "pros" | "refundPolicy" | "totalBranches" | "totalStudents", ExtArgs["result"]["institute"]>
 export type InstituteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   crmIntegrations?: boolean | Prisma.Institute$crmIntegrationsArgs<ExtArgs>
+  inboundLeadIntegrations?: boolean | Prisma.Institute$inboundLeadIntegrationsArgs<ExtArgs>
   city?: boolean | Prisma.CityDefaultArgs<ExtArgs>
   categories?: boolean | Prisma.Institute$categoriesArgs<ExtArgs>
   managers?: boolean | Prisma.Institute$managersArgs<ExtArgs>
@@ -15875,6 +16439,7 @@ export type $InstitutePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Institute"
   objects: {
     crmIntegrations: Prisma.$CRMIntegrationPayload<ExtArgs>[]
+    inboundLeadIntegrations: Prisma.$InboundLeadIntegrationPayload<ExtArgs>[]
     city: Prisma.$CityPayload<ExtArgs>
     categories: Prisma.$InstituteCategoryPayload<ExtArgs>[]
     managers: Prisma.$InstituteManagerPayload<ExtArgs>[]
@@ -16367,6 +16932,7 @@ readonly fields: InstituteFieldRefs;
 export interface Prisma__InstituteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   crmIntegrations<T extends Prisma.Institute$crmIntegrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$crmIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CRMIntegrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inboundLeadIntegrations<T extends Prisma.Institute$inboundLeadIntegrationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$inboundLeadIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InboundLeadIntegrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   city<T extends Prisma.CityDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CityDefaultArgs<ExtArgs>>): Prisma.Prisma__CityClient<runtime.Types.Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   categories<T extends Prisma.Institute$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InstituteCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managers<T extends Prisma.Institute$managersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Institute$managersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InstituteManagerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -16913,6 +17479,30 @@ export type Institute$crmIntegrationsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.CRMIntegrationScalarFieldEnum | Prisma.CRMIntegrationScalarFieldEnum[]
+}
+
+/**
+ * Institute.inboundLeadIntegrations
+ */
+export type Institute$inboundLeadIntegrationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InboundLeadIntegration
+   */
+  select?: Prisma.InboundLeadIntegrationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InboundLeadIntegration
+   */
+  omit?: Prisma.InboundLeadIntegrationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InboundLeadIntegrationInclude<ExtArgs> | null
+  where?: Prisma.InboundLeadIntegrationWhereInput
+  orderBy?: Prisma.InboundLeadIntegrationOrderByWithRelationInput | Prisma.InboundLeadIntegrationOrderByWithRelationInput[]
+  cursor?: Prisma.InboundLeadIntegrationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InboundLeadIntegrationScalarFieldEnum | Prisma.InboundLeadIntegrationScalarFieldEnum[]
 }
 
 /**

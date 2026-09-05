@@ -136,6 +136,7 @@ export const ModelName = {
   BlogFAQ: 'BlogFAQ',
   BlogBrand: 'BlogBrand',
   CRMIntegration: 'CRMIntegration',
+  InboundLeadIntegration: 'InboundLeadIntegration',
   UserEducation: 'UserEducation',
   UserExperience: 'UserExperience',
   UserAchievement: 'UserAchievement',
@@ -145,7 +146,8 @@ export const ModelName = {
   Advertisement: 'Advertisement',
   AdvertisementAnalytic: 'AdvertisementAnalytic',
   SystemSetting: 'SystemSetting',
-  EnquiryStatusHistory: 'EnquiryStatusHistory'
+  EnquiryStatusHistory: 'EnquiryStatusHistory',
+  EnquiryComment: 'EnquiryComment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -554,6 +556,8 @@ export const InstituteEnquiryScalarFieldEnum = {
   lastUpdatedByRole: 'lastUpdatedByRole',
   lastUpdatedByName: 'lastUpdatedByName',
   parentId: 'parentId',
+  source: 'source',
+  sourceDetails: 'sourceDetails',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1556,6 +1560,24 @@ export const CRMIntegrationScalarFieldEnum = {
 export type CRMIntegrationScalarFieldEnum = (typeof CRMIntegrationScalarFieldEnum)[keyof typeof CRMIntegrationScalarFieldEnum]
 
 
+export const InboundLeadIntegrationScalarFieldEnum = {
+  id: 'id',
+  instituteId: 'instituteId',
+  provider: 'provider',
+  name: 'name',
+  webhookUrl: 'webhookUrl',
+  apiKey: 'apiKey',
+  config: 'config',
+  isActive: 'isActive',
+  totalLeadsReceived: 'totalLeadsReceived',
+  lastLeadAt: 'lastLeadAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InboundLeadIntegrationScalarFieldEnum = (typeof InboundLeadIntegrationScalarFieldEnum)[keyof typeof InboundLeadIntegrationScalarFieldEnum]
+
+
 export const UserEducationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1702,6 +1724,19 @@ export const EnquiryStatusHistoryScalarFieldEnum = {
 } as const
 
 export type EnquiryStatusHistoryScalarFieldEnum = (typeof EnquiryStatusHistoryScalarFieldEnum)[keyof typeof EnquiryStatusHistoryScalarFieldEnum]
+
+
+export const EnquiryCommentScalarFieldEnum = {
+  id: 'id',
+  enquiryId: 'enquiryId',
+  content: 'content',
+  authorRole: 'authorRole',
+  authorName: 'authorName',
+  authorId: 'authorId',
+  createdAt: 'createdAt'
+} as const
+
+export type EnquiryCommentScalarFieldEnum = (typeof EnquiryCommentScalarFieldEnum)[keyof typeof EnquiryCommentScalarFieldEnum]
 
 
 export const SortOrder = {

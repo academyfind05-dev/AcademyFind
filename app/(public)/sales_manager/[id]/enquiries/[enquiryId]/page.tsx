@@ -32,6 +32,9 @@ export default async function SalesManagerEnquiryDetailPage({
       statusHistory: {
         orderBy: { createdAt: "desc" },
       },
+      comments: {
+        orderBy: { createdAt: "desc" },
+      },
     },
   });
 
@@ -84,6 +87,7 @@ export default async function SalesManagerEnquiryDetailPage({
               studentMessage={enquiry.message || ""}
               adminNote={enquiry.adminNote}
               salesManagerNote={enquiry.salesManagerNote}
+              comments={enquiry.comments}
               isSalesManager={true}
               lastUpdatedByRole={enquiry.lastUpdatedByRole}
               lastUpdatedByName={enquiry.lastUpdatedByName}

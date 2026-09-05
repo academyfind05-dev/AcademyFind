@@ -49,7 +49,7 @@ export async function notifyAdmins(
     notifyAdminsPush({
       title: title || '⚡ Admin Alert',
       body: message,
-      data: { actionUrl }
+      data: { actionUrl, screen: '(admin)/sales' }
     }).catch(err => console.error("Admin Push Notification error:", err));
 
     return result;

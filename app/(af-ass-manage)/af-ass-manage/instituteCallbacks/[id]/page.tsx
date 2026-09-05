@@ -33,6 +33,9 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
         },
         statusHistory: {
           orderBy: { createdAt: 'desc' }
+        },
+        comments: {
+          orderBy: { createdAt: 'desc' }
         }
       }
     }),
@@ -113,6 +116,7 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
               studentMessage={callback.message || ""}
               adminNote={callback.adminNote}
               salesManagerNote={callback.salesManagerNote}
+              comments={callback.comments}
               isSalesManager={false}
               salesManagers={salesManagers}
               assignedSalesManagerId={callback.assignedSalesManagerId}

@@ -469,6 +469,7 @@ export const ModelName = {
   BlogFAQ: 'BlogFAQ',
   BlogBrand: 'BlogBrand',
   CRMIntegration: 'CRMIntegration',
+  InboundLeadIntegration: 'InboundLeadIntegration',
   UserEducation: 'UserEducation',
   UserExperience: 'UserExperience',
   UserAchievement: 'UserAchievement',
@@ -478,7 +479,8 @@ export const ModelName = {
   Advertisement: 'Advertisement',
   AdvertisementAnalytic: 'AdvertisementAnalytic',
   SystemSetting: 'SystemSetting',
-  EnquiryStatusHistory: 'EnquiryStatusHistory'
+  EnquiryStatusHistory: 'EnquiryStatusHistory',
+  EnquiryComment: 'EnquiryComment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -494,7 +496,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "salesAreaAssignment" | "salesAssignmentRequest" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting" | "enquiryStatusHistory"
+    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "salesAreaAssignment" | "salesAssignmentRequest" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "inboundLeadIntegration" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting" | "enquiryStatusHistory" | "enquiryComment"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -6788,6 +6790,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InboundLeadIntegration: {
+      payload: Prisma.$InboundLeadIntegrationPayload<ExtArgs>
+      fields: Prisma.InboundLeadIntegrationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InboundLeadIntegrationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InboundLeadIntegrationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>
+        }
+        findFirst: {
+          args: Prisma.InboundLeadIntegrationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InboundLeadIntegrationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>
+        }
+        findMany: {
+          args: Prisma.InboundLeadIntegrationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>[]
+        }
+        create: {
+          args: Prisma.InboundLeadIntegrationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>
+        }
+        createMany: {
+          args: Prisma.InboundLeadIntegrationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InboundLeadIntegrationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>[]
+        }
+        delete: {
+          args: Prisma.InboundLeadIntegrationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>
+        }
+        update: {
+          args: Prisma.InboundLeadIntegrationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>
+        }
+        deleteMany: {
+          args: Prisma.InboundLeadIntegrationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InboundLeadIntegrationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InboundLeadIntegrationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>[]
+        }
+        upsert: {
+          args: Prisma.InboundLeadIntegrationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadIntegrationPayload>
+        }
+        aggregate: {
+          args: Prisma.InboundLeadIntegrationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInboundLeadIntegration>
+        }
+        groupBy: {
+          args: Prisma.InboundLeadIntegrationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InboundLeadIntegrationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InboundLeadIntegrationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InboundLeadIntegrationCountAggregateOutputType> | number
+        }
+      }
+    }
     UserEducation: {
       payload: Prisma.$UserEducationPayload<ExtArgs>
       fields: Prisma.UserEducationFieldRefs
@@ -7528,6 +7604,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    EnquiryComment: {
+      payload: Prisma.$EnquiryCommentPayload<ExtArgs>
+      fields: Prisma.EnquiryCommentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.EnquiryCommentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.EnquiryCommentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>
+        }
+        findFirst: {
+          args: Prisma.EnquiryCommentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.EnquiryCommentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>
+        }
+        findMany: {
+          args: Prisma.EnquiryCommentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>[]
+        }
+        create: {
+          args: Prisma.EnquiryCommentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>
+        }
+        createMany: {
+          args: Prisma.EnquiryCommentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.EnquiryCommentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>[]
+        }
+        delete: {
+          args: Prisma.EnquiryCommentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>
+        }
+        update: {
+          args: Prisma.EnquiryCommentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>
+        }
+        deleteMany: {
+          args: Prisma.EnquiryCommentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.EnquiryCommentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.EnquiryCommentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>[]
+        }
+        upsert: {
+          args: Prisma.EnquiryCommentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$EnquiryCommentPayload>
+        }
+        aggregate: {
+          args: Prisma.EnquiryCommentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateEnquiryComment>
+        }
+        groupBy: {
+          args: Prisma.EnquiryCommentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnquiryCommentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.EnquiryCommentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.EnquiryCommentCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -7957,6 +8107,8 @@ export const InstituteEnquiryScalarFieldEnum = {
   lastUpdatedByRole: 'lastUpdatedByRole',
   lastUpdatedByName: 'lastUpdatedByName',
   parentId: 'parentId',
+  source: 'source',
+  sourceDetails: 'sourceDetails',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -8959,6 +9111,24 @@ export const CRMIntegrationScalarFieldEnum = {
 export type CRMIntegrationScalarFieldEnum = (typeof CRMIntegrationScalarFieldEnum)[keyof typeof CRMIntegrationScalarFieldEnum]
 
 
+export const InboundLeadIntegrationScalarFieldEnum = {
+  id: 'id',
+  instituteId: 'instituteId',
+  provider: 'provider',
+  name: 'name',
+  webhookUrl: 'webhookUrl',
+  apiKey: 'apiKey',
+  config: 'config',
+  isActive: 'isActive',
+  totalLeadsReceived: 'totalLeadsReceived',
+  lastLeadAt: 'lastLeadAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InboundLeadIntegrationScalarFieldEnum = (typeof InboundLeadIntegrationScalarFieldEnum)[keyof typeof InboundLeadIntegrationScalarFieldEnum]
+
+
 export const UserEducationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -9105,6 +9275,19 @@ export const EnquiryStatusHistoryScalarFieldEnum = {
 } as const
 
 export type EnquiryStatusHistoryScalarFieldEnum = (typeof EnquiryStatusHistoryScalarFieldEnum)[keyof typeof EnquiryStatusHistoryScalarFieldEnum]
+
+
+export const EnquiryCommentScalarFieldEnum = {
+  id: 'id',
+  enquiryId: 'enquiryId',
+  content: 'content',
+  authorRole: 'authorRole',
+  authorName: 'authorName',
+  authorId: 'authorId',
+  createdAt: 'createdAt'
+} as const
+
+export type EnquiryCommentScalarFieldEnum = (typeof EnquiryCommentScalarFieldEnum)[keyof typeof EnquiryCommentScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -9326,6 +9509,20 @@ export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'ReviewStatus[]'
  */
 export type ListEnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -9582,20 +9779,6 @@ export type ListEnumJobApplicationStatusFieldRefInput<$PrismaModel> = FieldRefIn
 
 
 /**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-/**
  * Reference to a field of type 'BlogStatus'
  */
 export type EnumBlogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BlogStatus'>
@@ -9690,6 +9873,20 @@ export type EnumCRMProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'CRMProvider[]'
  */
 export type ListEnumCRMProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CRMProvider[]'>
+    
+
+
+/**
+ * Reference to a field of type 'InboundProvider'
+ */
+export type EnumInboundProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InboundProvider'>
+    
+
+
+/**
+ * Reference to a field of type 'InboundProvider[]'
+ */
+export type ListEnumInboundProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InboundProvider[]'>
     
 
 
@@ -9943,6 +10140,7 @@ export type GlobalOmitConfig = {
   blogFAQ?: Prisma.BlogFAQOmit
   blogBrand?: Prisma.BlogBrandOmit
   cRMIntegration?: Prisma.CRMIntegrationOmit
+  inboundLeadIntegration?: Prisma.InboundLeadIntegrationOmit
   userEducation?: Prisma.UserEducationOmit
   userExperience?: Prisma.UserExperienceOmit
   userAchievement?: Prisma.UserAchievementOmit
@@ -9953,6 +10151,7 @@ export type GlobalOmitConfig = {
   advertisementAnalytic?: Prisma.AdvertisementAnalyticOmit
   systemSetting?: Prisma.SystemSettingOmit
   enquiryStatusHistory?: Prisma.EnquiryStatusHistoryOmit
+  enquiryComment?: Prisma.EnquiryCommentOmit
 }
 
 /* Types for Logging */

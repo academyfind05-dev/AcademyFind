@@ -211,12 +211,17 @@ export async function updateUserContactStatus(id: string, userContactStatus: str
   }
 }
 
-// 4. Admin note update
+// 4. Admin note update (creates timestamped comment and updates current note)
 export async function updateCallbackAdminNote(id: string, adminNote: string) {
   try {
     const session = await getSession();
     if (!session?.user || session.user.role !== "ADMIN") {
       return { success: false, error: "Only Admins can edit the Admin note." };
+    }
+
+    const trimmed = adminNote.trim();
+    if (!trimmed) {
+      return { success: false, error: "Note content cannot be empty." };
     }
 
     const enquiry = await prisma.instituteEnquiry.findUnique({
@@ -226,9 +231,25 @@ export async function updateCallbackAdminNote(id: string, adminNote: string) {
 
     if (!enquiry) return { success: false, error: "Enquiry not found." };
 
+    // 1. Create timestamped comment in history
+    const comment = await prisma.enquiryComment.create({
+      data: {
+        enquiryId: id,
+        content: trimmed,
+        authorRole: "ADMIN",
+        authorName: session.user.name || session.user.email || "Admin",
+        authorId: session.user.id,
+      },
+    });
+
+    // 2. Update enquiry current adminNote
     await prisma.instituteEnquiry.update({
       where: { id },
-      data: { adminNote },
+      data: {
+        adminNote: trimmed,
+        lastUpdatedByRole: "ADMIN",
+        lastUpdatedByName: session.user.name || "Admin",
+      },
     });
 
     // Notify assigned sales manager if any
@@ -237,7 +258,7 @@ export async function updateCallbackAdminNote(id: string, adminNote: string) {
         enquiry.assignedSalesManagerId,
         "SYSTEM" as any,
         "📝 Admin Note Added",
-        `Admin updated note on your assigned enquiry for ${enquiry.institute?.name || "the institute"}.`,
+        `Admin (${session.user.name || "Admin"}) added a note: "${trimmed.slice(0, 60)}..." on your assigned enquiry for ${enquiry.institute?.name || "the institute"}.`,
         id,
       );
     }
@@ -249,19 +270,24 @@ export async function updateCallbackAdminNote(id: string, adminNote: string) {
       revalidatePath(`/sales_manager/${enquiry.assignedSalesManagerId}/enquiries/${id}`);
     }
 
-    return { success: true };
+    return { success: true, comment };
   } catch (error) {
     console.error("Error updating admin note:", error);
     return { success: false, error: "Failed to update admin note." };
   }
 }
 
-// 5. Sales Manager note update
+// 5. Sales Manager note update (creates timestamped comment and updates current note)
 export async function updateCallbackSalesManagerNote(id: string, salesManagerNote: string) {
   try {
     const session = await getSession();
     if (!session?.user) {
       return { success: false, error: "Unauthorized." };
+    }
+
+    const trimmed = salesManagerNote.trim();
+    if (!trimmed) {
+      return { success: false, error: "Note content cannot be empty." };
     }
 
     const enquiry = await prisma.instituteEnquiry.findUnique({
@@ -276,17 +302,34 @@ export async function updateCallbackSalesManagerNote(id: string, salesManagerNot
       return { success: false, error: "You are not assigned to this enquiry." };
     }
 
+    // 1. Create timestamped comment in history
+    const authorRole = session.user.role === "ADMIN" ? "ADMIN" : "SALES_MANAGER";
+    const comment = await prisma.enquiryComment.create({
+      data: {
+        enquiryId: id,
+        content: trimmed,
+        authorRole,
+        authorName: session.user.name || session.user.email || "Sales Manager",
+        authorId: session.user.id,
+      },
+    });
+
+    // 2. Update enquiry current salesManagerNote
     await prisma.instituteEnquiry.update({
       where: { id },
-      data: { salesManagerNote },
+      data: {
+        salesManagerNote: trimmed,
+        lastUpdatedByRole: authorRole,
+        lastUpdatedByName: session.user.name || "Sales Manager",
+      },
     });
 
     // If edited by Sales Manager, notify Admin
     if (session.user.role === "SALES_MANAGER") {
       await notifyAdmins(
         "CALLBACK",
-        "📝 Sales Manager Note Updated",
-        `${session.user.name || "Sales Manager"} added/updated note on enquiry for ${enquiry.institute?.name || "the institute"}.`,
+        "📝 Sales Manager Note Added",
+        `${session.user.name || "Sales Manager"} added note: "${trimmed.slice(0, 60)}..." on enquiry for ${enquiry.institute?.name || "the institute"}.`,
         `/af-ass-manage/instituteCallbacks/${id}`,
         id,
       );
@@ -299,7 +342,7 @@ export async function updateCallbackSalesManagerNote(id: string, salesManagerNot
       revalidatePath(`/sales_manager/${enquiry.assignedSalesManagerId}/enquiries/${id}`);
     }
 
-    return { success: true };
+    return { success: true, comment };
   } catch (error) {
     console.error("Error updating sales manager note:", error);
     return { success: false, error: "Failed to update sales manager note." };

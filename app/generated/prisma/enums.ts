@@ -394,6 +394,17 @@ export const CRMProvider = {
 export type CRMProvider = (typeof CRMProvider)[keyof typeof CRMProvider]
 
 
+export const InboundProvider = {
+  META: 'META',
+  GOOGLE: 'GOOGLE',
+  WEBSITE_WEBHOOK: 'WEBSITE_WEBHOOK',
+  ZAPIER: 'ZAPIER',
+  LINKEDIN: 'LINKEDIN'
+} as const
+
+export type InboundProvider = (typeof InboundProvider)[keyof typeof InboundProvider]
+
+
 export const EducationType = {
   SCHOOL: 'SCHOOL',
   COLLEGE: 'COLLEGE'

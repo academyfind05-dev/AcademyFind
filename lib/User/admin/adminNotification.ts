@@ -3,7 +3,8 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-import { getSession } from "@/lib/auth/getSession";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
 
 // Notification ko Read mark karne ka function
 export async function markNotificationAsRead(notificationId: string) {
@@ -25,11 +26,20 @@ export async function markNotificationAsRead(notificationId: string) {
 // Saari notifications ko ek sath Read mark karne ka function
 export async function markAllAsRead(formData?: FormData) {
     try {
-        const session = await getSession();
+        const session = await auth.api.getSession({
+            headers: await headers()
+        });
         const userId = session?.user?.id;
+        if (!userId) return;
 
         await prisma.adminNotification.updateMany({
-            where: { ...(userId ? { userId } : {}), isRead: false },
+            where: {
+                OR: [
+                    { userId },
+                    { userId: null }
+                ],
+                isRead: false
+            },
             data: { isRead: true }
         });
         

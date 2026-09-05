@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect, use } from "react";
-import { Plus, Trash2, Webhook, Zap, Loader2, CheckCircle2, Target, BarChart, Crosshair, Flame, Edit2, Lock } from "lucide-react";
+import { Plus, Trash2, Webhook, Zap, Loader2, CheckCircle2, Target, BarChart, Crosshair, Flame, Edit2, Lock, ArrowDownToLine, ArrowUpFromLine } from "lucide-react";
 import { SiZoho, SiSalesforce, SiHubspot, SiZendesk } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { getIntegrations, createIntegration, updateIntegration, deleteIntegration, toggleIntegration, getInstitutePlan } from "./actions";
 import toast from "react-hot-toast";
 import { ConfirmModal } from "@/components/ui/confirm-modal";
 import Link from "next/link";
+import InboundLeadsManager from "@/components/manager/InboundLeadsManager";
 
 const PROVIDERS = [
   { id: "ZOHO", name: "Zoho CRM", logo: <SiZoho className="w-5 h-5" />, brandColor: "text-[#1161d7]" },
@@ -28,6 +29,7 @@ export default function IntegrationsPage({ params }: { params: Promise<{ institu
   const [integrations, setIntegrations] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [plan, setPlan] = useState<string>("BASIC");
+  const [activeTab, setActiveTab] = useState<"INBOUND" | "OUTBOUND">("INBOUND");
 
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
@@ -141,7 +143,7 @@ export default function IntegrationsPage({ params }: { params: Promise<{ institu
         </div>
         <h2 className="text-2xl font-bold text-stone-800 mb-2">Integrations Locked</h2>
         <p className="text-stone-500 max-w-md mb-6">
-          Want to connect your CRM or webhook to automatically receive new student leads? Upgrade to the <b>Premium Plan</b> or <b>Ultra Plan</b>.
+          Want to connect your Meta Ads, Google Ads, or CRM to automatically receive new student leads? Upgrade to the <b>Premium Plan</b> or <b>Ultra Plan</b>.
         </p>
         <Link href={`/manager/${instituteId}/subscription`} className="bg-stone-800 hover:bg-stone-900 text-white px-6 py-2.5 rounded-xl font-medium transition">
           View Plans
@@ -151,22 +153,64 @@ export default function IntegrationsPage({ params }: { params: Promise<{ institu
   }
 
   return (
-    <div className="max-w-4xl p-6">
-      <div className="flex justify-between items-center mb-8">
+    <div className="max-w-5xl p-4 sm:p-6 space-y-6 animate-in fade-in duration-300">
+      {/* Top Header & Tab Switcher */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-5">
         <div>
-          <h1 className="text-3xl font-bold text-stone-900 flex items-center gap-3">
-            <Zap className="w-8 h-8 text-stone-800" />
-            CRM Integrations
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 flex items-center gap-3">
+            <Zap className="w-7 h-7 text-amber-600" />
+            Integrations & Lead Automation
           </h1>
-          <p className="text-stone-500 mt-2">Automatically forward your leads to Zoho, Salesforce, or any CRM using Webhooks.</p>
+          <p className="text-stone-500 text-xs sm:text-sm mt-1">
+            Capture prospective leads from Meta, Google, and your website, or export leads to your external CRM.
+          </p>
         </div>
-        {!showForm && (
-          <Button onClick={() => setShowForm(true)} className="rounded-xl px-6 font-bold shadow-md">
-            <Plus className="w-4 h-4 mr-2" />
-            New Integration
-          </Button>
-        )}
+
+        {/* Tab Switcher */}
+        <div className="flex items-center bg-stone-200/80 p-1 rounded-2xl shrink-0 self-start md:self-auto border border-stone-300/60 shadow-2xs">
+          <button
+            type="button"
+            onClick={() => setActiveTab("INBOUND")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              activeTab === "INBOUND"
+                ? "bg-white text-stone-900 shadow-xs"
+                : "text-stone-600 hover:text-stone-900"
+            }`}
+          >
+            <ArrowDownToLine className="w-3.5 h-3.5 text-amber-600" />
+            Capture Leads (Inbound)
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("OUTBOUND")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              activeTab === "OUTBOUND"
+                ? "bg-white text-stone-900 shadow-xs"
+                : "text-stone-600 hover:text-stone-900"
+            }`}
+          >
+            <ArrowUpFromLine className="w-3.5 h-3.5 text-blue-600" />
+            CRM Export (Outbound)
+          </button>
+        </div>
       </div>
+
+      {activeTab === "INBOUND" ? (
+        <InboundLeadsManager instituteId={instituteId} />
+      ) : (
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-xl font-bold text-stone-900">Outbound CRM Webhooks</h2>
+              <p className="text-stone-500 text-xs mt-0.5">Automatically forward your AcademyFind leads to Zoho, Salesforce, or any CRM.</p>
+            </div>
+            {!showForm && (
+              <Button onClick={() => setShowForm(true)} className="rounded-xl px-4 font-bold shadow-xs text-xs">
+                <Plus className="w-4 h-4 mr-1.5" />
+                New CRM Connection
+              </Button>
+            )}
+          </div>
 
       {showForm && (
         <div className="bg-white border border-stone-200 rounded-3xl p-6 mb-8 shadow-sm">
@@ -332,6 +376,8 @@ export default function IntegrationsPage({ params }: { params: Promise<{ institu
         confirmText="Delete"
         destructive
       />
+        </div>
+      )}
     </div>
   );
 }

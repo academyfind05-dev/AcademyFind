@@ -355,6 +355,7 @@ model Institute {
   createdAt           DateTime                   @default(now())
   updatedAt           DateTime                   @updatedAt
   crmIntegrations     CRMIntegration[]
+  inboundLeadIntegrations InboundLeadIntegration[]
   imageUrl            String?
   averageRating       Float?                     @default(0)
   reviewCount         Int                        @default(0)
@@ -621,11 +622,14 @@ model InstituteEnquiry {
   lastUpdatedByRole      String?
   lastUpdatedByName      String?
   parentId               String?
+  source                 String                @default("ACADEMYFIND")
+  sourceDetails          Json?
   createdAt              DateTime              @default(now())
   updatedAt              DateTime              @updatedAt
   institute              Institute             @relation(fields: [instituteId], references: [id], onDelete: Cascade)
   distributionLogs       LeadDistributionLog[] @relation("DistributionLogs")
   statusHistory          EnquiryStatusHistory[]
+  comments               EnquiryComment[]
 
   @@index([instituteId])
   @@index([assignedSalesManagerId])
@@ -2380,6 +2384,35 @@ model CRMIntegration {
   @@map("crm_integration")
 }
 
+enum InboundProvider {
+  META
+  GOOGLE
+  WEBSITE_WEBHOOK
+  ZAPIER
+  LINKEDIN
+}
+
+model InboundLeadIntegration {
+  id                 String          @id @default(cuid())
+  instituteId        String
+  provider           InboundProvider
+  name               String?
+  webhookUrl         String?
+  apiKey             String          @unique
+  config             Json?
+  isActive           Boolean         @default(true)
+  totalLeadsReceived Int             @default(0)
+  lastLeadAt         DateTime?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  institute          Institute       @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+
+  @@index([instituteId])
+  @@index([apiKey])
+  @@map("inbound_lead_integration")
+}
+
 // --- PORTFOLIO MODELS ---
 
 enum EducationType {
@@ -2568,4 +2601,19 @@ model EnquiryStatusHistory {
 
   @@index([enquiryId])
   @@map("enquiry_status_history")
+}
+
+model EnquiryComment {
+  id              String           @id @default(cuid())
+  enquiryId       String
+  content         String           @db.Text
+  authorRole      String           // ADMIN | SALES_MANAGER
+  authorName      String
+  authorId        String?
+  createdAt       DateTime         @default(now())
+
+  enquiry         InstituteEnquiry @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+
+  @@index([enquiryId])
+  @@map("enquiry_comment")
 }

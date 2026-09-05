@@ -4,17 +4,30 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { markAllAsRead } from "@/lib/User/admin/adminNotification";
 import MarkAsReadButton from "@/components/admin/AdminMarkasRead";
-import { getSession } from "@/lib/auth/getSession";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic"; // Hamesha fresh data layega
 
 export default async function AdminNotificationsPage() {
-    const session = await getSession();
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
     const userId = session?.user?.id;
 
-    // 1. Database se sirf logged in admin ki notifications fetch karo
+    if (!session || !userId) {
+        redirect("/login");
+    }
+
+    // 1. Database se sirf logged in admin ki notifications fetch karo (or general broadcast notifications)
     const notifications = await prisma.adminNotification.findMany({
-        where: userId ? { userId } : undefined,
+        where: {
+            OR: [
+                { userId },
+                { userId: null }
+            ]
+        },
         orderBy: { createdAt: "desc" },
         take: 50 // Sirf pichli 50 notifications dikhayenge
     });

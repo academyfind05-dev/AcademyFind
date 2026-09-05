@@ -443,6 +443,11 @@ export type BlogBrand = Prisma.BlogBrandModel
  */
 export type CRMIntegration = Prisma.CRMIntegrationModel
 /**
+ * Model InboundLeadIntegration
+ * 
+ */
+export type InboundLeadIntegration = Prisma.InboundLeadIntegrationModel
+/**
  * Model UserEducation
  * 
  */
@@ -492,3 +497,8 @@ export type SystemSetting = Prisma.SystemSettingModel
  * 
  */
 export type EnquiryStatusHistory = Prisma.EnquiryStatusHistoryModel
+/**
+ * Model EnquiryComment
+ * 
+ */
+export type EnquiryComment = Prisma.EnquiryCommentModel

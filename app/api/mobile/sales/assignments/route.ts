@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth/getSession';
 import { notifyAdmins } from '@/lib/notifications/notify';
-import { notifyAdminsPush } from '@/lib/pushNotifications';
 
 export async function GET(request: NextRequest) {
   try {
@@ -113,7 +112,7 @@ export async function PUT(request: NextRequest) {
       }
     });
 
-    // 🔔 Notify Admins about the status update
+    // 🔔 Notify Admins about the status update (notifyAdmins handles DB row and push notification)
     const managerName = updated.salesManager?.name || session.user.name || "Sales Manager";
     const instName = updated.institute?.name || "Institute";
     notifyAdmins(
@@ -123,12 +122,6 @@ export async function PUT(request: NextRequest) {
       `/af-ass-manage/sales_manager/${updated.salesManagerId}`,
       updated.id
     ).catch(e => console.error("Admin notification error:", e));
-
-    notifyAdminsPush({
-      title: `Sales Update: ${instName}`,
-      body: `${managerName} updated status to "${contactStatus}".`,
-      data: { screen: '(admin)/sales' }
-    });
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
