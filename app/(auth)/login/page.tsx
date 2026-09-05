@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import LoginComponent from "./Login";
+import { getPlatformStats } from "@/lib/stats";
 
 export const metadata: Metadata = {
   title: "Login to AcademyFind | Student & Institute Dashboard",
@@ -20,8 +21,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const stats = await getPlatformStats();
+
   return (
-    <LoginComponent />
+    <LoginComponent stats={stats} />
   );
-}
+}
