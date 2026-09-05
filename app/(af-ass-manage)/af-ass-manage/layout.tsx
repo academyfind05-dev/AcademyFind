@@ -24,7 +24,8 @@ import {
     MessageCircle,
     Wallet,
     Activity,
-    Megaphone
+    Megaphone,
+    Share2
 } from "lucide-react";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
@@ -86,6 +87,7 @@ export default async function AdminLayout({
         enquiryCount,
         blogCount,
         adCount,
+        inboundLeadCount,
     ] = await Promise.all([
         prisma.instituteClaim.count({ where: { status: "PENDING" } }),
         prisma.review.count({ where: { status: "PENDING" } }),
@@ -95,9 +97,25 @@ export default async function AdminLayout({
         prisma.lifeCoachRequest.count({ where: { status: "PENDING" } }),
         prisma.subscriptionPayment.count({ where: { status: "PENDING" } }),
         prisma.jobApplication.count({ where: { status: "NEW" } }),
-        prisma.instituteEnquiry.count({ where: { status: "NEW", isForwarded: false } }),
+        prisma.instituteEnquiry.count({
+            where: {
+                status: "NEW",
+                isForwarded: false,
+                source: {
+                    notIn: [
+                        'GOOGLE_ADS',
+                        'META_ADS',
+                        'WEBSITE_WEBHOOK',
+                        'ZAPIER',
+                        'LINKEDIN',
+                        'EXTERNAL_WEBHOOK',
+                    ]
+                }
+            }
+        }),
         prisma.blogPost.count({ where: { status: "PENDING_REVIEW" } }),
         prisma.advertisement.count({ where: { status: "PENDING" } }),
+        prisma.inboundLead.count({ where: { status: "NEW" } }),
     ]);
 
     // New route counts
@@ -140,6 +158,7 @@ export default async function AdminLayout({
                         <SidebarLink href="/af-ass-manage/reviews" icon={<Star />} label="Review Requests" count={reviewCount} />
                         <SidebarLink href="/af-ass-manage/instituteRequests" icon={<FileType2 />} label="Institute Requests" count={instituteReqCount} />
                         <SidebarLink href="/af-ass-manage/instituteCallbacks" icon={<PhoneCall />} label="Institute Callbacks" count={enquiryCount} />
+                        <SidebarLink href="/af-ass-manage/lead-integrations" icon={<Share2 />} label="Ad & Webhook Leads" count={inboundLeadCount} />
                         <SidebarLink href="/af-ass-manage/contactmessages" icon={<Contact />} label="Contact Messages" count={contactCount} />
                         <SidebarLink href="/af-ass-manage/payments" icon={<Pyramid />} label="Payment Approvals" count={paymentCount} />
                         <SidebarLink href="/af-ass-manage/advertisements" icon={<Megaphone />} label="Advertisements" count={adCount} />

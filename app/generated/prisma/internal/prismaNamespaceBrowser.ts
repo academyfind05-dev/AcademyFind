@@ -137,6 +137,7 @@ export const ModelName = {
   BlogBrand: 'BlogBrand',
   CRMIntegration: 'CRMIntegration',
   InboundLeadIntegration: 'InboundLeadIntegration',
+  InboundLead: 'InboundLead',
   UserEducation: 'UserEducation',
   UserExperience: 'UserExperience',
   UserAchievement: 'UserAchievement',
@@ -1576,6 +1577,25 @@ export const InboundLeadIntegrationScalarFieldEnum = {
 } as const
 
 export type InboundLeadIntegrationScalarFieldEnum = (typeof InboundLeadIntegrationScalarFieldEnum)[keyof typeof InboundLeadIntegrationScalarFieldEnum]
+
+
+export const InboundLeadScalarFieldEnum = {
+  id: 'id',
+  integrationId: 'integrationId',
+  instituteId: 'instituteId',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  message: 'message',
+  source: 'source',
+  sourceDetails: 'sourceDetails',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InboundLeadScalarFieldEnum = (typeof InboundLeadScalarFieldEnum)[keyof typeof InboundLeadScalarFieldEnum]
 
 
 export const UserEducationScalarFieldEnum = {

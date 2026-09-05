@@ -472,6 +472,11 @@ export type CRMIntegration = Prisma.CRMIntegrationModel
  */
 export type InboundLeadIntegration = Prisma.InboundLeadIntegrationModel
 /**
+ * Model InboundLead
+ * 
+ */
+export type InboundLead = Prisma.InboundLeadModel
+/**
  * Model UserEducation
  * 
  */

@@ -356,6 +356,7 @@ model Institute {
   updatedAt           DateTime                   @updatedAt
   crmIntegrations     CRMIntegration[]
   inboundLeadIntegrations InboundLeadIntegration[]
+  inboundLeads        InboundLead[]
   imageUrl            String?
   averageRating       Float?                     @default(0)
   reviewCount         Int                        @default(0)
@@ -2407,10 +2408,35 @@ model InboundLeadIntegration {
   updatedAt          DateTime        @updatedAt
 
   institute          Institute       @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+  leads              InboundLead[]
 
   @@index([instituteId])
   @@index([apiKey])
   @@map("inbound_lead_integration")
+}
+
+model InboundLead {
+  id            String                  @id @default(cuid())
+  integrationId String?
+  instituteId   String
+  name          String
+  phone         String
+  email         String?
+  message       String?                 @db.Text
+  source        String                  // META_ADS | GOOGLE_ADS | WEBSITE_WEBHOOK | ZAPIER | LINKEDIN
+  sourceDetails Json?
+  status        String                  @default("NEW") // NEW | CONTACTED | CONVERTED | JUNK
+  notes         String?                 @db.Text
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+
+  integration   InboundLeadIntegration? @relation(fields: [integrationId], references: [id], onDelete: SetNull)
+  institute     Institute               @relation(fields: [instituteId], references: [id], onDelete: Cascade)
+
+  @@index([instituteId])
+  @@index([integrationId])
+  @@index([createdAt])
+  @@map("inbound_lead")
 }
 
 // --- PORTFOLIO MODELS ---

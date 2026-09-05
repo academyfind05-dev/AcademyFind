@@ -176,8 +176,9 @@ export async function simulateTestLead(id: string, instituteId: string) {
         break;
     }
 
-    const enquiry = await prisma.instituteEnquiry.create({
+    const lead = await prisma.inboundLead.create({
       data: {
+        integrationId: integration.id,
         instituteId,
         name: `[Test Lead] ${mockName}`,
         phone: mockPhone,
@@ -192,7 +193,6 @@ export async function simulateTestLead(id: string, instituteId: string) {
           simulatedAt: new Date().toISOString(),
         },
         status: "NEW",
-        userContactStatus: "NEW",
       },
     });
 
@@ -206,13 +206,14 @@ export async function simulateTestLead(id: string, instituteId: string) {
 
     revalidatePath(`/manager/${instituteId}/integrations`);
     revalidatePath(`/manager/${instituteId}/leads`);
+    revalidatePath(`/af-ass-manage/lead-integrations`);
 
     return {
       success: true,
-      leadId: enquiry.id,
+      leadId: lead.id,
       leadName: mockName,
       leadPhone: mockPhone,
-      message: `Test lead successfully sent! Check your Student Leads tab to view it.`,
+      message: `Test lead successfully sent! Check your Student Leads tab or Admin Ad Leads to view it.`,
     };
   } catch (error: any) {
     console.error("Error simulating test lead:", error);

@@ -346,7 +346,7 @@ export async function POST(
     // 5. Check for rapid duplicate (same phone & institute in last 2 minutes)
     if (phone && phone !== "Email-Only Lead" && phone !== "Awaiting Meta Sync") {
       const twoMinutesAgo = new Date(Date.now() - 2 * 60 * 1000);
-      const duplicate = await prisma.instituteEnquiry.findFirst({
+      const duplicate = await prisma.inboundLead.findFirst({
         where: {
           instituteId: integration.instituteId,
           phone,
@@ -364,9 +364,10 @@ export async function POST(
       }
     }
 
-    // 6. Create InstituteEnquiry in database
-    const enquiry = await prisma.instituteEnquiry.create({
+    // 6. Create InboundLead in dedicated database table (separate from website callbacks)
+    const lead = await prisma.inboundLead.create({
       data: {
+        integrationId: integration.id,
         instituteId: integration.instituteId,
         name,
         phone,
@@ -375,7 +376,6 @@ export async function POST(
         source: sourceString,
         sourceDetails,
         status: "NEW",
-        userContactStatus: "NEW",
       },
     });
 
@@ -391,7 +391,7 @@ export async function POST(
     return NextResponse.json(
       {
         success: true,
-        leadId: enquiry.id,
+        leadId: lead.id,
         institute: integration.institute.name,
         source: sourceString,
         message: "Lead successfully recorded in AcademyFind CRM",

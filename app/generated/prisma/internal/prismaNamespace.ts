@@ -470,6 +470,7 @@ export const ModelName = {
   BlogBrand: 'BlogBrand',
   CRMIntegration: 'CRMIntegration',
   InboundLeadIntegration: 'InboundLeadIntegration',
+  InboundLead: 'InboundLead',
   UserEducation: 'UserEducation',
   UserExperience: 'UserExperience',
   UserAchievement: 'UserAchievement',
@@ -496,7 +497,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "salesAreaAssignment" | "salesAssignmentRequest" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "inboundLeadIntegration" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting" | "enquiryStatusHistory" | "enquiryComment"
+    modelProps: "user" | "userWallet" | "walletTransaction" | "userReputation" | "userPreference" | "userPreferredCategory" | "userPreferenceCity" | "reputationLog" | "session" | "account" | "verification" | "institute" | "city" | "category" | "categoryCityContent" | "instituteCategory" | "instituteManager" | "review" | "reviewReply" | "instituteClaim" | "userShortlist" | "userHistory" | "instituteEnquiry" | "teacherProfile" | "studentProfile" | "instituteMembership" | "studentInstituteRecord" | "teacherInstituteRecord" | "conversation" | "conversationParticipant" | "message" | "messageAttachment" | "messageReaction" | "messageRead" | "messageReport" | "chatSettings" | "userNotification" | "userBlock" | "contactMessage" | "contactReply" | "instituteRequest" | "subscriptionPayment" | "salesAssignment" | "salesCategoryAssignment" | "salesAreaAssignment" | "salesAssignmentRequest" | "lifeCoachRequest" | "adminNotification" | "jobPosting" | "jobApplication" | "generalResume" | "instituteDailyView" | "instituteVisit" | "instituteFacility" | "instituteBatch" | "batchStudent" | "batchTeacher" | "instituteHighlightStat" | "instituteAchievement" | "instituteFAQ" | "instituteOperatingHour" | "userCompareList" | "compareListInstitute" | "communityQuestion" | "communityAnswer" | "notablePersons" | "instituteComparisonCache" | "leadDistributionLog" | "blogAuthorProfile" | "blogCategory" | "blogTag" | "blogPost" | "blogSlugHistory" | "blogRevision" | "blogView" | "blogBookmark" | "blogAuthorFollower" | "blogSubscriber" | "blogReport" | "blogPostTag" | "blogComment" | "blogReaction" | "blogFAQ" | "blogBrand" | "cRMIntegration" | "inboundLeadIntegration" | "inboundLead" | "userEducation" | "userExperience" | "userAchievement" | "userSkill" | "visitorSession" | "visitorEvent" | "advertisement" | "advertisementAnalytic" | "systemSetting" | "enquiryStatusHistory" | "enquiryComment"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -6864,6 +6865,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InboundLead: {
+      payload: Prisma.$InboundLeadPayload<ExtArgs>
+      fields: Prisma.InboundLeadFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InboundLeadFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InboundLeadFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>
+        }
+        findFirst: {
+          args: Prisma.InboundLeadFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InboundLeadFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>
+        }
+        findMany: {
+          args: Prisma.InboundLeadFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>[]
+        }
+        create: {
+          args: Prisma.InboundLeadCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>
+        }
+        createMany: {
+          args: Prisma.InboundLeadCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InboundLeadCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>[]
+        }
+        delete: {
+          args: Prisma.InboundLeadDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>
+        }
+        update: {
+          args: Prisma.InboundLeadUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>
+        }
+        deleteMany: {
+          args: Prisma.InboundLeadDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InboundLeadUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InboundLeadUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>[]
+        }
+        upsert: {
+          args: Prisma.InboundLeadUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InboundLeadPayload>
+        }
+        aggregate: {
+          args: Prisma.InboundLeadAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInboundLead>
+        }
+        groupBy: {
+          args: Prisma.InboundLeadGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InboundLeadGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InboundLeadCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InboundLeadCountAggregateOutputType> | number
+        }
+      }
+    }
     UserEducation: {
       payload: Prisma.$UserEducationPayload<ExtArgs>
       fields: Prisma.UserEducationFieldRefs
@@ -9129,6 +9204,25 @@ export const InboundLeadIntegrationScalarFieldEnum = {
 export type InboundLeadIntegrationScalarFieldEnum = (typeof InboundLeadIntegrationScalarFieldEnum)[keyof typeof InboundLeadIntegrationScalarFieldEnum]
 
 
+export const InboundLeadScalarFieldEnum = {
+  id: 'id',
+  integrationId: 'integrationId',
+  instituteId: 'instituteId',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  message: 'message',
+  source: 'source',
+  sourceDetails: 'sourceDetails',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InboundLeadScalarFieldEnum = (typeof InboundLeadScalarFieldEnum)[keyof typeof InboundLeadScalarFieldEnum]
+
+
 export const UserEducationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -10141,6 +10235,7 @@ export type GlobalOmitConfig = {
   blogBrand?: Prisma.BlogBrandOmit
   cRMIntegration?: Prisma.CRMIntegrationOmit
   inboundLeadIntegration?: Prisma.InboundLeadIntegrationOmit
+  inboundLead?: Prisma.InboundLeadOmit
   userEducation?: Prisma.UserEducationOmit
   userExperience?: Prisma.UserExperienceOmit
   userAchievement?: Prisma.UserAchievementOmit

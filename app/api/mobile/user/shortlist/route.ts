@@ -1,23 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/auth/getSession';
-
-async function getUserIdFromRequest(request: NextRequest): Promise<string | null> {
-  const authHeader = request.headers.get("authorization");
-  if (authHeader && authHeader.startsWith("Bearer ")) {
-    const token = authHeader.split(" ")[1];
-    const sessionObj = await prisma.session.findFirst({
-      where: { token, expiresAt: { gt: new Date() } },
-    });
-    if (sessionObj) return sessionObj.userId;
-  }
-  const session = await getSession();
-  return session?.user?.id || null;
-}
+import { getMobileUserId } from '@/lib/auth/getMobileUserId';
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = await getUserIdFromRequest(request);
+    const userId = await getMobileUserId(request);
     if (!userId) return NextResponse.json({ success: true, data: [] });
 
     const shortlist = await prisma.userShortlist.findMany({
@@ -43,7 +30,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = await getUserIdFromRequest(request);
+    const userId = await getMobileUserId(request);
     if (!userId) {
       return NextResponse.json({ success: false, error: 'Unauthorized: Please login first' }, { status: 401 });
     }

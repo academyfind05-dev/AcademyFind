@@ -46,24 +46,52 @@ export default async function EnquiriesPage({
         );
     }
 
-    // Build query with source filter
-    const whereClause: any = { instituteId };
-    if (currentSource !== "ALL") {
-        whereClause.source = currentSource;
-    }
-
-    const [enquiries, totalCount, metaCount, googleCount, websiteCount, zapierCount, directCount] = await Promise.all([
+    // Fetch both direct portal enquiries and inbound ad leads
+    const [
+        directEnquiries,
+        inboundLeads,
+        directCount,
+        metaCount,
+        googleCount,
+        websiteCount,
+        zapierCount
+    ] = await Promise.all([
         prisma.instituteEnquiry.findMany({
-            where: whereClause,
+            where: { instituteId },
+            orderBy: { createdAt: "desc" },
+        }),
+        prisma.inboundLead.findMany({
+            where: { instituteId },
             orderBy: { createdAt: "desc" },
         }),
         prisma.instituteEnquiry.count({ where: { instituteId } }),
-        prisma.instituteEnquiry.count({ where: { instituteId, source: "META_ADS" } }),
-        prisma.instituteEnquiry.count({ where: { instituteId, source: "GOOGLE_ADS" } }),
-        prisma.instituteEnquiry.count({ where: { instituteId, source: "WEBSITE_WEBHOOK" } }),
-        prisma.instituteEnquiry.count({ where: { instituteId, source: "ZAPIER" } }),
-        prisma.instituteEnquiry.count({ where: { instituteId, source: "ACADEMYFIND" } }),
+        prisma.inboundLead.count({ where: { instituteId, source: "META_ADS" } }),
+        prisma.inboundLead.count({ where: { instituteId, source: "GOOGLE_ADS" } }),
+        prisma.inboundLead.count({ where: { instituteId, source: "WEBSITE_WEBHOOK" } }),
+        prisma.inboundLead.count({ where: { instituteId, source: "ZAPIER" } }),
     ]);
+
+    // Format and unify list
+    const combinedLeads = [
+        ...directEnquiries.map((e) => ({
+            ...e,
+            isDirectPortal: true,
+            source: e.source || "ACADEMYFIND",
+        })),
+        ...inboundLeads.map((l) => ({
+            ...l,
+            isDirectPortal: false,
+            source: l.source,
+        })),
+    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+    const filteredLeads = combinedLeads.filter((item) => {
+        if (currentSource === "ALL") return true;
+        if (currentSource === "ACADEMYFIND") return item.isDirectPortal;
+        return item.source === currentSource;
+    });
+
+    const totalCount = directCount + metaCount + googleCount + websiteCount + zapierCount;
 
     const sourceTabs = [
         { id: "ALL", label: "All Leads", count: totalCount },
@@ -161,7 +189,7 @@ export default async function EnquiriesPage({
             </div>
 
             {/* Leads List */}
-            {enquiries.length === 0 ? (
+            {filteredLeads.length === 0 ? (
                 <div className="p-12 text-center border border-stone-200 rounded-3xl bg-white shadow-2xs">
                     <MessageSquare className="w-10 h-10 text-stone-300 mx-auto mb-2" />
                     <h4 className="font-bold text-stone-800 text-sm">No enquiries found</h4>
@@ -181,7 +209,7 @@ export default async function EnquiriesPage({
                 </div>
             ) : (
                 <div className="grid gap-4">
-                    {enquiries.map((enquiry: any) => {
+                    {filteredLeads.map((enquiry: any) => {
                         const cleanPhone = (enquiry.phone || "").replace(/[^\d]/g, "");
                         const waNumber = cleanPhone.startsWith("91") ? cleanPhone : `91${cleanPhone}`;
 

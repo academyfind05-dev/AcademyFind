@@ -50,9 +50,19 @@ export default async function AdminCallbacksPage({
   const instituteIdFilter = params.instituteId;
   const salesManagerFilter = params.salesManagerId || 'ALL';
 
-  // 🚀 Sirf Original Leads dikhani hain Admin ko, copies nahi!
+  // 🚀 Sirf AcademyFind Website Callbacks dikhani hain, External Ad/Webhook leads nahi!
   const whereCondition: any = {
-    isForwarded: false
+    isForwarded: false,
+    source: {
+      notIn: [
+        'GOOGLE_ADS',
+        'META_ADS',
+        'WEBSITE_WEBHOOK',
+        'ZAPIER',
+        'LINKEDIN',
+        'EXTERNAL_WEBHOOK',
+      ]
+    }
   };
 
   if (currentFilter === 'PENDING') {

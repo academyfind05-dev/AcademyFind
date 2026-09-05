@@ -1,20 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getMobileUserId } from '@/lib/auth/getMobileUserId';
 import { getSession } from '@/lib/auth/getSession';
 import { autoGrantDailyLoginBonus } from '@/lib/wallet/auto-daily-login';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const session = await getSession();
-    if (!session?.user) {
+    let userId = await getMobileUserId(request);
+    if (!userId) {
+      const session = await getSession();
+      userId = session?.user?.id || null;
+    }
+
+    if (!userId) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
     }
 
     // Auto-credit daily login bonus on app launch
-    await autoGrantDailyLoginBonus(session.user.id);
+    await autoGrantDailyLoginBonus(userId);
 
     const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { id: userId },
       select: {
         id: true, name: true, email: true, image: true, role: true,
         phone: true, username: true,
@@ -73,7 +79,7 @@ export async function GET() {
     }
 
     const wallet = await prisma.userWallet.findUnique({
-      where: { userId: session.user.id },
+      where: { userId },
       select: { balance: true },
     });
 
