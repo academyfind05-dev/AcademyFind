@@ -118,10 +118,10 @@ export default async function LeadIntegrationsPage() {
     name: c.institute.name,
   }));
 
-  const activeIntegrationsCount = integrations.filter((i) => i.isActive).length;
-  const googleCount = integrations.filter((i) => i.provider === "GOOGLE").length;
-  const metaCount = integrations.filter((i) => i.provider === "META").length;
-  const webhookCount = integrations.filter((i) => i.provider === "WEBSITE_WEBHOOK" || i.provider === "ZAPIER").length;
+  const activeIntegrationsCount = integrations.filter((i: any) => i.isActive).length;
+  const googleCount = integrations.filter((i: any) => i.provider === "GOOGLE").length;
+  const metaCount = integrations.filter((i: any) => i.provider === "META").length;
+  const webhookCount = integrations.filter((i: any) => i.provider === "WEBSITE_WEBHOOK" || i.provider === "ZAPIER").length;
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">

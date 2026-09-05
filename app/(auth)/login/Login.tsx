@@ -18,9 +18,11 @@ import { redirect, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { auth } from "@/lib/auth/auth";
 import { useMobileApp } from "@/hooks/useMobileApp";
+import { PlatformStats } from "@/lib/stats";
 
-export default function LoginComponent() {
+export default function LoginComponent({ stats }: { stats?: PlatformStats }) {
   const [method, setMethod] = useState<"email" | "phone">("email");
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [phone, setphone] = useState("");
@@ -185,17 +187,27 @@ export default function LoginComponent() {
           {/* Stats */}
           <div className="mt-14 flex flex-wrap gap-4">
             <div className="rounded-2xl bg-white/15 px-5 py-4 backdrop-blur-md">
-              <p className="text-2xl font-bold">41,000+</p>
+              <p className="text-2xl font-bold">
+                {stats?.instituteCount !== undefined
+                  ? `${stats.instituteCount.toLocaleString("en-IN")}`
+                  : "41,000+"}
+              </p>
               <p className="text-sm text-orange-100">Institutes</p>
             </div>
             <div className="rounded-2xl bg-white/15 px-5 py-4 backdrop-blur-md">
-              <p className="text-2xl font-bold">9+</p>
+              <p className="text-2xl font-bold">
+                {stats?.cityCount !== undefined
+                  ? `${stats.cityCount.toLocaleString("en-IN")}+`
+                  : "9+"}
+              </p>
               <p className="text-sm text-orange-100">Cities</p>
             </div>
             <div className="rounded-2xl bg-white/15 px-5 py-4 backdrop-blur-md">
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4 fill-white text-white" />
-                <span className="text-2xl font-bold">4.6</span>
+                <span className="text-2xl font-bold">
+                  {stats?.avgRating !== undefined ? stats.avgRating.toFixed(1) : "4.6"}
+                </span>
               </div>
               <p className="text-sm text-orange-100">Avg Rating</p>
             </div>

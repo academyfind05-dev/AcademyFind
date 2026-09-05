@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ForgotPasswordComponent from "./ForgotPassword";
+import { getPlatformStats } from "@/lib/stats";
 
 export const metadata: Metadata = {
   title: "Forgot Password | AcademyFind",
@@ -13,6 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ForgotPasswordPage() {
-  return <ForgotPasswordComponent />;
+export default async function ForgotPasswordPage() {
+  const stats = await getPlatformStats();
+  return <ForgotPasswordComponent stats={stats} />;
 }
+
