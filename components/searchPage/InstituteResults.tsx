@@ -1,14 +1,14 @@
 import InstituteCard from "@/components/institutes/InstituteCard";
 import { meili } from "@/lib/meilisearch";
-import MapToggleSection from "../maps/MapToggleSection"; 
-import Link from "next/link"; 
-import { Briefcase, ChevronLeft, ChevronRight, FileText } from "lucide-react"; 
+import MapToggleSection from "../maps/MapToggleSection";
+import Link from "next/link";
+import { Briefcase, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 
 type Props = {
   query: string;
-  type?: string;     
+  type?: string;
   city?: string;
-  category?: string; 
+  category?: string;
   rating?: string;
   lat?: string;
   lng?: string;
@@ -21,10 +21,10 @@ type Props = {
   providerType?: string;
 };
 
-export default async function InstituteResults({ 
-  query, type, city, category, rating, lat, lng, radius, sort, page, address, userlat, userlng, providerType 
+export default async function InstituteResults({
+  query, type, city, category, rating, lat, lng, radius, sort, page, address, userlat, userlng, providerType
 }: Props) {
-  
+
   const searchFilters: string[] = [];
 
   const pageNumber = page ? parseInt(page) : 1;
@@ -34,7 +34,7 @@ export default async function InstituteResults({
   // 2. Text/Standard Filters
   if (type && type !== "ALL") searchFilters.push(`type = "${type}"`);
   if (city && city !== "ALL") searchFilters.push(`citySlug = "${city}"`);
-  if (category && category !== "ALL") searchFilters.push(`categorySlugs = "${category}"`); 
+  if (category && category !== "ALL") searchFilters.push(`categorySlugs = "${category}"`);
   if (rating && rating !== "ALL") searchFilters.push(`googleRating >= ${rating}`);
   if (providerType && providerType !== "ALL") searchFilters.push(`providerType = "${providerType}"`);
 
@@ -48,19 +48,23 @@ export default async function InstituteResults({
   const activelng = isNearestme ? userlng : lng;
 
   // 3. GEO-RADIUS FILTER
-  if (activelat && activelng) {
+  if (activelat && activelng && radius && radius !== "ALL") {
+    const radiusInMeters = parseInt(radius) * 1000;
+    searchFilters.push(`_geoRadius(${activelat}, ${activelng}, ${radiusInMeters})`);
+  } else if (isNearestme && radius !== "ALL") {
     const radiusInMeters = parseInt(radius || "5") * 1000;
     searchFilters.push(`_geoRadius(${activelat}, ${activelng}, ${radiusInMeters})`);
   }
 
   // 4. SORTING OPTIONS
   let sortOptions: string[] | undefined = undefined;
-  
-  // Ab activeSort check kar rahe hain, direct sort nahi
-  if (activelat && activelng && (activeSort === "nearest_location" || activeSort === "nearest_me")) {
-    sortOptions = ["planWeight:desc", `_geoPoint(${activelat}, ${activelng}):asc`, "googleRating:desc"];
+
+  if (activelat && activelng) {
+    sortOptions = [`_geoPoint(${activelat}, ${activelng}):asc`, "planWeight:desc", "googleReviewCount:desc", "googleRating:desc"];
   } else if (activeSort === "rating") {
     sortOptions = ["planWeight:desc", "googleRating:desc"];
+  } else if (activeSort === "reviews") {
+    sortOptions = ["planWeight:desc", "googleReviewCount:desc"];
   } else {
     sortOptions = ["planWeight:desc", "googleRating:desc"];
   }
@@ -70,7 +74,7 @@ export default async function InstituteResults({
     limit: limit,
     offset: offset,
     filter: searchFilters,
-    sort: sortOptions, 
+    sort: sortOptions,
   });
 
   let hits = result.hits as any[];
@@ -82,7 +86,7 @@ export default async function InstituteResults({
     result = await meili.index("global_search").search("", {
       limit: limit,
       offset: offset,
-      filter: searchFilters, 
+      filter: searchFilters,
       sort: sortOptions,
     });
     hits = result.hits as any[];
@@ -103,20 +107,20 @@ export default async function InstituteResults({
     if (category) params.set("category", category);
     if (rating) params.set("rating", rating);
     if (providerType) params.set("providerType", providerType);
-    
+
     // Original lat/lng apni jagah
     if (lat) params.set("lat", lat);
     if (lng) params.set("lng", lng);
-    
+
     // User GPS apni jagah
     if (userlat) params.set("userlat", userlat);
     if (userlng) params.set("userlng", userlng);
-    
+
     if (radius) params.set("radius", radius);
     if (sort) params.set("sort", sort);
     if (address) params.set("address", address);
     params.set("page", newPage.toString());
-    
+
     return `/search?${params.toString()}`;
   };
 
@@ -153,62 +157,62 @@ export default async function InstituteResults({
       )}
 
       {instituteHits.length > 0 && (
-          <MapToggleSection
-            institutes={instituteHits.map((institute) => ({
-              id: institute.id,
-              name: institute.name,
-              latitude: institute.latitude || institute._geo?.lat, 
-              longitude: institute.longitude || institute._geo?.lng,
-              slug: `${institute.prismaId}-${institute.slug}`,
-            }))}
-          />
+        <MapToggleSection
+          institutes={instituteHits.map((institute) => ({
+            id: institute.id,
+            name: institute.name,
+            latitude: institute.latitude || institute._geo?.lat,
+            longitude: institute.longitude || institute._geo?.lng,
+            slug: `${institute.prismaId}-${institute.slug}`,
+          }))}
+        />
       )}
 
       <div className="grid gap-6 md:grid-cols-2 mt-6">
         {hits.map((hit) => {
-            // 🔥 Ab agar sortOptions Meili ko jayega, tabhi _geoDistance aayega
-            const distanceInKm = hit._geoDistance 
-              ? (hit._geoDistance / 1000).toFixed(1) + " km" 
-              : undefined;
+          // 🔥 Ab agar sortOptions Meili ko jayega, tabhi _geoDistance aayega
+          const distanceInKm = hit._geoDistance
+            ? (hit._geoDistance / 1000).toFixed(1) + " km"
+            : undefined;
 
-            if (hit.type === "institute") {
-                return (
-                    <InstituteCard
-                        key={hit.id}
-                        id={hit.prismaId}
-                        slug={hit.slug}
-                        name={hit.name}
-                        image={hit.imageUrl}
-                        averageRating={hit.googleRating || hit.averageRating}
-                        reviewCount={hit.googleReviewCount || hit.reviewCount}
-                        description={hit.description}
-                        city={{
-                            name: hit.city,
-                            slug: hit.citySlug,
-                        }}
-                        distance={distanceInKm} 
-                    />
-                );
-            }
-            // ... (Job and category components) ...
+          if (hit.type === "institute") {
+            return (
+              <InstituteCard
+                key={hit.id}
+                id={hit.prismaId}
+                slug={hit.slug}
+                name={hit.name}
+                image={hit.imageUrl}
+                averageRating={hit.googleRating || hit.averageRating}
+                reviewCount={hit.googleReviewCount || hit.reviewCount}
+                description={hit.description}
+                city={{
+                  name: hit.city,
+                  slug: hit.citySlug,
+                }}
+                distance={distanceInKm}
+              />
+            );
+          }
+          // ... (Job and category components) ...
         })}
       </div>
 
       {totalPages > 1 && (
         <div className="flex items-center justify-between border-t border-slate-200 mt-10 pt-6">
-          <Link 
+          <Link
             href={hasPrevPage ? createPageUrl(pageNumber - 1) : "#"}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${hasPrevPage ? "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50" : "opacity-50 cursor-not-allowed text-slate-400"}`}
             aria-disabled={!hasPrevPage}
           >
             <ChevronLeft className="w-4 h-4" /> Previous
           </Link>
-          
+
           <span className="text-sm font-medium text-slate-500">
             Page {pageNumber} of {totalPages}
           </span>
-          
-          <Link 
+
+          <Link
             href={hasNextPage ? createPageUrl(pageNumber + 1) : "#"}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${hasNextPage ? "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50" : "opacity-50 cursor-not-allowed text-slate-400"}`}
             aria-disabled={!hasNextPage}

@@ -2,9 +2,43 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
-import { MessageSquare, Building2, Eye, Calendar, User, Phone, Filter, ArrowLeft, UserCheck } from "lucide-react";
+import { MessageSquare, Building2, Eye, Calendar, User, Phone, Filter, ArrowLeft, UserCheck, FileText } from "lucide-react";
 import AdminDeleteButton from "@/components/admin/AdminDeleteButton";
 import { deleteCallbackAction } from "./actions";
+
+const formatStatus = (s: string) => {
+  switch (s) {
+    case "CALL_BACK": return "Call Back";
+    case "FOLLOW_UP": return "Follow Up";
+    case "PENDING": return "Pending";
+    case "APPROVED": return "Approved";
+    case "REJECTED": return "Rejected";
+    case "MESSAGED": return "Messaged";
+    case "CALLED": return "Called";
+    case "DNP": return "DNP";
+    case "JUNK": return "Junk";
+    case "NEW": return "New";
+    case "ALL": return "All";
+    default: return s;
+  }
+};
+
+const getStatusBadgeClass = (s: string) => {
+  switch (s) {
+    case "APPROVED": return "bg-green-100 text-green-700 border border-green-200";
+    case "REJECTED": return "bg-red-100 text-red-700 border border-red-200";
+    case "CALL_BACK": return "bg-indigo-100 text-indigo-700 border border-indigo-200";
+    case "FOLLOW_UP": return "bg-orange-100 text-orange-700 border border-orange-200";
+    case "MESSAGED": return "bg-purple-100 text-purple-700 border border-purple-200";
+    case "CALLED": return "bg-emerald-100 text-emerald-700 border border-emerald-200";
+    case "DNP": return "bg-amber-100 text-amber-700 border border-amber-200";
+    case "JUNK": return "bg-red-100 text-red-700 border border-red-200";
+    case "PENDING":
+    case "NEW":
+    default:
+      return "bg-stone-100 text-stone-700 border border-stone-200";
+  }
+};
 
 export default async function AdminCallbacksPage({
   searchParams
@@ -21,7 +55,9 @@ export default async function AdminCallbacksPage({
     isForwarded: false
   };
 
-  if (currentFilter !== 'ALL') {
+  if (currentFilter === 'PENDING') {
+    whereCondition.status = { in: ['PENDING', 'NEW'] };
+  } else if (currentFilter !== 'ALL') {
     whereCondition.status = currentFilter;
   }
   
@@ -65,13 +101,17 @@ export default async function AdminCallbacksPage({
     })
   ]);
 
-  // Filter options array
+  // Filter options array matching institute requests + callback outreach options
   const filterOptions = [
     { label: "All", value: "ALL" },
-    { label: "New", value: "NEW" },
+    { label: "Pending", value: "PENDING" },
+    { label: "Call Back", value: "CALL_BACK" },
+    { label: "Follow Up", value: "FOLLOW_UP" },
+    { label: "Approved", value: "APPROVED" },
+    { label: "Rejected", value: "REJECTED" },
     { label: "Messaged", value: "MESSAGED" },
     { label: "Called", value: "CALLED" },
-    { label: "DNP (Did Not Pick)", value: "DNP" },
+    { label: "DNP", value: "DNP" },
     { label: "Junk", value: "JUNK" },
   ];
 
@@ -87,7 +127,7 @@ export default async function AdminCallbacksPage({
           <h1 className="text-3xl font-extrabold text-slate-900 flex items-center gap-3">
             <MessageSquare className="w-8 h-8 text-stone-500" /> Original Callbacks
           </h1>
-          <p className="text-slate-500 mt-1">Manage and monitor root student enquiries. (Showing: {currentFilter})</p>
+          <p className="text-slate-500 mt-1">Manage and monitor root student enquiries. (Showing: {formatStatus(currentFilter)})</p>
         </div>
         <div className="bg-stone-100 text-stone-800 px-4 py-2 rounded-xl font-bold text-sm shrink-0">
           Total Leads: {callbacks.length}
@@ -175,7 +215,7 @@ export default async function AdminCallbacksPage({
               {callbacks.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="p-10 text-center text-slate-400 font-medium">
-                    No callbacks found for "{currentFilter}".
+                    No callbacks found for "{formatStatus(currentFilter)}".
                   </td>
                 </tr>
               ) : (
@@ -225,36 +265,28 @@ export default async function AdminCallbacksPage({
                       <div className="flex flex-col gap-1.5">
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-bold text-stone-400 uppercase w-16">Institute:</span>
-                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider
-                            ${callback.status === 'NEW' ? 'bg-stone-50 text-stone-700 border border-stone-200/50 shadow-sm' : ''}
-                            ${callback.status === 'MESSAGED' ? 'bg-purple-100 text-purple-700' : ''}
-                            ${callback.status === 'CALLED' ? 'bg-emerald-100 text-emerald-700' : ''}
-                            ${callback.status === 'DNP' ? 'bg-orange-100 text-orange-700' : ''}
-                            ${callback.status === 'JUNK' ? 'bg-red-100 text-red-700' : ''}
-                            ${!['NEW', 'MESSAGED', 'CALLED', 'DNP', 'JUNK'].includes(callback.status) ? 'bg-slate-100 text-slate-700' : ''}
-                          `}>
-                            {callback.status || "NEW"}
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider ${getStatusBadgeClass(callback.status)}`}>
+                            {formatStatus(callback.status || "NEW")}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-bold text-stone-400 uppercase w-16">Student:</span>
-                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider
-                            ${callback.userContactStatus === 'NEW' ? 'bg-stone-50 text-stone-700 border border-stone-200/50 shadow-sm' : ''}
-                            ${callback.userContactStatus === 'MESSAGED' ? 'bg-purple-100 text-purple-700' : ''}
-                            ${callback.userContactStatus === 'CALLED' ? 'bg-emerald-100 text-emerald-700' : ''}
-                            ${callback.userContactStatus === 'DNP' ? 'bg-orange-100 text-orange-700' : ''}
-                            ${callback.userContactStatus === 'JUNK' ? 'bg-red-100 text-red-700' : ''}
-                            ${!['NEW', 'MESSAGED', 'CALLED', 'DNP', 'JUNK'].includes(callback.userContactStatus) ? 'bg-slate-100 text-slate-700' : ''}
-                          `}>
-                            {callback.userContactStatus || "NEW"}
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider ${getStatusBadgeClass(callback.userContactStatus)}`}>
+                            {formatStatus(callback.userContactStatus || "NEW")}
                           </span>
                         </div>
+                        {callback.adminNote && (
+                          <div className="mt-1 flex items-start gap-1 bg-amber-50/80 border border-amber-200/70 text-amber-900 rounded-md px-2 py-1 text-[11px] max-w-[220px]" title={callback.adminNote}>
+                            <FileText className="w-3 h-3 text-amber-600 shrink-0 mt-0.5" />
+                            <span className="truncate">{callback.adminNote}</span>
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link prefetch={false} href={`/af-ass-manage/instituteCallbacks/${callback.id}`}>
-                          <button className="p-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:text-stone-600 hover:border-stone-200 hover:bg-stone-50 transition-all shadow-xs cursor-pointer">
+                          <button className="p-2 bg-white border border-slate-200 rounded-xl text-slate-600 hover:text-stone-600 hover:border-stone-200 hover:bg-stone-50 transition-all shadow-xs cursor-pointer" title="View Callback Details">
                             <Eye className="w-4 h-4" />
                           </button>
                         </Link>

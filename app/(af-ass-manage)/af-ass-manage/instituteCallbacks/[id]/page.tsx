@@ -3,12 +3,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
-import { ArrowLeft, Building2, Calendar, MessageSquare, Phone, User, History, Zap, Star, BadgeCheck } from "lucide-react";
+import { ArrowLeft, Building2, Calendar, MessageSquare, Phone, User, History, Zap, Star, BadgeCheck, CheckCircle2 } from "lucide-react";
 import CallbackControls from "@/components/admin/AdminCallbackControls";
 import LeadDistributionForm from "@/components/admin/AdminLeadDistributionFor";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import AdminCallbackStatusForm from "@/components/admin/AdminCallbackStatusForm";
 
 const PLAN_CONFIG = {
   ULTRA: { label: "Ultra", icon: Zap, badgeClass: "bg-purple-100 text-purple-700" },
@@ -76,8 +77,25 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
             <CardTitle className="text-3xl font-black text-stone-900 tracking-tight flex items-center gap-2">
               <User className="w-6 h-6 text-stone-400" /> {callback.name}
             </CardTitle>
-            <div className="text-sm font-medium text-stone-500 flex items-center gap-1.5 bg-white px-3 py-1.5 mt-3 rounded-xl border border-stone-200 w-fit shadow-sm">
-              <Calendar className="w-4 h-4" /> {formatIST(callback.createdAt)}
+            <div className="flex items-center gap-2 flex-wrap mt-3">
+              <div className="text-sm font-medium text-stone-500 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-stone-200 w-fit shadow-xs">
+                <Calendar className="w-4 h-4" /> {formatIST(callback.createdAt)}
+              </div>
+              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                callback.status === 'APPROVED' ? 'bg-green-100 text-green-700 border border-green-200' :
+                callback.status === 'REJECTED' ? 'bg-red-100 text-red-700 border border-red-200' :
+                callback.status === 'CALL_BACK' ? 'bg-indigo-100 text-indigo-700 border border-indigo-200' :
+                callback.status === 'FOLLOW_UP' ? 'bg-orange-100 text-orange-700 border border-orange-200' :
+                callback.status === 'MESSAGED' ? 'bg-purple-100 text-purple-700 border border-purple-200' :
+                callback.status === 'CALLED' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' :
+                callback.status === 'DNP' ? 'bg-orange-100 text-orange-700 border border-orange-200' :
+                callback.status === 'JUNK' ? 'bg-red-100 text-red-700 border border-red-200' :
+                'bg-stone-100 text-stone-700 border border-stone-200'
+              }`}>
+                {callback.status === 'CALL_BACK' ? 'Call Back' :
+                 callback.status === 'FOLLOW_UP' ? 'Follow Up' :
+                 callback.status || "NEW"}
+              </span>
             </div>
           </div>
 
@@ -108,6 +126,22 @@ export default async function AdminCallbackDetailPage({ params }: { params: Prom
         <Separator className="bg-stone-100" />
 
         <CardContent className="p-6 md:p-8 space-y-8">
+          {/* Status & Notes Card (Matching Institute Requests) */}
+          <Card className="shadow-xs border-stone-200 overflow-hidden">
+            <CardHeader className="bg-indigo-50/50 border-b border-indigo-100 pb-4">
+              <CardTitle className="text-sm font-bold text-indigo-900 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-indigo-600" /> Status & Notes
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-5">
+              <AdminCallbackStatusForm 
+                callbackId={callback.id} 
+                initialStatus={callback.status} 
+                initialNotes={callback.adminNote} 
+              />
+            </CardContent>
+          </Card>
+
           {/* Target Institute Link Card */}
           <div>
             <h3 className="text-xs font-bold text-stone-400 uppercase tracking-widest mb-3">Enquired For</h3>

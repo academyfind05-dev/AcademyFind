@@ -67,8 +67,46 @@ export default function CallbackControls({
   const [selectedSalesManager, setSelectedSalesManager] = useState(assignedSalesManagerId || "");
   const [assigningSalesManager, setAssigningSalesManager] = useState(false);
 
-  const statuses = ["NEW", "MESSAGED", "CALLED", "DNP", "JUNK"];
-  const userStatuses = ["NEW", "MESSAGED", "CALLED", "DNP", "JUNK"];
+  const statuses = [
+    "PENDING",
+    "CALL_BACK",
+    "FOLLOW_UP",
+    "APPROVED",
+    "REJECTED",
+    "NEW",
+    "MESSAGED",
+    "CALLED",
+    "DNP",
+    "JUNK",
+  ];
+  const userStatuses = [
+    "PENDING",
+    "CALL_BACK",
+    "FOLLOW_UP",
+    "APPROVED",
+    "REJECTED",
+    "NEW",
+    "MESSAGED",
+    "CALLED",
+    "DNP",
+    "JUNK",
+  ];
+
+  const formatStatusLabel = (s: string) => {
+    switch (s) {
+      case "CALL_BACK": return "Call Back";
+      case "FOLLOW_UP": return "Follow Up";
+      case "PENDING": return "Pending";
+      case "APPROVED": return "Approved";
+      case "REJECTED": return "Rejected";
+      case "MESSAGED": return "Messaged";
+      case "CALLED": return "Called";
+      case "DNP": return "DNP";
+      case "JUNK": return "Junk";
+      case "NEW": return "New";
+      default: return s;
+    }
+  };
 
   const handleStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLoading(true);
@@ -270,7 +308,7 @@ Team AcademyFind
                 className="bg-white border border-stone-200 text-stone-700 text-xs font-bold rounded-xl px-2.5 py-1.5 outline-none focus:ring-2 focus:ring-stone-500 cursor-pointer"
               >
                 {userStatuses.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>{formatStatusLabel(s)}</option>
                 ))}
               </select>
             </div>
@@ -294,7 +332,7 @@ Team AcademyFind
                 className="bg-white border border-stone-200 text-stone-700 text-xs font-bold rounded-xl px-2.5 py-1.5 outline-none focus:ring-2 focus:ring-stone-500 cursor-pointer"
               >
                 {statuses.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>{formatStatusLabel(s)}</option>
                 ))}
               </select>
             </div>
