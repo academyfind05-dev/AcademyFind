@@ -73,19 +73,19 @@ export default async function EnquiriesPage({
 
     // Format and unify list
     const combinedLeads = [
-        ...directEnquiries.map((e) => ({
+        ...directEnquiries.map((e: any) => ({
             ...e,
             isDirectPortal: true,
             source: e.source || "ACADEMYFIND",
         })),
-        ...inboundLeads.map((l) => ({
+        ...inboundLeads.map((l: any) => ({
             ...l,
             isDirectPortal: false,
             source: l.source,
         })),
-    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    ].sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-    const filteredLeads = combinedLeads.filter((item) => {
+    const filteredLeads = combinedLeads.filter((item: any) => {
         if (currentSource === "ALL") return true;
         if (currentSource === "ACADEMYFIND") return item.isDirectPortal;
         return item.source === currentSource;
@@ -161,25 +161,23 @@ export default async function EnquiriesPage({
 
             {/* Source Filter Tabs */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-                {sourceTabs.map((tab) => {
+                {sourceTabs.map((tab: any) => {
                     const isActive = currentSource === tab.id;
                     return (
                         <Link
                             key={tab.id}
                             href={`/manager/${instituteId}/leads${tab.id === "ALL" ? "" : `?source=${tab.id}`}`}
-                            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                                isActive
-                                    ? "bg-stone-900 text-white shadow-xs"
-                                    : "bg-white border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900"
-                            }`}
+                            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${isActive
+                                ? "bg-stone-900 text-white shadow-xs"
+                                : "bg-white border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-stone-900"
+                                }`}
                         >
                             <span>{tab.label}</span>
                             <span
-                                className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
-                                    isActive
-                                        ? "bg-white/20 text-white"
-                                        : "bg-stone-100 text-stone-600"
-                                }`}
+                                className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${isActive
+                                    ? "bg-white/20 text-white"
+                                    : "bg-stone-100 text-stone-600"
+                                    }`}
                             >
                                 {tab.count}
                             </span>
@@ -216,9 +214,8 @@ export default async function EnquiriesPage({
                         return (
                             <div
                                 key={enquiry.id}
-                                className={`p-5 border rounded-2xl shadow-2xs bg-white transition-all hover:border-stone-400 ${
-                                    enquiry.parentId ? "border-amber-200 hover:border-amber-300" : "border-stone-200"
-                                }`}
+                                className={`p-5 border rounded-2xl shadow-2xs bg-white transition-all hover:border-stone-400 ${enquiry.parentId ? "border-amber-200 hover:border-amber-300" : "border-stone-200"
+                                    }`}
                             >
                                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
                                     <div>
