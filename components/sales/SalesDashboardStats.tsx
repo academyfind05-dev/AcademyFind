@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp, Phone, PhoneOff, CheckCircle2, AlertTriangle, Rocket } from "lucide-react";
+import { TrendingUp, Phone, PhoneOff, CheckCircle2, AlertTriangle, Rocket, Headphones } from "lucide-react";
 
 interface SalesDashboardStatsProps {
     total: number;
@@ -9,6 +9,7 @@ interface SalesDashboardStatsProps {
     onboarded: number;
     upgraded?: number;
     overdue: number;
+    callbacksCount?: number;
 }
 
 export default function SalesDashboardStats({
@@ -18,6 +19,7 @@ export default function SalesDashboardStats({
     onboarded,
     upgraded = 0,
     overdue,
+    callbacksCount = 0,
 }: SalesDashboardStatsProps) {
     const stats = [
         {
@@ -27,6 +29,14 @@ export default function SalesDashboardStats({
             bg: "bg-indigo-50",
             iconColor: "text-indigo-600",
             border: "border-indigo-100",
+        },
+        {
+            label: "Student Leads",
+            value: callbacksCount,
+            icon: <Headphones className="w-5 h-5" />,
+            bg: "bg-teal-50",
+            iconColor: "text-teal-600",
+            border: "border-teal-100",
         },
         {
             label: "Not Contacted",
@@ -72,7 +82,7 @@ export default function SalesDashboardStats({
     ];
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
             {stats.map((stat) => (
                 <div
                     key={stat.label}

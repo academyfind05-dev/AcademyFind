@@ -3,6 +3,39 @@ import Link from "next/link";
 import { formatIST } from "@/lib/utils";
 import { Headphones, Building2, Eye, Calendar, User, Phone, Filter, MessageSquare, Sparkles } from "lucide-react";
 
+const formatStatus = (s: string) => {
+  switch (s) {
+    case "CALL_BACK": return "Call Back";
+    case "FOLLOW_UP": return "Follow Up";
+    case "PENDING": return "Pending";
+    case "APPROVED": return "Approved";
+    case "REJECTED": return "Rejected";
+    case "MESSAGED": return "Messaged";
+    case "CALLED": return "Called";
+    case "DNP": return "DNP";
+    case "JUNK": return "Junk";
+    case "NEW": return "New";
+    default: return s;
+  }
+};
+
+const getStatusBadgeClass = (s: string) => {
+  switch (s) {
+    case "APPROVED": return "bg-green-100 text-green-700 border border-green-200";
+    case "REJECTED": return "bg-red-100 text-red-700 border border-red-200";
+    case "CALL_BACK": return "bg-indigo-100 text-indigo-700 border border-indigo-200";
+    case "FOLLOW_UP": return "bg-orange-100 text-orange-700 border border-orange-200";
+    case "MESSAGED": return "bg-purple-100 text-purple-700 border border-purple-200";
+    case "CALLED": return "bg-emerald-100 text-emerald-700 border border-emerald-200";
+    case "DNP": return "bg-amber-100 text-amber-700 border border-amber-200";
+    case "JUNK": return "bg-red-100 text-red-700 border border-red-200";
+    case "PENDING":
+    case "NEW":
+    default:
+      return "bg-amber-100 text-amber-800 border border-amber-200";
+  }
+};
+
 export default async function SalesManagerEnquiriesPage({
   params,
   searchParams,
@@ -20,7 +53,9 @@ export default async function SalesManagerEnquiriesPage({
     isForwarded: false,
   };
 
-  if (currentFilter !== "ALL") {
+  if (currentFilter === "PENDING") {
+    whereCondition.status = { in: ["PENDING", "NEW"] };
+  } else if (currentFilter !== "ALL") {
     whereCondition.status = currentFilter;
   }
 
@@ -51,7 +86,11 @@ export default async function SalesManagerEnquiriesPage({
 
   const filterOptions = [
     { label: "All Leads", value: "ALL" },
-    { label: "New", value: "NEW" },
+    { label: "Pending", value: "PENDING" },
+    { label: "Call Back", value: "CALL_BACK" },
+    { label: "Follow Up", value: "FOLLOW_UP" },
+    { label: "Approved", value: "APPROVED" },
+    { label: "Rejected", value: "REJECTED" },
     { label: "Messaged", value: "MESSAGED" },
     { label: "Called", value: "CALLED" },
     { label: "DNP", value: "DNP" },
@@ -171,43 +210,15 @@ export default async function SalesManagerEnquiriesPage({
                       <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-bold text-slate-400 uppercase w-14">Institute:</span>
-                          <span
-                            className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider ${
-                              enquiry.status === "NEW"
-                                ? "bg-amber-100 text-amber-800"
-                                : enquiry.status === "MESSAGED"
-                                ? "bg-purple-100 text-purple-700"
-                                : enquiry.status === "CALLED"
-                                ? "bg-emerald-100 text-emerald-700"
-                                : enquiry.status === "DNP"
-                                ? "bg-orange-100 text-orange-700"
-                                : enquiry.status === "JUNK"
-                                ? "bg-red-100 text-red-700"
-                                : "bg-slate-100 text-slate-700"
-                            }`}
-                          >
-                            {enquiry.status || "NEW"}
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider ${getStatusBadgeClass(enquiry.status)}`}>
+                            {formatStatus(enquiry.status || "NEW")}
                           </span>
                         </div>
 
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-bold text-slate-400 uppercase w-14">Student:</span>
-                          <span
-                            className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider ${
-                              enquiry.userContactStatus === "NEW"
-                                ? "bg-amber-100 text-amber-800"
-                                : enquiry.userContactStatus === "MESSAGED"
-                                ? "bg-purple-100 text-purple-700"
-                                : enquiry.userContactStatus === "CALLED"
-                                ? "bg-emerald-100 text-emerald-700"
-                                : enquiry.userContactStatus === "DNP"
-                                ? "bg-orange-100 text-orange-700"
-                                : enquiry.userContactStatus === "JUNK"
-                                ? "bg-red-100 text-red-700"
-                                : "bg-slate-100 text-slate-700"
-                            }`}
-                          >
-                            {enquiry.userContactStatus || "NEW"}
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider ${getStatusBadgeClass(enquiry.userContactStatus)}`}>
+                            {formatStatus(enquiry.userContactStatus || "NEW")}
                           </span>
                         </div>
 

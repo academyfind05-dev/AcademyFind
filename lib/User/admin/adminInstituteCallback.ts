@@ -50,6 +50,8 @@ export async function assignCallbackToSalesManager(id: string, salesManagerId: s
     revalidatePath("/af-ass-manage/instituteCallbacks");
     revalidatePath(`/af-ass-manage/instituteCallbacks/${id}`);
     if (salesManagerId) {
+      revalidatePath(`/af-ass-manage/sales_manager/${salesManagerId}`);
+      revalidatePath(`/sales_manager/${salesManagerId}`);
       revalidatePath(`/sales_manager/${salesManagerId}/enquiries`);
       revalidatePath(`/sales_manager/${salesManagerId}/enquiries/${id}`);
     }

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import SalesDashboardStats from "@/components/sales/SalesDashboardStats";
 import { SalesStatusBadge } from "@/components/sales/SalesStatusBadge";
-import { Clock, AlertTriangle, ArrowRight, Building2, CalendarDays, MapPin, CheckCircle2 } from "lucide-react";
+import { Clock, AlertTriangle, ArrowRight, Building2, CalendarDays, MapPin, CheckCircle2, Headphones, Phone, ChevronRight, User } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { formatIST } from "@/lib/utils";
@@ -22,7 +22,7 @@ export default async function SalesManagerDashboardPage({
 }) {
     const { id } = await params;
 
-    const [assignments, assignedAreas] = await Promise.all([
+    const [assignments, assignedAreas, assignedEnquiriesCount, assignedEnquiries] = await Promise.all([
         prisma.salesAssignment.findMany({
             where: { salesManagerId: id },
             include: {
@@ -57,8 +57,64 @@ export default async function SalesManagerDashboardPage({
                 }
             },
             orderBy: { createdAt: "desc" }
+        }),
+        prisma.instituteEnquiry.count({
+            where: {
+                assignedSalesManagerId: id,
+                isForwarded: false,
+            }
+        }),
+        prisma.instituteEnquiry.findMany({
+            where: {
+                assignedSalesManagerId: id,
+                isForwarded: false,
+            },
+            include: {
+                institute: {
+                    select: {
+                        id: true,
+                        name: true,
+                        phone: true,
+                    }
+                }
+            },
+            orderBy: { createdAt: "desc" },
+            take: 5,
         })
     ]);
+
+    const formatStatus = (s: string) => {
+        switch (s) {
+            case "CALL_BACK": return "Call Back";
+            case "FOLLOW_UP": return "Follow Up";
+            case "PENDING": return "Pending";
+            case "APPROVED": return "Approved";
+            case "REJECTED": return "Rejected";
+            case "MESSAGED": return "Messaged";
+            case "CALLED": return "Called";
+            case "DNP": return "DNP";
+            case "JUNK": return "Junk";
+            case "NEW": return "New";
+            default: return s;
+        }
+    };
+
+    const getStatusBadgeClass = (s: string) => {
+        switch (s) {
+            case "APPROVED": return "bg-green-100 text-green-700 border border-green-200";
+            case "REJECTED": return "bg-red-100 text-red-700 border border-red-200";
+            case "CALL_BACK": return "bg-indigo-100 text-indigo-700 border border-indigo-200";
+            case "FOLLOW_UP": return "bg-orange-100 text-orange-700 border border-orange-200";
+            case "MESSAGED": return "bg-purple-100 text-purple-700 border border-purple-200";
+            case "CALLED": return "bg-emerald-100 text-emerald-700 border border-emerald-200";
+            case "DNP": return "bg-amber-100 text-amber-700 border border-amber-200";
+            case "JUNK": return "bg-red-100 text-red-700 border border-red-200";
+            case "PENDING":
+            case "NEW":
+            default:
+                return "bg-stone-100 text-stone-700 border border-stone-200";
+        }
+    };
 
     const now = new Date();
 
@@ -96,7 +152,7 @@ export default async function SalesManagerDashboardPage({
                 </p>
             </div>
 
-            {/* Stats */}
+            {/* Stats (includes Student Callbacks count) */}
             <SalesDashboardStats
                 total={total}
                 notContacted={notContacted}
@@ -104,6 +160,7 @@ export default async function SalesManagerDashboardPage({
                 onboarded={onboarded}
                 upgraded={upgraded}
                 overdue={overdue}
+                callbacksCount={assignedEnquiriesCount}
             />
 
             {/* Assigned Areas (if any) */}
@@ -158,6 +215,122 @@ export default async function SalesManagerDashboardPage({
                     </div>
                 </div>
             )}
+
+            {/* Assigned Student Callbacks / Leads Card */}
+            <div className="border border-slate-200 bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col">
+                <div className="p-5 border-b bg-slate-50/80 flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600">
+                            <Headphones className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <h3 className="font-bold text-slate-800 text-base">Assigned Student Callbacks</h3>
+                                <span className="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-0.5 rounded-full">
+                                    {assignedEnquiriesCount} Total
+                                </span>
+                            </div>
+                            <p className="text-xs text-slate-500 mt-0.5">
+                                Direct student inquiry callbacks assigned to you by admin
+                            </p>
+                        </div>
+                    </div>
+                    <Link
+                        href={`/sales_manager/${id}/enquiries`}
+                        className="text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:underline flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200/60 transition"
+                    >
+                        Manage All Leads <ChevronRight className="w-4 h-4" />
+                    </Link>
+                </div>
+
+                <div className="divide-y divide-slate-100">
+                    {assignedEnquiries.length === 0 ? (
+                        <div className="text-center py-10 px-4">
+                            <Headphones className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+                            <p className="text-slate-600 font-semibold text-sm">No callback leads assigned yet</p>
+                            <p className="text-slate-400 text-xs mt-1 max-w-sm mx-auto">
+                                When the admin assigns student inquiries or institute callbacks to you, they will appear here.
+                            </p>
+                        </div>
+                    ) : (
+                        assignedEnquiries.map((enquiry: any) => (
+                            <div
+                                key={enquiry.id}
+                                className="p-4 sm:p-5 hover:bg-slate-50/70 transition flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                            >
+                                <div className="space-y-1.5 min-w-0 flex-1">
+                                    <div className="flex flex-wrap items-center gap-2.5">
+                                        <span className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                                            <User className="w-3.5 h-3.5 text-slate-400" />
+                                            {enquiry.name || "Student / Parent"}
+                                        </span>
+                                        <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${getStatusBadgeClass(enquiry.status)}`}>
+                                            {formatStatus(enquiry.status)}
+                                        </span>
+                                        <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                                            <CalendarDays className="w-3 h-3" />
+                                            {formatIST(enquiry.createdAt, "MMM dd, yyyy · h:mm a")}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
+                                        {enquiry.phone && (
+                                            <a
+                                                href={`tel:${enquiry.phone}`}
+                                                className="font-medium text-indigo-600 hover:underline flex items-center gap-1"
+                                            >
+                                                <Phone className="w-3 h-3 text-indigo-500" />
+                                                {enquiry.phone}
+                                            </a>
+                                        )}
+                                        {enquiry.institute && (
+                                            <span className="text-slate-600 flex items-center gap-1 truncate max-w-xs">
+                                                <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
+                                                {enquiry.institute.name}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {enquiry.adminNote && (
+                                        <p className="text-xs text-slate-600 bg-amber-50/60 border border-amber-200/60 rounded-xl px-2.5 py-1 mt-1 inline-block max-w-xl truncate">
+                                            <span className="font-semibold text-amber-900">Note: </span>
+                                            {enquiry.adminNote}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                                    {enquiry.phone && (
+                                        <a
+                                            href={`tel:${enquiry.phone}`}
+                                            className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-xl border border-emerald-200 flex items-center gap-1 transition"
+                                        >
+                                            <Phone className="w-3.5 h-3.5" /> Call
+                                        </a>
+                                    )}
+                                    <Link
+                                        href={`/sales_manager/${id}/enquiries`}
+                                        className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-xl border border-indigo-200 flex items-center gap-1 transition"
+                                    >
+                                        Update <ArrowRight className="w-3.5 h-3.5" />
+                                    </Link>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                {assignedEnquiriesCount > 5 && (
+                    <div className="p-3 bg-slate-50 border-t text-center">
+                        <Link
+                            href={`/sales_manager/${id}/enquiries`}
+                            className="text-xs font-bold text-indigo-600 hover:underline"
+                        >
+                            View all {assignedEnquiriesCount} callbacks →
+                        </Link>
+                    </div>
+                )}
+            </div>
 
             {/* Two Column Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -233,17 +406,25 @@ export default async function SalesManagerDashboardPage({
 
             </div>
 
-            {/* Quick Action */}
-            {total > 0 && (
-                <div className="text-center pt-2">
+            {/* Quick Actions */}
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+                {total > 0 && (
                     <Link
                         href={`/sales_manager/${id}/assignments`}
                         className="inline-flex items-center gap-2 px-6 py-3 bg-teal-600 text-white text-sm font-bold rounded-2xl hover:bg-teal-700 transition-all shadow-sm hover:shadow-md"
                     >
                         Go to My Assignments <ArrowRight className="w-4 h-4" />
                     </Link>
-                </div>
-            )}
+                )}
+                {assignedEnquiriesCount > 0 && (
+                    <Link
+                        href={`/sales_manager/${id}/enquiries`}
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-2xl hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md"
+                    >
+                        <Headphones className="w-4 h-4" /> Manage Callback Leads ({assignedEnquiriesCount})
+                    </Link>
+                )}
+            </div>
         </div>
     );
 }
